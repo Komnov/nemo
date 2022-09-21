@@ -1,0 +1,334 @@
+/*
+Theme Name: Captain Nemo
+Description: Child theme for Uncode theme
+Author: Undsgn™
+Author URI: http://www.undsgn.com
+Template: uncode
+Version: 1.0.0
+Text Domain: uncode
+*/
+
+p,
+li,
+dt,
+dd,
+dl,
+address,
+label,
+small,
+pre,
+code {
+    line-height: 1.5;
+}
+
+.text-lead li {
+	font-size: 22px;
+}
+
+h1 {
+    font-weight: 900 !important;
+    letter-spacing: -1px;
+/*     text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.2); */
+    line-height: 1.05 !important;
+}
+
+h2 {
+    font-weight: 900 !important;
+    letter-spacing: -1px;
+    line-height: 1.05 !important;
+}
+
+h3 {
+    font-weight: 800 !important;
+    letter-spacing: -0.5px;
+    line-height: 1.2 !important;
+}
+
+h4 {
+    font-weight: 800 !important;
+    letter-spacing: -0.5px;
+    line-height: 1.3 !important;
+}
+
+.text-lead,
+.text-lead > * {
+    line-height: 1.5;
+}
+
+blockquote p {
+    font-size: 24px;
+    line-height: 1.5;
+    margin: 18px 0 0;
+}
+
+blockquote {
+    border-color: #fff;
+}
+
+footer p {
+    font-size: 14px !important;
+    margin: 14px 0 0 !important;
+}
+
+footer a {
+    font-size: 14px !important;
+    font-weight: 900;
+}
+
+.buttons-style,
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+button[type="submit"],
+.btn:not(.btn-custom-typo),
+.btn-link:not(.btn-custom-typo),
+.nav-tabs,
+.panel-title > a span,
+.enhanced-atc.tmb-woocommerce.tmb .t-entry-visual .add-to-cart-overlay a,
+.search_footer,
+.wc-forward,
+.wc-forward a {
+    letter-spacing: 0 !important;
+    font-weight: 700 !important;
+}
+
+a.ga-mail {
+    color: #040a54;
+    font-size: 20px !important;
+}
+
+a.ga-mail:hover {
+	color: #980208 !important;
+}
+
+@media (min-width: 960px) {
+    .menu-wrapper .row-menu .row-menu-inner {
+        padding: 0;
+    }
+}
+/* 
+.menu-light .menu-smart > li.active > a,
+.menu-light .menu-smart > li a.active,
+.menu-light .menu-smart > li.current-menu-ancestor > a,
+.menu-light .menu-smart > li.current-menu-item:not(.menu-item-type-custom) > a {
+    color: #f34b4d;
+} */
+
+b,
+strong {
+    font-weight: 900;
+}
+
+.custom-link.btn.btn-link {
+    font-size: 15px;
+    padding-bottom: 14px !important;
+    margin-left: 25px;
+}
+
+.custom-link.btn.btn-link:hover {
+    color: #fff;
+    text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* .btn .fa,
+.btn-link .fa {
+    top: 4px;
+}
+
+.fa-long-arrow-down {
+    -moz-animation: bounceDown 2s infinite;
+    -webkit-animation: bounceDown 2s infinite;
+    animation: bounceDown 2s infinite;
+    text-align: center;
+    display: block;
+    font-size: 28px;
+    color: #fff;
+}
+
+.main-container .row-container.ga-chevron-down .row-parent .single-internal-gutter .uncont > * {
+    margin-top: 16px !important;
+} */
+
+/* .menu-item-331 {
+    font-weight: 700 !important;
+    font-family: sofia-pro, sans-serif, sofia-pro, sans-serif !important;
+    letter-spacing: normal !important;
+    text-transform: none !important;
+    font-size: 18px !important;
+    padding: 14px 40px 14px 40px !important;
+    color: #ffffff !important;
+    background-color: #a50f15 !important;
+    border-color: #a50f15 !important;
+} */
+
+.btn-color-816539 {
+    border-color: #ffffff !important;
+}
+
+.ga-clipped {
+    clip-path: polygon(0 0%, 75% 0, 60% 100%, 0% 100%);
+}
+
+.ga-clipped-l {
+    clip-path: polygon(39% 0%, 100% 0, 100% 100%, 30% 100%);
+}
+
+.ga-clipped-2 {
+    clip-path: polygon(0 0%, 68% 0, 60% 100%, 0% 100%);
+}
+
+.ga-clipped-3 {
+    clip-path: polygon(0 0%, 95% 0, 80% 100%, 0% 100%);
+}
+
+.ga-h70 img {
+    height: 70px;
+}
+
+.style-light p strong {
+    color: inherit !important;
+}
+
+/* .uncoltable:hover .vc_custom_1599559453924 {
+    background-color: #c3d8ea !important;
+}
+
+.uncoltable:hover .vc_custom_1599554720993 {
+    background-color: #c3d8ea !important;
+} */
+
+.ga-info-box {
+    clip-path: polygon(0 0%, 66% 0, 55% 100%, 0% 100%);
+}
+
+p.t-entry-type { display: none !important; }
+
+@media (max-width: 569px) {
+    .ga-pa020 {
+        padding: 0 36px;
+    }
+	.ga-pa020 .ga-info-box .uncont {
+        max-width: 110px !important;
+    }
+	.text-lead, .text-lead > * {
+    font-size: 18px;
+	}
+	p {
+    font-size: 16px;
+	}
+	h3:not([class*="fontsize-"]), .h3:not([class*="fontsize-"]) {
+    font-size: 18px;
+	}
+	h4:not([class*="fontsize-"]), .h4:not([class*="fontsize-"]) {
+    font-size: 18px;
+	}
+	div[class*=vc_custom_]:not(.vc_custom_preserve_mobile) {
+    border-left-width: 1px !important;
+    border-right-width: 1px !important;
+	}
+	.ga-img {
+	text-align: center;
+	}
+	.ga-info-box {
+    clip-path: polygon(0 0%, 55% 0, 45% 100%, 0% 100%);
+}
+}
+
+@media (max-width: 569px) {
+.uncode-list ul.text-large li {
+    font-size: 18px;
+}
+.text-lead, .text-lead > * {
+    font-size: 18px;
+}
+}
+
+@media (max-width: 569px) {
+h3:not([class*="fontsize-"]), .h3:not([class*="fontsize-"]) {
+    font-size: 28px;
+}
+	.header-wrapper .header-bg-wrapper + div, .header-wrapper .header-bg-wrapper:only-child {
+    min-height: 150px;
+}
+}
+
+/* .woocommerce-Price-amount.amount span {
+	font-size: 38px !important;
+} */
+
+.woocommerce-product-details__short-description {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.add_to_cart_button {
+	padding: 17px 31px 17px 31px !important;
+}
+
+.ga-clipped-l p {
+	font-size: 22px !important;
+}
+
+
+@media (min-width: 570px) {
+.menu-smart.sm.menu-icons {
+	margin-left: 20px;
+}
+}
+
+.tmb-light.tmb-color-addcart, .tmb-light.tmb-woocommerce.tmb .t-entry-visual .add-to-cart-overlay a {
+    background-color: #980208;
+}
+
+.vc_custom_1623753303310 h3 {
+	
+}
+
+
+@media (max-width: 569px) {
+.vc_custom_1623753303310 h3, .vc_custom_1623753322563 h3 {
+	font-size: 18px !important;
+}
+}
+
+
+
+.single-block-padding {
+   padding: 36px 16px 36px 16px;
+}
+
+
+.tmb-light.tmb .t-entry-visual *:not(.add_to_cart_text):not(.view-cart) {
+	color: #111761;
+}
+
+.woocommerce-result-count, .woocommerce-ordering {
+	display: none;
+}
+
+.fa-phone, .fa-envelope {
+	color: #111761;
+}
+
+
+/*-----------------*/
+
+.tmb-light.tmb .t-entry-visual *:not(.add_to_cart_text):not(.view-cart) {
+    color: #ffffff;
+}
+
+
+
+@media (max-width: 992px) {
+    #masthead .menu-container .logo-container .logo-image {
+        max-width: 250px;
+    }
+    #masthead .menu-container .logo-container .logo-image img {
+        object-fit: contain;
+    }
+    body.home .index__btn {
+        display: block;
+        width: 100%;
+        transform: scale(1)!important;
+        font-size: 12px!important;
+    }

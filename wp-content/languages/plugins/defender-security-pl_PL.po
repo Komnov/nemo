@@ -1,0 +1,2865 @@
+# Translation of Plugins - Defender WordPress Security, Malware Detection, and Firewall - Stable (latest release) in Polish
+# This file is distributed under the same license as the Plugins - Defender WordPress Security, Malware Detection, and Firewall - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2019-04-10 08:04:29+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: GlotPress/2.4.0-alpha\n"
+"Language: pl\n"
+"Project-Id-Version: Plugins - Defender WordPress Security, Malware Detection, and Firewall - Stable (latest release)\n"
+
+#: app/module/scan/model/settings.php:346
+#: app/module/hardener/model/settings.php:492
+#: app/module/hardener/view/layouts/layout.php:102
+#: app/module/hardener/view/layouts/layout.php:116
+#: app/module/ip-lockout/view/notification/enabled.php:3 assets/app/scan.js:1
+#: assets/app/audit.js:1 assets/app/ip-lockout.js:1
+msgid "Notification"
+msgstr "Powiadomienie"
+
+#: app/module/ip-lockout/view/login-lockouts/disabled.php:22
+msgid "Active"
+msgstr "Aktywny"
+
+#: app/module/ip-lockout/model/settings.php:652
+#: app/module/ip-lockout/model/settings.php:653
+#: app/module/ip-lockout/model/settings.php:660
+#: app/module/ip-lockout/model/settings.php:661
+#: app/module/ip-lockout/view/login-lockouts/enabled.php:57
+#: assets/app/ip-lockout.js:1
+msgid "Duration"
+msgstr "Czas trwania"
+
+#: app/module/ip-lockout/model/settings.php:655
+#: app/module/ip-lockout/model/settings.php:663
+#: app/module/ip-lockout/view/login-lockouts/enabled.php:98
+#: app/module/ip-lockout/view/blacklist/enabled.php:139
+#: assets/app/ip-lockout.js:1
+msgid "Message"
+msgstr "Komunikat"
+
+#: app/module/ip-lockout/view/login-lockouts/enabled.php:83
+#: app/module/ip-lockout/view/detect-404/enabled.php:76
+#: assets/app/ip-lockout.js:1
+msgid "Minutes"
+msgstr "Minuta"
+
+#: app/module/ip-lockout/view/login-lockouts/enabled.php:85
+#: app/module/ip-lockout/view/detect-404/enabled.php:78
+#: assets/app/ip-lockout.js:1
+msgid "Hours"
+msgstr "Godziny"
+
+#: app/module/ip-lockout/view/blacklist/enabled.php:79
+#: assets/app/ip-lockout.js:1
+msgid "Download"
+msgstr "Pobieranie"
+
+#: app/module/ip-lockout/view/blacklist/enabled.php:59
+#: assets/app/ip-lockout.js:1
+msgid "Locations"
+msgstr "Lokalizacje"
+
+#: app/module/hardener/view/email/notification.php:230
+#: app/module/hardener/behavior/widget.php:71 assets/app/dashboard.js:1
+msgid "View All"
+msgstr "Zobacz wszystkie"
+
+#: app/module/hardener/view/rules/login-duration.php:55
+#: assets/app/security-tweaks.js:1
+msgid "Days"
+msgstr "Dni"
+
+#: app/module/hardener/view/rules/information-disclosure/nginx.php:15
+#: app/module/hardener/view/rules/prevent-php/nginx.php:23
+#: assets/app/security-tweaks.js:1
+msgid "Code"
+msgstr "Kod"
+
+#: app/module/hardener/view/rules/information-disclosure/nginx.php:4
+#: app/module/hardener/view/rules/prevent-php/nginx.php:12
+#: assets/app/security-tweaks.js:1
+msgid "Instructions"
+msgstr "Instrukcje"
+
+#: app/module/scan/view/setting-free.php:102
+#: app/module/scan/view/setting.php:92 app/module/scan/view/notification.php:91
+#: app/module/scan/view/notification.php:159
+#: app/module/scan/view/notification.php:232
+#: app/module/scan/view/automation.php:93
+#: app/module/hardener/view/notification.php:58
+#: app/module/setting/view/accessibility.php:43
+#: app/module/setting/view/general.php:69 app/module/setting/view/data.php:77
+#: app/module/ip-lockout/view/login-lockouts/enabled.php:166
+#: app/module/ip-lockout/view/detect-404/enabled.php:192
+#: app/module/ip-lockout/view/blacklist/enabled.php:224
+#: app/module/ip-lockout/view/notification/report.php:88
+#: app/module/ip-lockout/view/notification/enabled.php:135
+#: app/module/ip-lockout/view/settings.php:51
+#: app/module/advanced-tools/view/main-free.php:259
+#: app/module/advanced-tools/view/mask-login/enabled.php:112
+#: assets/app/security-tweaks.js:1 assets/app/scan.js:1 assets/app/audit.js:1
+#: assets/app/ip-lockout.js:1 assets/app/advanced-tools.js:1
+#: assets/app/settings.js:1
+msgid "Save Changes"
+msgstr "Zapisz zmiany"
+
+#: app/behavior/report-free.php:32 app/behavior/report-free.php:38
+#: app/behavior/report-free.php:45 assets/app/dashboard.js:1
+msgid "Inactive"
+msgstr "Nieaktywny"
+
+#: app/view/dashboard.php:196 assets/app/dashboard.js:1
+msgid "Learn more"
+msgstr "Dowiedz się więcej"
+
+#: app/module/hardener/view/rules/disable-xml-rpc.php:32
+#: app/module/hardener/component/disable-xml-rpc.php:94
+msgid "XML-RPC is disabled."
+msgstr "XML-RPC jest wyłączony."
+
+#: app/module/hardener/view/rules/disable-xml-rpc.php:76
+#: assets/app/security-tweaks.js:1
+msgid "Disable XML-RPC"
+msgstr "Wyłącz XML-RPC"
+
+#: app/module/hardener/component/disable-xml-rpc.php:28
+msgid "Disable XML RPC"
+msgstr "Wyłącz XML-RPC"
+
+#: app/module/advanced-tools/view/mask-login/enabled.php:51
+msgid "I.e. dashboard"
+msgstr "To znaczy Kokpit"
+
+#: app/module/advanced-tools/view/mask-login/enabled.php:10
+#: assets/app/advanced-tools.js:1
+msgid "Change your default WordPress login URL to hide your login area from hackers and bots."
+msgstr "Zmień domyślny adres URL logowania WordPress, aby ukryć swój obszar logowania przed hakerami i botami."
+
+#: app/module/advanced-tools/view/mask-login/disabled.php:16
+msgid "Change the location of WordPress’s default login area, making it harder for automated bots to find and also more convenient for your users."
+msgstr "Zmień lokalizację domyślnego obszaru logowania WordPress, dzięki czemu trudniej będzie ją znaleźć robotom i stanie się wygodniejsza dla użytkowników."
+
+#: app/module/advanced-tools/behavior/at-widget.php:72
+msgid "Change the location of WordPress’s default login area."
+msgstr "Zmień lokalizację domyślnego obszaru logowania w WordPress."
+
+#: app/module/ip-lockout/view/logging/enabled.php:11 assets/app/ip-lockout.js:1
+msgid "Oldest"
+msgstr "Najstarsze"
+
+#: app/module/ip-lockout/view/logging/enabled.php:7 assets/app/ip-lockout.js:1
+msgid "Sort by"
+msgstr "Sortuj według"
+
+#: app/module/ip-lockout/model/log-model.php:53
+msgid "Request for file <span class='log-text-table'>%s</span> which doesn't exist"
+msgstr "Żądanie pliku <span class='log-text-table'>%s</span>, który nie istnieje"
+
+#: app/module/ip-lockout/controller/main.php:120
+msgid "Log"
+msgstr "Dziennik"
+
+#: app/module/ip-lockout/component/logs-table.php:394
+#: assets/app/ip-lockout.js:1
+msgid "Note: Make sure this IP is not a legitimate operation, banning the IP will result in being permanently locked out from accessing your website."
+msgstr "Uwaga: Proszę się upewnić, że to IP jest nieuprawnione ponieważ jego zablokowanie spowoduje również stałą blokadę dostępu do witryny dla wszystkich korzystających z niego urządzeń. "
+
+#: app/module/ip-lockout/component/logs-table.php:381
+#: assets/app/ip-lockout.js:1
+msgid "Ban Status"
+msgstr "Status blokady"
+
+#: app/module/ip-lockout/component/logs-table.php:375
+#: assets/app/ip-lockout.js:1
+msgid "Date/Time"
+msgstr "Data/Czas"
+
+#: app/module/ip-lockout/component/logs-table.php:363
+#: assets/app/ip-lockout.js:1
+msgid "Login failed"
+msgstr "Logowanie nieudane"
+
+#: app/module/ip-lockout/component/logs-table.php:200
+msgid "Enter an IP address"
+msgstr "Proszę wprowadzić adres IP"
+
+#: assets/app/audit.js:1
+msgid "Ip Address"
+msgstr "Adres IP"
+
+#: app/module/ip-lockout/component/logs-table.php:178
+#: assets/app/ip-lockout.js:1
+msgid "Lockout Type"
+msgstr "Typ blokady"
+
+#: app/module/scan/component/result-table.php:35
+#: app/module/ip-lockout/component/logs-table.php:48 assets/app/scan.js:1
+msgid "Details"
+msgstr "Szczegóły"
+
+#: app/module/ip-lockout/component/login-protection-api.php:596
+msgid "Banned"
+msgstr "Zablokowane"
+
+#: app/module/ip-lockout/component/login-protection-api.php:592
+#: app/module/ip-lockout/component/login-protection-api.php:598
+msgid "Not banned"
+msgstr "Niezablokowane"
+
+#: app/module/ip-lockout/component/login-protection-api.php:585
+msgid "Is blacklisted"
+msgstr "Jest na czarnej liście"
+
+#: app/module/ip-lockout/component/login-protection-api.php:582
+msgid "Is whitelisted"
+msgstr "Jest na białej liście"
+
+#: app/module/ip-lockout/component/login-protection-api.php:294
+msgid "Add Whitelist"
+msgstr "Dodaj białą listę"
+
+#: app/module/ip-lockout/component/login-protection-api.php:289
+#: assets/app/ip-lockout.js:1
+msgid "Unban IP"
+msgstr "Odblokuj IP"
+
+#: app/module/advanced-tools/view/main-free.php:195
+#: assets/app/advanced-tools.js:1
+msgid "Lost phone one time password"
+msgstr "Jednorazowe hasło w przypadku zagubienia telefonu"
+
+#: app/module/advanced-tools/view/main-free.php:190
+#: assets/app/security-tweaks.js:1 assets/app/scan.js:1 assets/app/audit.js:1
+#: assets/app/ip-lockout.js:1 assets/app/advanced-tools.js:1
+msgid "Email"
+msgstr "E-mail"
+
+#: app/module/advanced-tools/view/main-free.php:184
+#: assets/app/advanced-tools.js:1
+msgid "Customize the default copy for emails the two-factor feature sends to users."
+msgstr "Dostosuj domyślną treść wiadomości e-mail wysyłanych do użytkowników przez funkcję uwierzytelniania dwuskładnikowego. "
+
+#: app/module/advanced-tools/view/main-free.php:181
+#: assets/app/advanced-tools.js:1
+msgid "Emails"
+msgstr "E-maile"
+
+#: app/module/advanced-tools/view/2factor-otp-email-edit-from.php:79
+#: assets/app/advanced-tools.js:1
+msgid "Send Test"
+msgstr "Wyślij wiadomość testową"
+
+#: app/module/scan/view/notification.php:132
+#: app/module/advanced-tools/model/auth-settings.php:161
+#: app/module/advanced-tools/view/2factor-otp-email-edit-from.php:50
+#: assets/app/scan.js:1 assets/app/advanced-tools.js:1
+msgid "Body"
+msgstr "Treść"
+
+#: app/module/advanced-tools/model/auth-settings.php:160
+#: app/module/advanced-tools/view/2factor-otp-email-edit-from.php:41
+#: assets/app/advanced-tools.js:1
+msgid "Sender"
+msgstr "Nadawca"
+
+#: app/module/advanced-tools/controller/rest.php:62
+msgid "Test email failed."
+msgstr "Wysyłka testowej wiadomości nieudana. "
+
+#: app/module/advanced-tools/controller/rest.php:58
+msgid "Test email has been sent to your email."
+msgstr "Testowa wiadomość została wysłana na Twój adres e-mail. "
+
+#: app/module/advanced-tools/view/2factor-otp-email-edit-from.php:16
+#: assets/app/advanced-tools.js:1
+msgid "Edit Email"
+msgstr "Edytuj wiadomość e-mail"
+
+#: app/module/advanced-tools/view/2factor-otp-email-edit-from.php:3
+#: app/module/advanced-tools/component/auth-listener.php:222
+msgid "Your OTP code"
+msgstr "Twój kod OTP"
+
+#: app/controller/gdpr.php:21
+msgid "This site creates and stores an activity log that capture the IP address, username, email address and tracks user activity (like when a user makes a comment). Information will be stored locally for 30 days and remotely for 1 year. Information on remote logs cannot be cleared for security purposes."
+msgstr "Ta witryna tworzy i przechowuje dziennik aktywności, który zawiera adres IP, nazwę użytkownika i jego adres e-mail oraz informacje o działaniach (np. kiedy użytkownik dodaje komentarz). Informacje będą przechowywane lokalnie przez 30 dni oraz w lokalizacji zdalnej przez 1 rok. Informacje w dzienniku przechowywane w zdalnych dziennikach ze względów bezpieczeństwa nie mogą być usuwane. "
+
+#: app/controller/gdpr.php:20
+msgid "Additional data"
+msgstr "Dodatkowe dane"
+
+#: app/controller/gdpr.php:19
+msgid "This site may be using WPMU DEV third-party cloud storage to store backups of its audit logs where personal information is collected."
+msgstr "Ta witryna może używać zewnętrznego (należącego do trzeciej strony) magazynu danych w chmurze WPMU DEV w celu przechowywania kopii bezpieczeństwa dzienników audytu, które zbierają dane osobowe. "
+
+#: app/controller/gdpr.php:18
+msgid "Third parties"
+msgstr "Strony trzecie"
+
+#: app/controller/gdpr.php:17
+msgid "Plugin: %s"
+msgstr "Wtyczka: %s"
+
+#: app/module/ip-lockout/component/login-protection-api.php:287
+#: assets/app/ip-lockout.js:1
+msgid "Ban IP"
+msgstr "Zablokuj IP"
+
+#: app/module/ip-lockout/controller/main.php:121 assets/app/audit.js:1
+msgid "Date / Time"
+msgstr "Data / Czas"
+
+#: app/module/ip-lockout/controller/main.php:123
+msgid "IP address"
+msgstr "Adres IP"
+
+#: app/module/ip-lockout/component/logs-table.php:351 assets/app/audit.js:1
+#: assets/app/ip-lockout.js:1
+msgid "Description"
+msgstr "Opis"
+
+#: app/module/ip-lockout/component/logs-table.php:49
+msgid "Time"
+msgstr "Czas"
+
+#: app/module/ip-lockout/view/logging/enabled.php:12
+#: app/module/ip-lockout/component/logs-table.php:197 assets/app/audit.js:1
+#: assets/app/ip-lockout.js:1
+msgid "IP Address"
+msgstr "Adres IP"
+
+#: app/module/ip-lockout/component/login-protection-api.php:258
+msgid "second"
+msgstr "drugi"
+
+#: app/module/ip-lockout/component/login-protection-api.php:257
+msgid "minute"
+msgstr "minuta"
+
+#: app/module/ip-lockout/component/login-protection-api.php:256
+msgid "hour"
+msgstr "godzina"
+
+#: app/module/ip-lockout/component/login-protection-api.php:255
+msgid "day"
+msgstr "dzień"
+
+#: app/module/ip-lockout/component/login-protection-api.php:254
+msgid "week"
+msgstr "tydzień"
+
+#: app/module/ip-lockout/component/login-protection-api.php:252
+msgid "year"
+msgstr "rok"
+
+#: app/module/scan/view/issues.php:16
+#: app/module/ip-lockout/controller/main.php:122
+#: app/module/ip-lockout/component/logs-table.php:357 assets/app/scan.js:1
+#: assets/app/audit.js:1 assets/app/ip-lockout.js:1
+msgid "Type"
+msgstr "Typ"
+
+#: app/module/hardener/view/rules/security-key.php:32
+#: app/module/hardener/view/rules/login-duration.php:33
+#: app/module/hardener/view/rules/wp-version.php:27
+#: app/module/hardener/view/rules/db-prefix.php:34
+#: app/module/hardener/view/rules/disable-xml-rpc.php:37
+#: app/module/hardener/view/rules/php-version.php:29
+#: app/module/hardener/view/rules/change-admin.php:33
+#: app/module/hardener/view/rules/disable-trackback.php:32
+#: app/module/hardener/view/rules/hide-error.php:27
+#: app/module/hardener/view/rules/disable-file-editor.php:27
+#: app/module/hardener/view/rules/prevent-php-executed.php:46
+#: app/module/ip-lockout/controller/main.php:124
+#: assets/app/security-tweaks.js:1
+msgid "Status"
+msgstr "Stan"
+
+#: app/module/ip-lockout/view/logging/enabled.php:10 assets/app/ip-lockout.js:1
+msgid "Latest"
+msgstr "Najnowsza"
+
+#: app/module/ip-lockout/component/login-protection-api.php:253
+msgid "month"
+msgstr "miesiąc"
+
+#: app/module/ip-lockout/view/logging/enabled.php:17 assets/app/audit.js:1
+#: assets/app/ip-lockout.js:1
+msgid "Export CSV"
+msgstr "Eksport CSV"
+
+#: app/module/advanced-tools/model/mask-settings.php:70
+#: app/module/advanced-tools/view/mask-login/enabled.php:81
+#: assets/app/advanced-tools.js:1
+msgid "Redirection URL"
+msgstr "Adres URL przekierowania"
+
+#: app/module/advanced-tools/view/mask-login/enabled.php:77
+#: assets/app/advanced-tools.js:1
+msgid "Enable 404 redirection"
+msgstr "Włącz przekierowanie 404"
+
+#: app/module/advanced-tools/model/mask-settings.php:69
+#: app/module/advanced-tools/view/mask-login/enabled.php:61
+#: assets/app/advanced-tools.js:1
+msgid "Redirect traffic"
+msgstr "Przekieruj ruch"
+
+#: app/module/advanced-tools/view/mask-login/enabled.php:48
+#: assets/app/advanced-tools.js:1
+msgid "New Login URL"
+msgstr "Nowy adres URL logowania"
+
+#: app/module/advanced-tools/view/mask-login/enabled.php:45
+#: assets/app/advanced-tools.js:1
+msgid "You can specify any URLs. For security reasons, less obvious URLs are recommended as they are harder for bots to guess."
+msgstr "Możesz podać dowolny adresy URL. Ze względów bezpieczeństwa zalecane są mniej oczywiste adresy URL, ponieważ są one trudniejsze do odgadnięcia."
+
+#: app/module/advanced-tools/view/mask-login/enabled.php:22
+#: app/module/advanced-tools/behavior/at-widget.php:80
+msgid "Masking is currently inactive. Choose your URL and save your settings to finish setup. "
+msgstr "Maskowanie jest obecnie nieaktywne. Wybierz swój adres URL i zapisz ustawienia, aby zakończyć konfigurację."
+
+#: assets/app/advanced-tools.js:1
+msgid "For best results use a 168x168px JPG or PNG."
+msgstr "Aby uzyskać najlepsze wyniki, użyj formatu JPG lub PNG o wymiarach 168 x 168 pikseli."
+
+#: app/module/advanced-tools/view/main-free.php:174
+#: assets/app/advanced-tools.js:1
+msgid "Enable custom graphics above login fields"
+msgstr "Włącz niestandardową grafikę powyżej pól logowania"
+
+#: app/module/advanced-tools/view/main-free.php:164
+#: assets/app/advanced-tools.js:1
+msgid "By default, Defender’s icon appears above the login fields. You can upload your own branding, or turn this feature off."
+msgstr "Domyślnie ikona Defender pojawia się nad polami logowania. Możesz przesłać własną ikonę swojej marki lub wyłączyć tę funkcję."
+
+#: app/module/advanced-tools/model/auth-settings.php:157
+#: app/module/advanced-tools/view/main-free.php:161
+#: assets/app/advanced-tools.js:1
+msgid "Custom Graphic"
+msgstr "Niestandardowa grafika"
+
+#: app/module/advanced-tools/view/main-free.php:152
+#: assets/app/advanced-tools.js:1
+msgid "Note: This is shown in the users Profile area indicating they must use two-factor authentication."
+msgstr "Uwaga: Jest to pokazane w obszarze profilu użytkowników, wskazując, że muszą korzystać z uwierzytelniania dwuetapowego."
+
+#: app/module/advanced-tools/model/auth-settings.php:155
+#: app/module/advanced-tools/view/main-free.php:148
+#: assets/app/advanced-tools.js:1
+msgid "Custom warning message"
+msgstr "Własny komunikat ostrzegawczy"
+
+#: app/module/advanced-tools/view/main-free.php:127
+#: assets/app/advanced-tools.js:1
+msgid "Note: Users will be forced to set up two-factor when they next login."
+msgstr "Uwaga: Użytkownicy będą zmuszeni skonfigurować uwierzytelnianie dwuetapowe przy następnym logowaniu."
+
+#: app/module/advanced-tools/view/main-free.php:124
+#: assets/app/advanced-tools.js:1
+msgid "Force users to log in with two-factor authentication"
+msgstr "Wymuszaj logowanie użytkowników przy użyciu uwierzytelniania dwuetapowego"
+
+#: app/module/advanced-tools/view/main-free.php:111
+#: assets/app/advanced-tools.js:1
+msgid "By default, two-factor authentication is optional for users. This setting forces users to activate two-factor."
+msgstr "Domyślnie uwierzytelnianie dwuskładnikowe jest opcją dodatkową dla użytkowników. To ustawienie zmusza użytkowników do aktywowania uwierzytelniania dwuetapowego."
+
+#: app/module/advanced-tools/model/auth-settings.php:154
+#: app/module/advanced-tools/model/auth-settings.php:156
+#: app/module/advanced-tools/view/main-free.php:108
+#: assets/app/advanced-tools.js:1
+msgid "Force Authentication"
+msgstr "Wymuś uwierzytelnianie"
+
+#: app/module/advanced-tools/controller/mask-login.php:275
+msgid "Login and 404 redirect URLs can't be the same. Please use different URLs."
+msgstr "Login i przekierowania 404 nie mogą być takie same. Użyj różnych adresów URL."
+
+#: app/module/advanced-tools/controller/mask-login.php:229
+#: app/module/advanced-tools/component/mask-login-listener.php:266
+msgid "This feature is disabled"
+msgstr "Ta funkcja jest wyłączona"
+
+#: app/module/advanced-tools/controller/mask-login.php:55
+msgid "We’ve detected a conflict with Theme my login. Please disable it and return to this page to continue setup."
+msgstr "Wykryliśmy konflikt z wtyczką \"Theme My Login\". Proszę ją wyłączyć i powrócić do tej strony aby kontynuować instalację. "
+
+#: app/module/advanced-tools/component/mask-api.php:267
+#: app/module/advanced-tools/component/mask-api.php:278
+msgid "A page already exists at this URL, please pick a unique page for your new login area."
+msgstr "Strona już istnieje pod tym adresem URL, wybierz unikalną stronę dla nowego obszaru logowania."
+
+#: app/module/advanced-tools/component/mask-api.php:262
+msgid "The URL is invalid"
+msgstr "Adres URL jest nieprawidłowy"
+
+#: app/module/advanced-tools/view/mask-login/enabled.php:28
+#: app/module/advanced-tools/behavior/at-widget.php:90
+msgid "Masking is currently active at <strong>%s</strong>"
+msgstr "Maskowanie jest obecnie aktywne w <strong>%s</strong>"
+
+#: app/module/advanced-tools/model/mask-settings.php:67
+#: app/module/advanced-tools/view/mask-login/enabled.php:4
+#: app/module/advanced-tools/view/mask-login/disabled.php:4
+#: app/module/advanced-tools/view/layouts/layout.php:29
+#: app/module/advanced-tools/behavior/at-widget.php:69
+#: assets/app/dashboard.js:1 assets/app/advanced-tools.js:1
+msgid "Mask Login Area"
+msgstr "Ukrywanie strony logowania"
+
+#: app/module/advanced-tools/model/mask-settings.php:68
+#: app/module/advanced-tools/view/mask-login/enabled.php:36
+#: assets/app/advanced-tools.js:1
+msgid "Masking URL"
+msgstr "Maskowanie adresu URL"
+
+#: app/module/advanced-tools/controller/mask-login.php:52
+msgid "We’ve detected a conflict with Jetpack’s Wordpress.com Log In feature. Please disable it and return to this page to continue setup."
+msgstr "Wykryliśmy konflikt z funkcją logowania Jetpack WordPress.com. Wyłącz tę funkcję i wróć do tej strony, aby kontynuować konfigurację."
+
+#: main-activator.php:245
+msgid "Docs"
+msgstr "Dokumentacja"
+
+#: assets/app/scan.js:1
+msgid "This will permanently remove the selected file/folder. Are you sure you want to continue?"
+msgstr "Spowoduje to trwałe usunięcie wybranego pliku/folderu. Jesteś pewien, że chcesz kontynuować?"
+
+#: app/controller/gdpr.php:16 app/controller/dashboard.php:379
+msgid "Defender Pro"
+msgstr "Defender Pro"
+
+#: free-dashboard/module.php:417 free-dashboard/module.php:482
+msgid "No thanks"
+msgstr "Nie, dziękuję"
+
+#: main-activator.php:229
+msgid "<br/>Something went wrong. Please try again later!"
+msgstr "<br/>Coś poszło nie tak. Spróbuj ponownie później!"
+
+#: main-activator.php:199
+msgid "%s, you now have access to Defender's pro features but you still have the free version installed. Let's upgrade Defender and unlock all those juicy features! &nbsp; %s"
+msgstr "%s, masz teraz dostęp do profesjonalnych funkcji programu Defender, ale nadal masz zainstalowaną darmową wersję. Ulepsz Defendera i odblokuj wszystkie funkcje! &nbsp; %s"
+
+#: app/module/scan.php:42
+msgid "Scan Item"
+msgstr "Skanuj element"
+
+#: app/module/scan.php:41
+msgid "Scan Items"
+msgstr "Skanuj elementy"
+
+#: app/module/scan/view/setting-free.php:123
+#: app/module/advanced-tools/view/2factor-otp-email-edit-from.php:76
+#: assets/app/advanced-tools.js:1
+msgid "Save Template"
+msgstr "Zapisz szablon"
+
+#: app/view/activator.php:39 app/view/activator-free.php:39
+#: assets/app/dashboard.js:1
+msgid "Scan your website for file changes, vulnerabilities and injected code and get notified about anything suspicious."
+msgstr "Zeskanuj swoją witrynę internetową pod kątem zmian plików, luk w zabezpieczeniach i złośliwego kodu. Otrzymuj powiadomienia o wszelkich podejrzeniach."
+
+#: app/view/dashboard.php:76 assets/app/dashboard.js:1
+msgid "File Scan Issues"
+msgstr "Problemy wykryte podczas skanowania plików"
+
+#: app/view/requirement.php:11
+msgid ""
+"Defender is currently scanning your files for malicious code, please be patient this should on take a\n"
+"            few minutes depending on the size of your website."
+msgstr ""
+"Defender obecnie skanuje twoje pliki pod kątem złośliwego kodu. Prosimy o cierpliwość. Powinna to zająć\n"
+" kilka minut w zależności od rozmiaru Twojej witryny."
+
+#: app/view/dashboard.php:82 assets/app/dashboard.js:1
+msgid "Last Lockout"
+msgstr "Ostatnia blokada"
+
+#: app/view/activator.php:106 assets/app/dashboard.js:1
+msgid "Automatically check if you’re on Google’s blacklist every 6 hours. If something’s wrong, we’ll let you know via email."
+msgstr "Automatycznie sprawdź, czy Twoja witryna jest na czarnej liście Google co 6 godzin. Jeśli coś jest nie tak, powiadomimy Cię pocztą e-mail."
+
+#: app/view/activator.php:143 app/view/activator-free.php:97
+msgid "Just a moment while Defender activates those services for you..."
+msgstr "Chwileczkę, Defender aktywuje te usługi dla Ciebie ..."
+
+#: app/view/activator.php:35 app/view/activator-free.php:35
+#: assets/app/dashboard.js:1
+msgid "Automatic File Scans & Reporting"
+msgstr "Automatyczne skanowanie plików i raportowanie"
+
+#: app/module/scan/model/settings.php:350
+#: app/module/scan/view/notification.php:68 assets/app/scan.js:1
+msgid "When no issues are found"
+msgstr "Kiedy nie napotkano żadnych błędów"
+
+#: app/module/scan/model/settings.php:351
+#: app/module/scan/view/notification.php:57 assets/app/scan.js:1
+msgid "When an issue is found"
+msgstr "Kiedy napotkano błąd"
+
+#: app/module/scan/view/setting-free.php:79 app/module/scan/view/setting.php:69
+#: assets/app/scan.js:1
+msgid "Defender will skip any files larger than this size. The smaller the number, the faster Defender will scan your website."
+msgstr "Defender pominie pliki większe niż ten rozmiar. Im mniejsza liczba, tym szybciej Defender przeskanuje twoją stronę."
+
+#: app/module/scan/model/settings.php:339
+#: app/module/scan/view/setting-free.php:77 app/module/scan/view/setting.php:67
+#: assets/app/scan.js:1
+msgid "Maximum included file size"
+msgstr "Maksymalny rozmiar dołączonego pliku"
+
+#: app/module/scan/view/setting-free.php:45 app/module/scan/view/setting.php:45
+#: assets/app/scan.js:1
+msgid "Defender looks for publicly reported vulnerabilities in your installed plugins and themes."
+msgstr "Defender wyszukuje publicznie zgłoszone luki w Twoich zainstalowanych wtyczkach i motywach."
+
+#: app/module/scan/view/setting-free.php:30 app/module/scan/view/setting.php:30
+#: assets/app/scan.js:1
+msgid "Defender checks for any modifications or additions to WordPress core files."
+msgstr "Defender sprawdza wszelkie modyfikacje lub dodatki w podstawowych plikach WordPressa."
+
+#: app/module/scan/view/setting-free.php:13 app/module/scan/view/setting.php:13
+#: assets/app/scan.js:1
+msgid "Choose the scan types you would like to include in your default scan. It's recommended you enable all types."
+msgstr "Wybierz typy skanowania, które chcesz uwzględnić w domyślnym skanowaniu. Zalecane jest włączenie wszystkich typów."
+
+#: app/module/scan/view/setting-free.php:11 app/module/scan/view/setting.php:11
+#: assets/app/scan.js:1
+msgid "Scan Types"
+msgstr "Typy skanowania"
+
+#: app/module/scan/view/scanning.php:15
+#: app/module/scan/view/layouts/layout.php:26 assets/app/scan.js:1
+#: assets/app/dashboard.js:1
+msgid "New Scan"
+msgstr "Nowe skanowanie"
+
+#: app/module/scan/view/issues.php:47 assets/app/scan.js:1
+msgid "Your code is currently clean! There were no issues found during the last scan, though you can always perform a new scan anytime."
+msgstr "Twój kod jest obecnie czysty! Podczas ostatniego skanowania nie znaleziono żadnych problemów, ale zawsze możesz wykonać nowe skanowanie w dowolnym momencie."
+
+#: app/module/scan/view/ignored.php:14 assets/app/scan.js:1
+msgid "Here is a list of the suspicious files you have chosen to ignore."
+msgstr "Oto lista podejrzanych plików, które zignorowałeś."
+
+#: app/module/scan/view/cleaned.php:15
+msgid "You haven't cleaned any suspicious files yet. When this action is available, any cleaned files will appear here."
+msgstr "Nie wyczyściliśmy jeszcze żadnych podejrzanych plików. Kiedy ta czynność będzie dostępna, wszystkie wyczyszczone pliki pojawią się tutaj. "
+
+#: app/module/ip-lockout/view/notification/report.php:39
+#: assets/app/ip-lockout.js:1
+msgid "Schedule"
+msgstr "Harmonogram"
+
+#: app/module/scan/model/settings.php:125
+msgid ""
+"Hi {USER_NAME},\n"
+"\n"
+"WP Defender here, reporting back from the front.\n"
+"\n"
+"I've finished scanning {SITE_URL} for vulnerabilities and I found {ISSUES_COUNT} issues that you should take a closer look at!\n"
+"{ISSUES_LIST}\n"
+"\n"
+"Stay Safe,\n"
+"WP Defender\n"
+"Official WPMU DEV Superhero"
+msgstr ""
+"Hey {USER_NAME},\n"
+"\n"
+"WP Defender tutaj, melduję z pierwszej linii.\n"
+"\n"
+"Zakończyłem skanowanie witryny {SITE_URL} pod względem podatności i znalazłem {ISSUES_COUNT} problemów, które powinieneś sprawdzić!\n"
+"{ISSUES_LIST}\n"
+"\n"
+"Bądź bezpieczny,\n"
+"WP Defender\n"
+"Oficjalny Super Bohater WPMU DEV "
+
+#: app/view/settings.php:209
+msgid "Type a user’s name"
+msgstr "Wpisz nazwy użytkowników"
+
+#: app/view/settings.php:157
+msgid "By default, Defender will email you when it runs into trouble on your site. Enabling this option will ensure you are always kept up-to-date, even when your site is running smoothly."
+msgstr "Domyślnie program Defender wyśle wiadomość e-mail, gdy wystąpią problemy z Twoją witryną. Włączenie tej opcji zapewni, że będziesz zawsze na bieżąco, nawet jeśli Twoja strona działa płynnie."
+
+#: app/view/settings.php:154
+msgid "Enable all email reports"
+msgstr "Włącz wszystkie raporty e-mail"
+
+#: app/module/scan/model/settings.php:124
+msgid "Scan of {SITE_URL} complete. {ISSUES_COUNT} issues found."
+msgstr "Skanowanie {SITE_URL} zakończone. Znaleziono {ISSUES_COUNT} błędów."
+
+#: app/module/scan/model/settings.php:135
+msgid ""
+"Hi {USER_NAME},\n"
+"\n"
+"WP Defender here, reporting back from the front.\n"
+"\n"
+"I've finished scanning {SITE_URL} for vulnerabilities and I found nothing. Well done for running such a tight ship!\n"
+"\n"
+"Keep up the good work! With regular security scans and a well-hardened installation you'll be just fine.\n"
+"\n"
+"Stay safe,\n"
+"WP Defender\n"
+"Official WPMU DEV Superhero"
+msgstr ""
+"Witaj {USER_NAME}, \n"
+" \n"
+" Tutaj WP Defender z raportem z pierwszej linii frontu. \n"
+" \n"
+" Skończyłem skanowanie {SITE_URL} pod kątem luk w zabezpieczeniach i nic nie znalazłem. Dobra robota! \n"
+" \n"
+" Dzięki regularnym skanom bezpieczeństwa i dobrze hartowanej instalacji wszystko będzie dobrze. \n"
+" \n"
+" Bądź bezpieczny, \n"
+" WP Defender\n"
+" Oficjalny superbohater WPMU DEV"
+
+#. Author URI of the plugin
+msgid "http://premium.wpmudev.org/"
+msgstr "http://premium.wpmudev.org/"
+
+#. Description of the plugin
+msgid "Get regular security scans, vulnerability reports, safety recommendations and customized hardening for your site in just a few clicks. Defender is the analyst and enforcer who never sleeps."
+msgstr "Uzyskaj regularne skanowanie zabezpieczeń, raporty o usterkach, zalecenia bezpieczeństwa i zabezpiecz witrynę za pomocą zaledwie kilku kliknięć. Defender to analityk i egzekutor, który nigdy nie śpi."
+
+#. Plugin URI of the plugin
+msgid "https://premium.wpmudev.org/project/wp-defender/"
+msgstr "https://premium.wpmudev.org/project/wp-defender/"
+
+#: free-dashboard/module.php:416 free-dashboard/module.php:481
+#: shared-ui/plugin-ui.php:272
+msgid "Saving"
+msgstr "Zapisywanie"
+
+#: app/view/activator.php:103 assets/app/dashboard.js:1
+msgid "Blacklist Monitor"
+msgstr "Monitorowanie czarnej listy"
+
+#: app/view/settings.php:307
+msgid "When there are no issues detected by the scan your recipients will receive this email."
+msgstr "Jeśli skanowanie nie wykryje żadnych problemów, Twoi odbiorcy otrzymają tę wiadomość e-mail."
+
+#: app/module/scan/view/setting-free.php:107 app/view/settings.php:304
+msgid "All OK"
+msgstr "Wszystko OK"
+
+#: app/view/settings.php:290
+msgid "When an issue has been found during an automated scan, Defender will send this email to your recipients."
+msgstr "Gdy problem zostanie wykryty podczas automatycznego skanowania, Defender wyśle tę wiadomość e-mail do odbiorców."
+
+#: app/view/settings.php:287
+msgid "Issues found"
+msgstr "Znalezione błędy"
+
+#: app/view/settings.php:265
+msgid "A link back to the Scans tab of this website"
+msgstr "Link powrotny do zakładki Skanowania tej witryny"
+
+#: app/view/settings.php:256
+msgid "The list of issues"
+msgstr "Lista błędów"
+
+#: app/view/settings.php:247
+msgid "The number of issues Defender found"
+msgstr "Liczba znalezionych błędów przez Defender "
+
+#: app/module/scan/view/setting-free.php:114
+#: app/module/scan/view/notification.php:141
+#: app/module/scan/view/notification.php:214
+#: app/module/advanced-tools/view/2factor-otp-email-edit-from.php:59
+#: app/view/settings.php:229 assets/app/scan.js:1
+#: assets/app/advanced-tools.js:1
+msgid "Available variables"
+msgstr "Dostępne zmienne"
+
+#: app/view/settings.php:225
+msgid "When Defender scans this website it will generate a report of any issues. You can choose to email those notifications to a particular email address and change the copy below."
+msgstr "Kiedy Defender przeskanuje witrynę zostanie wygenerowany report w wypadku jakichś problemów. Możesz wybrać żeby wysłać te powiadomienia na wybrany adres email i zmienić treść poniżej."
+
+#: app/module/scan/view/notification.php:51 app/view/settings.php:221
+#: assets/app/scan.js:1
+msgid "Email Templates"
+msgstr "Szablony e-mail"
+
+#: app/view/settings.php:212 assets/app/security-tweaks.js:1
+#: assets/app/scan.js:1 assets/app/audit.js:1 assets/app/ip-lockout.js:1
+msgid "Add"
+msgstr "Dodaj"
+
+#: app/view/settings.php:201
+msgid "Choose which of your website’s users will receive scan report results to their email inboxes."
+msgstr "Wybierz, którzy użytkownicy Twojej witryny będą otrzymywać wyniki raportu ze skanowania na swoje skrzynki pocztowe."
+
+#: app/module/ip-lockout/view/notification/enabled.php:55
+#: app/view/settings.php:196 assets/app/ip-lockout.js:1
+msgid "Email Recipients"
+msgstr "Odbiorcy wiadomości e-mail"
+
+#: app/view/settings.php:187 app/view/settings.php:326
+msgid "Save Settings"
+msgstr "Zapisz ustawienia"
+
+#: app/view/settings.php:137
+msgid "Defender will skip any files larger than this size. The smaller this number is the faster Defender can scan through your system."
+msgstr "Defender pominie pliki większe niż ten rozmiar. Im mniejsza wprowadzona wartość, tym szybciej Defender może skanować twój system."
+
+#: app/view/settings.php:134
+msgid "Max included file size (MB)"
+msgstr "Maksymalny rozmiar pliku (MB)"
+
+#: app/module/scan/view/setting-free.php:60 app/module/scan/view/setting.php:60
+#: app/view/settings.php:117 assets/app/scan.js:1
+msgid "Defender looks inside all of your files for suspicious and potentially harmful code."
+msgstr "Defender sprawdza wszystkie pliki pod kątem podejrzanego i potencjalnie szkodliwego kodu."
+
+#: app/view/settings.php:91 app/view/settings.php:124
+msgid "WPMU DEV Dashboard is required for this scan"
+msgstr "Do tego skanowania wymagana jest wtyczka WPMU DEV Dashboard"
+
+#: app/view/settings.php:84
+msgid "Defender looks for published vulnerabilities in your installed plugins and themes."
+msgstr "Defender wyszukuje opublikowane luki w zabezpieczeniach we wtyczkach i motywach zainstalowanych na Twojej witrynie."
+
+#: app/view/settings.php:65
+msgid "Plugin & Theme Vulnerabilities"
+msgstr "Luki w zabezpieczeniach wtyczek i motywów"
+
+#: app/view/settings.php:55
+msgid "Defender checks for any modifications or additions to WP core files."
+msgstr "Defender sprawdza wszelkie modyfikacje lub dodatki w podstawowych plikach WordPressa."
+
+#: app/view/settings.php:40
+msgid "WP Core Integrity"
+msgstr "Integralność rdzenia WP"
+
+#: app/view/settings.php:37 app/view/settings.php:72 app/view/settings.php:105
+msgid "Enable This Scan"
+msgstr "Włącz ten skan"
+
+#: app/view/settings.php:37 app/view/settings.php:72 app/view/settings.php:105
+msgid "Disable This Scan"
+msgstr "Wyłącz ten skan"
+
+#: app/view/settings.php:28
+msgid "By default we recommend running all scans but you can turn these off if you choose"
+msgstr "Domyślnie polecamy przeprowadzenie wszystkich skanów ale jeśli chcesz możesz je wyłączyć"
+
+#: app/view/settings.php:25
+msgid "Scan types"
+msgstr "Typy skanowania"
+
+#: app/module/scan/view/layouts/layout.php:60 assets/app/scan.js:1
+msgid "Last scan"
+msgstr "Ostatnie skanowanie"
+
+#: app/module/scan.php:22
+msgid "Scans"
+msgstr "Skany"
+
+#: app/module/scan.php:23
+msgid "Scan"
+msgstr "Skanuj"
+
+#: app/module/scan/controller/main.php:282
+msgid "File"
+msgstr "Plik"
+
+#: app/module/setting/view/data.php:41 assets/app/settings.js:1
+msgid "Remove"
+msgstr "Usuń"
+
+#: shared-ui/plugin-ui.php:49
+msgid "Nothing found"
+msgstr "Nic nie znaleziono"
+
+#: dash-notice/wpmudev-dash-notification.php:1203
+msgid "Hide details"
+msgstr "Ukryj szczegóły"
+
+#: dash-notice/wpmudev-dash-notification.php:1202
+msgid "Show all changes"
+msgstr "Pokaż wszystkie zmiany"
+
+#: dash-notice/wpmudev-dash-notification.php:1184
+msgid "Version %s"
+msgstr "Wersja %s"
+
+#: dash-notice/wpmudev-dash-notification.php:285
+msgid "Activate WPMU DEV Dashboard"
+msgstr "Aktywuj WPMU DEV Dashboard"
+
+#: dash-notice/wpmudev-dash-notification.php:264
+msgid "activate"
+msgstr "aktywuj"
+
+#: dash-notice/wpmudev-dash-notification.php:247
+#: dash-notice/wpmudev-dash-notification.php:288
+msgid "Saving..."
+msgstr "Zapisywanie..."
+
+#: dash-notice/wpmudev-dash-notification.php:244
+msgid "Install Plugin"
+msgstr "Zainstaluj wtyczkę"
+
+#: dash-notice/wpmudev-dash-notification.php:223
+msgid "install"
+msgstr "instaluj"
+
+#: app/module/scan/view/new.php:24 assets/app/scan.js:1
+msgid "Scan your website for file changes, vulnerabilities and injected code and get notified about anything suspicious. Defender will keep an eye on your code without you having to worry."
+msgstr "Skanuj swoją witrynę pod kątem zmian plików, luk w zabezpieczeniach i złośliwego kodu, a także otrzymuj powiadomienia o podejrzanych zdarzeniach. Defender będzie miał na oku Twój kod."
+
+#: app/module/scan/behavior/scan-widget.php:266
+msgid ""
+"Scan your website for file changes, vulnerabilities and injected code and get\n"
+"        notified about anything suspicious."
+msgstr ""
+"Skanuj swoją witrynę pod kątem zmian w plikach, luk w zabezpieczeniach lub złośliwego kodu i otrzymuj\n"
+"powiadomienia o czymkolwiek podejrzanym."
+
+#: app/module/scan/view/scanning.php:74
+msgid ""
+"Did you know the Pro version of Defender comes with advanced full code scanning and automated reporting?\n"
+"                    Get enhanced security protection as part of a WPMU DEV membership including 100+ plugins, 24/7\n"
+"                    support and lots of handy site management tools – <a target='_blank' href=\"%s\">Try Defender Pro today for FREE</a>"
+msgstr ""
+"Czy wiesz, że wersja Pro programu Defender jest wyposażona w zaawansowane skanowanie całego kodów i automatyczne raportowanie?\n"
+" Uzyskaj lepszą ochronę bezpieczeństwa w ramach członkostwa w programie DEV WPMU, w tym ponad 100 wtyczek, całodobową pomoc techniczną\n"
+" i wiele przydatnych narzędzi do zarządzania witryną – <a target='_blank' href=\"%s\">Wypróbuj program Defender Pro już dziś ZA DARMO</a>"
+
+#: app/view/settings.php:238
+msgid "We’ll grab the users first name, or display name if first name isn’t available"
+msgstr "Pobierzemy imię użytkownika lub jego nazwę wyświetlaną nazwę (ustawienie profilu: \"przedstawiaj mnie jako\") jeśli imię jest niedostępne"
+
+#: app/view/settings.php:19
+msgid "General Settings"
+msgstr "Ustawienia ogólne"
+
+#: recommended-plugins-notice/notice.php:491 shared-ui/plugin-ui.php:301
+#: dash-notice/wpmudev-dash-notification.php:248
+#: dash-notice/wpmudev-dash-notification.php:289
+msgid "Dismiss"
+msgstr "Odrzuć"
+
+#: app/module/scan/view/notification.php:122
+#: app/module/scan/view/notification.php:195
+#: app/module/scan/view/notification.php:205
+#: app/module/advanced-tools/model/auth-settings.php:159
+#: app/module/advanced-tools/view/2factor-otp-email-edit-from.php:32
+#: app/view/settings.php:275 assets/app/scan.js:1
+#: assets/app/advanced-tools.js:1
+msgid "Subject"
+msgstr "Tytuł"
+
+#: dash-notice/wpmudev-dash-notification.php:1167
+msgid "New"
+msgstr "Nowy"
+
+#: dash-notice/wpmudev-dash-notification.php:1161
+msgid "Current"
+msgstr "Obecny"
+
+#: dash-notice/wpmudev-dash-notification.php:952
+msgid "We did not find any data for this plugin or theme..."
+msgstr "Nie znaleźliśmy żadnych danych dla tej wtyczki lub motywu..."
+
+#: dash-notice/wpmudev-dash-notification.php:279
+msgid "Just one more step - activate the WPMU DEV Dashboard plugin and you're all done!"
+msgstr "Jeszcze tylko jeden krok - aktywuj wtyczkę WPMU DEV Dashboard!"
+
+#: dash-notice/wpmudev-dash-notification.php:277
+msgid "Important updates are available for your WPMU DEV plugins/themes. Activate the WPMU DEV Dashboard to update now!"
+msgstr "Dostępne są ważne aktualizacje dla twoich wtyczek/motywów WPMU DEV. Aktywuj WPMU DEV Dashboard i pobierz je teraz!"
+
+#: dash-notice/wpmudev-dash-notification.php:273
+msgid "Just one more step to enable updates and support for <strong>%s</strong>!"
+msgstr "Jeszcze tylko jeden krok, by włączyć aktualizacje i wsparcie dla <strong>%s</strong>!"
+
+#: dash-notice/wpmudev-dash-notification.php:271
+msgid "Important updates are available for <strong>%s</strong>. Activate the WPMU DEV Dashboard to update now!"
+msgstr "Dostępne są ważne aktualizacje dla <strong>%s</strong>. Aktywuj WPMU DEV Dashboard i aktualizuj teraz!"
+
+#: dash-notice/wpmudev-dash-notification.php:238
+msgid "Almost ready - install the free WPMU DEV Dashboard plugin for updates and support!"
+msgstr "Prawie gotowe - zainstaluj darmową wtyczkę WPMU DEV Dashboard, by mieć dostęp do aktualizacji i wsparcia!"
+
+#: dash-notice/wpmudev-dash-notification.php:236
+msgid "Important updates are available for your WPMU DEV plugins/themes. Install the free WPMU DEV Dashboard plugin now for updates and support!"
+msgstr "Dostępne są ważne aktualizacje dla twoich wtyczek/motywów WPMU DEV. Zainstaluj darmową wtyczkę WPMU DEV Dashboard, by otrzymać aktualizacje i wsparcie!"
+
+#: dash-notice/wpmudev-dash-notification.php:232
+msgid "<strong>%s</strong> is almost ready - install the free WPMU DEV Dashboard plugin for updates and support!"
+msgstr "<strong>%s</strong> prawie gotowy - zainstaluj darmową wtyczkę WPMU DEV Dashboard, by otrzymywać aktualizacje i wsparcie!"
+
+#: dash-notice/wpmudev-dash-notification.php:230
+msgid "Important updates are available for <strong>%s</strong>. Install the free WPMU DEV Dashboard plugin now for updates and support!"
+msgstr "Dostępne są ważne aktualizacje dla <strong>%s</strong>. Zainstaluj darmową wtyczkę WPMU DEV Dashboard by otrzymać aktualizacje i wsparcie!"
+
+#: free-dashboard/module.php:459
+msgid "Hey %s, you've been using %s for a while now, and we hope you're happy with it."
+msgstr "Hej %s, używasz %s już jakiś czas i mamy nadzieję, że jesteś zadowolony."
+
+#: app/view/activator.php:130 app/view/activator-free.php:86
+#: assets/app/dashboard.js:1
+msgid "Get Started"
+msgstr "Rozpocznij"
+
+#: app/view/settings.php:208
+msgid "We did not find an admin user with this name..."
+msgstr "Nie znaleźliśmy użytkownika-administratora o takiej nazwie..."
+
+#: dash-notice/wpmudev-dash-notification.php:1131
+msgid "%s changelog"
+msgstr "lista zmian %s "
+
+#: shared-ui/plugin-ui.php:51
+msgid "Oops, we could not do this..."
+msgstr "Oops, nie mogliśmy tego zrobić..."
+
+#: shared-ui/plugin-ui.php:50
+msgid "Okay, we saved your changes!"
+msgstr "Okay, zapisaliśmy Twoje zmiany!"
+
+#: free-dashboard/module.php:413 free-dashboard/module.php:474
+msgid "Thanks :)"
+msgstr "Dziękujemy :)"
+
+#: free-dashboard/module.php:477
+msgid "Rate %s"
+msgstr "Oceń %s"
+
+#: free-dashboard/module.php:459
+msgid "We've spent countless hours developing this free plugin for you, and we would really appreciate it if you dropped us a quick rating!"
+msgstr "Spędziliśmy wiele godzin tworząc tą darmową wtyczkę dla Ciebie, i jesteśmy naprawdę wdzięczny jeśli możesz wystawić nam szybką ocenę!"
+
+#: free-dashboard/module.php:386
+msgid "We're happy that you've chosen to install %s! Are you interested in how to make the most of this plugin? How would you like a quick 5 day email crash course with actionable advice on building your membership site? Only the info you want, no subscription!"
+msgstr "Cieszymy się, że zdecydowałeś się zainstalować %s! Czy jesteś zainteresowany w jaki sposób wykorzystać tą wtyczkę? Chciałbyś szybki 5 dniowy kurs e-mail z praktycznymi poradami w budowaniu witryny członkostwa? Tylko informacje, które chcesz, bez abonamentu!"
+
+#: app/module/advanced-tools/view/main-free.php:4
+#: app/module/advanced-tools/behavior/at-widget.php:27
+#: assets/app/dashboard.js:1
+msgid "Two-Factor Authentication"
+msgstr "Uwierzytelnianie dwuetapowe"
+
+#: app/module/advanced-tools/view/main-free.php:243
+#: assets/app/advanced-tools.js:1
+msgid "Disable two-factor authentication on your website."
+msgstr "Wyłącz uwierzytelnianie dwuetapowe w swojej witrynie."
+
+#: app/module/advanced-tools/view/main-free.php:51
+#: assets/app/advanced-tools.js:1
+msgid "Choose the user roles you want to enable two-factor authentication for. Users with those roles will then be required to use the Google Authenticator app to login."
+msgstr "Wybierz role użytkowników, dla których chcesz włączyć uwierzytelnianie dwuetapowe. Użytkownicy o tych rolach będą wtedy musieli używać aplikacji Google Authenticator do logowania."
+
+#: app/module/advanced-tools/view/main-free.php:39
+msgid "<strong>Two-factor authentication is currently inactive.</strong> Configure and save your settings to complete setup."
+msgstr "<strong>Uwierzytelnianie dwuetapowe jest obecnie nieaktywne.</strong> Skonfiguruj i zapisz ustawienia, aby ukończyć konfigurację."
+
+#: app/module/advanced-tools/view/main-free.php:30
+msgid "<strong>Two-factor authentication is now active.</strong> User roles with this feature enabled must visit their <a href='%s'>Profile page</a> to complete setup and sync their account with the Authenticator app."
+msgstr "<strong>Uwierzytelnianie dwuetapowe jest teraz aktywne.</strong> Użytkownicy z tą włączoną funkcją muszą odwiedzić swoją <a href='%s'>Stronę profilową</a> aby ukończyć konfigurację i zsynchronizować swoje konto z aplikacją Authenticator."
+
+#: app/module/advanced-tools/view/disabled.php:16
+#: assets/app/advanced-tools.js:1
+msgid "Beef up your website’s security with two-factor authentication. Add an extra step in the login process so that users are required to enter a password and an app-generated passcode using their phone – the best protection against brute force attacks."
+msgstr "Wzmocnij bezpieczeństwo swojej witryny za pomocą uwierzytelniania dwuetapowego. Dodaj dodatkowy krok w procesie logowania, aby użytkownicy musieli wpisać hasło i kod wygenerowany przez aplikację za pomocą telefonu. Jest to najlepsza ochrona przed atakami brute force."
+
+#: app/module/advanced-tools/component/auth-listener.php:187
+msgid "Two Factor"
+msgstr "Uwierzytelnianie dwuetapowe"
+
+#: app/module/advanced-tools/behavior/at-widget.php:44
+#: assets/app/dashboard.js:1
+msgid "Note: Each user on your website must individually enable two-factor authentication via their user profile in order to enable and use this security feature."
+msgstr "Uwaga: Każdy użytkownik witryny musi indywidualnie włączyć uwierzytelnianie dwuetapowe za pośrednictwem profilu użytkownika, aby korzystać z tej funkcji."
+
+#: app/module/advanced-tools/behavior/at-widget.php:53
+#: app/module/advanced-tools/behavior/at-widget.php:84
+#: assets/app/dashboard.js:1
+msgid "Finish Setup"
+msgstr "Zakończ konfigurację"
+
+#: app/module/advanced-tools/behavior/at-widget.php:49
+msgid "Two-factor authentication is currently inactive. Configure and save your settings to finish setup. "
+msgstr "Uwierzytelnianie dwuetapowe jest obecnie nieaktywne. Skonfiguruj i zapisz ustawienia, aby zakończyć konfigurację."
+
+#: app/module/scan/behavior/core-result.php:96
+#: app/module/scan/behavior/core-result.php:247
+#: app/module/scan/behavior/core-result.php:252 app/behavior/utils.php:1115
+#: app/behavior/utils.php:1120
+msgid "Defender doesn't have enough permission to remove this file"
+msgstr "Defender nie ma wystarczających uprawnień do usunięcia tego pliku"
+
+#: app/module/ip-lockout/view/notification/enabled.php:120
+#: assets/app/security-tweaks.js:1 assets/app/audit.js:1
+#: assets/app/ip-lockout.js:1
+msgid "7 days"
+msgstr "7 dni"
+
+#: app/module/ip-lockout/view/notification/enabled.php:118
+#: assets/app/ip-lockout.js:1
+msgid "48 hours"
+msgstr "48 godzin"
+
+#: app/module/ip-lockout/view/notification/enabled.php:116
+#: assets/app/ip-lockout.js:1
+msgid "36 hours"
+msgstr "36 godzin"
+
+#: app/module/ip-lockout/view/notification/enabled.php:114
+#: assets/app/security-tweaks.js:1 assets/app/audit.js:1
+#: assets/app/ip-lockout.js:1
+msgid "24 hours"
+msgstr "24 godziny"
+
+#: app/module/ip-lockout/view/notification/enabled.php:112
+#: assets/app/ip-lockout.js:1
+msgid "12 hours"
+msgstr "12 godzin"
+
+#: app/module/ip-lockout/view/notification/enabled.php:110
+#: assets/app/ip-lockout.js:1
+msgid "6 hours"
+msgstr "6 godzin"
+
+#: app/module/ip-lockout/view/notification/enabled.php:108
+#: assets/app/ip-lockout.js:1
+msgid "2 hours"
+msgstr "2 godziny"
+
+#: app/module/ip-lockout/view/notification/enabled.php:106
+#: assets/app/security-tweaks.js:1 assets/app/ip-lockout.js:1
+msgid "1 hour"
+msgstr "1 godzina"
+
+#: app/module/ip-lockout/model/settings.php:679 assets/app/ip-lockout.js:1
+msgid "Cool Off Period"
+msgstr "Okres wyłączenia"
+
+#: app/module/ip-lockout/model/settings.php:678
+#: app/module/ip-lockout/view/login-lockouts/enabled.php:27
+#: assets/app/ip-lockout.js:1
+msgid "Threshold"
+msgstr "Próg"
+
+#: app/module/ip-lockout/view/notification/enabled.php:86
+#: assets/app/ip-lockout.js:1
+msgid "Limit email notifications for repeat lockouts"
+msgstr "Ogranicz powiadomienia e-mail o powtarzających się blokadach"
+
+#: app/module/ip-lockout/view/notification/enabled.php:72
+#: assets/app/ip-lockout.js:1
+msgid "If you’re getting too many emails from IPs who are repeatedly being locked out you can turn them off for a period of time."
+msgstr "Jeśli otrzymujesz zbyt wiele wiadomości e-mail od adresów IP, które są wielokrotnie blokowane, możesz je wyłączyć na pewien czas."
+
+#: app/module/ip-lockout/model/settings.php:677
+#: app/module/ip-lockout/view/notification/enabled.php:69
+#: assets/app/ip-lockout.js:1
+msgid "Repeat Lockouts"
+msgstr "Blokada powtórzeń"
+
+#: app/module/ip-lockout/view/migration.php:15
+msgid "Please hold on, we are updating your data, please don't close this tab..."
+msgstr "Proszę czekaj, aktualizujemy dane, nie zamykaj tej karty ..."
+
+#: app/module/ip-lockout/view/migration.php:6
+msgid "Migration"
+msgstr "Migracja"
+
+#: app/module/ip-lockout/view/layouts/layout.php:43 assets/app/ip-lockout.js:1
+msgid "404 lockouts in the past 7 days"
+msgstr "Blokady 404 w ciągu ostatnich 7 dni"
+
+#: app/module/ip-lockout/view/layouts/layout.php:39 assets/app/ip-lockout.js:1
+msgid "Login lockouts in the past 7 days"
+msgstr "Blokady logowania w ciągu ostatnich 7 dni"
+
+#: app/module/ip-lockout/view/layouts/layout.php:27 assets/app/ip-lockout.js:1
+msgid "Total lockouts in the past 30 days"
+msgstr "Całkowita liczba blokad w ciągu ostatnich 30 dni"
+
+#: app/module/ip-lockout/component/login-protection-api.php:78
+msgid "Lockout occurred: Too many failed login attempts for the username %s"
+msgstr "Wystąpiła blokada: zbyt wiele nieudanych prób logowania dla nazwy użytkownika %s"
+
+#: app/module/hardener/view/rules/prevent-php/apache_litespeed.php:14
+#: app/module/hardener/view/rules/prevent-php/nginx.php:6
+#: assets/app/security-tweaks.js:1
+msgid "Exceptions"
+msgstr "Wyjątki"
+
+#: app/module/hardener/view/rules/information-disclosure/apache_litespeed.php:11
+#: app/module/hardener/view/rules/prevent-php/apache_litespeed.php:11
+#: assets/app/security-tweaks.js:1
+msgid "Update .htaccess file"
+msgstr "Zaktualizuj plik .htaccess"
+
+#: app/module/hardener/component/login-duration.php:144
+msgid "Your session has expired because it has been over %d days since your last login. Please log back in to continue."
+msgstr "Twoja sesja wygasła, ponieważ minęło ponad %d dni od ostatniego zalogowania. Zaloguj się ponownie, aby kontynuować."
+
+#: app/module/hardener/component/login-duration.php:109
+msgid "Duration can only be a number and greater than 0"
+msgstr "Czas trwania może być wyłącznie liczbą większą od 0"
+
+#: app/module/hardener/component/login-duration.php:39
+msgid "Manage Login Duration"
+msgstr "Zarządzaj czasem trwania zalogowania"
+
+#: app/module/scan/view/email-template.php:554
+#: app/module/ip-lockout/view/emails/report.php:622
+#: app/module/ip-lockout/view/emails/404-lockout.php:591
+#: app/module/ip-lockout/view/emails/login-username-ban.php:589
+#: app/module/ip-lockout/view/emails/login-lockout.php:590
+#: app/module/ip-lockout/view/emails/404-ban.php:588
+msgid "<a href=\"%s\">Configure reporting preferences</a>"
+msgstr "<a href=\"%s\">Skonfiguruj ustawienia raportowania</a>"
+
+#: app/module/advanced-tools/view/main-free.php:234
+msgid "<a href=\"%s\">View users</a> who have enabled this feature."
+msgstr "<a href=\"%s\">Zobacz użytkowników</a> którzy włączyli tę funkcję."
+
+#: app/module/advanced-tools/view/main-free.php:230
+msgid "Here’s a quick link to see which of your users have enabled two-factor verification."
+msgstr "Oto szybki link, aby sprawdzić, którzy z Twoich użytkowników włączyli weryfikację dwuetapową."
+
+#: app/module/advanced-tools/view/main-free.php:227
+#: assets/app/advanced-tools.js:1
+msgid "Active Users"
+msgstr "Aktywni użytkownicy"
+
+#: app/module/advanced-tools/view/main-free.php:212
+msgid "Need the app? Here’s links to the official Google Authenticator apps."
+msgstr "Potrzebujesz aplikacji? Oto linki do oficjalnych aplikacji Google Authenticator."
+
+#: app/module/advanced-tools/view/main-free.php:209
+#: assets/app/advanced-tools.js:1
+msgid "App Download"
+msgstr "Pobieranie aplikacji"
+
+#: app/module/advanced-tools/view/main-free.php:100
+#: assets/app/advanced-tools.js:1
+msgid "Enable lost phone option"
+msgstr "Włącz opcję utraconego telefonu"
+
+#: app/module/advanced-tools/view/main-free.php:87
+#: assets/app/advanced-tools.js:1
+msgid "If a user is unable to access their phone, you can allow an option to send the one time password to their registered email."
+msgstr "Jeśli użytkownik nie może uzyskać dostępu do telefonu, możesz zezwolić na wysłanie jednorazowego hasła na ich skrzynkę pocztową."
+
+#: app/module/advanced-tools/model/auth-settings.php:153
+#: app/module/advanced-tools/view/main-free.php:84
+#: assets/app/advanced-tools.js:1
+msgid "Lost Phone"
+msgstr "Utracony telefon"
+
+#: app/module/advanced-tools/view/main-free.php:58
+#: assets/app/advanced-tools.js:1
+msgid "User role"
+msgstr "Rola użytkownika"
+
+#: app/module/advanced-tools/model/auth-settings.php:152
+#: app/module/advanced-tools/view/main-free.php:48
+#: app/module/advanced-tools/view/main-free.php:131
+#: assets/app/advanced-tools.js:1
+msgid "User Roles"
+msgstr "Role użytkowników"
+
+#: app/module/advanced-tools/view/main-free.php:11
+#: assets/app/advanced-tools.js:1
+msgid "Configure your two-factor authentication settings. Our recommendations are enabled by default."
+msgstr "Skonfiguruj ustawienia uwierzytelniania dwuetapowego. Nasze rekomendacje są domyślnie włączone."
+
+#: app/module/advanced-tools/view/login/otp.php:250
+msgid "Lost your device?"
+msgstr "Zgubiłeś swoje urządzenie?"
+
+#: app/module/advanced-tools/view/login/otp.php:228
+msgid "Authenticate"
+msgstr "Uwierzytelnij"
+
+#: app/module/advanced-tools/view/login/otp.php:225
+msgid "Open the Google Authenticator app and enter the 6 digit passcode."
+msgstr "Otwórz aplikację Google Authenticator i wprowadź 6-cyfrowy kod dostępu."
+
+#: app/module/advanced-tools/view/login/enabled.php:20
+msgid "If you ever lose your device, you can send a fallback passcode to this email address."
+msgstr "Jeśli kiedykolwiek zgubisz swoje urządzenie, możesz wysłać zastępcze hasło na ten adres e-mail."
+
+#: app/module/advanced-tools/view/login/enabled.php:16
+msgid "Fallback email address"
+msgstr "Zastępczy adres e-mail"
+
+#: app/module/advanced-tools/view/login/disabled.php:72
+msgid "Verify"
+msgstr "Zweryfikuj"
+
+#: app/module/advanced-tools/view/login/disabled.php:64
+msgid "3. Enter passcode"
+msgstr "3. Wprowadź kod dostępu"
+
+#: app/module/advanced-tools/view/login/disabled.php:60
+msgid "2. Scan the barcode"
+msgstr "2. Zeskanuj kod kreskowy"
+
+#: app/module/advanced-tools/view/login/disabled.php:51
+msgid "Download and install the Google Authenticator app on your device using the links below."
+msgstr "Pobierz i zainstaluj aplikację Google Authenticator na swoim urządzeniu, korzystając z poniższych linków."
+
+#: app/module/advanced-tools/view/login/disabled.php:48
+msgid "1. Install the Verification app"
+msgstr "1. Zainstaluj aplikację do weryfikacji"
+
+#: app/module/advanced-tools/view/login/disabled.php:39
+#: app/module/advanced-tools/view/login/disabled.php:45
+msgid "Use the Google Authenticator app to sign in with a separate passcode."
+msgstr "Użyj aplikacji Google Authenticator, by zalogować się przy użyciu oddzielnego kodu dostępu."
+
+#: app/module/advanced-tools/view/login/enabled.php:1
+#: app/module/advanced-tools/view/login/disabled.php:1
+msgid "Security"
+msgstr "Bezpieczeństwo"
+
+#: app/module/advanced-tools/component/auth-listener.php:400
+msgid "Whoops, the passcode you entered was incorrect or expired."
+msgstr "Ups, wprowadzony kod jest nieprawidłowy lub wygasł."
+
+#: app/module/advanced-tools/component/auth-listener.php:363
+msgid "Some error happen"
+msgstr "Wystąpił błąd"
+
+#: app/module/advanced-tools/component/auth-listener.php:302
+msgid "Your OTP code is incorrect. Please try again."
+msgstr "Twój kod OTP jest niepoprawny. Spróbuj jeszcze raz. "
+
+#: app/module/advanced-tools/component/auth-listener.php:287
+msgid "Please input a valid OTP code"
+msgstr "Wprowadź poprawny kod OTP"
+
+#: app/module/advanced-tools/component/auth-listener.php:242
+msgid "Your code has been sent to your email."
+msgstr "Twój kod został wysłany na twój adres e-mail."
+
+#: app/module/advanced-tools/component/auth-listener.php:211
+msgid "Your token is invalid"
+msgstr "Twój token jest nieprawidłowy"
+
+#: app/module/advanced-tools/view/login/enabled.php:8
+msgid "Two factor authentication is active."
+msgstr "Uwierzytelnianie dwuetapowe jest aktywne."
+
+#: app/module/advanced-tools/model/auth-settings.php:151
+#: app/module/advanced-tools/view/login/enabled.php:5
+#: app/module/advanced-tools/view/login/disabled.php:5
+#: app/module/advanced-tools/view/layouts/layout.php:36
+#: app/module/advanced-tools/view/disabled.php:4 assets/app/advanced-tools.js:1
+msgid "Two Factor Authentication"
+msgstr "Uwierzytelnianie dwuetapowe"
+
+#: app/module/advanced-tools/behavior/at-widget.php:24
+#: assets/app/dashboard.js:1
+msgid "Enable advanced tools for enhanced protection against even the most aggressive of hackers and bots."
+msgstr "Włącz zaawansowane narzędzia zapewniające lepszą ochronę przed nawet najbardziej agresywnymi hakerami i botami."
+
+#: app/module/advanced-tools/controller/main.php:52
+#: app/module/advanced-tools/view/layouts/layout.php:6
+#: app/module/advanced-tools/behavior/at-widget.php:19
+#: assets/app/dashboard.js:1 assets/app/advanced-tools.js:1
+msgid "Advanced Tools"
+msgstr "Ustawienia zaawansowane"
+
+#: app/module/ip-lockout/controller/rest.php:137
+msgid "Your logs have been successfully deleted."
+msgstr "Twój dziennik zdarzeń zostały pomyślnie usunięty."
+
+#: app/module/hardener/view/rules/information-disclosure/iis7.php:1
+msgid "For IIS 7 servers, <a href=\"%s\">visit Microsoft TechNet</a>"
+msgstr "W przypadku serwerów IIS 7, <a href=\"%s\">odwiedź Microsoft TechNet</a>"
+
+#: app/module/hardener/view/rules/prevent-php/iis7.php:9
+#: assets/app/security-tweaks.js:1
+msgid "Add web.config file"
+msgstr "Dodaj plik web.config"
+
+#: app/module/hardener/view/rules/prevent-php/iis7.php:2
+msgid "For more information, please <a href=\"%s\">visit Microsoft TechNet</a>"
+msgstr "Aby uzyskać więcej informacji, proszę <a href=\"%s\">odwiedzić Microsoft TechNet</a>"
+
+#: app/module/hardener/view/rules/prevent-php/iis7.php:1
+msgid "We will place <strong>web.config</strong> file into the uploads folder to lock down the files and folders inside."
+msgstr "W folderze uploads umieścimy plik <strong>web.config</strong>, aby zablokować znajdujące się wewnątrz pliki i foldery."
+
+#: app/module/hardener/view/rules/protect-information.php:85
+#: app/module/hardener/view/rules/prevent-php-executed.php:95
+msgid "For IIS servers, <a href=\"%s\">visit Microsoft TechNet</a>"
+msgstr "W przypadku serwerów IIS, <a href=\"%s\">odwiedź Microsoft TechNet</a>"
+
+#: app/module/hardener/component/servers/iis-service.php:43
+msgid "The file %s could not be loaded"
+msgstr "Nie można załadować pliku %s"
+
+#: app/module/hardener/component/prevent-php-service.php:93
+#: app/module/hardener/component/protect-information-service.php:115
+msgid "Revert is not possible on your current server"
+msgstr "Cofnięcie jest niemożliwe w przypadku tego serwera"
+
+#: app/module/hardener/component/prevent-php-service.php:86
+msgid "Process is not possible on your current server"
+msgstr "Czynność jest niemożliwa w przypadku tego serwera"
+
+#: app/module/ip-lockout/view/settings.php:40 assets/app/ip-lockout.js:1
+msgid "Note: Defender will instantly remove all past event logs, you will not be able to get them back."
+msgstr "Uwaga: program Defender natychmiast usunie wszystkie wcześniejsze dzienniki zdarzeń, nie będzie można ich odzyskać."
+
+#: app/module/ip-lockout/view/settings.php:37 assets/app/ip-lockout.js:1
+msgid "Delete Logs"
+msgstr "Usuń dziennik zdarzeń"
+
+#: app/module/ip-lockout/view/settings.php:31 assets/app/ip-lockout.js:1
+msgid "If you wish to delete your current logs simply hit delete and this will wipe your logs clean."
+msgstr "Jeśli chcesz usunąć swój bieżący dziennik zdarzeń, po prostu naciśnij usuń, a to wyczyści dziennik zdarzeń."
+
+#: app/module/ip-lockout/view/settings.php:29 assets/app/ip-lockout.js:1
+msgid "Delete logs"
+msgstr "Usuń dziennik zdarzeń "
+
+#: app/module/ip-lockout/view/settings.php:22
+msgid "Choose how many days of event logs you’d like to store locally."
+msgstr "Wybierz liczbę dni prze które chcesz przechowywać lokalnie Twój dziennik zdarzeń."
+
+#: app/module/ip-lockout/view/settings.php:20 assets/app/ip-lockout.js:1
+msgid "days"
+msgstr "dni"
+
+#: app/module/ip-lockout/view/settings.php:11 assets/app/ip-lockout.js:1
+msgid "Event logs are cached on your local server to speed up load times. You can choose how many days to keep logs for before they are removed."
+msgstr "Dziennik zdarzeń jest buforowany na lokalnym serwerze, aby przyspieszyć ładowanie. Możesz wybrać, ile dni ma być przechowywany przed jego usunięciem."
+
+#: app/module/ip-lockout/model/settings.php:680
+#: app/module/ip-lockout/view/settings.php:9 assets/app/audit.js:1
+#: assets/app/ip-lockout.js:1
+msgid "Storage"
+msgstr "Przechowywanie"
+
+#: app/module/scan/view/pro-feature.php:35
+#: app/module/audit/view/pro-feature.php:35
+#: app/module/ip-lockout/view/pro-feature.php:35 app/view/pro-feature.php:35
+msgid "Get Defender Pro for Free"
+msgstr "Pobierz program Defender Pro za darmo"
+
+#: app/module/scan/view/pro-feature.php:29
+#: app/module/audit/view/pro-feature.php:29
+#: app/module/ip-lockout/view/pro-feature.php:29 app/view/pro-feature.php:29
+msgid "Tailored Reporting"
+msgstr "Dopasowane raportowanie"
+
+#: app/module/scan/view/pro-feature.php:6
+#: app/module/audit/view/pro-feature.php:6
+#: app/module/ip-lockout/view/pro-feature.php:6 app/view/pro-feature.php:6
+msgid "Automatic Full File Scans & Notifications"
+msgstr "Automatyczne pełne skanowanie plików i powiadomienia"
+
+#: app/module/scan/view/pro-feature.php:1
+#: app/module/audit/view/pro-feature.php:1
+#: app/module/ip-lockout/view/pro-feature.php:1 app/view/pro-feature.php:1
+msgid "Defender Pro Features"
+msgstr "Funkcje Defender Pro"
+
+#: app/module/scan/behavior/scan-widget.php:164
+#: app/module/scan/behavior/scan-widget.php:178
+msgid "Try Defender Pro free today"
+msgstr "Wypróbuj program Defender Pro za darmo już dziś"
+
+#: app/module/audit/view/pro-feature.php:31
+#: app/module/ip-lockout/view/pro-feature.php:31 app/view/pro-feature.php:31
+msgid "Get tailored security reports for File Scanning, Audit Logging and IP Lockouts delivered to your inbox so you don’t have to worry about checking in."
+msgstr "Otrzymuj dopasowane raporty bezpieczeńśtwa ze Skanowania Plików, Audytu Logowania i Blokad IP prosto do dwojej skrzynki odbiorczej e-mail. "
+
+#: app/module/audit/view/pro-feature.php:24
+#: app/module/ip-lockout/view/pro-feature.php:24 app/view/pro-feature.php:24
+msgid "Track and log each and every event when changes are made to your website and get detailed reports on what’s going on behind the scenes, including any hacking attempts on your site."
+msgstr "Śledź i rejestruj każde zdarzenie po wprowadzeniu zmian w Twojej witrynie i uzyskaj szczegółowe raporty o tym, co dzieje się za kulisami, w tym próby włamań do witryny."
+
+#: app/module/scan/view/pro-feature.php:17
+#: app/module/audit/view/pro-feature.php:17
+#: app/module/ip-lockout/view/pro-feature.php:17 app/view/pro-feature.php:17
+msgid "Defender will go beyond just plugins and themes and scan your entire file system for suspicious code."
+msgstr "Defender wykracza poza wtyczki i motywy i skanuje cały system plików pod kątem podejrzanego kodu."
+
+#: app/module/scan/view/pro-feature.php:15
+#: app/module/audit/view/pro-feature.php:15
+#: app/module/ip-lockout/view/pro-feature.php:15 app/view/pro-feature.php:15
+msgid "Advanced File Scanning"
+msgstr "Zaawansowane skanowanie plików"
+
+#: app/module/scan/view/pro-feature.php:8
+#: app/module/audit/view/pro-feature.php:8
+#: app/module/ip-lockout/view/pro-feature.php:8 app/view/pro-feature.php:8
+msgid ""
+"Schedule Defender to automatically run a full file scan daily, weekly or monthly and get email reports\n"
+"                when\n"
+"                issues arise."
+msgstr ""
+"Zaplanuj program Defender, aby automatycznie uruchamiać pełne skanowanie plików codziennie, co tydzień lub co miesiąc i otrzymuj raport\n"
+" na skrzynkę e-mail kiedy\n"
+" pojawią się problemy."
+
+#: app/module/scan/controller/main.php:129 app/module/scan/view/scanning.php:6
+#: app/module/scan/view/layouts/layout.php:17 app/module/scan/view/new.php:6
+#: app/module/scan/behavior/scan-widget.php:36 app/view/activator.php:33
+#: app/view/activator-free.php:33 app/behavior/report-free.php:29
+#: assets/app/scan.js:1 assets/app/dashboard.js:1
+msgid "File Scanning"
+msgstr "Skanowanie plików"
+
+#: app/module/scan/controller/rest.php:59
+#: app/module/scan/controller/rest.php:202
+msgid "The suspicious file has been successfully ignored."
+msgid_plural "The suspicious files have been successfully ignored."
+msgstr[0] "Podejrzany plik został pomyślnie zignorowany."
+msgstr[1] "Podejrzane pliki zostały pomyślnie zignorowane."
+msgstr[2] "Podejrzanych plików zostało pomyślnie zignorowane."
+
+#: app/module/scan/controller/rest.php:74
+#: app/module/scan/controller/rest.php:228
+msgid "The suspicious file has been successfully restored."
+msgid_plural "The suspicious files have been successfully restored."
+msgstr[0] "Podejrzany plik został pomyślnie przywrócony."
+msgstr[1] "Podejrzane pliki zostały pomyślnie przywrócone."
+msgstr[2] "Podejrzanych plików zostało pomyślnie przywrócone."
+
+#: app/module/scan/controller/rest.php:152
+msgid "This item has been permanently removed"
+msgstr "Ten element został trwale usunięty"
+
+#: app/module/scan/controller/rest.php:123
+#: app/module/scan/controller/rest.php:156
+#: app/module/scan/controller/rest.php:205
+#: app/module/scan/controller/rest.php:231
+msgid "The item doesn't exist!"
+msgstr "Element nie istnieje!"
+
+#: app/module/scan/controller/rest.php:112
+msgid "Please try again!"
+msgstr "Proszę spróbuj ponownie!"
+
+#: app/module/scan/controller/rest.php:109
+msgid "This item has been resolved."
+msgstr "Ten element został rozwiązany."
+
+#: app/module/scan/component/queue-factory.php:64
+#: app/module/scan/component/queue-factory.php:77
+msgid "Analyzing WordPress Content..."
+msgstr "Analizowanie treści WordPress ..."
+
+#: app/module/scan/component/queue-factory.php:28
+#: app/module/scan/component/queue-factory.php:39
+msgid "Analyzing WordPress Core..."
+msgstr "Analizowanie plików WordPress ..."
+
+#: app/module/scan/component/scanning.php:23
+msgid "No scan record exists"
+msgstr "Brak rekordu skanowania"
+
+#: app/module/hardener/view/tweaks/csp/debug-bar.php:17
+#: app/module/ip-lockout/component/logs-table.php:215 assets/app/audit.js:1
+#: assets/app/ip-lockout.js:1
+msgid "Apply"
+msgstr "Zastosuj"
+
+#: app/module/scan/component/result-table.php:49
+msgid "Date Cleaned"
+msgstr "Data wyczyszczona"
+
+#: app/module/scan/component/result-table.php:42
+msgid "Date Ignored"
+msgstr "Data zignorowana"
+
+#: app/module/scan/component/result-table.php:48
+msgid "File Name"
+msgstr "Nazwa pliku"
+
+#: app/module/scan/view/scanning.php:40
+#: app/module/scan/behavior/scan-widget.php:93
+msgid "Defender is scanning your files for malicious code. This will take a few minutes depending on the size of your website."
+msgstr "Defender skanuje twoje pliki pod kątem złośliwego kodu. Zajmie to kilka minut w zależności od wielkości Twojej witryny."
+
+#: app/module/scan/behavior/scan-widget.php:208
+msgid "Automatic scans are running monthly"
+msgstr "Automatyczne skanowanie odbywa się co miesiąc"
+
+#: app/module/scan/behavior/scan-widget.php:205
+msgid "Automatic scans are running weekly"
+msgstr "Automatyczne skanowanie odbywa się co tydzień"
+
+#: app/module/scan/behavior/scan-widget.php:202
+msgid "Automatic scans are running daily"
+msgstr "Automatyczne skanowanie działa codziennie"
+
+#: app/module/scan/behavior/scan-widget.php:165
+#: app/module/scan/behavior/scan-widget.php:179 assets/app/scan.js:1
+#: assets/app/dashboard.js:1
+msgid "Pro Feature"
+msgstr "Funkcje Pro"
+
+#: app/module/scan/view/setting-free.php:40 app/module/scan/view/setting.php:42
+#: app/module/scan/behavior/scan-widget.php:156 assets/app/scan.js:1
+#: assets/app/dashboard.js:1
+msgid "Plugins & Themes"
+msgstr "Wtyczki i motywy"
+
+#: app/module/scan/behavior/scan-widget.php:140
+msgid "Your code is clean, the skies are clear."
+msgstr "Twój kod jest czysty, świetnie."
+
+#: app/module/scan/behavior/scan-widget.php:246
+msgid "Scanning…"
+msgstr "Skanowanie …"
+
+#: app/module/scan/behavior/scan-widget.php:239
+msgid "RUN SCAN"
+msgstr "URUCHOM SKANOWANIE"
+
+#: app/module/setting/component/backup-settings.php:190 assets/app/scan.js:1
+msgid "No"
+msgstr "Nie"
+
+#: app/module/setting/component/backup-settings.php:190 assets/app/scan.js:1
+msgid "Yes"
+msgstr "Tak"
+
+#: assets/app/scan.js:1
+msgid "Size"
+msgstr "Rozmiar"
+
+#: assets/app/scan.js:1
+msgid "Location"
+msgstr "Lokalizacja"
+
+#: assets/app/scan.js:1
+msgid "Issue Details"
+msgstr "Szczegóły problemu"
+
+#: app/module/scan/behavior/core-result.php:122
+msgid "This file is not resolvable"
+msgstr "Tego pliku nie można naprawić"
+
+#: app/module/scan/behavior/core-result.php:102
+msgid "This file can't be removed"
+msgstr "Tego pliku nie można usunąć"
+
+#: app/module/ip-lockout/view/login-lockouts/enabled.php:139
+#: assets/app/ip-lockout.js:1
+msgid "We recommend adding the usernames <strong>admin</strong>, <strong>administrator</strong> and your hostname <strong>%s</strong> as these are common for bots to try logging in with. One username per line"
+msgstr "Zalecamy dodanie nazwy użytkownika <strong>admin</strong>, <strong>administrator</strong> i nazwy hosta <strong>%s</strong>, ponieważ są one typowe dla botów, aby spróbować zalogować się. Jedna nazwa użytkownika w linii"
+
+#: app/module/ip-lockout/view/login-lockouts/enabled.php:126
+#: assets/app/ip-lockout.js:1
+msgid "Type usernames, one per line"
+msgstr "Wpisz nazwy użytkowników, po jednym w wierszu"
+
+#: app/module/ip-lockout/view/emails/login-username-ban.php:461
+msgid "We've just locked out the host <strong>%s</strong> from %s due to attempting to login with a banned username. They have been banned permanently."
+msgstr "Właśnie zablokowaliśmy hosta <strong>%s</strong> z %s z powodu próby logowania z użyciem zablokowanej nazwy użytkownika. Została nałożona blokada stała. "
+
+#: app/module/ip-lockout/view/layouts/layout.php:59
+#: app/module/ip-lockout/view/blacklist/enabled.php:5
+#: assets/app/ip-lockout.js:1
+msgid "IP Banning"
+msgstr "Banowanie adresów IP"
+
+#: app/module/ip-lockout/controller/rest.php:362
+msgid "404 Detection has been deactivated."
+msgstr "Wykrywanie błędów 404 zostało wyłączone."
+
+#: app/module/ip-lockout/controller/rest.php:360
+msgid "404 Detection has been activated."
+msgstr "Wykrywanie błędów 404 zostało włączone."
+
+#: app/module/ip-lockout/controller/rest.php:355
+msgid "Login Protection has been deactivated."
+msgstr "Ochrona logowania została wyłączona. "
+
+#: app/module/ip-lockout/controller/rest.php:353
+msgid "Login Protection has been activated."
+msgstr "Ochrona logowania została włączona. "
+
+#: app/module/ip-lockout/controller/rest.php:342
+msgid "Your settings have been updated, however some IPs were removed because invalid format, or you blacklist yourself"
+msgstr "Twoje ustawienia zostały zaktualizowane, lecz niektóre adresy IP zostały usunięte, ponieważ miały nieprawidłowy format lub próbowałeś dodać Twój adres IP do czarnej listy"
+
+#: app/module/ip-lockout/controller/rest.php:119
+msgid "No record found"
+msgstr "Nie znaleziono rekordów"
+
+#: app/module/ip-lockout/component/logs-table.php:249
+#: assets/app/ip-lockout.js:1
+msgid "No lockout events have been logged within the selected time period."
+msgstr "Żadne blokowanie nie zostało zarejestrowane w wybranym okresie."
+
+#: app/module/ip-lockout/component/login-protection-api.php:76
+msgid "Lockout occurred: Attempting to login with a banned username."
+msgstr "Wystąpiła blokada: próba zalogowania się przy użyciu zablokowanej nazwy użytkownika."
+
+#: app/module/ip-lockout/component/login-listener.php:94
+#: app/module/ip-lockout/component/login-listener.php:118
+#: app/module/ip-lockout/component/login-protection-api.php:63
+msgid "You have been locked out by the administrator for attempting to login with a banned username"
+msgstr "Zostałeś zablokowany przez administratora, ponieważ próbowałeś  zalogować się przy użyciu zablokowanej nazwy użytkownika"
+
+#: app/module/ip-lockout/behavior/widget.php:58 assets/app/dashboard.js:1
+msgid "404 lockouts this week"
+msgstr "blokad 404 w tym tygodniu"
+
+#: app/module/ip-lockout/behavior/widget.php:52 assets/app/dashboard.js:1
+msgid "Login lockouts this week"
+msgstr "Blokady logowania w tym tygodniu"
+
+#: app/module/ip-lockout/behavior/widget.php:81 assets/app/dashboard.js:1
+msgid "Lockout notifications are disabled"
+msgstr "Powiadomienia o blokowaniu są wyłączone"
+
+#: app/module/ip-lockout/behavior/widget.php:79 assets/app/dashboard.js:1
+msgid "Lockout notifications are enabled"
+msgstr "Powiadomienia o blokowaniu są włączone"
+
+#: app/module/ip-lockout/behavior/widget.php:73 assets/app/dashboard.js:1
+msgid "View logs"
+msgstr "Zobacz dziennik zdarzeń"
+
+#: app/module/ip-lockout/view/layouts/layout.php:35
+#: app/module/ip-lockout/behavior/widget.php:46 assets/app/dashboard.js:1
+#: assets/app/ip-lockout.js:1
+msgid "Last lockout"
+msgstr "Ostatnia blokada"
+
+#: app/module/hardener/view/rules/hide-error.php:39
+msgid "We attempted to disable the display_errors setting to prevent code errors displaying but it’s being overridden by your server config. Please contact your hosting provider and ask them to set display_errors to false."
+msgstr "Podjęliśmy próbę wyłączenia ustawienia display_errors, aby zapobiec wyświetlaniu błędów kodu, ale jest on nadpisywany przez konfigurację serwera. Skontaktuj się ze swoim dostawcą hostingu i poproś o ustawienie wartości false dla display_errors."
+
+#: app/module/hardener/view/rules/hide-error.php:72
+#: assets/app/security-tweaks.js:1
+msgid "Disable error debugging"
+msgstr "Wyłącz debugowanie błędów"
+
+#: app/module/hardener/view/resolved.php:18 assets/app/security-tweaks.js:1
+msgid "Excellent work. The following vulnerabilities have been fixed."
+msgstr "Świetnie. Poniższe luki zostały naprawione."
+
+#: app/module/hardener/view/rules/wp-version.php:9
+msgid "WordPress Version"
+msgstr "Wersja WordPress"
+
+#: app/module/hardener/view/rules/php-version.php:11
+msgid "PHP Version"
+msgstr "Wersja PHP"
+
+#: app/module/hardener/view/ignore.php:18 assets/app/security-tweaks.js:1
+msgid "You have chosen to ignore these fixes. You can restore and action them at any time."
+msgstr "Postanowiłeś zignorować te poprawki. Możesz je przywrócić i aktywować w dowolnym momencie."
+
+#: app/module/scan/component/result-table.php:220
+#: assets/app/security-tweaks.js:1 assets/app/scan.js:1
+msgid "Restore"
+msgstr "Przywróć"
+
+#: app/module/hardener/controller/rest.php:100
+msgid "Security tweak successfully resolved."
+msgstr "Poprawki zabezpieczeń rozwiązane."
+
+#: app/module/hardener/controller/rest.php:120
+msgid "Security tweak successfully reverted."
+msgstr "Poprawka zabezpieczeń została cofnięta. "
+
+#: app/module/hardener/controller/rest.php:140
+msgid "Security tweak successfully ignored."
+msgstr "Poprawki zabezpieczeń zignorowane."
+
+#: app/module/hardener/controller/rest.php:162
+msgid "Security tweak successfully restored."
+msgstr "Poprawka zabezpieczeń została przywrócona. "
+
+#: app/module/hardener/component/hide-error-service.php:82
+msgid "WP_DEBUG get override somewhere, please check with your host provider"
+msgstr "WP_DEBUG jest gdzieś nadpisany, skonsultuj się ze swoim dostawcą hostingu"
+
+#: app/module/hardener/component/hide-error-service.php:49
+#: app/module/hardener/component/hide-error-service.php:57
+#: app/module/hardener/component/security-key-service.php:127
+#: app/module/hardener/component/disable-file-editor-service.php:40
+msgid "Defender can't recognize your wp-config.php, please revert it to original state for further process."
+msgstr "Defender nie może rozpoznać twojego wp-config.php, przywróć go do stanu pierwotnego dla dalszego procesu."
+
+#: app/module/hardener/component/db-prefix-service.php:197
+msgid "You are currently using this prefix."
+msgstr "Obecnie używasz tego prefiksu."
+
+#: app/module/hardener/component/db-prefix-service.php:39
+msgid "Your wp-config.php was modified by a 3rd party, this will cause conflict with Defender. Please revert it to original for updating your database prefix"
+msgstr "Twój wp-config.php został zmodyfikowany przez inny program, spowoduje to konflikt z Defenderem. Przywróć oryginalny format tego pliku aby zaktualizować prefiks bazy danych"
+
+#: app/module/hardener/controller/main.php:170
+#: app/module/hardener/view/layouts/layout.php:19
+#: app/module/hardener/behavior/widget.php:21 assets/app/security-tweaks.js:1
+#: assets/app/dashboard.js:1
+msgid "Security Tweaks"
+msgstr "Poprawki bezpieczeństwa "
+
+#: app/module/ip-lockout/view/login-lockouts/enabled.php:147
+#: app/module/ip-lockout/view/login-lockouts/enabled.php:155
+#: app/module/ip-lockout/view/detect-404/enabled.php:175
+#: app/module/ip-lockout/view/detect-404/enabled.php:183
+#: app/module/advanced-tools/view/main-free.php:240
+#: app/module/advanced-tools/view/main-free.php:248
+#: app/module/advanced-tools/view/mask-login/enabled.php:93
+#: app/module/advanced-tools/view/mask-login/enabled.php:101
+#: assets/app/audit.js:1 assets/app/ip-lockout.js:1
+#: assets/app/advanced-tools.js:1
+msgid "Deactivate"
+msgstr "Wyłącz"
+
+#: app/controller/requirement.php:50
+msgid "PHP version"
+msgstr "Wersja PHP"
+
+#: app/controller/requirement.php:45
+msgid "Version"
+msgstr "Wersja"
+
+#: app/controller/requirement.php:44
+msgid "Module"
+msgstr "Moduł"
+
+#: app/controller/requirement.php:39
+msgid "It looks like some required PHP modules are missing or outdated. We recommend you get in touch with your web hosting service to update the modules listed below."
+msgstr "Wygląda na to, że brakuje niektórych wymaganych modułów PHP lub są nieaktualne. Zalecamy skontaktowanie się z dostawcą usługi hostingowej w celu zaktualizowania modułów wymienionych poniżej."
+
+#: app/controller/requirement.php:37
+msgid "Required Modules"
+msgstr "Wymagane moduły"
+
+#: app/view/activator.php:17 app/view/activator-free.php:17
+#: assets/app/dashboard.js:1
+msgid "Skip"
+msgstr "Pomiń"
+
+#: app/behavior/report-free.php:106
+msgid "Lockout reports are active scheduled to send %s"
+msgstr "Raporty z blokowania są aktywne i zaplanowane do wysyłki %s"
+
+#: app/behavior/report-free.php:91
+msgid "Audit reports are active scheduled to send %s"
+msgstr "Raporty z audytu są aktywne i zaplanowane do wysyłki %s"
+
+#: app/behavior/report-free.php:76
+msgid "Scan reports are active scheduled to send %s"
+msgstr "Raporty ze skanowania są aktywne i zaplanowane do wysyłki %s"
+
+#: assets/app/scan.js:1
+msgid "FILE SCANNING"
+msgstr "SKANOWANIE PLIKÓW"
+
+#: app/module/audit/view/free.php:35
+msgid "Upgrade to Pro"
+msgstr "Przejdź na wersję Pro"
+
+#: app/module/ip-lockout/view/emails/login-lockout.php:461
+msgid "We've just locked out the host <strong>%s</strong> from %s due to more than <strong>%s</strong> failed login attempts. %s"
+msgstr "Właśnie zablokowaliśmy hosta <strong>%s</strong> z %s z powodu większej niż <strong>%s</strong> liczby prób zalowogania. %s"
+
+#: app/module/ip-lockout/view/emails/login-username-ban.php:460
+msgid "They have been locked out for <strong>%s seconds.</strong>"
+msgstr "Zostali zablokowani na <strong>%s sekund.</strong>"
+
+#: app/module/ip-lockout/view/emails/login-username-ban.php:460
+#: app/module/ip-lockout/view/emails/login-lockout.php:460
+msgid "They have been banned permanently."
+msgstr "Zostali zbanowani na stałe."
+
+#: app/module/ip-lockout/controller/rest.php:276
+msgid "Your whitelist/blacklist has been successfully imported."
+msgstr "Twoja biała lista/czarna lista została pomyślnie zaimportowana."
+
+#: app/module/ip-lockout/controller/rest.php:266
+msgid "Your file content is invalid!"
+msgstr "Zawartość twojego pliku jest nieprawidłowa!"
+
+#: app/module/ip-lockout/controller/rest.php:253
+#: app/module/ip-lockout/controller/rest.php:260
+msgid "Your file is invalid!"
+msgstr "Twój plik jest nieprawidłowy!"
+
+#: app/module/hardener/component/php-version.php:60
+msgid "Update PHP to latest version"
+msgstr "Zaktualizuj PHP do najnowszej wersji"
+
+#: app/module/scan/model/settings.php:344
+#: app/module/scan/view/automation.php:73
+#: app/module/ip-lockout/model/settings.php:685
+#: app/module/ip-lockout/view/notification/report.php:67 assets/app/scan.js:1
+#: assets/app/audit.js:1 assets/app/ip-lockout.js:1
+msgid "Time of day"
+msgstr "Pora dnia"
+
+#: app/module/scan/model/settings.php:343
+#: app/module/scan/view/automation.php:64
+#: app/module/ip-lockout/model/settings.php:684
+#: app/module/ip-lockout/view/notification/report.php:58 assets/app/scan.js:1
+#: assets/app/audit.js:1 assets/app/ip-lockout.js:1
+msgid "Day of the week"
+msgstr "Dzień tygodnia"
+
+#: app/module/scan/model/settings.php:345
+#: app/module/scan/view/automation.php:53
+#: app/module/ip-lockout/model/settings.php:683
+#: app/module/ip-lockout/view/notification/report.php:44 assets/app/scan.js:1
+#: assets/app/audit.js:1 assets/app/ip-lockout.js:1
+msgid "Frequency"
+msgstr "Częstotliwość"
+
+#: app/module/ip-lockout/view/notification/enabled.php:47
+#: assets/app/ip-lockout.js:1
+msgid "When a user or IP is locked out for repeated hits on non-existent files."
+msgstr "Kiedy adres IP użytkownika jest zablokowany z powodu powtarzających się prób wczytania nieistniejących plików. "
+
+#: app/module/ip-lockout/view/notification/enabled.php:44
+#: assets/app/ip-lockout.js:1
+msgid "404 Detection Lockout"
+msgstr "Blokady wykrytych 404"
+
+#: app/module/ip-lockout/view/notification/enabled.php:31
+#: assets/app/ip-lockout.js:1
+msgid "When a user or IP is locked out for trying to access your login area."
+msgstr "Gdy użytkownik lub adres IP jest zablokowany, próbując uzyskać dostęp do obszaru logowania."
+
+#: app/module/ip-lockout/view/notification/enabled.php:28
+#: assets/app/ip-lockout.js:1
+msgid "Login Protection Lockout"
+msgstr "Blokowanie ochrony logowania"
+
+#: app/module/ip-lockout/view/notification/enabled.php:13
+#: assets/app/ip-lockout.js:1
+msgid "Choose which lockout notifications you wish to be notified about. These are sent instantly."
+msgstr "Wybierz, które powiadomienia o blokowaniu chcesz otrzymywać. Są wysyłane natychmiast."
+
+#: app/module/ip-lockout/view/login-lockouts/enabled.php:28
+#: assets/app/ip-lockout.js:1
+msgid "Specify how many failed login attempts within a specific time period will trigger a lockout."
+msgstr "Określ jak wiele nieudanych prób logowania w określonym czasie spowoduje blokadę. "
+
+#: app/module/ip-lockout/view/login-lockouts/enabled.php:21
+#: assets/app/ip-lockout.js:1
+msgid "Login protection is enabled. There are no lockouts logged yet."
+msgstr "Ochrona logowania jest włączona. Nie odnotowano jeszcze żadnych blokad. "
+
+#: app/module/ip-lockout/view/locked.php:81
+msgid "Powered by"
+msgstr "Obsługiwane przez"
+
+#: app/module/ip-lockout/view/emails/report.php:491
+msgid "Login Lockouts: "
+msgstr "Blokady logowania:"
+
+#: app/module/ip-lockout/view/emails/report.php:487
+msgid "404 Lockouts: "
+msgstr "Blokady 404:"
+
+#: app/module/ip-lockout/view/emails/report.php:476
+msgid "Last Lockout: "
+msgstr "Ostatnie blokady:"
+
+#: app/module/ip-lockout/view/emails/report.php:471
+msgid "Total Lockouts: "
+msgstr "Wszystkie blokady:"
+
+#: app/module/ip-lockout/view/emails/report.php:463
+msgid "It's Defender here, reporting from the frontline."
+msgstr "Tu Defender, wieści z frontu. "
+
+#: app/module/ip-lockout/view/emails/report.php:459
+msgid "It's Defender here, just letting you know there haven't been any lockouts %s and the skies are clear."
+msgstr "Tu Defender, niniejszym donoszę, że nie było żadnych blokad %s. Niebo jest czyste!"
+
+#: app/module/ip-lockout/view/emails/report.php:517
+#: app/module/ip-lockout/view/emails/404-lockout.php:486
+#: app/module/ip-lockout/view/emails/login-username-ban.php:484
+#: app/module/ip-lockout/view/emails/login-lockout.php:485
+#: app/module/ip-lockout/view/emails/404-ban.php:483
+msgid "Security Hero"
+msgstr "Bohater bezpieczeństwa"
+
+#: app/module/ip-lockout/view/emails/report.php:512
+#: app/module/ip-lockout/view/emails/404-lockout.php:481
+#: app/module/ip-lockout/view/emails/login-username-ban.php:479
+#: app/module/ip-lockout/view/emails/login-lockout.php:480
+#: app/module/ip-lockout/view/emails/404-ban.php:478
+msgid "Stay vigilant."
+msgstr "Bądź czujny."
+
+#: app/module/ip-lockout/model/settings.php:668
+#: app/module/ip-lockout/view/detect-404/enabled.php:165
+#: assets/app/ip-lockout.js:1
+msgid "Monitor 404s from logged in users"
+msgstr "Monitoruj błędy 404 zalogowanych użytkowników"
+
+#: app/module/ip-lockout/view/detect-404/enabled.php:152
+#: assets/app/ip-lockout.js:1
+msgid "By default, Defender will monitor all interactions with your website but you can choose to disable 404 detection for specific areas of your site."
+msgstr "Domyślnie Defender monitoruje wszystkie interakcje z Twoją witryną ale możesz wyłączyć wykrywanie 404 dla wybranych obszarów witryny. "
+
+#: app/module/ip-lockout/view/detect-404/enabled.php:149
+#: assets/app/ip-lockout.js:1
+msgid "Exclusions"
+msgstr "Wyłączenia"
+
+#: app/module/ip-lockout/view/detect-404/enabled.php:141
+msgid "Defender will log the 404 error, but won’t lockout the user for these filetypes."
+msgstr "Defender zapisze informacje o błędzie 404 ale nie zablokuje użytkownika w przypadku tych typów plików. "
+
+#: app/module/ip-lockout/view/detect-404/enabled.php:132
+msgid "Choose which types of files you want to log errors for but not trigger a lockout."
+msgstr "Wybierz, dla jakich typów plików błędy mają być zapisywane w dzienniku ale nie powodować blokady. "
+
+#: app/module/ip-lockout/view/detect-404/enabled.php:129
+msgid "Ignore file types"
+msgstr "Ignoruj typy plików"
+
+#: app/module/ip-lockout/view/detect-404/enabled.php:121
+msgid "You must list the full path beginning with a /."
+msgstr "Musisz podać pełną ścieżkę, zaczynając od /."
+
+#: app/module/ip-lockout/view/detect-404/enabled.php:112
+msgid "If you know a common file on your website is missing, you can record it here so it doesn't count towards a lockout record."
+msgstr "Jeśli wiesz że masz brakujący plik w witrynie, możesz dodać go tutaj, żeby nie był zliczany w rejestrze blokad."
+
+#: app/module/ip-lockout/view/login-lockouts/enabled.php:58
+#: app/module/ip-lockout/view/detect-404/enabled.php:52
+msgid "Choose how long you’d like to ban the locked out user for."
+msgstr "Wybierz, jak długo chcesz zbanować zablokowanego użytkownika."
+
+#: app/module/ip-lockout/view/detect-404/enabled.php:51
+msgid "Lockout time"
+msgstr "Czas blokady"
+
+#: app/module/ip-lockout/view/login-lockouts/enabled.php:49
+#: app/module/ip-lockout/view/detect-404/enabled.php:45
+#: assets/app/ip-lockout.js:1
+msgid "seconds"
+msgstr "sekundy"
+
+#: app/module/ip-lockout/view/detect-404/enabled.php:40
+msgid "404 errors within"
+msgstr "404 błędy w obrębie"
+
+#: app/module/ip-lockout/view/detect-404/enabled.php:31
+#: assets/app/ip-lockout.js:1
+msgid "Specify how many 404 errors within a specific time period will trigger a lockout."
+msgstr "Określ, jak wiele błędów 404 w wybranym okresie ma powodować blokadę. "
+
+#: app/module/ip-lockout/view/detect-404/enabled.php:29
+msgid "Lockout threshold"
+msgstr "Próg blokady"
+
+#: app/module/ip-lockout/view/detect-404/disabled.php:22
+#: app/module/advanced-tools/view/login/disabled.php:35
+msgid "Enable"
+msgstr "Włącz"
+
+#: app/module/ip-lockout/view/detect-404/enabled.php:11
+#: app/module/ip-lockout/view/detect-404/disabled.php:15
+msgid "With 404 detection enabled, Defender will keep an eye out for IP addresses that repeatedly request pages on your website that don’t exist and then temporarily block them from accessing your site."
+msgstr "Przy włączonej detekcji 404 Defender będzie monitorował adresy IP, które wielokrotnie wysyłają żądania nieistniejących w witrynie stron i tymczasowo zabroni im dostępu do witryny. "
+
+#: app/module/ip-lockout/view/login-lockouts/enabled.php:99
+#: app/module/ip-lockout/view/detect-404/enabled.php:91
+#: app/module/ip-lockout/view/blacklist/enabled.php:140
+#: assets/app/ip-lockout.js:1
+msgid "Customize the message locked out users will see."
+msgstr "Dostosuj wiadomość blokady, którą zobaczą użytkownicy."
+
+#: app/module/ip-lockout/model/settings.php:673
+#: app/module/ip-lockout/view/detect-404/enabled.php:90
+msgid "Lockout message"
+msgstr "Wiadomość blokady"
+
+#: app/module/ip-lockout/component/login-listener.php:43
+msgid "Failed login attempt with username %s"
+msgstr "Nieudana próba logowania z nazwą użytkownika %s"
+
+#: app/module/ip-lockout/component/login-listener.php:102
+msgid "%d login attempts remaining"
+msgstr "Pozostało %d prób logowania "
+
+#: app/module/scan/component/result-table.php:232
+#: app/module/ip-lockout/component/logs-table.php:420 assets/app/audit.js:1
+#: assets/app/ip-lockout.js:1
+msgid "%s results"
+msgstr "%s rezultatów "
+
+#: app/module/ip-lockout/component/logs-table.php:369
+msgid "IP"
+msgstr "IP"
+
+#: app/module/ip-lockout/component/login-protection-api.php:158
+#: app/module/ip-lockout/component/notfound-listener.php:77
+#: app/module/ip-lockout/component/notfound-listener.php:86
+#: app/module/ip-lockout/component/notfound-listener.php:106
+msgid "Lockout occurred:  Too many 404 requests for %s"
+msgstr "Nastąpiła blokada: Zbyt wiele żądań 404 dla %s"
+
+#: app/module/ip-lockout/component/login-listener.php:135
+#: app/module/ip-lockout/component/login-protection-api.php:80
+msgid "Lockout occurred: Too many failed login attempts"
+msgstr "Wystąpiła blokada: zbyt wiele nieudanych prób logowania"
+
+#: app/module/scan/view/email-template.php:517
+#: app/module/ip-lockout/view/emails/report.php:585
+#: app/module/ip-lockout/view/emails/404-lockout.php:554
+#: app/module/ip-lockout/view/emails/login-username-ban.php:552
+#: app/module/ip-lockout/view/emails/login-lockout.php:553
+#: app/module/ip-lockout/view/emails/404-ban.php:551
+msgid "Back up your hard work with"
+msgstr "Zabezpiecz swoją ciężką pracę poprzez kopie bezpieczeństwa z"
+
+#: app/module/scan/view/email-template.php:500
+#: app/module/ip-lockout/view/emails/report.php:568
+#: app/module/ip-lockout/view/emails/404-lockout.php:537
+#: app/module/ip-lockout/view/emails/login-username-ban.php:535
+#: app/module/ip-lockout/view/emails/login-lockout.php:536
+#: app/module/ip-lockout/view/emails/404-ban.php:534
+msgid "Hummingbird"
+msgstr "Hummingbird"
+
+#: app/module/scan/view/email-template.php:498
+#: app/module/ip-lockout/view/emails/report.php:566
+#: app/module/ip-lockout/view/emails/404-lockout.php:535
+#: app/module/ip-lockout/view/emails/login-username-ban.php:533
+#: app/module/ip-lockout/view/emails/login-lockout.php:534
+#: app/module/ip-lockout/view/emails/404-ban.php:532
+msgid "Optimize your site with"
+msgstr "Zoptymalizuj swoją witrynę za pomocą"
+
+#: app/module/scan/view/email-template.php:477
+#: app/module/ip-lockout/view/emails/report.php:545
+#: app/module/ip-lockout/view/emails/404-lockout.php:514
+#: app/module/ip-lockout/view/emails/login-username-ban.php:512
+#: app/module/ip-lockout/view/emails/login-lockout.php:513
+#: app/module/ip-lockout/view/emails/404-ban.php:511
+msgid "Related plugins worth giving a try"
+msgstr "Podobne wtyczki warte spróbowania"
+
+#: app/module/scan/view/email-template.php:417
+#: app/module/ip-lockout/view/emails/report.php:417
+#: app/module/ip-lockout/view/emails/404-lockout.php:417
+#: app/module/ip-lockout/view/emails/login-username-ban.php:417
+#: app/module/ip-lockout/view/emails/login-lockout.php:417
+#: app/module/ip-lockout/view/emails/404-ban.php:417
+msgid "Protected By"
+msgstr "Chronione przez"
+
+#: app/module/ip-lockout/model/log-model.php:130
+msgid "Never"
+msgstr "Nigdy"
+
+#: app/module/ip-lockout/view/notification/report.php:30 assets/app/audit.js:1
+#: assets/app/ip-lockout.js:1
+msgid "Send regular email report"
+msgstr "Wyślij regularny raport e-mail"
+
+#: app/module/scan/view/layouts/layout.php:111
+#: app/module/scan/view/automation.php:4 app/module/scan/view/automation.php:49
+#: app/module/scan/view/automation-free.php:4
+#: app/module/ip-lockout/view/layouts/layout.php:71
+#: app/module/ip-lockout/view/layouts/layout.php:89
+#: app/module/ip-lockout/view/notification/report.php:4
+#: app/module/ip-lockout/view/notification/report-free.php:4
+#: app/behavior/report-free.php:18 assets/app/scan.js:1 assets/app/audit.js:1
+#: assets/app/dashboard.js:1 assets/app/ip-lockout.js:1
+msgid "Reporting"
+msgstr "Raportowanie"
+
+#: app/module/scan/view/layouts/layout.php:106
+#: app/module/scan/view/notification.php:4
+#: app/module/hardener/view/notification.php:4
+#: app/module/ip-lockout/view/layouts/layout.php:65
+#: app/module/ip-lockout/view/layouts/layout.php:85
+#: assets/app/security-tweaks.js:1 assets/app/scan.js:1
+#: assets/app/ip-lockout.js:1
+msgid "Notifications"
+msgstr "Powiadomienia"
+
+#: app/module/ip-lockout/model/settings.php:657
+#: app/module/ip-lockout/view/detect-404/enabled.php:5
+#: app/module/ip-lockout/view/detect-404/disabled.php:4
+#: app/module/ip-lockout/view/layouts/layout.php:56
+#: app/module/ip-lockout/view/layouts/layout.php:79 assets/app/ip-lockout.js:1
+msgid "404 Detection"
+msgstr "Wykrywanie błędów 404"
+
+#: app/module/ip-lockout/model/settings.php:649
+#: app/module/ip-lockout/view/login-lockouts/enabled.php:5
+#: app/module/ip-lockout/view/login-lockouts/disabled.php:4
+#: app/module/ip-lockout/view/layouts/layout.php:53
+#: app/module/ip-lockout/view/layouts/layout.php:77 assets/app/ip-lockout.js:1
+msgid "Login Protection"
+msgstr "Ochrona logowania"
+
+#: app/module/ip-lockout/view/layouts/layout.php:24 assets/app/ip-lockout.js:1
+msgid "Lockouts in the past 24 hours"
+msgstr "Blokady w ciągu ostatnich 24 godzin"
+
+#: app/module/ip-lockout/view/emails/report.php:467
+msgid "%s I've put the smack down on <strong>%d</strong> hosts for bad behaviour. Here's a quick summary of the action:"
+msgstr "%s na <strong>%d</strong> hosty została nałożona kara za złe zachowanie. Oto krótkie podsumowanie:"
+
+#: app/module/ip-lockout/view/emails/report.php:7
+msgid "Lockout Report"
+msgstr "Raport blokad"
+
+#: app/module/hardener/view/email/notification.php:174
+#: app/module/ip-lockout/view/emails/report.php:455
+#: app/module/ip-lockout/view/emails/login-username-ban.php:455
+#: app/module/ip-lockout/view/emails/login-lockout.php:455
+msgid "Hi %s,"
+msgstr "Hey %s,"
+
+#: app/module/ip-lockout/view/emails/login-username-ban.php:7
+#: app/module/ip-lockout/view/emails/login-lockout.php:7
+msgid "New Login Lockout"
+msgstr "Nowa blokada logowania"
+
+#: app/module/ip-lockout/view/emails/report.php:497
+#: app/module/ip-lockout/view/emails/404-lockout.php:466
+#: app/module/ip-lockout/view/emails/login-username-ban.php:464
+#: app/module/ip-lockout/view/emails/login-lockout.php:465
+#: app/module/ip-lockout/view/emails/404-ban.php:463
+msgid "You can view the full lockout logs <a href=\"%s\">here</a>"
+msgstr "Możesz zobaczyć pełen rejestr blokad <a href=\"%s\">tutaj</a>"
+
+#: app/module/ip-lockout/view/emails/404-lockout.php:455
+#: app/module/ip-lockout/view/emails/404-ban.php:455
+msgid "Hi %s"
+msgstr "Hey %s"
+
+#: app/module/ip-lockout/view/emails/404-lockout.php:7
+#: app/module/ip-lockout/view/emails/404-ban.php:7
+msgid "New 404 Lockout"
+msgstr "Nowa blokada 404"
+
+#: app/module/ip-lockout/view/login-lockouts/enabled.php:107
+#: app/module/ip-lockout/view/detect-404/enabled.php:98
+#: app/module/ip-lockout/view/blacklist/enabled.php:151
+#: assets/app/ip-lockout.js:1
+msgid "This message will be displayed across your website during the lockout period. See a quick preview <a href=\"%s\">here</a>."
+msgstr "Ta wiadomość będzie wyświetlana w Twojej witrynie podczas trwania blokady. Szybki podglą <a href=\"%s\">tutaj</a>."
+
+#: app/module/ip-lockout/view/login-lockouts/enabled.php:15
+#: app/module/ip-lockout/view/detect-404/enabled.php:17
+msgid "There have been %d lockouts in the last 24 hours. <a href=\"%s\"><strong>View log</strong></a>."
+msgstr "Nastąpiło %d blokad w ciągu ostatnich 24 godzin. <a href=\"%s\"><strong>Zobacz dziennik</strong></a>."
+
+#: app/module/ip-lockout/view/blacklist/enabled.php:10
+#: assets/app/ip-lockout.js:1
+msgid "Choose which IP addresses you wish to permanently ban from accessing your website."
+msgstr "Wybierz adresy IP, którym chcesz trwale zablokować dostęp do Twojej witryny."
+
+#: app/module/ip-lockout/view/layouts/layout.php:81
+msgid "IP Blacklist"
+msgstr "Czarna lista adresów IP"
+
+#: app/module/ip-lockout/model/log-model-legacy.php:115
+#: app/module/ip-lockout/model/log-model.php:102
+#: app/module/ip-lockout/component/logs-table.php:190
+#: assets/app/ip-lockout.js:1
+msgid "404 lockout"
+msgstr "Blokada 404"
+
+#: app/module/ip-lockout/model/log-model-legacy.php:113
+#: app/module/ip-lockout/model/log-model-legacy.php:114
+#: app/module/ip-lockout/model/log-model.php:100
+#: app/module/ip-lockout/model/log-model.php:101
+#: app/module/ip-lockout/component/logs-table.php:188
+#: app/module/ip-lockout/component/logs-table.php:363
+#: assets/app/ip-lockout.js:1
+msgid "404 error"
+msgstr "Błąd 404"
+
+#: app/module/ip-lockout/model/log-model-legacy.php:112
+#: app/module/ip-lockout/model/log-model.php:99
+#: app/module/ip-lockout/component/logs-table.php:186
+#: assets/app/ip-lockout.js:1
+msgid "Login lockout"
+msgstr "Blokada logowania"
+
+#: app/module/ip-lockout/model/log-model-legacy.php:111
+#: app/module/ip-lockout/model/log-model.php:98
+#: app/module/ip-lockout/component/logs-table.php:184
+#: assets/app/ip-lockout.js:1
+msgid "Failed login attempts"
+msgstr "Nieudane próby logowania"
+
+#: app/module/ip-lockout/model/log-model-legacy.php:79
+msgid "Request for file <span class='log-text-table' tooltip='%s'>%s</span> which doesn't exist"
+msgstr "Żądanie nieistniejącego pliku <span class='log-text-table' tooltip='%s'>%s</span>"
+
+#: app/module/scan/controller/rest.php:356
+#: app/module/hardener/controller/rest.php:57
+#: app/module/setting/controller/rest.php:94
+#: app/module/ip-lockout/controller/rest.php:346
+#: app/module/advanced-tools/controller/rest.php:93
+#: app/module/advanced-tools/controller/mask-login.php:282
+msgid "Your settings have been updated."
+msgstr "Twoje ustawienia zostały uaktualnione."
+
+#: app/module/ip-lockout.php:38 app/module/ip-lockout/view/layouts/layout.php:5
+#: assets/app/ip-lockout.js:1
+msgid "IP Lockout"
+msgstr "Blokada adresu IP "
+
+#: app/module/ip-lockout.php:37 app/module/ip-lockout/controller/main.php:326
+#: app/module/ip-lockout/behavior/widget.php:26 app/view/activator.php:81
+#: app/view/activator-free.php:59 app/behavior/report-free.php:36
+#: assets/app/dashboard.js:1
+msgid "IP Lockouts"
+msgstr "Blokada adresów IP "
+
+#: app/module/ip-lockout.php:23
+msgid "Lockout Log"
+msgstr "Dziennik blokad"
+
+#: app/module/ip-lockout.php:22
+msgid "Lockout Logs"
+msgstr "Dzienniki blokad"
+
+#: app/module/ip-lockout/controller/main.php:168
+msgid "Demo"
+msgstr "Demo"
+
+#: app/module/ip-lockout/component/login-listener.php:182
+msgid "Login lockout alert for %s"
+msgstr "Alert blokady logowania dla %s"
+
+#: app/module/ip-lockout/component/notfound-listener.php:179
+msgid "404 lockout alert for %s"
+msgstr "Alert blokady 404  dla %s"
+
+#: app/module/ip-lockout/view/notification/enabled.php:122
+#: assets/app/security-tweaks.js:1 assets/app/audit.js:1
+#: assets/app/ip-lockout.js:1
+msgid "30 days"
+msgstr "30 dni"
+
+#: app/module/ip-lockout/component/login-protection-api.php:296
+#: assets/app/ip-lockout.js:1
+msgid "Unwhitelist"
+msgstr "Usuń z białej listy"
+
+#: app/module/ip-lockout/view/detect-404/enabled.php:109
+#: app/module/ip-lockout/view/blacklist/enabled.php:36
+#: app/module/ip-lockout/view/blacklist/enabled.php:109
+#: app/module/ip-lockout/component/logs-table.php:444
+#: assets/app/ip-lockout.js:1
+msgid "Whitelist"
+msgstr "Dodaj do białej listy"
+
+#: app/module/scan/view/email-template.php:519
+#: app/module/ip-lockout/view/emails/report.php:587
+#: app/module/ip-lockout/view/emails/404-lockout.php:556
+#: app/module/ip-lockout/view/emails/login-username-ban.php:554
+#: app/module/ip-lockout/view/emails/login-lockout.php:555
+#: app/module/ip-lockout/view/emails/404-ban.php:553
+msgid "Snapshot"
+msgstr "Snapshot"
+
+#: app/module/scan/view/email-template.php:420
+#: app/module/ip-lockout/view/emails/report.php:420
+#: app/module/ip-lockout/view/emails/404-lockout.php:420
+#: app/module/ip-lockout/view/emails/login-username-ban.php:420
+#: app/module/ip-lockout/view/emails/login-lockout.php:420
+#: app/module/ip-lockout/view/emails/404-ban.php:420
+msgid "Defender!"
+msgstr "Defender!"
+
+#: app/module/hardener/view/rules/security-key.php:65
+msgid "1 Year"
+msgstr "Jeden rok"
+
+#: app/module/hardener/view/rules/security-key.php:63
+msgid "6 Months"
+msgstr "6 miesięcy"
+
+#: app/module/hardener/view/rules/security-key.php:61
+msgid "90 Days"
+msgstr "90 dni"
+
+#: app/module/hardener/view/rules/security-key.php:59
+msgid "60 Days"
+msgstr "60 dni"
+
+#: app/module/hardener/view/rules/security-key.php:57
+msgid "30 Days"
+msgstr "30 dni"
+
+#: app/module/advanced-tools/view/login/enabled.php:11
+msgid "Disable"
+msgstr "Wyłącz"
+
+#: app/controller/requirement.php:67
+msgid "Defender%s"
+msgstr "Defender%s"
+
+#: assets/app/scan.js:1
+msgid "Compare your file with the original file in the WordPress repository. Pieces highlighted in red will be removed when you patch the file, and pieces highlighted in green will be added."
+msgstr "Porównaj swój plik z oryginalnym plikiem w repozytorium WordPress. Kawałki kodu zaznaczone na czerwono zostaną usunięte podczas naprawiania pliku, a fragmenty zaznaczone na zielono zostaną dodane."
+
+#: app/module/scan/component/result-table.php:91
+msgid "Restore File"
+msgstr "Przywróć plik"
+
+#: app/module/scan/behavior/core-result.php:126
+msgid "It seems the %s file is currently using by another process or isn't writeable."
+msgstr "Wygląda na to, że plik %s jest obecnie używany przez inny proces lub nie można go zapisać."
+
+#: app/module/scan/behavior/core-result.php:82
+msgid "This WordPress core file appears modified"
+msgstr "Ten podstawowy plik WordPress wygląda na zmodyfikowany"
+
+#: app/module/scan/behavior/core-result.php:78
+msgid "Unknown file in WordPress core"
+msgstr "Nieznany plik w rdzeniu WordPress"
+
+#: app/module/scan/view/layouts/layout.php:96
+#: app/module/scan/view/cleaned.php:3 app/module/scan/view/ignored.php:5
+#: app/module/hardener/view/layouts/layout.php:97
+#: app/module/hardener/view/layouts/layout.php:113
+#: app/module/hardener/view/ignore.php:8 assets/app/security-tweaks.js:1
+#: assets/app/scan.js:1
+msgid "Ignored"
+msgstr "Zignorowane"
+
+#: app/module/hardener/component/db-prefix-service.php:49
+msgid "Unfortunately it's not safe to do this via a plugin for larger WordPress Multisite installs. You can ignore this step, or follow a tutorial online on how to use a scalable tool like WP-CLI."
+msgstr "Niestety, w przypadku dużych instalacji WordPress Multisite zbyt niebezpieczne jest przeprowadzenie tej czynności przez wtyczkę. Możesz zignorować ten krok lub skorzystać z podręcznika online o tym, jak używać skalowalnych narzędzi w rodzaju WP-CLI. "
+
+#: app/module/hardener/component/db-prefix-service.php:209
+msgid "This prefix is already in use. Please choose a different prefix."
+msgstr "Ten prefiks jest już w użyciu. Wybierz inny prefiks."
+
+#: app/module/scan/component/theme-upgrader-skin.php:24
+msgid "Update Theme"
+msgstr "Zaktualizuj motyw"
+
+#. Author of the plugin
+#: app/module/ip-lockout/view/emails/report.php:519
+#: app/module/ip-lockout/view/emails/404-lockout.php:488
+#: app/module/ip-lockout/view/emails/login-username-ban.php:486
+#: app/module/ip-lockout/view/emails/login-lockout.php:487
+#: app/module/ip-lockout/view/emails/404-ban.php:485
+msgid "WPMU DEV"
+msgstr "WPMU DEV"
+
+#: app/module/ip-lockout/view/emails/report.php:515
+#: app/module/ip-lockout/view/emails/404-lockout.php:484
+#: app/module/ip-lockout/view/emails/login-username-ban.php:482
+#: app/module/ip-lockout/view/emails/login-lockout.php:483
+#: app/module/ip-lockout/view/emails/404-ban.php:481
+msgid "WP Defender"
+msgstr "WP Defender"
+
+#: app/module/ip-lockout/view/blacklist/enabled.php:22
+#: app/module/ip-lockout/view/blacklist/enabled.php:91
+#: assets/app/ip-lockout.js:1
+msgid "Blacklist"
+msgstr "Czarna lista"
+
+#: app/module/scan/component/result-table.php:34
+#: app/module/scan/component/result-table.php:41
+msgid "Suspicious File"
+msgstr "Podejrzany plik"
+
+#: app/module/scan/view/issues.php:21
+#: app/module/ip-lockout/component/logs-table.php:181 assets/app/scan.js:1
+#: assets/app/audit.js:1 assets/app/ip-lockout.js:1
+msgid "All"
+msgstr "Wszystkie"
+
+#: app/behavior/report-free.php:128 app/behavior/utils.php:753
+msgid "monthly"
+msgstr "miesięcznie"
+
+#: app/behavior/report-free.php:125 app/behavior/utils.php:750
+msgid "weekly"
+msgstr "co tydzień"
+
+#: app/behavior/report-free.php:122 app/behavior/utils.php:747
+msgid "daily"
+msgstr "codziennie"
+
+#: app/module/hardener/view/rules/security-key.php:44
+#: app/module/hardener/view/rules/login-duration.php:46
+#: app/module/hardener/view/rules/wp-version.php:52
+#: app/module/hardener/view/rules/db-prefix.php:45
+#: app/module/hardener/view/rules/disable-xml-rpc.php:48
+#: app/module/hardener/view/rules/php-version.php:50
+#: app/module/hardener/view/rules/change-admin.php:44
+#: app/module/hardener/view/rules/disable-trackback.php:43
+#: app/module/hardener/view/rules/hide-error.php:53
+#: app/module/hardener/view/rules/disable-file-editor.php:45
+#: app/module/hardener/view/rules/prevent-php-executed.php:64
+#: assets/app/security-tweaks.js:1
+msgid "How to fix"
+msgstr "Jak naprawić"
+
+#: app/module/scan/view/setting-free.php:27 app/module/scan/view/setting.php:27
+#: app/module/scan/behavior/scan-widget.php:148 assets/app/scan.js:1
+#: assets/app/dashboard.js:1
+msgid "WordPress Core"
+msgstr "Rdzeń WordPressa"
+
+#: app/module/scan/component/scan-api.php:39
+msgid "Initializing..."
+msgstr "Inicjowanie..."
+
+#: app/module/scan/component/result-table.php:217
+#: assets/app/security-tweaks.js:1 assets/app/scan.js:1
+msgid "Ignore"
+msgstr "Ignoruj"
+
+#: app/module/scan/view/setting-free.php:122
+#: app/module/scan/view/notification.php:155
+#: app/module/scan/view/notification.php:228
+#: app/module/hardener/view/tweaks/csp/debug-bar.php:10
+#: app/module/setting/view/layouts/layout.php:85
+#: app/module/advanced-tools/view/login/disabled.php:44
+#: app/module/advanced-tools/view/2factor-otp-email-edit-from.php:71
+#: assets/app/security-tweaks.js:1 assets/app/scan.js:1 assets/app/audit.js:1
+#: assets/app/ip-lockout.js:1 assets/app/advanced-tools.js:1
+#: assets/app/settings.js:1
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: app/module/scan/controller/main.php:284
+msgid "Issue"
+msgstr "Problem"
+
+#: app/module/scan/component/queue-factory.php:55
+msgid "Checking for any published vulnerabilities your plugins & themes..."
+msgstr "Sprawdzanie wszelkich opublikowanych luk w zabezpieczeniach Twoich wtyczek i motywów ..."
+
+#: app/module/scan/view/automation.php:58
+#: app/module/ip-lockout/view/notification/report.php:50 assets/app/scan.js:1
+#: assets/app/audit.js:1 assets/app/dashboard.js:1 assets/app/ip-lockout.js:1
+msgid "Weekly"
+msgstr "Co tydzień"
+
+#: app/module/scan/view/automation.php:56
+#: app/module/ip-lockout/view/notification/report.php:48 assets/app/scan.js:1
+#: assets/app/audit.js:1 assets/app/dashboard.js:1 assets/app/ip-lockout.js:1
+msgid "Daily"
+msgstr "Codziennie"
+
+#: app/module/scan/component/scan-api.php:45
+msgid "A scan is already in progress"
+msgstr "Skanowanie jest już w toku"
+
+#: app/module/hardener/view/layouts/layout.php:92
+#: app/module/hardener/view/layouts/layout.php:111
+#: app/module/hardener/view/resolved.php:8 assets/app/security-tweaks.js:1
+msgid "Resolved"
+msgstr "Rozwiązane"
+
+#: app/module/scan/view/layouts/layout.php:91 app/module/scan/view/issues.php:9
+#: app/module/hardener/view/layouts/layout.php:87
+#: app/module/hardener/view/layouts/layout.php:109
+#: app/module/hardener/view/issues.php:6 assets/app/security-tweaks.js:1
+#: assets/app/scan.js:1
+msgid "Issues"
+msgstr "Problemy"
+
+#: app/module/hardener/component/wp-version.php:30
+msgid "Update WordPress to latest version"
+msgstr "Zaktualizuj WordPress do najnowszej wersji"
+
+#: app/module/hardener/component/security-key.php:89
+msgid "Update old security keys"
+msgstr "Zaktualizuj stare klucze uwierzytelniania"
+
+#: app/module/hardener/component/protect-information.php:54
+msgid "Prevent Information Disclosure"
+msgstr "Zapobiegaj ujawnianiu informacji"
+
+#: app/module/hardener/view/rules/information-disclosure/nginx.php:47
+#: app/module/hardener/view/rules/prevent-php/nginx.php:55
+msgid "Still having trouble? <a target='_blank' href=\"%s\">Open a support ticket</a>."
+msgstr "Nadal masz problemy? <a target='_blank' href=\"%s\">Utwórz zgłoszenie do pomocy technicznej</a>."
+
+#: app/module/hardener/view/rules/prevent-php-executed.php:42
+#: assets/app/security-tweaks.js:1
+msgid "By default, a plugin/theme vulnerability could allow a PHP file to get uploaded into your site's directories and in turn execute harmful scripts that can wreak havoc on your website. Prevent this altogether by disabling direct PHP execution in directories that don't require it."
+msgstr "Domyślnie, luka wtyczki/szablonu może pozwolić na załadowanie pliku PHP do katalogów Twojej witryny, a następnie wykonać szkodliwy skrypt, który może siać spustoszenie w Twojej witrynie. Zapobiegaj temu całkowicie przez wyłączenie bezpośredniego wgrywania plików PHP w katalogach, które tego nie wymagają."
+
+#: app/module/hardener/component/prevent-php.php:63
+msgid "Prevent PHP execution"
+msgstr "Zapobiegaj wgrywaniu plików PHP"
+
+#: app/module/hardener/component/disable-file-editor.php:42
+msgid "Disable the file editor"
+msgstr "Wyłącz edytor plików"
+
+#: app/module/hardener/view/rules/disable-trackback.php:71
+#: assets/app/security-tweaks.js:1
+msgid "Disable Pingbacks"
+msgstr "Wyłącz Pingbacki"
+
+#: app/module/hardener/view/rules/login-duration.php:67
+#: app/module/hardener/view/rules/disable-xml-rpc.php:63
+#: app/module/hardener/view/rules/protect-information.php:113
+#: app/module/hardener/view/rules/disable-trackback.php:58
+#: app/module/hardener/view/rules/disable-file-editor.php:60
+#: app/module/hardener/view/rules/prevent-php-executed.php:123
+#: assets/app/security-tweaks.js:1
+msgid "Revert"
+msgstr "Odwróć"
+
+#: app/module/hardener/view/rules/disable-trackback.php:9
+#: app/module/hardener/component/disable-trackback.php:45
+msgid "Disable trackbacks and pingbacks"
+msgstr "Wyłącz trackbacki i pingbacki"
+
+#: app/module/hardener/component/hide-error.php:51
+msgid "Hide error reporting"
+msgstr "Ukryj raportowanie błędów"
+
+#: app/module/hardener/component/db-prefix-service.php:205
+msgid "Table prefix can only contain numbers, letters, and underscores."
+msgstr "Prefiks tabeli może zawierać tylko cyfry, litery i podkreślenia."
+
+#: app/module/hardener/component/db-prefix-service.php:201
+msgid "Your prefix can't be empty!"
+msgstr "Twój prefiks nie może być pusty!"
+
+#: app/module/hardener/component/db-prefix.php:52
+msgid "Change default database prefix"
+msgstr "Zmień domyślny prefiks bazy danych"
+
+#: app/module/hardener/view/rules/disable-trackback.php:24
+#: assets/app/security-tweaks.js:1
+msgid "Pingbacks notify a website when it has been mentioned by another website, like a form of courtesy communication. However, these notifications can be sent to any website willing to receive them, opening you up to DDoS attacks, which can take your website down in seconds and fill your posts with spam comments."
+msgstr "Pingbacki powiadamiają stronę internetową, gdy wspomniano o niej na innej stronie, na przykład w formie grzecznościowej wymiany linków. Powiadomienia te mogą także być przesyłane do dowolnej witryny, która je akceptuje, co naraża ją na ataki DDoS, które mogą spowodować że witryna przestanie działać w kilka sekund i wypełnić posty spamowymi komentarzami."
+
+#: app/module/hardener/view/rules/security-key.php:71
+#: app/module/hardener/view/rules/login-duration.php:80
+#: assets/app/security-tweaks.js:1 assets/app/scan.js:1
+msgid "Update"
+msgstr "Zaktualizuj"
+
+#: app/module/hardener/component/change-admin-service.php:104
+msgid "The username already exists!"
+msgstr "Nazwa użytkownika już istnieje!"
+
+#: app/module/hardener/component/change-admin-service.php:99
+msgid "The username is invalid!"
+msgstr "Nazwa użytkownika jest nieprawidłowa!"
+
+#: app/module/hardener/component/change-admin-service.php:95
+msgid "You can't use admin as a username again!"
+msgstr "Nie możesz ponownie użyć słowa admin jako nazwy użytkownika!"
+
+#: app/module/hardener/component/change-admin.php:53
+msgid "Change default admin user account"
+msgstr "Zmień domyślne konto administratora"
+
+#: app/module/scan/view/pro-feature.php:22
+#: app/module/audit/controller/main-free.php:53
+#: app/module/audit/view/pro-feature.php:22 app/module/audit/view/free.php:21
+#: app/module/audit/behavior/audit-free.php:19
+#: app/module/ip-lockout/view/pro-feature.php:22 app/view/pro-feature.php:22
+#: app/view/activator.php:59 app/behavior/report-free.php:42
+#: assets/app/audit.js:1 assets/app/dashboard.js:1
+msgid "Audit Logging"
+msgstr "Audyt Logowań"
+
+#: app/module/scan/view/setting-free.php:4 app/module/scan/view/setting.php:4
+#: app/module/scan/view/layouts/layout.php:101
+#: app/module/setting/controller/main.php:47
+#: app/module/setting/view/layouts/layout.php:6
+#: app/module/setting/view/data.php:24
+#: app/module/ip-lockout/view/layouts/layout.php:68
+#: app/module/ip-lockout/view/layouts/layout.php:87
+#: app/module/ip-lockout/view/settings.php:3 app/view/settings.php:6
+#: main-activator.php:240 assets/app/scan.js:1 assets/app/audit.js:1
+#: assets/app/ip-lockout.js:1 assets/app/settings.js:1
+msgid "Settings"
+msgstr "Ustawienia"
+
+#. Plugin Name of the plugin
+#: app/module/ip-lockout/view/locked.php:82 app/controller/gdpr.php:16
+#: app/controller/dashboard.php:379 app/controller/requirement.php:69
+msgid "Defender"
+msgstr "Defender"
+
+#: app/controller/dashboard.php:67 app/view/dashboard.php:10
+#: assets/app/dashboard.js:1
+msgid "Dashboard"
+msgstr "Kokpit"
+
+#: app/module/ip-lockout/component/logs-table.php:157
+msgid "You"
+msgstr "Ty"
+
+#: app/module/hardener/component/change-admin-service.php:92
+msgid "The username can't be empty!"
+msgstr "Nazwa użytkownika nie może być pusta!"
+
+#: app/module/scan/view/setting-free.php:55 app/module/scan/view/setting.php:57
+#: app/module/scan/behavior/scan-widget.php:171 app/view/settings.php:98
+#: assets/app/scan.js:1 assets/app/dashboard.js:1
+msgid "Suspicious Code"
+msgstr "Podejrzany kod"
+
+#: app/behavior/utils.php:181 app/behavior/utils.php:190
+msgid "Guest"
+msgstr "Gość"
+
+#: app/behavior/utils.php:80
+msgid "WPMU DEV Dashboard will be required for this action. Please visit <a href=\"%s\">here</a> and install the WPMU DEV Dashboard"
+msgstr "Do wykonania tej czynności wymagana będzie wtyczka WPMU DEV Dashboard. Odwiedź <a href=\"%s\">tę stronę</a> i zainstaluj WPMU DEV Dashboard"
+
+#: app/module/scan/view/pro-feature.php:36
+#: app/module/audit/view/pro-feature.php:36
+#: app/module/ip-lockout/view/pro-feature.php:36 app/view/pro-feature.php:36
+msgid "As part of a WPMU DEV free trial."
+msgstr "Jako część bezpłatnej wersji próbnej WPMU DEV."
+
+#: app/module/audit/view/pro-feature.php:3
+#: app/module/ip-lockout/view/pro-feature.php:3 app/view/pro-feature.php:3
+msgid "Here’s what you’ll get by upgrading to Defender Pro:"
+msgstr "Oto, co otrzymasz, przechodząc na wersję Defender Pro;"
+
+#: app/module/ip-lockout/component/logs-table.php:537
+msgid "Select All"
+msgstr "Wybierz wszystko"
+
+#: app/module/ip-lockout/view/logging/enabled.php:3
+#: app/module/ip-lockout/view/layouts/layout.php:62
+#: app/module/ip-lockout/view/layouts/layout.php:83 assets/app/ip-lockout.js:1
+msgid "Logs"
+msgstr "Logi"
+
+#: app/module/ip-lockout/component/logs-table.php:445 assets/app/scan.js:1
+#: assets/app/ip-lockout.js:1
+msgid "Delete"
+msgstr "Usuń"
+
+#: app/module/hardener/component/servers/apache-service.php:78
+#: app/module/hardener/component/servers/apache-service.php:82
+#: app/module/hardener/component/servers/apache-service.php:111
+#: app/module/hardener/component/servers/apache-service.php:115
+#: app/module/hardener/component/servers/apache-service.php:159
+#: app/module/hardener/component/servers/apache-service.php:173
+#: app/module/hardener/component/hide-error-service.php:40
+#: app/module/hardener/component/hide-error-service.php:135
+#: app/module/hardener/component/security-key-service.php:58
+#: app/module/hardener/component/disable-file-editor-service.php:32
+#: app/module/hardener/component/disable-file-editor-service.php:67
+#: app/module/hardener/component/protect-information-service.php:54
+#: app/module/hardener/component/protect-information-service.php:96
+#: app/module/hardener/component/db-prefix-service.php:34
+#: app/module/hardener/component/db-prefix-service.php:106
+msgid "The file %s is not writable"
+msgstr "Plik %s jest niezapisywalny"
+
+#: app/module/ip-lockout/behavior/widget.php:38
+#: app/module/advanced-tools/view/mask-login/disabled.php:24
+#: app/module/advanced-tools/view/disabled.php:24
+#: app/module/advanced-tools/behavior/at-widget.php:63
+#: app/module/advanced-tools/behavior/at-widget.php:100 assets/app/audit.js:1
+#: assets/app/dashboard.js:1 assets/app/ip-lockout.js:1
+#: assets/app/advanced-tools.js:1
+msgid "Activate"
+msgstr "Włącz"
+
+#: app/module/ip-lockout/view/blacklist/enabled.php:200
+#: app/module/ip-lockout/view/blacklist/enabled.php:210
+#: assets/app/ip-lockout.js:1
+msgid "Export"
+msgstr "Eksport"
+
+#: app/module/ip-lockout/view/blacklist/enabled.php:162
+#: app/module/ip-lockout/view/blacklist/enabled.php:189
+#: assets/app/ip-lockout.js:1
+msgid "Import"
+msgstr "Import"
+
+#: main-activator.php:201 main-activator.php:246
+msgid "Upgrade"
+msgstr "Przejdź na wyższy plan"
+
+#: app/module/hardener/view/rules/security-key.php:20
+#: app/module/hardener/view/rules/login-duration.php:22
+#: app/module/hardener/view/rules/wp-version.php:21
+#: app/module/hardener/view/rules/db-prefix.php:23
+#: app/module/hardener/view/rules/disable-xml-rpc.php:21
+#: app/module/hardener/view/rules/php-version.php:23
+#: app/module/hardener/view/rules/change-admin.php:22
+#: app/module/hardener/view/rules/protect-information.php:38
+#: app/module/hardener/view/rules/disable-trackback.php:21
+#: app/module/hardener/view/rules/hide-error.php:21
+#: app/module/hardener/view/rules/disable-file-editor.php:21
+#: app/module/hardener/view/rules/prevent-php-executed.php:39
+#: assets/app/security-tweaks.js:1
+msgid "Overview"
+msgstr "Przegląd"
+
+#: app/module/scan/view/automation.php:60
+#: app/module/ip-lockout/view/notification/report.php:52 assets/app/scan.js:1
+#: assets/app/audit.js:1 assets/app/dashboard.js:1 assets/app/ip-lockout.js:1
+msgid "Monthly"
+msgstr "Miesięczny"
+
+#: app/module/hardener/component/disable-file-editor.php:102
+msgid "Sorry, you are not allowed to edit templates for this site."
+msgstr "Przepraszamy, nie posiadasz uprawnień do edycji szablonów na tej witrynie."
+
+#: app/module/hardener/component/disable-file-editor.php:105
+msgid "Sorry, you are not allowed to edit plugins for this site."
+msgstr "Przepraszamy, nie posiadasz uprawnień do edycji wtyczek na tej witrynie."
+
+#: app/module/scan/component/plugin-upgrader-skin.php:17
+msgid "Update Plugin"
+msgstr "Zaktualizuj wtyczkę"
+
+#: app/module/hardener/view/rules/wp-version.php:67
+#: assets/app/security-tweaks.js:1
+msgid "Update WordPress"
+msgstr "Zaktualizuj WordPressa"
+
+#. translators: %s: site title
+#: app/module/advanced-tools/view/login/otp.php:301
+msgctxt "site"
+msgid "&larr; Back to %s"
+msgstr "&larr; Powrót do %s"
+
+#: app/module/advanced-tools/view/login/otp.php:98
+msgid "https://wordpress.org/"
+msgstr "https://pl.wordpress.org/"
+
+#: app/module/advanced-tools/view/login/otp.php:99
+msgid "Powered by WordPress"
+msgstr "Oparte na WordPressie"
+
+#: app/controller/debug.php:55
+msgid "Debug"
+msgstr "Debug"

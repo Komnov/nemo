@@ -1,0 +1,23 @@
+#BEGIN Really Simple SSL LETS ENCRYPT
+RewriteRule ^.well-known/(.*)$ - [L]
+#END Really Simple SSL LETS ENCRYPT
+
+# BEGIN WordPress
+# Директивы (строки) между `BEGIN WordPress` и `END WordPress`
+# созданы автоматически и подлежат изменению только через фильтры WordPress.
+# Сделанные вручную изменения между этими маркерами будут перезаписаны.
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+
+php_value upload_max_filesize 12M
+php_value post_max_size 13M
+php_value memory_limit 15M 
+
+# END WordPress
