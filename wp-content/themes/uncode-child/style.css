@@ -316,8 +316,64 @@ h3:not([class*="fontsize-"]), .h3:not([class*="fontsize-"]) {
 .tmb-light.tmb .t-entry-visual *:not(.add_to_cart_text):not(.view-cart) {
     color: #ffffff;
 }
+body #masthead .menu-horizontal .menu-item.active a {
+    color: #0370bb!important;
+}
+body .main-container .post-body .about_us__row strong {
+    color: #0370bb!important;
+}
+.index_adv3 .empty-space.empty-half ,
+.index_adv3 p {
+    display: none;
+}
+/*Карточка товара product*/
+.product__about_container {
+    box-shadow: 0 0 9px 0 #3333336e;
+    padding: 30px 30px!important;
+    position: relative;
+}
+.product__about_container .uncont > div {
+    position: initial;
+}
+.products__about_fileds .field {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    margin: 0px 0 25px 0;
+    text-transform: uppercase;
+}
+.products__about_fileds .field .title {
+    font-weight: 600;
+}
+.products__about_fileds .field {}
+.products__about_fileds .field {}
+.products__about_fileds .field {}
+.products__about_fileds .field {}
+.products__about_fileds .field {}
+.product__about_btn {
+    position: absolute;
+    bottom: 3%;
+    left: 50%;
+    width: 100%;
+    transform: translateX(-50%);
+}
+.product__about_btn a {
+    background-color: #A50F15;
+    display: block;
+    color: #fff;
+    line-height: initial;
+    padding: 15px 0;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 15px;
+}
+.product__about_btn a:hover {
+    transition: 0.3s;
+    background-color: #0370bb;
+    color: #fff!important;
+}
 
 
+/*Карточка товара product*/
 
 @media (max-width: 992px) {
     #masthead .menu-container .logo-container .logo-image {
