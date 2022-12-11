@@ -316,7 +316,8 @@ h3:not([class*="fontsize-"]), .h3:not([class*="fontsize-"]) {
 .tmb-light.tmb .t-entry-visual *:not(.add_to_cart_text):not(.view-cart) {
     color: #ffffff;
 }
-body #masthead .menu-horizontal .menu-item.active a {
+body #masthead .menu-horizontal .menu-item.active a,
+body #masthead .menu-horizontal .menu-item.current_page_parent a {
     color: #0370bb!important;
 }
 body .main-container .post-body .about_us__row strong {
@@ -344,14 +345,9 @@ body .main-container .post-body .about_us__row strong {
 .products__about_fileds .field .title {
     font-weight: 600;
 }
-.products__about_fileds .field {}
-.products__about_fileds .field {}
-.products__about_fileds .field {}
-.products__about_fileds .field {}
-.products__about_fileds .field {}
 .product__about_btn {
     position: absolute;
-    bottom: 3%;
+    bottom: 0%;
     left: 50%;
     width: 100%;
     transform: translateX(-50%);
@@ -367,13 +363,161 @@ body .main-container .post-body .about_us__row strong {
     font-size: 15px;
 }
 .product__about_btn a:hover {
-    transition: 0.3s;
-    background-color: #0370bb;
+    transition: 0s;
+    background-color: #A50F15;
     color: #fff!important;
 }
-
+.product__gallery .woocommerce-product-gallery__thumb {
+    padding-bottom: 0!important;
+}
 
 /*Карточка товара product*/
+
+/*category page страница каталога категории*/
+#category-page > div {
+    padding: 0 0 !important;
+}
+.category__filter > div {
+    margin: 0 0 0 0!important;
+}
+.category__filter form {
+    display: flex;
+    margin: 4% 0 0 0;
+}
+.category__filter form > div:not(:last-child) {
+    margin: 0 5% 0 0!important;
+}
+.category__filter form > div {
+    border-radius: 10px;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    padding: 10px 70px 10px 20px;
+    position: relative;
+    width: 20%;
+    z-index: 2;
+    background-color: #fff;
+}
+.category__filter .filter-title {
+    margin: 0 0 0 0!important;
+    display: flex;
+    font-size: 17px;
+    color: #111761 !important;
+    font-size: 14px;
+}
+.category__filter .filter-title::after {
+    /* content: '\276F';*/
+    content: none;
+    position: absolute;
+    right: 7%;
+    transform: rotate(90deg);
+    font-size: 16px;
+    top: 18px;
+    color: #000;
+}
+.category__filter form > div:hover .filter-title::after {
+    transform: rotate(270deg);
+    transition: 0.3s;
+    color: #0370bb;
+}
+.category__filter .filter-content {
+    position: initial;
+    left: initial;
+    backface-visibility: hidden;
+}
+.category__filter .filter-content a {
+    white-space: nowrap;
+}
+.category__filter .filter-content a:hover {
+    color: #111761!important;
+}
+.category__filter  .yith-wcan-filters .yith-wcan-filter {
+    margin: 0 0 !important;
+}
+.category__filter form > div:hover {
+    transition: 0.3s;
+}
+.category__filter .filter-content label {
+    display: flex;
+    align-items: center;
+}
+.category__filter .filter-content label a {
+    font-size: 14px;
+}
+.category__filter .yith-wcan-filter .filter-items .filter-item.active > label > a,
+.category__filter input[type=checkbox]:checked:before {
+    color: #111761!important;
+}
+.category__filter .filter-content label input {
+    margin: 0 5px 0 0;
+}
+.category__filter .filter-content ul {
+    padding: 10px 0 0 0!important;
+}
+.category__item_list {
+    margin: 30px 0 0 0!important;
+}
+.category__item_list .price.h6 {
+    display: none !important;
+}
+/*category page страница каталога категории*/
+
+
+
+@media (min-width: 1600px) {
+    .category__filter {
+        top: 25px;
+        width: 100vw;
+        margin-left: -50vw;
+        left: 50%;
+        position: absolute;
+    }
+    .category__filter form {
+        display: flex;
+        margin: 0 0 0 0;
+        max-height: initial;
+        flex-direction: column;
+        position: relative;
+        left: 2%;
+        max-width: 300px;
+    }
+    .category__filter form > div:not(:last-child) {
+        margin: 0 0 1% 0!important;
+    }
+    .category__filter form > div {
+        width: 250px;
+        border: none;
+    }
+    .category__filter .filter-content {
+    position: initial;
+    left: initial;
+    backface-visibility: hidden;
+    }
+    .category__filter form > div .filter-title::after {
+        content: none;
+    }
+}
+/*@media (min-width: 1600px) */
+
+
+@media (min-width: 992px) {
+    .products__about_fileds {
+        max-height: 550px;
+        overflow-y: scroll;
+    }
+    .products__about_fileds::-webkit-scrollbar {
+      width: 3px;               /* ширина scrollbar */
+    }
+    .products__about_fileds::-webkit-scrollbar-track {
+      background: #fff;        /* цвет дорожки */
+    }
+    .products__about_fileds::-webkit-scrollbar-thumb {
+      background-color: #fff;    /* цвет плашки */
+      border-radius: 20px;       /* закругления плашки */
+      border: 3px solid grey;  /* padding вокруг плашки */
+    }
+}
+/*@media (min-width: 992px)*/
 
 @media (max-width: 992px) {
     #masthead .menu-container .logo-container .logo-image {
@@ -388,3 +532,48 @@ body .main-container .post-body .about_us__row strong {
         transform: scale(1)!important;
         font-size: 12px!important;
     }
+    .products__about_fileds .field {
+        display: flex;
+        flex-direction: column;
+    }
+    .product__about_btn {
+        position: relative;
+    }
+    .product__about_btn a {
+        font-size: 10px;
+        margin-bottom: 30px;
+    }
+    .product__about_container {
+        padding: 20px 20px!important;
+    }
+    .header-wrapper .header-content {
+        padding: 0 0!important;
+    }
+    .header-wrapper .header-content-inner {
+        max-width: none !important;
+        padding: 20px 20px!important;
+    }
+        h1:not([class*="fontsize-"]), .h1:not([class*="fontsize-"]) {
+        font-size: 22px;
+    }
+    .category__filter form {
+        flex-wrap: wrap;
+        max-height: initial;
+    }
+    .category__filter form > div {
+        width: 100%;
+    }
+    .category__filter form > div:not(:last-child) {
+        margin: 0 0 5% 0!important;
+    }
+    .category__filter form > div:hover .filter-content {
+        position: relative;
+    }
+    #page-header {
+        display: none;
+    }
+    .category__filter .filter-title::after {
+        top: 12px;
+    }
+}
+/*@media (max-width: 992px)*/
