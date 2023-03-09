@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Uncode\n"
 "Report-Msgid-Bugs-To: info@undsgn.com\n"
-"POT-Creation-Date: 2022-05-03 16:27+0200\n"
-"PO-Revision-Date: 2022-05-03 16:27+0200\n"
+"POT-Creation-Date: 2023-02-21 11:11+0100\n"
+"PO-Revision-Date: 2023-02-21 11:11+0100\n"
 "Last-Translator: Undsgn <info@undsgn.com>\n"
 "Language-Team: Undsgn <info@undsgn.com>\n"
 "Language: en_US\n"
@@ -30,30 +30,30 @@ msgstr ""
 msgid "Order Tracking"
 msgstr ""
 
-#: woocommerce/order/uncode-form-tracking.php:29
+#: woocommerce/order/uncode-form-tracking.php:38
 msgid ""
 "To track your order please enter your Order ID in the box below and press "
 "the \"Track\" button. This was given to you on your receipt and in the "
 "confirmation email you should have received."
 msgstr ""
 
-#: woocommerce/order/uncode-form-tracking.php:31
+#: woocommerce/order/uncode-form-tracking.php:40
 msgid "Order ID"
 msgstr ""
 
-#: woocommerce/order/uncode-form-tracking.php:31
+#: woocommerce/order/uncode-form-tracking.php:40
 msgid "Found in your order confirmation email."
 msgstr ""
 
-#: woocommerce/order/uncode-form-tracking.php:32
+#: woocommerce/order/uncode-form-tracking.php:41
 msgid "Billing email"
 msgstr ""
 
-#: woocommerce/order/uncode-form-tracking.php:32
+#: woocommerce/order/uncode-form-tracking.php:41
 msgid "Email you used during checkout."
 msgstr ""
 
-#: woocommerce/order/uncode-form-tracking.php:35
+#: woocommerce/order/uncode-form-tracking.php:53
 msgid "Track"
 msgstr ""
 
@@ -67,7 +67,8 @@ msgstr ""
 #: woocommerce/cart/uncode-cart-table-compact.php:21
 #: woocommerce/cart/uncode-cart-table.php:22
 #: woocommerce/cart/uncode-cart-table.php:69
-#: core/inc/helpers/taxonomies/taxonomies-functions.php:44
+#: core/inc/helpers/taxonomies/taxonomies-functions.php:47
+#: core/inc/helpers/taxonomies/taxonomies-functions.php:56
 msgid "Product"
 msgstr ""
 
@@ -94,17 +95,17 @@ msgid "Shipping address"
 msgstr ""
 
 #: woocommerce/myaccount/form-edit-account.php:31
-#: core/inc/compatibility/woocommerce/filters.php:527
+#: core/inc/compatibility/woocommerce/filters.php:590
 msgid "First name"
 msgstr ""
 
 #: woocommerce/myaccount/form-edit-account.php:35
-#: core/inc/compatibility/woocommerce/filters.php:531
+#: core/inc/compatibility/woocommerce/filters.php:594
 msgid "Last name"
 msgstr ""
 
 #: woocommerce/myaccount/form-edit-account.php:41
-#: core/inc/compatibility/woocommerce/filters.php:535
+#: core/inc/compatibility/woocommerce/filters.php:598
 msgid "Display name"
 msgstr ""
 
@@ -117,7 +118,7 @@ msgstr ""
 #: woocommerce/myaccount/form-edit-account.php:47
 #: woocommerce/myaccount/form-login.php:90
 #: woocommerce/myaccount/uncode-my-account-form-register.php:43
-#: core/inc/compatibility/woocommerce/filters.php:515
+#: core/inc/compatibility/woocommerce/filters.php:578
 msgid "Email address"
 msgstr ""
 
@@ -126,17 +127,17 @@ msgid "Password change"
 msgstr ""
 
 #: woocommerce/myaccount/form-edit-account.php:55
-#: core/inc/compatibility/woocommerce/filters.php:539
+#: core/inc/compatibility/woocommerce/filters.php:602
 msgid "Current password (leave blank to leave unchanged)"
 msgstr ""
 
 #: woocommerce/myaccount/form-edit-account.php:59
-#: core/inc/compatibility/woocommerce/filters.php:543
+#: core/inc/compatibility/woocommerce/filters.php:606
 msgid "New password (leave blank to leave unchanged)"
 msgstr ""
 
 #: woocommerce/myaccount/form-edit-account.php:63
-#: core/inc/compatibility/woocommerce/filters.php:547
+#: core/inc/compatibility/woocommerce/filters.php:610
 msgid "Confirm new password"
 msgstr ""
 
@@ -152,7 +153,7 @@ msgstr ""
 
 #: woocommerce/myaccount/form-lost-password.php:32
 #: woocommerce/global/form-login.php:42
-#: core/inc/compatibility/woocommerce/filters.php:507
+#: core/inc/compatibility/woocommerce/filters.php:570
 msgid "Username or email"
 msgstr ""
 
@@ -176,7 +177,7 @@ msgstr ""
 #: woocommerce/myaccount/uncode-my-account-form-login.php:39
 #: woocommerce/myaccount/uncode-my-account-form-register.php:50
 #: woocommerce/global/form-login.php:46
-#: core/inc/compatibility/woocommerce/filters.php:511
+#: core/inc/compatibility/woocommerce/filters.php:574
 msgid "Password"
 msgstr ""
 
@@ -206,7 +207,7 @@ msgstr ""
 
 #: woocommerce/myaccount/form-login.php:83
 #: woocommerce/myaccount/uncode-my-account-form-register.php:36
-#: core/inc/compatibility/woocommerce/filters.php:503
+#: core/inc/compatibility/woocommerce/filters.php:566
 msgid "Username"
 msgstr ""
 
@@ -220,12 +221,12 @@ msgid "Enter a new password below."
 msgstr ""
 
 #: woocommerce/myaccount/form-reset-password.php:32
-#: core/inc/compatibility/woocommerce/filters.php:519
+#: core/inc/compatibility/woocommerce/filters.php:582
 msgid "New password"
 msgstr ""
 
 #: woocommerce/myaccount/form-reset-password.php:36
-#: core/inc/compatibility/woocommerce/filters.php:523
+#: core/inc/compatibility/woocommerce/filters.php:586
 msgid "Re-enter new password"
 msgstr ""
 
@@ -234,32 +235,32 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: woocommerce/myaccount/orders.php:53
+#: woocommerce/myaccount/orders.php:56
 msgctxt "hash before order number"
 msgid "#"
 msgstr ""
 
-#: woocommerce/myaccount/orders.php:65
+#: woocommerce/myaccount/orders.php:68
 #, php-format
 msgid "%1$s for %2$s item"
 msgid_plural "%1$s for %2$s items"
 msgstr[0] ""
 msgstr[1] ""
 
-#: woocommerce/myaccount/orders.php:93 vc_templates/uncode_navigation.php:130
+#: woocommerce/myaccount/orders.php:96 vc_templates/uncode_navigation.php:130
 msgid "Previous"
 msgstr ""
 
-#: woocommerce/myaccount/orders.php:97 core/inc/template-tags.php:78
+#: woocommerce/myaccount/orders.php:100 core/inc/template-tags.php:91
 #: vc_templates/uncode_navigation.php:131
 msgid "Next"
 msgstr ""
 
-#: woocommerce/myaccount/orders.php:105
+#: woocommerce/myaccount/orders.php:108
 msgid "Browse products"
 msgstr ""
 
-#: woocommerce/myaccount/orders.php:107
+#: woocommerce/myaccount/orders.php:110
 msgid "No order has been made yet."
 msgstr ""
 
@@ -280,7 +281,7 @@ msgstr ""
 #: woocommerce/cart/uncode-cart-table-compact.php:97
 #: woocommerce/cart/uncode-cart-table.php:24
 #: woocommerce/cart/uncode-cart-table.php:95
-#: woocommerce/global/quantity-input.php:32
+#: woocommerce/global/quantity-input.php:21
 msgid "Quantity"
 msgstr ""
 
@@ -301,7 +302,7 @@ msgstr ""
 msgid "Price"
 msgstr ""
 
-#: woocommerce/wishlist-view.php:226 partials/elements.php:3029
+#: woocommerce/wishlist-view.php:226 partials/elements.php:3047
 msgid "Out of stock"
 msgstr ""
 
@@ -337,19 +338,19 @@ msgstr ""
 msgid "No products added to the wishlist"
 msgstr ""
 
-#: woocommerce/single-product.php:217 woocommerce/single-product.php:315
-#: woocommerce/content-single-product.php:78 single-portfolio.php:443
-#: single-portfolio.php:752 footer.php:187 single.php:513 single.php:739
-#: page.php:416 partials/headers.php:456
+#: woocommerce/single-product.php:227 woocommerce/single-product.php:325
+#: woocommerce/content-single-product.php:79 single-portfolio.php:443
+#: single-portfolio.php:752 footer.php:189 single.php:530 single.php:756
+#: page.php:434 partials/headers.php:462
 msgid "Edit Content Block"
 msgstr ""
 
-#: woocommerce/single-product.php:217 single-portfolio.php:443 single.php:513
-#: page.php:416
+#: woocommerce/single-product.php:227 single-portfolio.php:443 single.php:530
+#: page.php:434
 msgid "Post After Content Block"
 msgstr ""
 
-#: woocommerce/single-product.php:315 single-portfolio.php:752 single.php:739
+#: woocommerce/single-product.php:325 single-portfolio.php:752 single.php:756
 msgid "Navigation Content Block"
 msgstr ""
 
@@ -361,7 +362,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: woocommerce/single-product-reviews.php:52
-#: core/inc/compatibility/woocommerce/filters.php:680
+#: core/inc/compatibility/woocommerce/filters.php:743
 msgid "Reviews"
 msgstr ""
 
@@ -535,18 +536,23 @@ msgstr ""
 msgid "Are you sure you want to delete this wishlist?"
 msgstr ""
 
+#: woocommerce/archive-product.php:151 search.php:93
+msgid "Results for:"
+msgstr ""
+
 #: woocommerce/cart/uncode-cart-table-compact.php:15
 #: woocommerce/cart/uncode-cart-table.php:15
 #: core/inc/compatibility/woocommerce/icon-cart.php:128
 #: core/inc/compatibility/woocommerce/icon-cart.php:130
-#: vc_templates/uncode_woocommerce_widget_cart.php:65
+#: vc_templates/uncode_woocommerce_widget_cart.php:102
+#: vc_templates/uncode_woocommerce_steps.php:115
 msgid "Cart"
 msgstr ""
 
 #: woocommerce/cart/uncode-cart-table-compact.php:23
-#: woocommerce/cart/uncode-cart-table-compact.php:119
+#: woocommerce/cart/uncode-cart-table-compact.php:123
 #: woocommerce/cart/uncode-cart-table.php:25
-#: woocommerce/cart/uncode-cart-table.php:117
+#: woocommerce/cart/uncode-cart-table.php:121
 msgid "Subtotal"
 msgstr ""
 
@@ -555,24 +561,32 @@ msgstr ""
 msgid "Available on backorder"
 msgstr ""
 
-#: woocommerce/cart/uncode-cart-table-compact.php:137
-#: woocommerce/cart/uncode-cart-table.php:135
+#: woocommerce/cart/uncode-cart-table-compact.php:141
+#: woocommerce/cart/uncode-cart-table.php:139
 msgid "Coupon:"
 msgstr ""
 
-#: woocommerce/cart/uncode-cart-table-compact.php:137
-#: woocommerce/cart/uncode-cart-table.php:135
+#: woocommerce/cart/uncode-cart-table-compact.php:141
+#: woocommerce/cart/uncode-cart-table.php:139
 msgid "Coupon code"
 msgstr ""
 
-#: woocommerce/cart/uncode-cart-table-compact.php:137
-#: woocommerce/cart/uncode-cart-table.php:135
+#: woocommerce/cart/uncode-cart-table-compact.php:141
+#: woocommerce/cart/uncode-cart-table.php:139
 msgid "Apply coupon"
 msgstr ""
 
-#: woocommerce/cart/uncode-cart-table-compact.php:142
-#: woocommerce/cart/uncode-cart-table.php:140
+#: woocommerce/cart/uncode-cart-table-compact.php:146
+#: woocommerce/cart/uncode-cart-table.php:144
 msgid "Update cart"
+msgstr ""
+
+#: woocommerce/cart/uncode-cart-table.php:20
+msgid "Remove item"
+msgstr ""
+
+#: woocommerce/cart/uncode-cart-table.php:21
+msgid "Thumbnail image"
 msgstr ""
 
 #: woocommerce/cart/uncode-cart-table.php:48 woocommerce/cart/mini-cart.php:55
@@ -580,8 +594,8 @@ msgstr ""
 msgid "Remove this item"
 msgstr ""
 
-#: woocommerce/cart/mini-cart.php:27
-msgid "Close"
+#: woocommerce/cart/mini-cart.php:27 vc_templates/uncode_index.php:1583
+msgid "<span>&times;</span> Close"
 msgstr ""
 
 #: woocommerce/cart/mini-cart.php:81
@@ -595,6 +609,7 @@ msgstr ""
 
 #: woocommerce/cart/mini-cart.php:106
 #: core/inc/compatibility/woocommerce/icon-cart.php:60
+#: vc_templates/uncode_woocommerce_steps.php:127
 msgid "Checkout"
 msgstr ""
 
@@ -623,8 +638,8 @@ msgstr ""
 msgid "Category"
 msgstr ""
 
-#: woocommerce/single-product/meta.php:44 vc_templates/uncode_index.php:50
-#: vc_templates/vc_wp_categories.php:75 vc_templates/vc_gallery.php:38
+#: woocommerce/single-product/meta.php:44 vc_templates/uncode_index.php:55
+#: vc_templates/vc_wp_categories.php:112 vc_templates/vc_gallery.php:40
 msgid "Categories"
 msgstr ""
 
@@ -639,16 +654,16 @@ msgstr[1] ""
 msgid "Tag"
 msgstr ""
 
-#: woocommerce/single-product/meta.php:49 vc_templates/vc_wp_tagcloud.php:71
+#: woocommerce/single-product/meta.php:49 vc_templates/vc_wp_tagcloud.php:108
 msgid "Tags"
 msgstr ""
 
-#: woocommerce/single-product/product-image.php:142
-#: woocommerce/single-product/product-image.php:260
+#: woocommerce/single-product/product-image.php:204
+#: woocommerce/single-product/product-image.php:350
 msgid "Awaiting product image"
 msgstr ""
 
-#: woocommerce/single-product/up-sells.php:51
+#: woocommerce/single-product/up-sells.php:28
 msgid "You may also like&hellip;"
 msgstr ""
 
@@ -656,12 +671,12 @@ msgstr ""
 msgid "This product is currently out of stock and unavailable."
 msgstr ""
 
-#: woocommerce/single-product/add-to-cart/variable.php:47
+#: woocommerce/single-product/add-to-cart/variable.php:63
 msgid "Clear"
 msgstr ""
 
 #: woocommerce/single-product/add-to-cart/simple.php:70
-#: partials/elements.php:1569
+#: partials/elements.php:1530
 msgid "Read More"
 msgstr ""
 
@@ -680,7 +695,7 @@ msgid_plural "%s customer reviews"
 msgstr[0] ""
 msgstr[1] ""
 
-#: woocommerce/content-single-product.php:78
+#: woocommerce/content-single-product.php:79
 msgid "Product Content Block"
 msgstr ""
 
@@ -697,9 +712,14 @@ msgctxt "submit button"
 msgid "Search"
 msgstr ""
 
-#: woocommerce/global/quantity-input.php:32
+#: woocommerce/global/quantity-input.php:21
 #, php-format
 msgid "%s quantity"
+msgstr ""
+
+#: woocommerce/global/quantity-input.php:51
+msgctxt "Product quantity input tooltip"
+msgid "Qty"
 msgstr ""
 
 #: 404.php:71
@@ -714,60 +734,93 @@ msgstr ""
 msgid "home page"
 msgstr ""
 
-#: core/inc/compatibility/woocommerce/filters.php:652
+#: core/inc/compatibility/woocommerce/filters.php:715
 msgid "Placeholders"
 msgstr ""
 
-#: core/inc/compatibility/woocommerce/filters.php:653
+#: core/inc/compatibility/woocommerce/filters.php:716
 msgid "All these entries are placeholders."
 msgstr ""
 
-#: core/inc/compatibility/woocommerce/filters.php:656
+#: core/inc/compatibility/woocommerce/filters.php:719
 msgid "Weight"
 msgstr ""
 
-#: core/inc/compatibility/woocommerce/filters.php:657
+#: core/inc/compatibility/woocommerce/filters.php:720
 msgid "25.00"
 msgstr ""
 
-#: core/inc/compatibility/woocommerce/filters.php:660
+#: core/inc/compatibility/woocommerce/filters.php:723
 msgid "Size"
 msgstr ""
 
-#: core/inc/compatibility/woocommerce/filters.php:661
+#: core/inc/compatibility/woocommerce/filters.php:724
 msgid "79 x 55 x 176"
 msgstr ""
 
-#: core/inc/compatibility/woocommerce/filters.php:664 core/inc/admin.php:690
-#: core/inc/admin.php:787
+#: core/inc/compatibility/woocommerce/filters.php:727
+#: core/inc/compatibility/woocommerce/swatches/class-uncode-wc-term-settings.php:99
+#: core/inc/compatibility/woocommerce/swatches/class-uncode-wc-term-settings.php:125
+#: core/inc/compatibility/woocommerce/swatches/class-uncode-wc-term-settings.php:232
+#: core/inc/admin.php:693 core/inc/admin.php:795
 msgid "Color"
 msgstr ""
 
-#: core/inc/compatibility/woocommerce/filters.php:665
+#: core/inc/compatibility/woocommerce/filters.php:728
 msgid "Brown, Black"
 msgstr ""
 
+#: core/inc/compatibility/woocommerce/variations/variations-galleries.php:15
+#: core/inc/helpers/images/srcset-images-functions.php:335
+#: core/inc/helpers/images/srcset-images-functions.php:417
+msgid "Invalid nonce."
+msgstr ""
+
+#: core/inc/compatibility/woocommerce/variations/variations-galleries.php:24
+msgid "Invalid variation IDs."
+msgstr ""
+
+#: core/inc/compatibility/woocommerce/variations/variations-galleries.php:69
+msgid "Invalid data."
+msgstr ""
+
+#: core/inc/compatibility/woocommerce/variations/variations-galleries.php:319
+#: core/inc/compatibility/woocommerce/variations/variations-galleries.php:334
+#: core/inc/helpers/quick-view/class-uncode-quick-view.php:264
+msgid "Ivalid HTML data"
+msgstr ""
+
+#: core/inc/compatibility/woocommerce/variations/variations-galleries.php:341
+msgid "Ivalid POST data"
+msgstr ""
+
 #: core/inc/compatibility/woocommerce/sorting.php:18
+#: core/inc/helpers/ajax-filters/ajax-filters.php:715
 msgid "Default sorting"
 msgstr ""
 
 #: core/inc/compatibility/woocommerce/sorting.php:19
+#: core/inc/helpers/ajax-filters/ajax-filters.php:718
 msgid "Sort by popularity"
 msgstr ""
 
 #: core/inc/compatibility/woocommerce/sorting.php:20
+#: core/inc/helpers/ajax-filters/ajax-filters.php:721
 msgid "Sort by average rating"
 msgstr ""
 
 #: core/inc/compatibility/woocommerce/sorting.php:21
+#: core/inc/helpers/ajax-filters/ajax-filters.php:724
 msgid "Sort by latest"
 msgstr ""
 
 #: core/inc/compatibility/woocommerce/sorting.php:22
+#: core/inc/helpers/ajax-filters/ajax-filters.php:727
 msgid "Sort by price: low to high"
 msgstr ""
 
 #: core/inc/compatibility/woocommerce/sorting.php:23
+#: core/inc/helpers/ajax-filters/ajax-filters.php:730
 msgid "Sort by price: high to low"
 msgstr ""
 
@@ -860,7 +913,80 @@ msgstr ""
 msgid "WooCommerce"
 msgstr ""
 
-#: core/inc/compatibility/woocommerce/core-functions.php:172
+#: core/inc/compatibility/woocommerce/swatches/class-uncode-wc-term-settings.php:100
+msgid "Image"
+msgstr ""
+
+#: core/inc/compatibility/woocommerce/swatches/class-uncode-wc-term-settings.php:101
+msgid "Label"
+msgstr ""
+
+#: core/inc/compatibility/woocommerce/swatches/class-uncode-wc-term-settings.php:130
+#: core/inc/compatibility/woocommerce/swatches/class-uncode-wc-term-settings.php:245
+msgid "Thumbnail"
+msgstr ""
+
+#: core/inc/compatibility/woocommerce/swatches/class-uncode-wc-term-settings.php:134
+#: core/inc/compatibility/woocommerce/swatches/class-uncode-wc-term-settings.php:250
+msgid "Upload/Add image"
+msgstr ""
+
+#: core/inc/compatibility/woocommerce/swatches/class-uncode-wc-term-settings.php:135
+#: core/inc/compatibility/woocommerce/swatches/class-uncode-wc-term-settings.php:251
+msgid "Remove image"
+msgstr ""
+
+#: core/inc/compatibility/woocommerce/swatches/class-uncode-wc-term-settings.php:159
+#: core/inc/compatibility/woocommerce/swatches/class-uncode-wc-term-settings.php:275
+msgid "Choose an image"
+msgstr ""
+
+#: core/inc/compatibility/woocommerce/swatches/class-uncode-wc-term-settings.php:161
+#: core/inc/compatibility/woocommerce/swatches/class-uncode-wc-term-settings.php:277
+msgid "Use image"
+msgstr ""
+
+#: core/inc/compatibility/woocommerce/swatches/class-uncode-wc-term-settings.php:346
+#: core/inc/compatibility/woocommerce/swatches/class-uncode-wc-term-settings.php:371
+msgid "Image size"
+msgstr ""
+
+#: core/inc/compatibility/woocommerce/swatches/class-uncode-wc-term-settings.php:348
+#: core/inc/compatibility/woocommerce/swatches/class-uncode-wc-term-settings.php:375
+msgid "Square"
+msgstr ""
+
+#: core/inc/compatibility/woocommerce/swatches/class-uncode-wc-term-settings.php:349
+#: core/inc/compatibility/woocommerce/swatches/class-uncode-wc-term-settings.php:376
+msgid "Regular"
+msgstr ""
+
+#: core/inc/compatibility/woocommerce/swatches/class-uncode-wc-term-settings.php:351
+#: core/inc/compatibility/woocommerce/swatches/class-uncode-wc-term-settings.php:378
+msgid "Determines the size of the swatch image."
+msgstr ""
+
+#: core/inc/compatibility/woocommerce/core-functions.php:53
+msgid "Add to cart"
+msgstr ""
+
+#: core/inc/compatibility/woocommerce/core-functions.php:54
+msgid "Select options"
+msgstr ""
+
+#: core/inc/compatibility/woocommerce/core-functions.php:97
+msgid "Gallery Images"
+msgstr ""
+
+#: core/inc/compatibility/woocommerce/core-functions.php:98
+msgid "Add images"
+msgstr ""
+
+#: core/inc/compatibility/woocommerce/core-functions.php:99
+msgid "Add Variation Images"
+msgstr ""
+
+#: core/inc/compatibility/woocommerce/core-functions.php:231
 msgid "Proceed to checkout"
 msgstr ""
 
@@ -887,12 +1013,12 @@ msgid "Accent"
 msgstr ""
 
 #: core/inc/colors.php:75 core/inc/colors.php:80 core/inc/colors.php:85
-#: core/inc/admin.php:675 core/inc/admin.php:740
+#: core/inc/admin.php:677 core/inc/admin.php:747
 msgid "Select…"
 msgstr ""
 
-#: core/inc/widget-functions.php:56 core/inc/widget-functions.php:91
-#: core/inc/widget-functions.php:109
+#: core/inc/widget-functions.php:58 core/inc/widget-functions.php:94
+#: core/inc/widget-functions.php:112
 msgid "Widget title"
 msgstr ""
 
@@ -908,44 +1034,44 @@ msgstr ""
 msgid "Call To Action Menu"
 msgstr ""
 
-#: core/inc/main.php:146 core/inc/main.php:159
+#: core/inc/main.php:151 core/inc/main.php:164
 msgid "Add widgets here to appear in your sidebar."
 msgstr ""
 
-#: core/inc/main.php:157
+#: core/inc/main.php:162
 msgid "Sidebar"
 msgstr ""
 
-#: core/inc/main.php:421 vc_templates/uncode_countdown.php:63
+#: core/inc/main.php:436 vc_templates/uncode_countdown.php:63
 msgid "days"
 msgstr ""
 
-#: core/inc/main.php:422 vc_templates/uncode_countdown.php:63
+#: core/inc/main.php:437 vc_templates/uncode_countdown.php:63
 msgid "hours"
 msgstr ""
 
-#: core/inc/main.php:423 vc_templates/uncode_countdown.php:63
+#: core/inc/main.php:438 vc_templates/uncode_countdown.php:63
 msgid "minutes"
 msgstr ""
 
-#: core/inc/main.php:424 vc_templates/uncode_countdown.php:63
+#: core/inc/main.php:439 vc_templates/uncode_countdown.php:63
 msgid "seconds"
 msgstr ""
 
-#: core/inc/main.php:428 vc_templates/uncode_index.php:2328
-#: vc_templates/vc_gallery.php:1473
+#: core/inc/main.php:443 vc_templates/uncode_index.php:2755
+#: vc_templates/vc_gallery.php:1492
 msgid "Loading…"
 msgstr ""
 
-#: core/inc/main.php:429
+#: core/inc/main.php:444
 msgid "slide"
 msgstr ""
 
-#: core/inc/main.php:430
+#: core/inc/main.php:445
 msgid "footer"
 msgstr ""
 
-#: core/inc/main.php:1127 core/inc/admin.php:95
+#: core/inc/main.php:1168 core/inc/admin.php:95
 msgid "Read more"
 msgstr ""
 
@@ -1296,7 +1422,7 @@ msgid ""
 msgstr ""
 
 #: core/inc/export/uncode_export.php:97
-#: core/inc/helpers/taxonomies/taxonomies-functions.php:35
+#: core/inc/helpers/taxonomies/taxonomies-functions.php:38
 msgid "Posts"
 msgstr ""
 
@@ -1330,7 +1456,7 @@ msgstr ""
 msgid "Status:"
 msgstr ""
 
-#: core/inc/export/uncode_export.php:133 vc_templates/vc_wp_pages.php:72
+#: core/inc/export/uncode_export.php:133 vc_templates/vc_wp_pages.php:109
 msgid "Pages"
 msgstr ""
 
@@ -1338,31 +1464,31 @@ msgstr ""
 msgid "Download Export File"
 msgstr ""
 
-#: core/inc/helpers.php:175
+#: core/inc/helpers.php:174
 msgid "Minutes"
 msgstr ""
 
-#: core/inc/helpers.php:177
+#: core/inc/helpers.php:176
 msgid "Minute"
 msgstr ""
 
-#: core/inc/helpers.php:511
+#: core/inc/helpers.php:510
 msgid "Error when retrieving the image editor."
 msgstr ""
 
-#: core/inc/helpers.php:526
+#: core/inc/helpers.php:525
 msgid "Error when resizing the image"
 msgstr ""
 
-#: core/inc/helpers.php:576
+#: core/inc/helpers.php:575
 msgid "Error when saving the image"
 msgstr ""
 
-#: core/inc/helpers.php:609
+#: core/inc/helpers.php:608
 msgid "Path not correct"
 msgstr ""
 
-#: core/inc/helpers.php:1349 vc_templates/uncode_consent_notice.php:48
+#: core/inc/helpers.php:1362 vc_templates/uncode_consent_notice.php:48
 msgid ""
 "This content is blocked. Please review your [uncode_privacy_box]Privacy "
 "Settings[/uncode_privacy_box]."
@@ -1461,369 +1587,369 @@ msgid ""
 "first, <a href=\"%s\" target=\"_blank\">more info</a>."
 msgstr ""
 
-#: core/inc/admin.php:132
+#: core/inc/admin.php:133
 msgid "Please read this article before updating the theme"
 msgstr ""
 
-#: core/inc/admin.php:134
+#: core/inc/admin.php:135
 msgid "Read the Change Log"
 msgstr ""
 
-#: core/inc/admin.php:140
+#: core/inc/admin.php:141
 msgid "Uncode Registration Required"
 msgstr ""
 
-#: core/inc/admin.php:141
+#: core/inc/admin.php:142
 msgid "Register Uncode"
 msgstr ""
 
-#: core/inc/admin.php:142
+#: core/inc/admin.php:143
 msgid "Please register your copy of Uncode Theme to update the theme."
 msgstr ""
 
-#: core/inc/admin.php:143 core/inc/admin-pages/uncode-panel-functions.php:37
+#: core/inc/admin.php:144 core/inc/admin-pages/uncode-panel-functions.php:37
 #: core/inc/admin-pages/uncode-panel-functions.php:38
 msgid "Import Demo"
 msgstr ""
 
-#: core/inc/admin.php:144
-msgid "Please register your copy of Uncode Theme to import premium contents."
-msgstr ""
-
 #: core/inc/admin.php:145
-#, php-format
-msgid "Please register your copy of Uncode Theme to %s the following plugin:"
+msgid "Please register your copy of Uncode Theme to import premium contents."
 msgstr ""
 
 #: core/inc/admin.php:146
 #, php-format
+msgid "Please register your copy of Uncode Theme to %s the following plugin:"
+msgstr ""
+
+#: core/inc/admin.php:147
+#, php-format
 msgid "Please register your copy of Uncode Theme to %s the following plugins:"
 msgstr ""
 
-#: core/inc/admin.php:209 core/inc/admin.php:210
+#: core/inc/admin.php:210 core/inc/admin.php:211
 msgid "Add Media"
 msgstr ""
 
-#: core/inc/admin.php:211 core/inc/admin.php:212
+#: core/inc/admin.php:212 core/inc/admin.php:213
 msgid "Media selection"
 msgstr ""
 
-#: core/inc/admin.php:213
+#: core/inc/admin.php:214
 msgid "All media"
 msgstr ""
 
-#: core/inc/admin.php:226
+#: core/inc/admin.php:227
 msgid "Vimeo"
 msgstr ""
 
-#: core/inc/admin.php:226
+#: core/inc/admin.php:227
 msgid "Manage Vimeos"
 msgstr ""
 
-#: core/inc/admin.php:226
+#: core/inc/admin.php:227
 #, php-format
 msgid "Vimeo <span class=\"count\">(%s)</span>"
 msgid_plural "Vimeos <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: core/inc/admin.php:227
+#: core/inc/admin.php:228
 msgid "YouTube"
 msgstr ""
 
-#: core/inc/admin.php:227
+#: core/inc/admin.php:228
 msgid "Manage YouTubes"
 msgstr ""
 
-#: core/inc/admin.php:227
+#: core/inc/admin.php:228
 #, php-format
 msgid "YouTube <span class=\"count\">(%s)</span>"
 msgid_plural "YouTubes <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: core/inc/admin.php:228
+#: core/inc/admin.php:229
 msgid "SoundCloud"
 msgstr ""
 
-#: core/inc/admin.php:228
+#: core/inc/admin.php:229
 msgid "Manage SoundClouds"
 msgstr ""
 
-#: core/inc/admin.php:228
+#: core/inc/admin.php:229
 #, php-format
 msgid "SoundCloud <span class=\"count\">(%s)</span>"
 msgid_plural "SoundClouds <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: core/inc/admin.php:229
+#: core/inc/admin.php:230
 msgid "Spotify"
 msgstr ""
 
-#: core/inc/admin.php:229
+#: core/inc/admin.php:230
 msgid "Manage Spotifys"
 msgstr ""
 
-#: core/inc/admin.php:229
+#: core/inc/admin.php:230
 #, php-format
 msgid "Spotify <span class=\"count\">(%s)</span>"
 msgid_plural "Spotifys <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: core/inc/admin.php:230
+#: core/inc/admin.php:231
 msgid "Twitter"
 msgstr ""
 
-#: core/inc/admin.php:230
+#: core/inc/admin.php:231
 msgid "Manage Tweets"
 msgstr ""
 
-#: core/inc/admin.php:230
+#: core/inc/admin.php:231
 #, php-format
 msgid "Twitter <span class=\"count\">(%s)</span>"
 msgid_plural "Tweets <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: core/inc/admin.php:231
+#: core/inc/admin.php:232
 msgid "Flickr"
 msgstr ""
 
-#: core/inc/admin.php:231
+#: core/inc/admin.php:232
 msgid "Manage Flickrs"
 msgstr ""
 
-#: core/inc/admin.php:231
+#: core/inc/admin.php:232
 #, php-format
 msgid "Flickr <span class=\"count\">(%s)</span>"
 msgid_plural "Flickrs <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: core/inc/admin.php:232
+#: core/inc/admin.php:233
 msgid "SVG"
 msgstr ""
 
-#: core/inc/admin.php:232
+#: core/inc/admin.php:233
 msgid "Manage SVGs"
 msgstr ""
 
-#: core/inc/admin.php:232
+#: core/inc/admin.php:233
 #, php-format
 msgid "SVG <span class=\"count\">(%s)</span>"
 msgid_plural "SVGs <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: core/inc/admin.php:233
+#: core/inc/admin.php:234
 msgid "HTML"
 msgstr ""
 
-#: core/inc/admin.php:233
+#: core/inc/admin.php:234
 msgid "Manage HTMLs"
 msgstr ""
 
-#: core/inc/admin.php:233
+#: core/inc/admin.php:234
 #, php-format
 msgid "HTML <span class=\"count\">(%s)</span>"
 msgid_plural "HTMLs <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: core/inc/admin.php:234
+#: core/inc/admin.php:235
 msgid "iFrame"
 msgstr ""
 
-#: core/inc/admin.php:234
+#: core/inc/admin.php:235
 msgid "Manage iFrames"
 msgstr ""
 
-#: core/inc/admin.php:234
+#: core/inc/admin.php:235
 #, php-format
 msgid "iFrame <span class=\"count\">(%s)</span>"
 msgid_plural "iFrames <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: core/inc/admin.php:278
+#: core/inc/admin.php:279
 msgid "Alt Text"
 msgstr ""
 
-#: core/inc/admin.php:294
+#: core/inc/admin.php:295
 msgid "Width"
 msgstr ""
 
-#: core/inc/admin.php:298
+#: core/inc/admin.php:299
 msgid "Height"
 msgstr ""
 
-#: core/inc/admin.php:302
+#: core/inc/admin.php:303
 msgid "Media Poster (Image ID)"
 msgstr ""
 
-#: core/inc/admin.php:309
+#: core/inc/admin.php:310
 msgid "Loop?"
 msgstr ""
 
-#: core/inc/admin.php:315
+#: core/inc/admin.php:316
 msgid "Autoplay?"
 msgstr ""
 
-#: core/inc/admin.php:321
+#: core/inc/admin.php:322
 msgid "Mobile video background?"
 msgstr ""
 
-#: core/inc/admin.php:327
+#: core/inc/admin.php:328
 msgid "Alternative video source 1"
 msgstr ""
 
-#: core/inc/admin.php:331
+#: core/inc/admin.php:332
 msgid "Alternative video source 2"
 msgstr ""
 
-#: core/inc/admin.php:338
+#: core/inc/admin.php:339
 msgid "Animated?"
 msgstr ""
 
-#: core/inc/admin.php:347
+#: core/inc/admin.php:348
 msgid "Animation time (default 100)"
 msgstr ""
 
-#: core/inc/admin.php:355
+#: core/inc/admin.php:356
 msgid "ID"
 msgstr ""
 
-#: core/inc/admin.php:363
+#: core/inc/admin.php:364
 msgid "Twitter original"
 msgstr ""
 
-#: core/inc/admin.php:371
+#: core/inc/admin.php:372
 msgid "Team Member"
 msgstr ""
 
-#: core/inc/admin.php:379
+#: core/inc/admin.php:380
 msgid "Socials"
 msgstr ""
 
-#: core/inc/admin.php:665 core/inc/admin.php:730 core/inc/admin.php:1562
+#: core/inc/admin.php:667 core/inc/admin.php:737 core/inc/admin.php:1596
 msgid "Send to OptionTree"
 msgstr ""
 
-#: core/inc/admin.php:666 core/inc/admin.php:731 core/inc/admin.php:778
-#: core/inc/admin.php:1563 core/inc/admin.php:1602
+#: core/inc/admin.php:668 core/inc/admin.php:738 core/inc/admin.php:785
+#: core/inc/admin.php:1597 core/inc/admin.php:1636
 msgid "Remove Media"
 msgstr ""
 
-#: core/inc/admin.php:679 core/inc/admin.php:749 core/inc/admin.php:1573
+#: core/inc/admin.php:681 core/inc/admin.php:756 core/inc/admin.php:1607
 msgid "Featured Image"
 msgstr ""
 
-#: core/inc/admin.php:683 core/inc/admin.php:754 core/inc/admin.php:1579
+#: core/inc/admin.php:685 core/inc/admin.php:761 core/inc/admin.php:1613
 msgid "Add media"
 msgstr ""
 
-#: core/inc/admin.php:686 core/inc/admin.php:782
+#: core/inc/admin.php:688 core/inc/admin.php:789
 msgid "Select a media assigned to the category."
 msgstr ""
 
-#: core/inc/admin.php:698 core/inc/admin.php:797
+#: core/inc/admin.php:701 core/inc/admin.php:805
 msgid "Select a color assigned to the category."
 msgstr ""
 
-#: core/inc/admin.php:1144
+#: core/inc/admin.php:1175
 #, php-format
 msgid ""
 "The Adaptive Images / Dynamic Srcset system is using %1$s of the %2$s space "
 "left."
 msgstr ""
 
-#: core/inc/admin.php:1333
+#: core/inc/admin.php:1367
 msgid ""
 "In order to run Uncode you need first to deactivate WPBakery Page Builder "
 "and install the Uncode WPBakery Page Builder."
 msgstr ""
 
-#: core/inc/admin.php:1334
+#: core/inc/admin.php:1368
 msgid "Deactivate WPBakery Page Builder"
 msgstr ""
 
-#: core/inc/admin.php:1350
+#: core/inc/admin.php:1384
 msgid "Warning: PHP max_input_vars."
 msgstr ""
 
-#: core/inc/admin.php:1353
+#: core/inc/admin.php:1387
 #, php-format
 msgid ""
 "Before saving the theme options you need to address an issue marked on the "
 "<strong><a href=\"%s\">System Status</a></strong>."
 msgstr ""
 
-#: core/inc/admin.php:1396
+#: core/inc/admin.php:1430
 #, php-format
 msgid ""
 "The menu transparency will not be visible without a declared header <a class="
 "\"page-options-header-section\" href=\"%s\">here</a>."
 msgstr ""
 
-#: core/inc/admin.php:1479
+#: core/inc/admin.php:1513
 msgid "Facebook profile URL"
 msgstr ""
 
-#: core/inc/admin.php:1481
+#: core/inc/admin.php:1515
 msgid "Twitter username or profile URL"
 msgstr ""
 
-#: core/inc/admin.php:1483
+#: core/inc/admin.php:1517
 msgid "Google+"
 msgstr ""
 
-#: core/inc/admin.php:1485
+#: core/inc/admin.php:1519
 msgid "Dribbble profile URL"
 msgstr ""
 
-#: core/inc/admin.php:1487
+#: core/inc/admin.php:1521
 msgid "Instagram profile URL"
 msgstr ""
 
-#: core/inc/admin.php:1489
+#: core/inc/admin.php:1523
 msgid "Pinterest page URL"
 msgstr ""
 
-#: core/inc/admin.php:1491
+#: core/inc/admin.php:1525
 msgid "Xing profile URL"
 msgstr ""
 
-#: core/inc/admin.php:1493
+#: core/inc/admin.php:1527
 msgid "YouTube page URL"
 msgstr ""
 
-#: core/inc/admin.php:1495
+#: core/inc/admin.php:1529
 msgid "Vimeo page URL"
 msgstr ""
 
-#: core/inc/admin.php:1497
+#: core/inc/admin.php:1531
 msgid "LinkedIn page URL"
 msgstr ""
 
-#: core/inc/admin.php:1499
+#: core/inc/admin.php:1533
 msgid "Tumblr page URL"
 msgstr ""
 
-#: core/inc/admin.php:1517
+#: core/inc/admin.php:1551
 msgid "Qualification"
 msgstr ""
 
-#: core/inc/admin.php:1521
+#: core/inc/admin.php:1555
 msgid "Enter a descriptive sentence."
 msgstr ""
 
-#: core/inc/admin.php:1606
+#: core/inc/admin.php:1640
 msgid "Select a media assigned to the author page."
 msgstr ""
 
-#: core/inc/admin.php:1815
+#: core/inc/admin.php:1849
 #, php-format
 msgid ""
 "Please activate Content Block in WPBakery Page Builder > <a href=\"%1s"
@@ -1831,20 +1957,20 @@ msgid ""
 "\"_blank\">click here</a>"
 msgstr ""
 
-#: core/inc/admin.php:1888
+#: core/inc/admin.php:1922
 #, php-format
 msgid ""
 "Envato WordPress Toolkit has been deprecated. Please deactivate it and <a "
 "href=\"%1$s\">register your theme here</a>."
 msgstr ""
 
-#: core/inc/admin.php:1932
+#: core/inc/admin.php:1966
 msgid ""
 "The following plugin needs to be updated to its latest version to ensure "
 "maximum compatibility with this theme: <em>Uncode Core</em>."
 msgstr ""
 
-#: core/inc/admin.php:1940 core/inc/admin.php:1948
+#: core/inc/admin.php:1974 core/inc/admin.php:1982
 msgid "This theme requires the following plugin: <em>Uncode Core</em>."
 msgstr ""
 
@@ -2126,7 +2252,7 @@ msgstr ""
 msgid "More info"
 msgstr ""
 
-#: core/inc/admin-pages/welcome.php:51 core/inc/admin-pages/welcome.php:457
+#: core/inc/admin-pages/welcome.php:51 core/inc/admin-pages/welcome.php:461
 msgid "Where can I find my Envato Purchase Code?"
 msgstr ""
 
@@ -2345,27 +2471,74 @@ msgstr ""
 msgid "No available data"
 msgstr ""
 
-#: core/inc/helpers/images/srcset-images-functions.php:327
-#: core/inc/helpers/images/srcset-images-functions.php:409
-msgid "Invalid nonce."
-msgstr ""
-
-#: core/inc/helpers/images/srcset-images-functions.php:391
-#: core/inc/helpers/images/srcset-images-functions.php:472
+#: core/inc/helpers/images/srcset-images-functions.php:399
+#: core/inc/helpers/images/srcset-images-functions.php:480
 msgid "Empty data."
 msgstr ""
 
-#: core/inc/helpers/images/srcset-images-functions.php:421
+#: core/inc/helpers/images/srcset-images-functions.php:429
 msgid "Invalid mobile breakpoint size."
 msgstr ""
 
 #: core/inc/helpers/grids/custom-grid-functions.php:14
-#: vc_templates/uncode_index.php:2304
+#: content-block-none.php:15
 msgid "Nothing found."
 msgstr ""
 
 #: core/inc/helpers/grids/custom-grid-functions.php:24
 msgid "Please add at least one 'Placeholder' to your design."
+msgstr ""
+
+#: core/inc/helpers/ajax-filters/ajax-filters.php:770
+#: core/inc/helpers/ajax-filters/ajax-filters-views.php:574
+#, php-format
+msgctxt "ajax_price_filter"
+msgid "Under %s"
+msgstr ""
+
+#: core/inc/helpers/ajax-filters/ajax-filters.php:780
+#: core/inc/helpers/ajax-filters/ajax-filters-views.php:568
+#, php-format
+msgctxt "ajax_price_filter"
+msgid "Over %s"
+msgstr ""
+
+#: core/inc/helpers/ajax-filters/ajax-filters.php:1061
+msgid "On sale"
+msgstr ""
+
+#: core/inc/helpers/ajax-filters/ajax-filters.php:1065
+msgid "In stock"
+msgstr ""
+
+#: core/inc/helpers/ajax-filters/ajax-filters.php:1069
+#, php-format
+msgid "%s star"
+msgid_plural "%s stars"
+msgstr[0] ""
+msgstr[1] ""
+
+#: core/inc/helpers/ajax-filters/ajax-filters-views.php:455
+#: partials/menus.php:813 searchform.php:9
+msgid "Search products…"
+msgstr ""
+
+#: core/inc/helpers/ajax-filters/ajax-filters-views.php:455
+#: partials/menus.php:813 searchform.php:9
+msgid "Search…"
+msgstr ""
+
+#: core/inc/helpers/ajax-filters/ajax-filters-views.php:487
+#: vc_templates/uncode_index.php:1595
+msgid "Clear all"
+msgstr ""
+
+#: core/inc/helpers/ajax-filters/ajax-filters-views.php:548
+msgid "Active filter 1"
+msgstr ""
+
+#: core/inc/helpers/ajax-filters/ajax-filters-views.php:549
+msgid "Active filter 2"
 msgstr ""
 
 #: core/inc/helpers/account/account-functions.php:33
@@ -2376,171 +2549,168 @@ msgstr ""
 msgid "Login / Register"
 msgstr ""
 
-#: core/inc/helpers/quick-view/class-uncode-quick-view.php:212
-#: core/inc/helpers/quick-view/class-uncode-quick-view.php:416
+#: core/inc/helpers/quick-view/class-uncode-quick-view.php:209
+#: core/inc/helpers/quick-view/class-uncode-quick-view.php:413
 msgid "Quick-View"
 msgstr ""
 
-#: core/inc/helpers/quick-view/class-uncode-quick-view.php:235
+#: core/inc/helpers/quick-view/class-uncode-quick-view.php:232
 msgid "Ivalid post ID"
 msgstr ""
 
-#: core/inc/helpers/quick-view/class-uncode-quick-view.php:267
-msgid "Ivalid HTML data"
-msgstr ""
-
-#: core/inc/helpers/quick-view/class-uncode-quick-view.php:282
+#: core/inc/helpers/quick-view/class-uncode-quick-view.php:279
 msgid "Ivalid data"
 msgstr ""
 
-#: core/inc/helpers/taxonomies/taxonomies-functions.php:35
+#: core/inc/helpers/taxonomies/taxonomies-functions.php:38
 msgid "Post"
 msgstr ""
 
-#: core/inc/helpers/taxonomies/taxonomies-functions.php:39
+#: core/inc/helpers/taxonomies/taxonomies-functions.php:42
 msgid "Portfolio"
 msgstr ""
 
-#: core/inc/helpers/taxonomies/taxonomies-functions.php:44
-#: vc_templates/uncode_woocommerce_widget_products.php:80
+#: core/inc/helpers/taxonomies/taxonomies-functions.php:47
+#: core/inc/helpers/taxonomies/taxonomies-functions.php:56
+#: vc_templates/uncode_woocommerce_widget_products.php:117
 msgid "Products"
 msgstr ""
 
-#: core/inc/helpers/taxonomies/taxonomies-functions.php:48
+#: core/inc/helpers/taxonomies/taxonomies-functions.php:51
 msgid "Items"
 msgstr ""
 
-#: core/inc/helpers/taxonomies/taxonomies-functions.php:48
+#: core/inc/helpers/taxonomies/taxonomies-functions.php:51
 msgid "Item"
 msgstr ""
 
-#: core/inc/template-tags.php:77
+#: core/inc/template-tags.php:90
 msgid "Prev"
 msgstr ""
 
-#: core/inc/template-tags.php:196
+#: core/inc/template-tags.php:209
 #, php-format
 msgctxt "post date"
 msgid "Posted on %s"
 msgstr ""
 
-#: core/inc/template-tags.php:201
+#: core/inc/template-tags.php:214
 #, php-format
 msgctxt "post author"
 msgid "by %s"
 msgstr ""
 
-#: core/inc/template-tags.php:218 core/inc/template-tags.php:224
+#: core/inc/template-tags.php:231 core/inc/template-tags.php:237
 msgid ", "
 msgstr ""
 
-#: core/inc/template-tags.php:220
+#: core/inc/template-tags.php:233
 #, php-format
 msgid "Posted in %1$s"
 msgstr ""
 
-#: core/inc/template-tags.php:226
+#: core/inc/template-tags.php:239
 #, php-format
 msgid "Tagged %1$s"
 msgstr ""
 
-#: core/inc/template-tags.php:232
+#: core/inc/template-tags.php:245
 msgid "Leave a comment"
 msgstr ""
 
-#: core/inc/template-tags.php:232
+#: core/inc/template-tags.php:245
 msgid "1 Comment"
 msgstr ""
 
-#: core/inc/template-tags.php:232
+#: core/inc/template-tags.php:245
 msgid "% Comments"
 msgstr ""
 
-#: core/inc/template-tags.php:236
+#: core/inc/template-tags.php:249
 msgid "Edit"
 msgstr ""
 
-#: core/inc/template-tags.php:259
+#: core/inc/template-tags.php:272
 #, php-format
 msgid "Year: %s"
 msgstr ""
 
-#: core/inc/template-tags.php:259
+#: core/inc/template-tags.php:272
 msgctxt "yearly archives date format"
 msgid "Y"
 msgstr ""
 
-#: core/inc/template-tags.php:261
+#: core/inc/template-tags.php:274
 #, php-format
 msgid "Month: %s"
 msgstr ""
 
-#: core/inc/template-tags.php:261
+#: core/inc/template-tags.php:274
 msgctxt "monthly archives date format"
 msgid "F Y"
 msgstr ""
 
-#: core/inc/template-tags.php:263
+#: core/inc/template-tags.php:276
 #, php-format
 msgid "Day: %s"
 msgstr ""
 
-#: core/inc/template-tags.php:263
+#: core/inc/template-tags.php:276
 msgctxt "daily archives date format"
 msgid "F j, Y"
 msgstr ""
 
-#: core/inc/template-tags.php:266
+#: core/inc/template-tags.php:279
 msgctxt "post format archive title"
 msgid "Asides"
 msgstr ""
 
-#: core/inc/template-tags.php:268
+#: core/inc/template-tags.php:281
 msgctxt "post format archive title"
 msgid "Galleries"
 msgstr ""
 
-#: core/inc/template-tags.php:270
+#: core/inc/template-tags.php:283
 msgctxt "post format archive title"
 msgid "Images"
 msgstr ""
 
-#: core/inc/template-tags.php:272
+#: core/inc/template-tags.php:285
 msgctxt "post format archive title"
 msgid "Videos"
 msgstr ""
 
-#: core/inc/template-tags.php:274
+#: core/inc/template-tags.php:287
 msgctxt "post format archive title"
 msgid "Quotes"
 msgstr ""
 
-#: core/inc/template-tags.php:276
+#: core/inc/template-tags.php:289
 msgctxt "post format archive title"
 msgid "Links"
 msgstr ""
 
-#: core/inc/template-tags.php:278
+#: core/inc/template-tags.php:291
 msgctxt "post format archive title"
 msgid "Statuses"
 msgstr ""
 
-#: core/inc/template-tags.php:280
+#: core/inc/template-tags.php:293
 msgctxt "post format archive title"
 msgid "Audio"
 msgstr ""
 
-#: core/inc/template-tags.php:282
+#: core/inc/template-tags.php:295
 msgctxt "post format archive title"
 msgid "Chats"
 msgstr ""
 
-#: core/inc/template-tags.php:285
+#: core/inc/template-tags.php:298
 #, php-format
 msgid "Archives %s"
 msgstr ""
 
-#: core/inc/template-tags.php:291 vc_templates/vc_wp_archives.php:76
+#: core/inc/template-tags.php:304 vc_templates/vc_wp_archives.php:113
 msgid "Archives"
 msgstr ""
 
@@ -3019,55 +3189,64 @@ msgstr ""
 msgid "Please activate Uncode Core plugin"
 msgstr ""
 
-#: search.php:92
-msgid "Results for:"
-msgstr ""
-
-#: footer.php:123 vc_templates/uncode_copyright.php:48 partials/menus.php:1304
+#: footer.php:125 vc_templates/uncode_copyright.php:48 partials/menus.php:1480
 msgid "All rights reserved"
 msgstr ""
 
-#: footer.php:187
+#: footer.php:189
 msgid "Footer Content Block"
 msgstr ""
 
-#: single.php:380 page.php:388 partials/elements.php:1480
+#: single.php:397 page.php:406 partials/elements.php:1441
 msgid "Pages:"
 msgstr ""
 
-#: vc_templates/uncode_index.php:48
+#: vc_templates/uncode_index.php:44
+msgid "Hide filters"
+msgstr ""
+
+#: vc_templates/uncode_index.php:45
+msgid "Show filters"
+msgstr ""
+
+#: vc_templates/uncode_index.php:53
 msgid "Filters"
 msgstr ""
 
-#: vc_templates/uncode_index.php:1161 vc_templates/vc_gallery.php:869
+#: vc_templates/uncode_index.php:1360 vc_templates/vc_gallery.php:878
 msgid "Show all"
 msgstr ""
 
-#: vc_templates/uncode_index.php:1192
+#: vc_templates/uncode_index.php:1411
 msgid "Options"
 msgstr ""
 
-#: vc_templates/uncode_index.php:2282
+#: vc_templates/uncode_index.php:1535
+#, php-format
+msgid "%s items"
+msgstr ""
+
+#: vc_templates/uncode_index.php:1596
+msgid "Apply"
+msgstr ""
+
+#: vc_templates/uncode_index.php:2703
 msgid "The Post Table layout must start with a 'Column' element."
 msgstr ""
 
-#: vc_templates/uncode_index.php:2328 vc_templates/vc_gallery.php:1473
+#: vc_templates/uncode_index.php:2755 vc_templates/vc_gallery.php:1492
 msgid "Load more"
 msgstr ""
 
-#: vc_templates/vc_wp_search.php:71 partials/menus.php:728
+#: vc_templates/vc_wp_search.php:109 partials/menus.php:805
 msgid "Search"
 msgstr ""
 
-#: vc_templates/uncode_woocommerce_widget_price_filter.php:70
+#: vc_templates/uncode_woocommerce_widget_price_filter.php:107
 msgid "Filter by price"
 msgstr ""
 
-#: vc_templates/vc_wp_rss.php:75
-msgid "RSS"
-msgstr ""
-
-#: vc_templates/uncode_woocommerce_widget_sorting.php:69
+#: vc_templates/uncode_woocommerce_widget_sorting.php:106
 msgid "Sort products"
 msgstr ""
 
@@ -3075,11 +3254,25 @@ msgstr ""
 msgid "Empty tab. Edit page to add content here."
 msgstr ""
 
-#: vc_templates/vc_wp_recentcomments.php:70
+#: vc_templates/uncode_woocommerce_account_forms.php:210
+msgid "Please enter a valid order ID"
+msgstr ""
+
+#: vc_templates/uncode_woocommerce_account_forms.php:212
+msgid "Please enter a valid email address"
+msgstr ""
+
+#: vc_templates/uncode_woocommerce_account_forms.php:225
+msgid ""
+"Sorry, the order could not be found. Please contact us if you are having "
+"difficulty finding your order details."
+msgstr ""
+
+#: vc_templates/vc_wp_recentcomments.php:107
 msgid "Recent Comments"
 msgstr ""
 
-#: vc_templates/vc_wp_text.php:72
+#: vc_templates/vc_wp_text.php:109
 msgid "Text"
 msgstr ""
 
@@ -3114,22 +3307,22 @@ msgstr ""
 msgid "%1$s post page"
 msgstr ""
 
-#: vc_templates/uncode_woocommerce_widget_top_rated_products.php:77
+#: vc_templates/uncode_woocommerce_widget_top_rated_products.php:114
 msgid "Top rated products"
 msgstr ""
 
-#: vc_templates/uncode_woocommerce_widget_top_rated_products.php:87
-#: vc_templates/uncode_woocommerce_widget_recent_reviews.php:87
-#: vc_templates/uncode_woocommerce_widget_top_rating_filter.php:76
+#: vc_templates/uncode_woocommerce_widget_top_rated_products.php:124
+#: vc_templates/uncode_woocommerce_widget_recent_reviews.php:124
+#: vc_templates/uncode_woocommerce_widget_top_rating_filter.php:113
 msgid "You need to enable product reviews to use this module."
 msgstr ""
 
-#: vc_templates/uncode_single_product_gallery.php:206
-#: partials/elements.php:3027
+#: vc_templates/uncode_single_product_gallery.php:241
+#: partials/elements.php:3045
 msgid "Sale!"
 msgstr ""
 
-#: vc_templates/uncode_woocommerce_widget_recent_reviews.php:77
+#: vc_templates/uncode_woocommerce_widget_recent_reviews.php:114
 msgid "Recent reviews"
 msgstr ""
 
@@ -3142,7 +3335,7 @@ msgstr ""
 msgid "Field Value Example"
 msgstr ""
 
-#: vc_templates/uncode_woocommerce_widget_layered_nav.php:62
+#: vc_templates/uncode_woocommerce_widget_layered_nav.php:99
 msgid "Filter by"
 msgstr ""
 
@@ -3153,15 +3346,15 @@ msgid ""
 "Wishlist</a> to use this module."
 msgstr ""
 
-#: vc_templates/uncode_woocommerce_widget_product_tag_cloud.php:64
+#: vc_templates/uncode_woocommerce_widget_product_tag_cloud.php:101
 msgid "Product tags"
 msgstr ""
 
-#: vc_templates/vc_wp_meta.php:74
+#: vc_templates/vc_wp_meta.php:111
 msgid "Meta"
 msgstr ""
 
-#: vc_templates/uncode_woocommerce_widget_layered_nav_filters.php:66
+#: vc_templates/uncode_woocommerce_widget_layered_nav_filters.php:103
 msgid "Active Filters"
 msgstr ""
 
@@ -3189,7 +3382,7 @@ msgstr ""
 msgid "Year placeholder"
 msgstr ""
 
-#: vc_templates/uncode_woocommerce_widget_top_rating_filter.php:66
+#: vc_templates/uncode_woocommerce_widget_top_rating_filter.php:103
 msgid "Average rating"
 msgstr ""
 
@@ -3206,28 +3399,36 @@ msgstr ""
 msgid "<?php do_action(\"%s\"); ?>"
 msgstr ""
 
-#: vc_templates/uncode_woocommerce_widget_product_search.php:59
+#: vc_templates/uncode_woocommerce_widget_product_search.php:96
 msgid "Product search"
 msgstr ""
 
-#: vc_templates/vc_wp_custommenu.php:68
+#: vc_templates/vc_wp_custommenu.php:105
 msgid "Menu"
 msgstr ""
 
-#: vc_templates/uncode_woocommerce_widget_product_categories.php:80
+#: vc_templates/uncode_woocommerce_widget_product_categories.php:117
 msgid "Product categories"
 msgstr ""
 
-#: vc_templates/vc_wp_calendar.php:64
+#: vc_templates/vc_wp_calendar.php:101
 msgid "Calendar"
 msgstr ""
 
-#: vc_templates/uncode_woocommerce_widget_recent_viewed_products.php:75
+#: vc_templates/uncode_woocommerce_steps.php:134
+msgid "Order Complete"
+msgstr ""
+
+#: vc_templates/uncode_woocommerce_widget_recent_viewed_products.php:112
 msgid "Recently Viewed Products"
 msgstr ""
 
-#: vc_templates/vc_wp_posts.php:73
+#: vc_templates/vc_wp_posts.php:110
 msgid "Recent Posts"
+msgstr ""
+
+#: content-block-none.php:13
+msgid "Nothing came up. Try adjusting your filters."
 msgstr ""
 
 #: partials/headers.php:272
@@ -3238,90 +3439,82 @@ msgstr ""
 msgid "Edit Theme Options"
 msgstr ""
 
-#: partials/headers.php:456
+#: partials/headers.php:462
 msgid "Header Content Block"
 msgstr ""
 
-#: partials/headers.php:481 partials/headers.php:503
+#: partials/headers.php:487 partials/headers.php:509
 msgid "Edit Slider"
 msgstr ""
 
-#: partials/headers.php:481 partials/headers.php:503
+#: partials/headers.php:487 partials/headers.php:509
 msgid "Header Slider"
 msgstr ""
 
-#: partials/menus.php:94 partials/menus.php:194
+#: partials/menus.php:95 partials/menus.php:196
 msgid "logo"
 msgstr ""
 
-#: partials/menus.php:736 searchform.php:9
-msgid "Search products…"
-msgstr ""
-
-#: partials/menus.php:736 searchform.php:9
-msgid "Search…"
-msgstr ""
-
-#: partials/elements.php:1088
+#: partials/elements.php:1106
 msgid "Sticky"
 msgstr ""
 
-#: partials/elements.php:1675 partials/elements.php:1680
-#: partials/elements.php:1684 partials/elements.php:1686
+#: partials/elements.php:1635 partials/elements.php:1640
+#: partials/elements.php:1644 partials/elements.php:1646
 msgid "by"
 msgstr ""
 
-#: partials/elements.php:1718 partials/elements.php:3531
+#: partials/elements.php:1678 partials/elements.php:3552
 msgctxt "comments"
 msgid "Comment"
 msgid_plural "Comments"
 msgstr[0] ""
 msgstr[1] ""
 
-#: partials/elements.php:3462 partials/elements.php:3486
-#: partials/elements.php:3562
+#: partials/elements.php:3483 partials/elements.php:3507
+#: partials/elements.php:3583
 #, php-format
 msgid "View all posts in %s"
 msgstr ""
 
-#: partials/elements.php:3464 partials/elements.php:3488
-#: partials/elements.php:3568
+#: partials/elements.php:3485 partials/elements.php:3509
+#: partials/elements.php:3589
 msgid "In"
 msgstr ""
 
-#: partials/elements.php:3467 partials/elements.php:3515
+#: partials/elements.php:3488 partials/elements.php:3536
 msgid "By"
 msgstr ""
 
-#: partials/elements.php:3592
+#: partials/elements.php:3613
 msgctxt "breadcrumb"
 msgid "Home"
 msgstr ""
 
-#: partials/elements.php:3602
+#: partials/elements.php:3623
 msgid "Home"
 msgstr ""
 
-#: partials/elements.php:3605
+#: partials/elements.php:3626
 msgid "Archive by Category"
 msgstr ""
 
-#: partials/elements.php:3608
+#: partials/elements.php:3629
 msgid "Search Results for"
 msgstr ""
 
-#: partials/elements.php:3611
+#: partials/elements.php:3632
 msgid "Posts Tagged"
 msgstr ""
 
-#: partials/elements.php:3614
+#: partials/elements.php:3635
 msgid "Articles Posted by"
 msgstr ""
 
-#: partials/elements.php:3617
+#: partials/elements.php:3638
 msgid "Error 404"
 msgstr ""
 
-#: partials/elements.php:3816
+#: partials/elements.php:3837
 msgid "Page"
 msgstr ""

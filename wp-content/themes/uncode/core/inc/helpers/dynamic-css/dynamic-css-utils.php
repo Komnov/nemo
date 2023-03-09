@@ -78,8 +78,12 @@ function uncode_get_dynamic_color_background_css_value( $key, $color_value, $gra
 		if ( is_array( $properties ) && in_array( 'button', $properties ) ) {
 			global $front_background_colors;
 			$uncode_option = get_option(ot_options_id());
-			$cs_heading_color_light = $uncode_option['_uncode_heading_color_light'];
-			$btn_outline = $front_background_colors[$cs_heading_color_light];
+			if ( isset( $uncode_option['_uncode_heading_color_light'] ) ) {
+				$cs_heading_color_light = $uncode_option['_uncode_heading_color_light'];
+				$btn_outline = $front_background_colors[$cs_heading_color_light];
+			} else {
+				$btn_outline = false;
+			}
 		} else {
 			$btn_outline = false; // fake value, we won't use it
 		}

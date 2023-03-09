@@ -10,11 +10,20 @@ if ( ! function_exists( 'uncode_posts_navigation' ) ) :
  * Display navigation to next/previous set of posts when applicable.
  *
  */
-function uncode_posts_navigation() {
+function uncode_posts_navigation( $has_custom_query = false ) {
+	global $uncode_index_query, $wp_query;
+
+	if ( $has_custom_query && isset( $uncode_index_query ) && ! is_null( $uncode_index_query ) ) {
+		$old_wp_query = $wp_query;
+		$wp_query = $uncode_index_query;
+	}
+
 	// Don't print empty markup if there's only one page.
-	if ( $GLOBALS['wp_query']->max_num_pages < 2 ) {
+	if ( $wp_query->max_num_pages < 2 ) {
 		return;
 	}
+
+	$output = '';
 
 	$pagination_args = array(
 		'prev_next'		=> false,
@@ -42,6 +51,10 @@ function uncode_posts_navigation() {
 		}
 
 		$output .= "</ul><!-- .pagination -->";
+	}
+
+	if ( $has_custom_query && isset( $uncode_index_query ) && ! is_null( $uncode_index_query ) ) {
+		$wp_query = $old_wp_query;
 	}
 
 	return $output;

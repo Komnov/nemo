@@ -341,17 +341,20 @@ if ( ! function_exists( 'ot_type_upload' ) ) {
     /* verify a description */
     $has_desc = $field_desc ? true : false;
 
+	$has_correct_dimensions = true;
+
     /* If an attachment ID is stored here fetch its URL and replace the value */
     if ( $field_value && wp_attachment_is_image( $field_value ) ) {
 
-      $attachment_data = wp_get_attachment_image_src( $field_value, 'original' );
+		if ( function_exists( 'uncode_get_media_info' ) ) {
+			$media_info = uncode_get_media_info($field_value);
+			$media_metavalues = isset( $media_info->metadata ) ? unserialize($media_info->metadata ) : array();
+			$field_src = $media_info->guid;
 
-      /* check for attachment data */
-      if ( $attachment_data ) {
-
-        $field_src = $attachment_data[0];
-
-      }
+			if ( ! ( isset( $media_metavalues['width'] ) && $media_metavalues['width'] && isset( $media_metavalues['height'] ) && $media_metavalues['height'] ) ) {
+				$has_correct_dimensions = false;
+			}
+		}
 
     }
 
@@ -381,14 +384,21 @@ if ( ! function_exists( 'ot_type_upload' ) ) {
           echo '<div class="option-tree-ui-media-wrap" id="' . esc_attr( $field_id ) . '_media">';
 
             /* replace image src */
-            if ( isset( $field_src ) )
+            if ( isset( $field_src ) ) {
               $field_value = $field_src;
+			}
 
             $post = get_post($field_value);
-            if (isset($post->post_mime_type) && $post->post_mime_type === 'oembed/svg') echo '<div class="option-tree-ui-image-wrap">' . $post->post_content . '</div>';
-            else if ( preg_match( '/\.(?:jpe?g|png|gif|ico)$/i', $field_value ) )
+
+			if ( ! $has_correct_dimensions ) {
+				echo '<div class="option-tree-ui-image-wrap">' . sprintf( wp_kses_post( __( 'Please enter valid width and height measurements for your SVG. <a href="%s" target="_blank">Read More...</a>', 'uncode-core' ) ), 'https://support.undsgn.com/hc/en-us/articles/214001865#notes' ) . '</div>';
+			} else if (isset($post->post_mime_type) && $post->post_mime_type === 'oembed/svg') {
+				echo '<div class="option-tree-ui-image-wrap">' . $post->post_content . '</div>';
+			} else if ( preg_match( '/\.(?:jpe?g|png|gif|ico)$/i', $field_value ) ) {
               echo '<div class="option-tree-ui-image-wrap"><img src="' . esc_url( $field_value ) . '" alt="" /></div>';
-            else echo '<div class="option-tree-ui-image-wrap"><div class="option-tree-ui-image-wrap"><div class="oembed" onload="alert(\'load\');"><span class="spinner" style="display: block; float: left;"></span></div><div class="oembed_code" style="display: none;">' . esc_url( $field_value ) . '</div></div></div>';
+			} else {
+				echo '<div class="option-tree-ui-image-wrap"><div class="option-tree-ui-image-wrap"><div class="oembed" onload="alert(\'load\');"><span class="spinner" style="display: block; float: left;"></span></div><div class="oembed_code" style="display: none;">' . esc_url( $field_value ) . '</div></div></div>';
+			}
 
             echo '<a href="javascript:(void);" class="option-tree-ui-remove-media option-tree-ui-button button button-secondary light" title="' . esc_html__( 'Remove Media', 'uncode-core' ) . '"><span class="icon fa fa-minus2"></span>' . esc_html__( 'Remove Media', 'uncode-core' ) . '</a>';
 

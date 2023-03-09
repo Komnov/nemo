@@ -1,4 +1,6 @@
 <?php
+global $uncode_vc_gallery;
+$uncode_vc_gallery = true;
 
 $el_id = $isotope_mode = $gallery_back_color = $items = $random = $medias = $explode_albums = $filtering = $filter_style = $filter_background = $filter_back_color = $filtering_full_width = $filtering_position = $filtering_uppercase = $filter_all_opposite = $filter_all_text = $filter_mobile = $filter_mobile_align = $filter_mobile_dropdown = $filter_mobile_dropdown_text = $filter_scroll = $filter_sticky = $style_preset = $images_size = $thumb_size = $gutter_size = $stage_padding = $carousel_overflow = $carousel_half_opacity = $carousel_scaled = $carousel_pointer_events = $inner_padding = $single_width = $single_height = $single_back_color = $single_shape = $radius = $single_elements_click = $single_text = $single_text_visible = $single_text_visible = $single_text_anim = $single_text_anim_type = $single_overlay_visible = $single_overlay_anim = $single_image_coloration = $single_image_color_anim = $single_image_anim = $single_image_magnetic = $single_reduced = $single_reduced_mobile = $single_padding = $single_text_reduced = $single_h_align = $single_v_position = $single_h_position = $single_style = $single_overlay_color = $single_overlay_coloration = $single_overlay_blend = $single_overlay_opacity = $single_link = $single_shadow = $shadow_weight = $shadow_darker = $single_border = $single_icon = $single_title_transform = $single_animation_first = $single_title_family = $single_title_dimension = $single_title_weight = $single_title_semantic = $single_title_height = $single_title_space = $single_text_lead = $single_css_animation = $single_animation_delay = $single_animation_speed = $carousel_fluid = $carousel_type = $carousel_interval = $carousel_navspeed = $carousel_loop = $carousel_nav = $carousel_dots = $carousel_dots_space = $carousel_nav_mobile = $carousel_nav_skin = $carousel_dots_mobile = $carousel_dots_inside = $carousel_dot_position = $carousel_dot_padding = $carousel_autoh = $carousel_lg = $carousel_md = $carousel_sm = $carousel_textual = $hide_quotes = $carousel_height = $carousel_v_align = $off_grid = $off_grid_element = $off_grid_val = $off_grid_all = $screen_lg = $screen_md = $screen_sm = $lbox_skin = $lbox_transparency = $lbox_dir = $lbox_title = $lbox_caption = $lbox_social = $lbox_deep = $lbox_no_tmb = $lbox_no_arrows = $lbox_gallery_arrows = $lbox_gallery_arrows_bg = $lbox_zoom_origin = $lbox_counter = $lbox_actual_size = $lbox_full = $lbox_download = $lbox_transition = $no_double_tap = $nested = $media_items = $output = $title = $type = $el_class = $justify_row_height = $justify_max_row_height = $justify_last_row = $sticky_dir = $sticky_wrap = $sticky_th_size = $sticky_th_vh_lg = $sticky_th_vh_md = $sticky_th_vh_sm = $sticky_th_grid_lg = $sticky_th_grid_md = $sticky_th_grid_sm = $dynamic = $dynamic_source = $filter_typography = $custom_cursor = $skew = $container_style = $sticky_scroll_v_align = $sticky_thumb_size = $no_sticky_scroll_tablet = $no_sticky_scroll_mobile = $sticky_th_vh_minus = $sticky_scroll_mobile_safe_height = '';
 extract( shortcode_atts( array(
@@ -94,6 +96,7 @@ extract( shortcode_atts( array(
 		'single_title_semantic' => 'h3',
 		'single_title_height' => '',
 		'single_title_space' => '',
+		'single_title_scale_mobile' => '',
 		'single_text_lead' => '',
 		'single_meta_custom_typo' => '',
 		'single_meta_size' => '',
@@ -202,6 +205,7 @@ extract( shortcode_atts( array(
 		'no_sticky_scroll_tablet' => '',
 		'no_sticky_scroll_mobile' => '',
 		'sticky_scroll_mobile_safe_height' => '',
+		'css_grid_equal_height' => '',
 ), $atts ) );
 
 $stylesArray = array(
@@ -329,6 +333,7 @@ $general_title_weight = $single_title_weight;
 $general_title_semantic = $single_title_semantic;
 $general_title_height = $single_title_height;
 $general_title_space = $single_title_space;
+$general_title_scale_mobile = $single_title_scale_mobile;
 $general_text_lead = $single_text_lead;
 $general_meta_custom_typo = $single_meta_custom_typo;
 $general_meta_size = $single_meta_size;
@@ -498,6 +503,9 @@ if ($type == 'isotope') {
 	$parent_container_classes[] = 'cssgrid-' . $gutter_size;
 	$container_classes[] = 'cssgrid-container grid-container';
 	$container_classes[] = 'cssgrid-layout';
+	if ( $css_grid_equal_height === 'yes' && $single_text === 'under' ) {
+		$container_classes[] = 'cssgrid-equal-height';
+	}
 	$main_container_classes[] = 'cssgrid-' . esc_attr( $uncode_shortcode_id );
 	if ($inner_padding === 'yes') {
 		$parent_container_classes[] = 'isotope-inner-padding grid-inner-padding';
@@ -525,6 +533,7 @@ if ($type == 'isotope') {
 	}
 } elseif ($type == 'justified') {
 	$main_container_classes[] = 'justified-system';
+	$main_container_classes[] = 'grid-general-' . $general_style;
 	$parent_container_classes[] = 'justified-wrapper';
 	$parent_container_classes[] = $gutter_size;
 	$fixer_classes[] = 'justified-fixer';
@@ -873,7 +882,7 @@ switch ($type) {
 							</li>
 							<?php
 							foreach ( $categories as $key => $cat ): ?>
-								<li class="filter-cat-<?php echo esc_attr($key); ?>"><span><a href="#" data-filter="grid-cat-<?php echo esc_attr($key); ?>" class="<?php if (isset($_GET['ucat']) && $_GET['ucat'] == $key) { echo 'active'; if ($filtering_uppercase !== 'yes') echo ' no-letterspace'; } ?> isotope-nav-link grid-nav-link"><?php echo esc_attr( key($cat) ) ?></a></span></li>
+								<li class="filter-cat-<?php echo esc_attr($key); ?> filter-cat"><span><a href="#" data-filter="grid-cat-<?php echo esc_attr($key); ?>" class="<?php if (isset($_GET['ucat']) && $_GET['ucat'] == $key) { echo 'active'; if ($filtering_uppercase !== 'yes') echo ' no-letterspace'; } ?> isotope-nav-link grid-nav-link"><?php echo esc_attr( key($cat) ) ?></a></span></li>
 							<?php endforeach; ?>
 						</ul>
 					</div>
@@ -882,26 +891,6 @@ switch ($type) {
 		<?php endif; ?>
 	<?php endif; ?>
 
-<?php
-$typeLayout = $typeLayout_or = $media_blocks;
-
-if (isset($item_prop['single_layout_media_items'])) {
-	if (function_exists('uncode_flatArray')) {
-		$typeLayout = uncode_flatArray(vc_sorted_list_parse_value($item_prop['single_layout_media_items']));
-	} else {
-		$typeLayout = array();
-	}
-}
-
-if (isset($item_prop_or['single_layout_media_items'])) {
-	if (function_exists('uncode_flatArray')) {
-		$typeLayout_or = uncode_flatArray(vc_sorted_list_parse_value($item_prop_or['single_layout_media_items']));
-	} else {
-		$typeLayout_or = array();
-	}
-}
-
-?>
 	<div class="<?php echo esc_attr(trim(implode(' ', $parent_container_classes))); ?>">
 		<?php if ($type == 'justified') { ?><div class="<?php echo esc_attr(trim(implode(' ', $fixer_classes))); ?>"><?php } ?>
 		<?php
@@ -958,6 +947,24 @@ if (count($medias) > 0) {
 			$item_prop_or = (isset($items[$item_thumb_id . '_i'])) ? $items[$item_thumb_id . '_i'] : array();
 		}
 		
+		$typeLayout = $typeLayout_or = $media_blocks;
+
+		if (isset($item_prop['single_layout_media_items'])) {
+			if (function_exists('uncode_flatArray')) {
+				$typeLayout = uncode_flatArray(vc_sorted_list_parse_value($item_prop['single_layout_media_items']));
+			} else {
+				$typeLayout = array();
+			}
+		}
+
+		if (isset($item_prop_or['single_layout_media_items'])) {
+			if (function_exists('uncode_flatArray')) {
+				$typeLayout_or = uncode_flatArray(vc_sorted_list_parse_value($item_prop_or['single_layout_media_items']));
+			} else {
+				$typeLayout_or = array();
+			}
+		}
+
 		// Store single values for CSS Grid, then reset matrix
 		if ( $type === 'css_grid' ) {
 			$item_prop_single_link    = isset( $item_prop['single_link'] ) ? $item_prop['single_link'] : '';
@@ -1239,6 +1246,11 @@ if (count($medias) > 0) {
 			$title_classes[] = $single_title_space;
 		}
 
+		$single_title_scale_mobile = (isset($item_prop['single_title_scale_mobile'])) ? $item_prop['single_title_scale_mobile'] : $general_title_scale_mobile;
+		if ($single_title_scale_mobile !== 'no') {
+			$title_classes[] = 'title-scale';
+		}
+
 		$single_text_lead = (isset($item_prop['single_text_lead'])) ? $item_prop['single_text_lead'] : $general_text_lead;
 		if ($single_text_lead === 'yes') {
 			$block_data['text_lead'] = 'yes';
@@ -1459,15 +1471,22 @@ if (count($medias) > 0) {
 
 	<?php if ( $infinite === 'yes' ):
 		$page_url = explode("?", get_pagenum_link(1, false));
+		$footer_classes = '';
 		$footer_background = ' style-' . $footer_style;
 		if ($footer_back_color !== '') {
 			$footer_background .= ' style-'.$footer_back_color.'-bg with-bg';
+		} else {
+			$footer_background .= ' without-bg';
+		}
+		$footer_classes .= $footer_background;
+		if ( $infinite === 'yes' || $pagination === 'yes' ) {
+			$footer_classes .= ' with-content';
 		}
 		?>
-		<div class="<?php echo esc_attr( $type === 'css_grid' ? 'cssgrid' : $type ); ?>-footer grid-footer<?php echo esc_attr($footer_background) . ' ' . esc_attr($gutter_size); ?>">
-			<div class="<?php echo esc_attr( $type === 'css_grid' ? 'cssgrid' : $type ); ?>-footer-inner grid-footer-inner<?php if ($footer_full_width !== 'yes') { echo ' limit-width'; ?> menu-<?php echo esc_attr($footer_style); } ?> text-center">
-				<?php if ( $infinite === 'yes' && $paginated_medias['max_pages'] != 1 && $paged < $paginated_medias['max_pages'] ): ?>
-					<nav class="loadmore-button"<?php if ($infinite_button !== 'yes') { echo ' style="display: none;"'; } ?>>
+		<div class="<?php echo esc_attr( $type === 'css_grid' ? 'cssgrid' : $type ); ?>-footer grid-footer<?php echo esc_attr($footer_classes) . ' ' . esc_attr($gutter_size); ?>">
+			<?php if ( $infinite === 'yes' && $paginated_medias['max_pages'] != 1 && $paged < $paginated_medias['max_pages'] ): ?>
+				<div class="<?php echo esc_attr( $type === 'css_grid' ? 'cssgrid' : $type ); ?>-footer-inner grid-footer-inner<?php if ($footer_full_width !== 'yes') { echo ' limit-width'; ?> menu-<?php echo esc_attr($footer_style); } ?> text-center">
+					<nav class="loadmore-button<?php if ($infinite_button === 'icon') { echo ' loadmore-button--icon'; } ?>"<?php if ($infinite_button !== 'yes' && $infinite_button !== 'icon') { echo ' style="display: none;"'; } ?>>
 						<?php
 						if ($infinite_button_text === '') {
 							$infinite_button_text = ($infinite_button === 'yes') ? esc_html__('Load more' , 'uncode') : esc_html__('Loading…' , 'uncode');
@@ -1481,35 +1500,43 @@ if (count($medias) > 0) {
 						}
 
 						$next_page_url = $page_url[0] . add_query_arg( $output, '?' );
-						$load_more_button = '<a data-page="' . esc_attr( $nextpage ) . '" data-pages="' . esc_attr( $paginated_medias['max_pages'] ) .'" href="' . esc_url($next_page_url) . '" class="btn"><div class="icon-container"><i class="fa fa-refresh2 fa-lg fa-spin"></i></div><span>' . $infinite_button_text . '</span></a>';
+
 						$load_more_classes = '';
-						if ($infinite_button_color !== '') {
-							$load_more_classes .= ' btn-' . $infinite_button_color;
+						if ( $infinite_button === 'icon' ) {
+							$load_more_classes .= ' loadmore-icon';
 						} else {
-							$load_more_classes .= ' btn-default';
+							$load_more_classes .= ' btn';
+
+							if ($infinite_button_color !== '') {
+								$load_more_classes .= ' btn-' . $infinite_button_color;
+							} else {
+								$load_more_classes .= ' btn-default';
+							}
 						}
 
 						// Hover effect
 						$infinite_hover_fx = $infinite_hover_fx=='' ? ot_get_option('_uncode_button_hover') : $infinite_hover_fx;
 
 						// Outlined and flat classes
-						if ( $infinite_hover_fx == '' || $infinite_hover_fx == 'outlined' ) {
-							if ($infinite_button_outline === 'yes' ) {
-								$load_more_classes .= ' btn-outline';
+						if ( $infinite_button !== 'icon' ) {
+							if ( $infinite_hover_fx == '' || $infinite_hover_fx == 'outlined' ) {
+								if ($infinite_button_outline === 'yes' ) {
+									$load_more_classes .= ' btn-outline';
+								}
+							} else {
+								$load_more_classes .= ' btn-flat';
 							}
-						} else {
-							$load_more_classes .= ' btn-flat';
-						}
 
-						if ($infinite_button_shape !== '') {
-							$load_more_classes .= ' ' . $infinite_button_shape;
+							if ($infinite_button_shape !== '') {
+								$load_more_classes .= ' ' . $infinite_button_shape;
+							}
 						}
-						$load_more_button = str_replace('class="btn"', 'class="btn' . esc_attr( $load_more_classes ) . '" data-label="' . esc_attr($infinite_button_text) . '"', $load_more_button);
+						$load_more_button = '<a data-page="' . esc_attr( $nextpage ) . '" data-pages="' . esc_attr( $paginated_medias['max_pages'] ) .'" href="' . esc_url($next_page_url) . '" class="' . esc_attr( $load_more_classes ) . '" data-label="' . esc_attr($infinite_button_text) . '"><span>' . $infinite_button_text . '</span></a>';
 						echo uncode_remove_p_tag($load_more_button);
 						?>
 					</nav>
-				<?php endif; ?>
-			</div>
+				</div>
+			<?php endif; ?>
 		</div>
 	<?php endif; ?>
 
@@ -1532,3 +1559,5 @@ if ( $type === 'custom_grid' && $custom_grid_content_block_id ) {
 
 	echo uncode_print_dynamic_inline_style( $inline_style_css );
 }
+
+$uncode_vc_gallery = false;

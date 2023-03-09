@@ -93,7 +93,8 @@ get_header();
 
 	$media = get_post_meta($post->ID, '_uncode_featured_media', 1);
 	$featured_image = get_post_thumbnail_id($post->ID);
-	if ( $featured_image === '' || $featured_image == 0 ) {
+
+	if ( apply_filters( 'uncode_use_medias_when_featured_empty', true ) && ( $featured_image === '' || $featured_image == 0 ) ) {
 		$featured_image = $media;
 	}
 
@@ -367,11 +368,28 @@ get_header();
 			$with_builder = true;
 		}
 
-		if ( !$with_builder && $the_content !== '' ) {
-			$the_content = apply_filters('the_content', $the_content);
-			$the_content = $title_content . $the_content;
-			if ($media_content !== '') {
-				$the_content = $media_content . $the_content;
+		if ( !$with_builder ) {
+			if ( apply_filters( 'uncode_apply_the_content', false ) || $post_type !== 'page' ) {
+				if ( $the_content !== '' ) {
+					$the_content = apply_filters('the_content', $the_content);
+					$the_content = $title_content . $the_content;
+
+					if ( $media_content !== '' ) {
+						$the_content = $media_content . $the_content;
+					}
+				} else {
+					$the_content = apply_filters('the_content', '');
+					$the_content = uncode_get_row_template($the_content, $limit_width, $limit_content_width, $style, '', false, true, 'double', $page_custom_width);
+				}
+			} else {
+				if ( $the_content !== '' ) {
+					$the_content = apply_filters('the_content', $the_content);
+					$the_content = $title_content . $the_content;
+				}
+
+				if ( $media_content !== '' ) {
+					$the_content = $media_content . $the_content;
+				}
 			}
 		} else {
 			$get_content_appended = apply_filters('the_content', '');
@@ -597,10 +615,13 @@ get_header();
 			}
 		}
 
+		$the_content = uncode_remove_p_tag( $the_content . $content_after_body);
+		$the_content = apply_filters( 'uncode_single_content_final_output', $the_content );
+
 		/** Display post html **/
 		echo 	'<article id="post-'. get_the_ID().'" class="'.implode(' ', get_post_class('page-body'.$bg_color)) .'">
 						<div class="post-wrapper">
-							<div class="post-body">' . uncode_remove_p_tag( $the_content . $content_after_body) . '</div>
+							<div class="post-body">' . $the_content . '</div>
 						</div>
 					</article>';
 

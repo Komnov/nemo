@@ -104,6 +104,19 @@ vc_map(array(
 			) ,
 		) ,
 		array(
+			'type' => 'checkbox',
+			'heading' => esc_html__('Scroll Tabs on Mobile', 'uncode-core') ,
+			'param_name' => 'tab_scrolling',
+			'description' => esc_html__('Enable the scroll horizontal for the tab navigation on mobile.', 'uncode-core') ,
+			'value' => array(
+				esc_html__("Yes, please", 'uncode-core') => 'yes'
+			),
+			'dependency' => array(
+				'element' => 'vertical',
+				'is_empty' => true,
+			) ,
+		) ,
+		array(
 			'type' => 'textfield',
 			'heading' => esc_html__('Element ID', 'uncode-core') ,
 			'param_name' => 'el_id',

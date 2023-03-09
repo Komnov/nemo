@@ -7,6 +7,8 @@
  * @package uncode
  */
 
+do_action( 'uncode_before_footer_output' );
+
 if ( ! function_exists( 'uncode_get_current_post_type' ) || uncode_get_current_post_type() !== 'uncodeblock' ) {
 
 	global $metabox_data, $is_redirect, $menutype, $is_footer;
@@ -245,11 +247,12 @@ if ( ! function_exists( 'uncode_get_current_post_type' ) || uncode_get_current_p
 			if ($search_animation === '' || $search_animation === '3d') {
 				$search_animation = 'contentscale';
 			}
+			$search_dropdown = ot_get_option('_uncode_drop_down_search');
 
 		?>
 
 		<?php if ( apply_filters( 'uncode_search_active', ot_get_option( '_uncode_menu_search') ) === 'on' ) : ?>
-			<div class="overlay overlay-<?php echo esc_attr( $search_animation ); ?> style-dark style-dark-bg overlay-search" data-area="search" data-container="box-container">
+			<div class="overlay overlay-<?php echo esc_attr( $search_animation ); ?> overlay-full style-dark style-dark-bg overlay-search" data-area="search" data-container="box-container">
 				<div class="mmb-container"><div class="menu-close-search mobile-menu-button menu-button-offcanvas mobile-menu-button-dark lines-button overlay-close close" data-area="search" data-container="box-container"><span class="lines"></span></div></div>
 				<div class="search-container"><?php
 					global $overlay_search;

@@ -8,6 +8,7 @@
 		UNCODE.init = function() {
 		var wfl_check = false, wfl_request, waypoint_request;
 		UNCODE.preventDoubleTransition();
+		UNCODE.betterResize();
 		UNCODE.utils();
 		if (typeof UNCODE.changeSkinOnScroll !== 'undefined') {
 			UNCODE.changeSkinOnScroll();
@@ -96,6 +97,9 @@
 		}
 		if (typeof UNCODE.filters !== 'undefined') {
 			UNCODE.filters();
+		}
+		if (typeof UNCODE.ajax_filters !== 'undefined') {
+			UNCODE.ajax_filters();
 		}
 		if (typeof UNCODE.widgets !== 'undefined') {
 			UNCODE.widgets();

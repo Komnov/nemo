@@ -1,6 +1,6 @@
 <?php
 /**
- * Upsells related functions
+ * Upsells and Cross Sells related functions
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -41,3 +41,19 @@ function uncode_add_upsell_not_found_class( $classes ) {
 	return $classes;
 }
 add_filter( 'body_class', 'uncode_add_upsell_not_found_class' );
+
+/**
+ * Append a special class to the body when there are no cross sells.
+ */
+function uncode_add_cross_sells_not_found_class( $classes ) {
+	if ( is_cart() ) {
+		$cross_sells = WC()->cart->get_cross_sells();
+
+		if ( ! ( is_array( $cross_sells ) && count( $cross_sells ) > 0 ) ) {
+			$classes[] = 'no-product-cross-sells';
+		}
+	}
+
+	return $classes;
+}
+add_filter( 'body_class', 'uncode_add_cross_sells_not_found_class' );

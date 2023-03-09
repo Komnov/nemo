@@ -87,6 +87,12 @@ if ( class_exists( 'WooCommerce' ) ) {
 		if ( current_user_can( 'administrator' ) ) {
 			$output .= wp_kses_post( sprintf( __( 'You need to install <a href="%s" target="_blank">YITH WooCommerce Wishlist</a> to use this module.', 'uncode' ), 'https://wordpress.org/plugins/yith-woocommerce-wishlist/' ) );
 		}
+	} elseif ( function_exists('vc_is_page_editable') && vc_is_page_editable() ) {
+		$output .= '<div><div class="yith-wcwl-add-button">
+			<a class="add_to_wishlist single_add_to_wishlist" rel="nofollow" title="Add to Wishlist">
+				<span>Add to Wishlist</span>
+			</a>
+		</div>';
 	} else {
 		$output .= do_shortcode( "[yith_wcwl_add_to_wishlist product_id='" . $product_id . "']" );
 

@@ -21,6 +21,8 @@ function uncode_get_page_fonts() {
 	$buttons_font     = ot_get_option( '_uncode_buttons_font_family' );
 	$menu_filter_font = ot_get_option( '_uncode_menu_filter_font_family' );
 	$ui_font          = ot_get_option( '_uncode_ui_font_family' );
+	$top_bar_font     = ot_get_option( '_uncode_topbar_font_family' );
+	$top_bar_core     = get_option( 'uncode_core_settings_opt_enhanced_top_bar' ) === 'on';
 
 	if ( $heading_font ) {
 		$fonts[] = $heading_font;
@@ -48,6 +50,10 @@ function uncode_get_page_fonts() {
 
 	if ( $ui_font ) {
 		$fonts[] = $ui_font;
+	}
+
+	if ( $top_bar_font && $top_bar_core ) {
+		$fonts[] = $top_bar_font;
 	}
 
 	if ( uncode_post_data_is_singular() ) {

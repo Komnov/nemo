@@ -88,10 +88,7 @@ class Uncode_Quick_View {
 	 * Get quick view content block ID
 	 */
 	public function get_quick_view_content_block_id( $post_type = 'product' ) {
-		$content_block_id = apply_filters( 'uncode_get_' . $post_type . '_quick_view_content_block_id', ot_get_option( '_uncode_' . $post_type . '_index_quick_view_content_block' ) );
-		$content_block_id = absint( apply_filters( 'wpml_object_id', $content_block_id, 'product', true ) );
-
-		return $content_block_id ? $content_block_id : false;
+		return uncode_get_quick_view_content_block_id( $post_type );
 	}
 
 	/**
@@ -214,9 +211,9 @@ class Uncode_Quick_View {
 		$this->print_modal = true;
 
 		if ( isset( $block_data['is_table'] ) && $block_data['is_table'] === true ) {
-			echo '<a href="#" class="open-unmodal quick-view-button" data-post-type="' . esc_attr( $post_type ) . '" data-post-id="' . esc_attr( $post_id ) . '">' . esc_html( $label ) . '</a>';
+			echo '<a href="#" class="open-unmodal quick-view-button" data-post-type="' . esc_attr( $post_type ) . '" data-post-id="' . esc_attr( $post_id ) . '" data-post-url="' . esc_url( get_permalink( $post_id ) ) .'">' . esc_html( $label ) . '</a>';
 		} else {
-			echo '<div class="quick-view-button-overlay icon-badge"><a href="#" class="open-unmodal quick-view-button" data-post-type="' . esc_attr( $post_type ) . '" data-post-id="' . esc_attr( $post_id ) . '">' . esc_html( $label ) . '</a></div>';
+			echo '<div class="quick-view-button-overlay icon-badge"><a href="#" class="open-unmodal quick-view-button" data-post-type="' . esc_attr( $post_type ) . '" data-post-id="' . esc_attr( $post_id ) . '" data-post-url="' . esc_url( get_permalink( $post_id ) ) .'">' . esc_html( $label ) . '</a></div>';
 		}
 	}
 
@@ -356,7 +353,7 @@ class Uncode_Quick_View {
 				<div class="quick-view-default-content">
 					<?php echo uncode_open_row( array( 'col-std-gutter', 'single-top-padding', 'single-bottom-padding', 'limit-width' ) ); ?>
 						<?php echo uncode_open_col( array( 'col-lg-6' ) ); ?>
-							<div class="woocommerce-product-gallery">
+							<div class="woocommerce-product-gallery woocommerce-product-gallery--quick-view-wrapper">
 								<?php do_action( 'uncode_quick_view_product_image' ); ?>
 							</div>
 						<?php echo uncode_close_col(); ?>

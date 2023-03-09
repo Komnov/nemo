@@ -172,7 +172,8 @@
 			return;
 		scrollTo = getSection.offset().top;
 
-		if  ( !( $('.menu-desktop-transparent').length && UNCODE.wwidth > UNCODE.mediaQuery ) && !( $('.menu-mobile-transparent').length && UNCODE.wwidth <= UNCODE.mediaQueryMobile ) ) {
+		// if  ( !( $('.menu-desktop-transparent').length && UNCODE.wwidth > UNCODE.mediaQuery ) && !( $('.menu-mobile-transparent').length && UNCODE.wwidth <= UNCODE.mediaQueryMobile ) ) {
+		if  ( !( $('.menu-desktop-transparent').length && UNCODE.wwidth > UNCODE.mediaQuery ) ) {
 			var shrink = typeof $('.navbar-brand').data('padding-shrink') !== 'undefined' ?  $('.navbar-brand').data('padding-shrink')*2 : 36;
 			if ( $('.menu-sticky .menu-container:not(.menu-hide)').length && $('.menu-shrink').length ) {
 				scrollTo += UNCODE.menuHeight - ( $('.navbar-brand').data('minheight') + shrink );
@@ -207,21 +208,21 @@
 			}, scrollSpeed, 'easeInOutCubic', function() {
 				$(this).off("scroll wheel DOMMouseScroll mousewheel touchmove");
 				UNCODE.scrolling = false;
-				if  ( !( $('.menu-desktop-transparent').length && UNCODE.wwidth > UNCODE.mediaQuery ) && !( $('.menu-mobile-transparent').length && UNCODE.wwidth <= UNCODE.mediaQueryMobile ) ) {
-					if (scrollTo != UNCODE.get_scroll_offset(index)) {
-						scrollTo = getSection.offset().top;
-						getOffset = UNCODE.get_scroll_offset(index);
-						scrollTo -= getOffset;
-						body.on("scroll wheel DOMMouseScroll mousewheel touchmove", function(){
-							$(this).stop();
-						}).animate({
-							scrollTop: (delta > 0) ? scrollTo - 0.1 : scrollTo
-							}, scrollSpeed, 'easeInOutCubic', function() {
-								$(this).off("scroll wheel DOMMouseScroll mousewheel touchmove");
-								UNCODE.scrolling = false;
-							}
-						);
-					}
+				if  ( ( scrollTo != UNCODE.get_scroll_offset(index) && !( $('.menu-desktop-transparent').length && UNCODE.wwidth > UNCODE.mediaQuery ) && !( $('.menu-mobile-transparent').length && UNCODE.wwidth <= UNCODE.mediaQueryMobile ) )
+				||
+				$('.menu-hided').length ) {
+					scrollTo = getSection.offset().top;
+					getOffset = UNCODE.get_scroll_offset(index);
+					scrollTo -= getOffset;
+					body.on("scroll wheel DOMMouseScroll mousewheel touchmove", function(){
+						$(this).stop();
+					}).animate({
+						scrollTop: (delta > 0) ? scrollTo - 0.1 : scrollTo
+						}, scrollSpeed, 'easeInOutCubic', function() {
+							$(this).off("scroll wheel DOMMouseScroll mousewheel touchmove");
+							UNCODE.scrolling = false;
+						}
+					);
 				}
 			});
 		}

@@ -2,7 +2,7 @@
 	"use strict";
 
 	UNCODE.counters = function() {
-	var $counters = $('.counter:not(.counter-init)');
+	var $counters = $('.uncode-counter:not(.counter-init)');
 	$counters.each(function(){
 		var $counter = $(this).addClass('counter-init');
 		if ( $counter.closest( '.owl-carousel' ).length ) {

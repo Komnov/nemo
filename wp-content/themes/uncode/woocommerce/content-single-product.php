@@ -35,6 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	$_uncode_thumb_layout = ot_get_option('_uncode_product_image_layout');
 	$_uncode_thumb_layout = get_post_meta($post->ID, '_uncode_product_image_layout', 1) !== '' ? get_post_meta($post->ID, '_uncode_product_image_layout', 1) : $_uncode_thumb_layout;
+	$_uncode_thumb_layout = $_uncode_thumb_layout === 'std' ? '' : $_uncode_thumb_layout;
 
 	$sticky_col = ot_get_option('_uncode_product_sticky_desc');
 	$sticky_col = get_post_meta($post->ID, '_uncode_product_sticky_desc', 1) !== '' ? get_post_meta($post->ID, '_uncode_product_sticky_desc', 1) : $sticky_col;
@@ -42,7 +43,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	$col_size = ot_get_option('_uncode_product_media_size') == '' ? 6 : ot_get_option('_uncode_product_media_size');
 	$col_size = ( get_post_meta($post->ID, '_uncode_product_media_size', 1) !== '' && get_post_meta($post->ID, '_uncode_product_media_size', 1) != 0 ) ? get_post_meta($post->ID, '_uncode_product_media_size', 1) : $col_size;
 
-	$col_class = $_uncode_thumb_layout === 'stack' && $sticky_col === 'on' ? ' sticky-element sticky-sidebar' : '';
+	$col_class = $_uncode_thumb_layout !== '' && $sticky_col === 'on' ? ' sticky-element sticky-sidebar' : '';
 
 ?>
 

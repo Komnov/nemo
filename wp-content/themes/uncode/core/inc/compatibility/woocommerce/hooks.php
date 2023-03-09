@@ -142,7 +142,7 @@ function uncode_woocommerce_disable_inline_terms_page_content() {
 
 	$page = get_post( $terms_page_id );
 
-	if (strpos( $page->post_content, 'vc_row') !== false) {
+	if ( isset( $page->post_content ) && strpos( $page->post_content, 'vc_row') !== false ) {
 		remove_action( 'woocommerce_checkout_terms_and_conditions', 'wc_terms_and_conditions_page_content', 30 );
 	}
 }

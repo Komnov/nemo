@@ -387,8 +387,8 @@
 		var setResize,
 			doubleResize = true,
 			oldW = UNCODE.wwidth;
-		$(window).on( 'resize orientationchange uncode.re-layout', function(){
-			if ( UNCODE.wwidth < UNCODE.mediaQuery && oldW === UNCODE.wwidth ) {
+		$(window).on( 'resize orientationchange', function(){
+			if ( 'onorientationchange' in window && oldW === UNCODE.wwidth ) {
 				return;
 			} else {
 				oldW = UNCODE.wwidth;
@@ -414,6 +414,16 @@
 			}, 100 );
 		});
 
+		var show_pins = function(){
+			$('.index-scroll').css({'opacity':'1'});
+			setResize = requestTimeout( function(){
+			}, 10 );
+		};
+		ScrollTrigger.addEventListener("refresh", show_pins);
+		$(window).on( 'uncode.re-layout', function(){
+			$('.index-scroll').css({'opacity':'0'});
+			ScrollTrigger.refresh(true);
+		});
 	}
 
 };

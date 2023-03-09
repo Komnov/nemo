@@ -269,7 +269,7 @@ class Uncode_Wishlist {
 		$resources_version = $scripts_prod_conf[ 'resources_version' ];
 		$suffix            = $scripts_prod_conf[ 'suffix' ];
 
-		if ( apply_filters( 'uncode_use_custom_yith_wishlist', true ) ) {
+		if ( ! defined( 'YITH_WCWL_PREMIUM_INIT' ) ) {
 			wp_deregister_style( 'yith-wcwl-main' );
 		}
 

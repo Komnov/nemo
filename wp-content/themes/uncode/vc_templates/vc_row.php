@@ -196,6 +196,11 @@ if (strpos($content,'[uncode_block') !== false) {
 	}
 }
 
+// Ajax filters
+if ( strpos( $el_class, 'ajax-filters' ) !== false ) {
+	uncode_check_for_row_with_custom_ajax_filters( $content );
+}
+
 $row_cont_classes[] = $this->getExtraClass($el_class);
 if ($sticky === 'yes') {
 	$row_cont_classes[] = 'sticky-element';
@@ -1054,7 +1059,7 @@ if ($shift_y != '0' && $shift_y != '') {
         break;
     }
     if ($shift_y_fixed === 'yes') {
-    	$uncol_classes[] = 'shift_y_fixed';
+    	$row_inner_classes[] = 'shift_y_fixed';
     }
 }
 /** END - shift construction **/

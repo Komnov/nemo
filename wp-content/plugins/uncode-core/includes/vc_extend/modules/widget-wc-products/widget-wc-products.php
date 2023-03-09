@@ -85,8 +85,10 @@ vc_map(array(
 		$add_widget_style_no_stars,
 		$add_widget_style_no_thumbs,
 		$add_widget_style,
-		$add_widget_collapse,
+		$add_widget_collapse_desktop,
 		$add_widget_collapse_tablet,
+		$add_widget_collapse,
+		$add_widget_icon,
 		$add_widget_style_no_separator,
 		$add_widget_style_title_typo,
 		array(

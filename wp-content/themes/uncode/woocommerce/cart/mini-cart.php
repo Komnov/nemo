@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <?php do_action( 'woocommerce_before_mini_cart' ); ?>
 
 <div class="woocommerce-mini-cart-header">
-	<div class="close-mini-cart btn btn-link"><?php esc_html_e( 'Close', 'uncode' ); ?></div>
+	<div class="close-mini-cart btn btn-link"><?php echo wp_kses_post( apply_filters( 'uncode_close_mini_cart_text', __( '<span>&times;</span> Close', 'uncode' ) ) ); ?></div>
 </div>
 <div class="woocommerce-mini-cart-body">
 	<ul class="woocommerce-mini-cart cart_list product_list_widget <?php echo esc_attr( $args['list_class'] ); ?>">

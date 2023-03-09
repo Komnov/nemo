@@ -11,6 +11,12 @@
 #respond #reply-title {
   margin: 54px 0px 0px 0px;
 }
+.uncode-comments .form-indent:first-child #comments .comments-title,
+.uncode-comments .form-indent:first-child #respond .comments-title,
+.uncode-comments .form-indent:first-child #comments #reply-title,
+.uncode-comments .form-indent:first-child #respond #reply-title {
+  margin: 0px 0px 0px 0px;
+}
 #comments .btn-comments,
 #respond .btn-comments {
   padding: 5px 10px !important;

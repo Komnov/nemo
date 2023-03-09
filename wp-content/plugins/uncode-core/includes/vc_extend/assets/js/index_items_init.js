@@ -38,15 +38,16 @@
 		var extra_filters = $('input.show_extra_filters');
 
 		if (layout.val() === 'css_grid') {
-			$('li[data-tab-index="4"]').addClass('single-tab-disabled');
-			$('#vc_edit-form-tab-4').addClass('single-tab-disabled');
+			var matrix_input = $('select[name="post_matrix"]');
+			matrix_input.val('');
+			matrix_input.closest('.vc_shortcode-param').hide();
 			if (extra_filters.is(':checked')) {
 				extra_filters.trigger('click');
 			}
 			extra_filters.closest('.vc_shortcode-param').hide();
 		} else {
-			$('li[data-tab-index="4"]').removeClass('single-tab-disabled');
-			$('#vc_edit-form-tab-4').removeClass('single-tab-disabled');
+			$('li[data-tab-index="5"]').removeClass('single-tab-disabled');
+			$('#vc_edit-form-tab-5').removeClass('single-tab-disabled');
 			extra_filters.closest('.vc_shortcode-param').show();
 		}
 	}

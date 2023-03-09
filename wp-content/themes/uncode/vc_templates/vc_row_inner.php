@@ -152,6 +152,11 @@ if (strpos($content,'[uncode_slider') !== false || $has_slider === 'yes') {
 	$with_slider = false;
 }
 
+// Ajax filters
+if ( strpos( $el_class, 'ajax-filters' ) !== false ) {
+	uncode_check_for_row_with_custom_ajax_filters( $content );
+}
+
 $row_cont_classes[] = $this->getExtraClass($el_class);
 if ($sticky === 'yes') {
 	$row_cont_classes[] = 'sticky-element';

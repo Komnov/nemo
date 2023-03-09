@@ -2,18 +2,18 @@
 	"use strict";
 
 	UNCODE.filters = function() {
-	var $isotopes = $('.isotope-system');
+	var $systems = $('.isotope-system, .cssgrid-system');
 
-	$isotopes.each(function(index, val){
-		var $isotope = $(this),
-			$widget_trgr = $('.uncode-woocommerce-toggle-widgetized-cb__link', $isotope),
-			$widgets = $('.widgetized-cb-wrapper', $isotope),
-			$sorting_trgr = $('.uncode-woocommerce-sorting__link', $isotope),
-			$sorting_dd = $('.uncode-woocommerce-sorting-dropdown', $isotope),
-			$cats_trigger = $('.menu-smart--filter-cats_mobile-toggle-trigger', $isotope),
-			$cats_filters = $('.menu-smart--filter-cats-mobile-dropdown', $isotope);
+	$systems.each(function(index, val){
+		var $system = $(this),
+			$widget_trgr = $('.uncode-woocommerce-toggle-widgetized-cb__link', $system),
+			$widgets = $('.widgetized-cb-wrapper', $system),
+			$sorting_trgr = $('.uncode-woocommerce-sorting__link', $system),
+			$sorting_dd = $('.uncode-woocommerce-sorting-dropdown', $system),
+			$cats_trigger = $('.menu-smart--filter-cats_mobile-toggle-trigger', $system),
+			$cats_filters = $('.menu-smart--filter-cats-mobile-dropdown', $system);
 
-		if ($isotope.hasClass('isotope-processed')) {
+		if ($system.hasClass('isotope-processed')) {
 			return;
 		}
 
@@ -25,9 +25,9 @@
 			}
 		});
 
-		$('.filters-toggle-trigger', $isotope).on('click', function(e) {
+		$('.filters-toggle-trigger', $system).on('click', function(e) {
 			e.preventDefault();
-			var $filters = $('.isotope-filters .menu-horizontal', $isotope);
+			var $filters = $('.isotope-filters .menu-horizontal', $system);
 			$filters.slideToggle(400, 'easeInOutCirc');
 			$widgets.add($cats_filters).slideUp(400, 'easeInOutCirc');
 		});
@@ -48,8 +48,8 @@
 			}
 		});
 
-		$isotope.addClass('isotope-processed');
-	})
+		$system.addClass('isotope-processed');
+	});
 
 };
 

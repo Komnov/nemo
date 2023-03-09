@@ -35,7 +35,7 @@ function uncode_page_require_asset_gsap( $content_array ) {
 				}
 			}
 		}
-	} else if ( uncode_post_data_is_archive() ) {
+	} else if ( uncode_post_data_is_archive() || uncode_post_data_is_post_type_archive() ) {
 		if ( isset( $uncode_post_data['post_type'] ) ) {
 			$post_type = $uncode_post_data['post_type'];
 			$generic_header_type  = ot_get_option( '_uncode_' . $uncode_post_data['post_type'] . '_index_header' );

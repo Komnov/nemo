@@ -127,6 +127,13 @@
   margin-left: -108px;
   margin-right: -108px;
 }
+@media (max-width: 1499px) {
+  .justified-wrapper.triple-gutter .justified-fixer {
+    margin-bottom: -72px;
+    margin-left: -72px;
+    margin-right: -72px;
+  }
+}
 @media (max-width: 959px) {
   .justified-wrapper.triple-gutter .justified-fixer {
     margin-bottom: -36px;

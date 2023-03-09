@@ -13,7 +13,11 @@ function onYouTubeIframeAPIReady() {
 	jQuery('.no-touch .uncode-video-container.video').each(function() {
 		var playerY;
 		if (jQuery(this).attr('data-provider') == 'youtube') {
-			var id = jQuery(this).attr('data-id');
+			var id = jQuery(this).attr('data-id'),
+				start = jQuery(this).attr('data-start'),
+				end = jQuery(this).attr('data-end');
+			start = typeof start && start !== null ? start : 0;
+			end = typeof end && end !== null ? end : 0;
 			options = jQuery(window).data('okoptions-' + id);
 			options.time = jQuery(this).attr('data-t');
 			playerY = new YT.Player('okplayer-' + id, {
@@ -34,7 +38,9 @@ function onYouTubeIframeAPIReady() {
 					'rel': 0,
 					'wmode': 'opaque',
 					'hd': options.hd,
-					'mute': 1
+					'mute': 1,
+					'start': start,
+					'end': end
 				},
 				events: {
 					'onReady': OKEvents.yt.ready,
@@ -55,9 +61,9 @@ function vimeoPlayerReady(id) {
 		iframe = jIframe[0];
 
 	jIframe.attr('src', jIframe.data('src'));
-	var playerV = $f(iframe); // `$f` is froogaloop, assumed is loaded
+	var playerV = new Vimeo.Player(iframe);
 	// hide player until Vimeo hides controls...
-	playerV.addEvent('ready', function(e) {
+	playerV.on('loaded', function(e) {
 		OKEvents.v.onReady(iframe);
 		var carouselContainer = jQuery(iframe).closest('.owl-carousel');
 		if (carouselContainer.length) {
@@ -68,9 +74,15 @@ function vimeoPlayerReady(id) {
 			// mobile devices cannot listen for play event
 			OKEvents.v.onPlay(playerV);
 		} else {
-			playerV.addEvent('play', OKEvents.v.onPlay(playerV));
-			playerV.addEvent('pause', OKEvents.v.onPause);
-			playerV.addEvent('finish', OKEvents.v.onFinish);
+			playerV.on('play', function(){
+				OKEvents.v.onPlay(playerV);
+			});
+			playerV.on('pause', function(){
+				OKEvents.v.onPause;
+			});
+			playerV.on('ended', function(){
+				OKEvents.v.onFinish
+			});
 		}
 		if (options.time != null) {
 			var optsTimeStr = (options.time).replace('t=', ''),
@@ -91,10 +103,11 @@ function vimeoPlayerReady(id) {
 				timeV = optsTimeStr;
 			}
 
-			playerV.api('seekTo', timeV);
+			playerV.setCurrentTime(timeV);
 		}
 
-		playerV.api('play');
+		playerV.setVolume(0);
+		playerV.play();
 		jQuery(iframe).css({
 			visibility: 'visible',
 			opacity: 1
@@ -185,7 +198,7 @@ OKEvents = {
 			OKEvents.utils.isFunction(options.onReady) && options.onReady(target);
 		},
 		onPlay: function(player) {
-			if (!OKEvents.utils.isMobile()) player.api('setVolume', options.volume);
+			if (!OKEvents.utils.isMobile()) player.setVolume(options.volume);
 			OKEvents.utils.isFunction(options.onPlay) && options.onPlay();
 			jQuery(player.element).closest('.uncode-video-container:not(.t-entry-drop)').css('opacity', '1');
 			jQuery(player.element).closest('#page-header').addClass('video-started');

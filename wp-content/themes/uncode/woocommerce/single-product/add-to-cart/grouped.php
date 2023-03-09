@@ -12,7 +12,7 @@
  *
  * @see         https://docs.woocommerce.com/document/template-structure/
  * @package     WooCommerce/Templates
- * @version     4.8.0
+ * @version     7.0.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -67,7 +67,7 @@ $dynamic_button = isset ( $vc_shortcode ) ? ' dynamic-button' : '';
 								// woocommerce_template_loop_add_to_cart();
 								$skip_td = true;
 							} elseif ( $grouped_product_child->is_sold_individually() ) {
-								echo '<input type="checkbox" name="' . esc_attr( 'quantity[' . $grouped_product_child->get_id() . ']' ) . '" value="1" class="wc-grouped-product-add-to-cart-checkbox" />';
+								echo '<input type="checkbox" name="' . esc_attr( 'quantity[' . $grouped_product_child->get_id() . ']' ) . '" value="1" class="wc-grouped-product-add-to-cart-checkbox" id="' . esc_attr( 'quantity-' . $grouped_product_child->get_id() ) . '" />';
 							} else {
 								do_action( 'woocommerce_before_add_to_cart_quantity' );
 
@@ -140,7 +140,7 @@ $dynamic_button = isset ( $vc_shortcode ) ? ' dynamic-button' : '';
 		<?php // BEGIN UNCODE EDIT
 			$button_class = isset( $button_class ) ? $button_class : 'alt btn btn-default';
 		?>
-		<button type="submit" class="single_add_to_cart_button button <?php echo esc_attr( uncode_btn_style() ); ?> <?php echo esc_attr( $button_class ); ?>"><span><?php echo esc_html( $product->single_add_to_cart_text() ); ?></span></button>
+		<button type="submit" class="single_add_to_cart_button button <?php echo esc_attr( uncode_btn_style() ); ?> <?php echo esc_attr( $button_class ); ?><?php echo esc_attr( uncode_wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . uncode_wc_wp_theme_get_element_class_name( 'button' ) : '' ); ?>"><span><?php echo esc_html( $product->single_add_to_cart_text() ); ?></span></button>
 		<?php // END UNCODE EDIT ?>
 
 		<?php do_action( 'woocommerce_after_add_to_cart_button' ); ?>

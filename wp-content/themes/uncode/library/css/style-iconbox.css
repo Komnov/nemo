@@ -108,6 +108,13 @@
   top: -0.15em;
   z-index: 1;
 }
+.icon-box.icon-media-image .fa-stack {
+  height: auto !important;
+  width: auto !important;
+}
+.icon-box.icon-media-image img {
+  display: block;
+}
 .icon-box.absolute-center {
   left: 0;
   margin-top: 0 !important;
@@ -140,6 +147,10 @@ div > .icon-box:last-child {
 }
 .icon-box-heading > * {
   line-height: 1.5em;
+}
+.icon-box-top .icon-box-icon,
+.icon-box-bottom .icon-box-icon {
+  width: auto;
 }
 .icon-box-left .icon-box-icon,
 .icon-box-right .icon-box-icon,

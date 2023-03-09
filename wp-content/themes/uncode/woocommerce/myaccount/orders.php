@@ -14,14 +14,17 @@
  *
  * @see https://docs.woocommerce.com/document/template-structure/
  * @package WooCommerce/Templates
- * @version 3.7.0
+ * @version 7.0.1
  */
 
 /**
  * Modifications: just a span in the order status column
+ * and a check for the $wp_button_class variable (WooCommerce > 7.0.1)
  */
 
 defined( 'ABSPATH' ) || exit;
+
+$wp_button_class = isset( $wp_button_class ) ? $wp_button_class : '';
 
 do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 
@@ -71,7 +74,7 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 
 								if ( ! empty( $actions ) ) {
 									foreach ( $actions as $key => $action ) { // phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited
-										echo '<a href="' . esc_url( $action['url'] ) . '" class="woocommerce-button button ' . sanitize_html_class( $key ) . '">' . esc_html( $action['name'] ) . '</a>';
+										echo '<a href="' . esc_url( $action['url'] ) . '" class="woocommerce-button' . esc_attr( $wp_button_class ) . ' button ' . sanitize_html_class( $key ) . '">' . esc_html( $action['name'] ) . '</a>';
 									}
 								}
 								?>

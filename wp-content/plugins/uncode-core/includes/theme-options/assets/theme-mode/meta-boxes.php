@@ -1513,6 +1513,10 @@ function uncode_page_options()
 				'value' => 'stack',
 				'label' => esc_html__('Stack', 'uncode-core') ,
 			) ,
+			array(
+				'value' => 'grid',
+				'label' => esc_html__('Grid', 'uncode-core') ,
+			) ,
 		) ,
 	);
 

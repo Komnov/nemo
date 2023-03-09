@@ -108,9 +108,9 @@ if ( ! $current_post_type ) {
 
 		if ( absint( $navigation_index ) === absint( $generic_navigation_index ) ) {
 			$navigation_index = $generic_navigation_index;
-		} else {
-			$generic_index = false;
 		}
+
+		$generic_index = false;
 	} else {
 		$navigation_index = ot_get_option( '_uncode_' . $current_post_type . '_navigation_index' );
 	}

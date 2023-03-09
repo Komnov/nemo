@@ -43,8 +43,8 @@ if (!function_exists('uncode_get_back_html')) {
 
 				if (strpos($background_mime, 'image/') !== false) {
 					$back_metavalues = unserialize($back_attributes->metadata);
-					$image_orig_w = $back_metavalues['width'];
-					$image_orig_h = $back_metavalues['height'];
+					$image_orig_w = isset( $back_metavalues['width'] ) ? $back_metavalues['width'] : 1;
+					$image_orig_h = isset( $back_metavalues['height'] ) ? $back_metavalues['height'] : 1;
 					if ($background_mime === 'image/gif' || $background_mime === 'image/url') {
 						$background_url = $back_attributes->guid;
 					} else {
@@ -149,7 +149,12 @@ if (!function_exists('uncode_get_back_html')) {
 					$header_background_selfvideo = str_replace('<video','<video loop '. $background_mobile_attr . 'muted', $header_background_selfvideo);
 
 					$get_video_meta = unserialize($back_attributes->metadata);
-					$video_ratio = $get_video_meta['width'] / $get_video_meta['height'];
+					$get_video_meta = unserialize($back_attributes->metadata);
+					$get_video_w = (int) $get_video_meta['width'];
+					$get_video_w = !$get_video_w ? 16 : $get_video_w;
+					$get_video_h = (int) $get_video_meta['height'];
+					$get_video_h = !$get_video_h ? 9 : $get_video_h;
+					$video_ratio = $get_video_w / $get_video_h;
 					$header_background_selfvideo = str_replace('class="background-video-shortcode"','class="background-video-shortcode" data-ratio="'.$video_ratio.'"', $header_background_selfvideo);
 				} else {
 					switch ($background_mime) {
@@ -452,7 +457,7 @@ if (!function_exists('uncode_get_back_html')) {
 											</div>';
 			}
 		} else {
-			if ($overlay_html !== '' || $header_background_video !== '' || $back_image !== '' || $header_background_selfvideo !== '' || $carousel_html !== '') {
+			if ( $overlay_html !== '' || $header_background_video !== '' || $back_image !== '' || $header_background_selfvideo !== '' || $carousel_html !== '' || ( $adaptive_images === 'off' && $dynamic_srcset_active && $do_bg_replace ) ) {
 				$back_html = 	'<div class="header-bg-wrapper' . ($carousel_html !=='' ? ' header-carousel-wrapper' : '') . '">
 											<div class="header-bg' . $back_mime_css . $adaptive_async_class . '"' . $header_background_video . $back_image . $adaptive_async_data . '>' . $header_background_selfvideo . $carousel_html . '</div>
 											'.$overlay_html.'
@@ -649,28 +654,30 @@ if (!function_exists('uncode_create_single_block')) {
 				$single_animation .= ' srcset-lazy-animations';
 			}
 		}
-		if (isset($block_data['product']) && $block_data['product'] === true) {
-			$is_product = true;
-		} else {
-			$is_product = false;
-		}
 
 		if (!isset($block_classes)) {
 			$block_classes = array();
 
 		}
 
-		if (class_exists( 'WooCommerce' ) && $is_product) {
+		$is_product = false;
+
+		if ( class_exists( 'WooCommerce' ) && isset( $block_data['product'] ) && $block_data['product'] === true ) {
 			global $product;
 			$or_product = $product;
 
-			if ( ot_get_option('_uncode_woocommerce_hooks') === 'on' && $is_product && class_exists( 'Woo_Variation_Swatches_Pro' ) ) {
-				$block_classes[] = esc_attr( implode( ' ', wc_get_product_class( '', $block_data['id'] ) ) );
+			$product = wc_get_product( $block_data['id'] );
+
+			if ( $product ) {
+				$is_product = true;
 			}
 		}
 
-		$single_fixed = (isset($block_data['single_fixed'])) ? $block_data['single_fixed'] : null;
+		if ( ot_get_option('_uncode_woocommerce_hooks') === 'on' && $is_product && class_exists( 'Woo_Variation_Swatches_Pro' ) ) {
+			$block_classes[] = esc_attr( implode( ' ', wc_get_product_class( '', $product->get_id() ) ) );
+		}
 
+		$single_fixed = (isset($block_data['single_fixed'])) ? $block_data['single_fixed'] : null;
 
 		if (isset($block_data['link'])) {
 			$create_link = is_array($block_data['link']) ? $block_data['link']['url'] : $block_data['link'];
@@ -747,7 +754,7 @@ if (!function_exists('uncode_create_single_block')) {
 		$items_thumb_id = explode(',', $item_thumb_id);
 		$media_attributes = uncode_get_media_info($item_thumb_id);
 
-		$entry = $inner_entry = $cat_over = $cat_over_class = $drop_image_extra_price = $drop_image_extra = $title_extra_before = $title_extra_after = $inline_price = '';
+		$entry = $inner_entry = $cat_over = $cat_over_class = $drop_image_extra_price = $drop_image_extra = $title_extra_before = $title_extra_after = $inline_price = $inline_count = '';
 		$meta_class = $title_classes;
 		$meta_class[] = 't-entry-table-typography';
 
@@ -810,9 +817,9 @@ if (!function_exists('uncode_create_single_block')) {
 					case 'media':
 						if ( $is_table ) {
 							$inner_entry .= '[uncode_type_media_output]';
-							$single_width = $table_col;
 
-							if ( isset($images_size) && $images_size !== '' ) {
+							if ( isset($images_size) && $images_size !== '' && isset( $table_col ) ) {
+								$single_width = $table_col;
 								switch ($images_size) {
 									case ('one-one'):
 										$single_height = $single_width;
@@ -894,11 +901,21 @@ if (!function_exists('uncode_create_single_block')) {
 							$title_extra_after = '[uncode_drop_image_extra_after]';
 						}
 
-						if ( class_exists( 'WooCommerce' ) && isset($layout['price']) && isset( $block_data['price_inline'] ) && $block_data['price_inline'] === 'yes' ) {
-							$WC_Product = wc_get_product( $block_data['id'] );
-							$price_case = '<span class="price '.trim(implode(' ', $title_classes)).'">'.$WC_Product->get_price_html().'</span>';
+						if ( $is_product && isset($layout['price']) && isset( $block_data['price_inline'] ) && $block_data['price_inline'] === 'yes' ) {
+							$price_case = '<span class="price '.trim(implode(' ', $title_classes)).'">'.$product->get_price_html().'</span>';
 						} else {
 							$price_case = '';
+						}
+
+						if ( $is_tax_block && isset($layout['count']) && isset( $block_data['count_inline'] ) && $block_data['count_inline'] === 'yes' ) {
+							$count = uncode_get_posts_element_term_count( $block_data, $layout['count'] );
+							if ( $count ) {
+								$count_case = ' <span class="inline-count '.trim(implode(' ', $title_classes)).'">' . $count . '</span>';
+							} else {
+								$count_case = '';
+							}
+						} else {
+							$count_case = '';
 						}
 
 						if (($single_text === 'overlay' && $single_elements_click !== 'yes') || (isset($media_attributes->team) && $media_attributes->team) || $title_link === '#') {
@@ -927,6 +944,7 @@ if (!function_exists('uncode_create_single_block')) {
 
 								$print_title = $title_extra_before . $nav_label_icon . $print_title;
 								$print_title .= $price_case;
+								$print_title .= $count_case;
 
 								ob_start();
 								do_action( 'uncode_inner_entry_after_title', $block_data, $layout, $is_default_product_content );
@@ -975,6 +993,7 @@ if (!function_exists('uncode_create_single_block')) {
 
 								$print_title = $title_extra_before . $nav_label_icon . $print_title;
 								$print_title .= $price_case;
+								$print_title .= $count_case;
 
 								ob_start();
 								do_action( 'uncode_inner_entry_after_title', $block_data, $layout, $is_default_product_content );
@@ -1011,7 +1030,6 @@ if (!function_exists('uncode_create_single_block')) {
 
 						if ( ot_get_option('_uncode_woocommerce_hooks') === 'on' && $is_product ) {
 							ob_start();
-							$product = wc_get_product($block_data['id']);
 							do_action( 'woocommerce_shop_loop_item_title');
 							$inner_entry .= ob_get_clean();
 						}
@@ -1347,78 +1365,21 @@ if (!function_exists('uncode_create_single_block')) {
 
 					case 'count':
 						if ( $is_tax_block ) {
-							$term       = get_term( $block_data['id'] );
-							$term_count = isset( $term->count ) ? absint( $term->count ) : false;
+							if ( isset( $block_data['count_inline'] ) && $block_data['count_inline'] === 'yes' ) {
+								continue 2;
+							}
 
-							if ( $term_count !== false ) {
+							$count = uncode_get_posts_element_term_count( $block_data, $value );
+
+							if ( $count ) {
 								$cat_over_bool = false;
-
-								if (isset($value[0]) && $value[0] === 'bordered') {
-									$border_count = true;
-								} else {
-									$border_count = false;
-								}
-
-								if (isset($value[0]) && $value[0] === 'colorbg') {
-									$colorbg = true;
-								} else {
-									$colorbg = false;
-								}
-
-								if (isset($value[0]) && $value[0] === 'transparentbg') {
-									$transparentbg = true;
-								} else {
-									$transparentbg = false;
-								}
+								$meta_inner    = '';
+								$count_classes = 't-entry-category';
 
 								if (isset($value[1]) && ( $value[1] === 'topleft' || $value[1] === 'topright' || $value[1] === 'bottomleft' || $value[1] === 'bottomright' ) ) {
 									$cat_over_class = 't-cat-over-' . $value[1];
 									$cat_over_bool = true;
 								}
-
-								if (isset($value[0]) && $value[0] === 'yesbg') {
-									$with_bg = true;
-								} else {
-									$with_bg = false;
-								}
-
-								$count_text = $term_count;
-
-								if ( isset($value[2]) && $value[2] === 'show-label' ) {
-									$tax_queried = isset( $block_data['tax_queried'] ) && $block_data['tax_queried'] ? $block_data['tax_queried'] : false;
-
-									if ( $tax_queried ) {
-										$count_text .= ' ' . uncode_get_legacy_taxonomy_cpt_label( $tax_queried, $term_count );
-									}
-								}
-
-								$meta_inner = '';
-
-								$count_classes = 't-entry-category';
-
-								$count_link = '<span class="t-entry-cat-single"><span>' . $count_text . '</span></span>';
-
-								$term_color = get_option( '_uncode_taxonomy_' . $block_data['id'] );
-								if (isset($term_color['term_color']) && $term_color['term_color'] !== '' && $with_bg) {
-									$term_color = 'text-' . $term_color['term_color'] . '-color';
-								} elseif ( $colorbg ) {
-									if ( isset($term_color['term_color']) && $term_color['term_color'] !== '' ) {
-										$term_color_id = $term_color['term_color'];
-									} else {
-										$term_color_id = 'accent';
-									}
-									$term_color = 'style-' . $term_color_id . '-bg tmb-term-evidence font-ui';
-								} elseif ( $transparentbg ) {
-									$term_color = 'transparent-cat tmb-term-evidence font-ui';
-								} elseif ( $border_count ) {
-									$term_color = 'bordered-cat tmb-term-evidence font-ui';
-								}
-
-								if ( !is_array($term_color) ) {
-									$count_link = str_replace('<span>', '<span class="'.$term_color.'">', $count_link);
-								}
-
-								$count = $count_link;
 
 								if ( isset( $block_data['drop_image_extra'] ) ) {
 									$drop_image_extra = $count;
@@ -1590,8 +1551,7 @@ if (!function_exists('uncode_create_single_block')) {
 					break;
 
 					case 'add_to_cart':
-						if ( class_exists( 'WooCommerce' ) && $is_product ) {
-							$product = wc_get_product($block_data['id']);
+						if ( $is_product ) {
 							$btn_shape = ' btn-default btn-no-scale';
 							$btn_has_style = false;
 
@@ -1732,35 +1692,68 @@ if (!function_exists('uncode_create_single_block')) {
 					break;
 
 					case 'price':
-						if ( class_exists( 'WooCommerce' ) && ( !isset( $block_data['price_inline'] ) || $block_data['price_inline'] !== 'yes' ) ) {
-							$WC_Product = wc_get_product( $block_data['id'] );
-							if ( $WC_Product ) {
-								if ( $is_titles && isset( $block_data['drop_image_extra'] ) ) {
-									$drop_image_extra = preg_replace( "/<ins .*?>(.*?)<\/ins>/", "<ins>$1</ins>", $WC_Product->get_price_html() );
-								} else {
-									$inner_entry .= '<span class="price '.trim(implode(' ', $title_classes)).'">'.$WC_Product->get_price_html().'</span>';
-								}
+						if ( $is_product && ( !isset( $block_data['price_inline'] ) || $block_data['price_inline'] !== 'yes' ) ) {
+							if ( $is_titles && isset( $block_data['drop_image_extra'] ) ) {
+								$drop_image_extra = preg_replace( "/<ins .*?>(.*?)<\/ins>/", "<ins>$1</ins>", $product->get_price_html() );
+							} else {
+								$inner_entry .= '<span class="price '.trim(implode(' ', $title_classes)).'">'.$product->get_price_html().'</span>';
 							}
 						}
 					break;
 
 					case 'stars':
-						if ( class_exists( 'WooCommerce' ) ) {
-							$product = wc_get_product( $block_data['id'] );
+						if ( $is_product ) {
+							ob_start();
+							$templ_arr = array(
+								'no_wrapper_class' => true,
+								'vc_only_stars'    => true,
+							);
+							wc_get_template( 'single-product/rating.php', $templ_arr );
+							$stars_output = ob_get_clean();
 
-							if ( $product ) {
-								ob_start();
-								$templ_arr = array(
-									'no_wrapper_class' => true,
-									'vc_only_stars'    => true,
-								);
-								wc_get_template( 'single-product/rating.php', $templ_arr );
-								$stars_output = ob_get_clean();
+							if ( $stars_output ) {
+								$stars_output_class = $single_text === 'overlay' ? 't-entry-meta' : 't-entry-stars';
+								$inner_entry .= '<div class="' . $stars_output_class . '">' . $stars_output . '</div>';
+							}
+						}
+					break;
 
-								if ( $stars_output ) {
-									$stars_output_class = $single_text === 'overlay' ? 't-entry-meta' : 't-entry-stars';
-									$inner_entry .= '<div class="' . $stars_output_class . '">' . $stars_output . '</div>';
+					case 'variations':
+						if ( $is_product && isset( $value[0] ) && ( $value[0] === 'under' || ( $value[0] === 'over' && isset( $value[1] ) && $value[1] === '_all' ) ) ) {
+							$inner_entry .= uncode_wc_print_variations_element( $product, $value, $single_text );
+						}
+					break;
+
+					case 'attribute_image':
+						if ( $is_product && isset( $value[0] ) ) {
+							$inner_entry .= uncode_wc_print_attribute_image_element( $product, $value );
+						}
+					break;
+
+					case 'stock':
+						if ( $is_product ) {
+							$stock = wc_get_stock_html( $product );
+							if ( $stock ) {
+								$stock_class = '';
+								if ( isset( $value[0] ) && $value[0] === 'out_of_stock' && strpos( $stock, 'in-stock' ) !== false ) {
+									$stock_class = ' t-entry-stock--in-stock';
 								}
+
+								$text_size = '';
+
+								if ( isset( $block_data[ 'text_lead' ] ) ) {
+									if ( $block_data[ 'text_lead' ] === 'yes' ) {
+										$text_size = 'text-lead';
+									} else if ( $block_data[ 'text_lead' ] === 'small' ) {
+										$text_size = 'text-small';
+									}
+								}
+
+								if ( $text_size ) {
+									$stock_class .= ' ' . $text_size;
+								}
+
+								$inner_entry.= '<div class="t-entry-meta t-entry-stock' . $stock_class . '">' . wc_get_stock_html( $product ) . '</div>';
 							}
 						}
 					break;
@@ -1797,7 +1790,7 @@ if (!function_exists('uncode_create_single_block')) {
 							}
 						} elseif ( isset($block_data['media_subtitle_custom']) && $block_data['media_subtitle_custom'] !== '' ) {
 							if ( isset( $block_data['table_heading'] ) ) {
-								$inner_entry .= '<p class="' . trim(implode(' ', $meta_class)) . ' ">' . $esc_attr( $block_data['media_subtitle_custom'] ) . '</p>';
+								$inner_entry .= '<p class="' . trim(implode(' ', $meta_class)) . ' ">' . esc_attr( $block_data['media_subtitle_custom'] ) . '</p>';
 							} else {
 								$inner_entry .= '<p class="t-entry-excerpt '.$text_size.'">' . esc_attr( $block_data['media_subtitle_custom'] ) . '</p>';
 							}
@@ -1854,8 +1847,7 @@ if (!function_exists('uncode_create_single_block')) {
 					break;
 
 					case 'quick-view-button':
-						if ( $is_table && class_exists( 'WooCommerce' ) && isset($block_data['id']) ) {
-							$product = wc_get_product($block_data['id']);
+						if ( $is_table && $is_product ) {
 							ob_start();
 							do_action( 'uncode_element_special_buttons', $block_data, $key );
 							$qv_out = ob_get_clean();
@@ -1868,8 +1860,7 @@ if (!function_exists('uncode_create_single_block')) {
 					break;
 
 					case 'wishlist-button':
-						if ( $is_table && class_exists( 'WooCommerce' ) && isset($block_data['id']) ) {
-							$product = wc_get_product($block_data['id']);
+						if ( $is_table && $is_product ) {
 							ob_start();
 							do_action( 'uncode_element_special_buttons', $block_data, $key );
 							$wish_out = ob_get_clean();
@@ -1932,7 +1923,7 @@ if (!function_exists('uncode_create_single_block')) {
 					break;
 
 					default:
-						if ($key !== 'media') {
+						if ($key !== 'media' && isset($block_data['id'])) {	
 							$get_cf_value = get_post_meta($block_data['id'], $key, true);
 							if (isset($get_cf_value) && $get_cf_value !== '') {
 								$inner_entry.= '<div class="t-entry-cf-'.$key;
@@ -2007,10 +1998,18 @@ if (!function_exists('uncode_create_single_block')) {
 
 					if ( isset( $block_data['price_inline'] ) && $block_data['price_inline'] === 'yes' ) {
 						$inline_price = ' t-entry-inline-price';
+						if ( isset( $block_data['price_inline_responsive'] ) && $block_data['price_inline_responsive'] === 'yes' ) {
+							$inline_price .= ' t-entry-inline-price-responsive';
+						}
 					}
+
+					if ( $is_tax_block && isset( $block_data['count_inline'] ) && $block_data['count_inline'] === 'yes' ) {
+						$inline_count = ' t-entry-inline-count';
+					}
+
 					if ($single_text !== 'overlay') {
 						$entry.= '<div class="t-entry-text">
-									<div class="t-entry-text-tc ' . $block_data['text_padding'] . $inline_price . '">';
+									<div class="t-entry-text-tc ' . $block_data['text_padding'] . $inline_price . $inline_count . '">';
 					}
 
 					$entry.= '<div class="t-entry">';
@@ -2026,6 +2025,8 @@ if (!function_exists('uncode_create_single_block')) {
 				}
 			}
 		}
+
+		$block_data['layout'] = $layout;
 
 		if ((empty($item_thumb_id) || !get_post_mime_type( $item_thumb_id )) && ( !is_array($items_thumb_id) || $items_thumb_id[0] === '' || $items_thumb_id[0] == '0' ) ) {
 			$media_attributes = new stdClass();
@@ -2047,9 +2048,19 @@ if (!function_exists('uncode_create_single_block')) {
 					$image_orig_h = 500;
 				}
 			} else {
-				$item_media = get_template_directory_uri() . '/library/img/blank.png';;
+				$item_media = get_template_directory_uri() . '/library/img/blank.png';
 				$image_orig_w = 500;
 				$image_orig_h = 500;
+			}
+			// Add adaptive data
+			if ( $adaptive_images === 'on' && $adaptive_images_async === 'on' ) {
+				$adaptive_async_data = apply_filters( 'uncode_adaptive_get_async_data', '', 'ai_async', $block_data, array(), $item_thumb_id, $media_attributes, array(), $image_orig_w, $image_orig_h, $single_width, $single_height, $crop, $single_fixed );
+			} else if ( $adaptive_images === 'off' && $dynamic_srcset_active ) {
+				$adaptive_async_data_all = apply_filters( 'uncode_adaptive_get_async_data', array( 'string' => '' ), 'srcset', $block_data, $dynamic_srcset_sizes, $item_thumb_id, $media_attributes, array(), $image_orig_w, $image_orig_h, $single_width, $single_height, $crop, $single_fixed );
+				$adaptive_async_data     = $adaptive_async_data_all['string'];
+			} else {
+				// Empty by default but it can be filtered
+				$adaptive_async_data = apply_filters( 'uncode_adaptive_get_async_data', '', 'ai', $block_data, array(), $item_thumb_id, $media_attributes, array(), $image_orig_w, $image_orig_h, $single_width, $single_height, $crop, $single_fixed );
 			}
 			$consent_id = 'image/jpeg';
 		} else {
@@ -2170,8 +2181,8 @@ if (!function_exists('uncode_create_single_block')) {
 								$single_height = $single_height / ( 12 / $single_image_size );
 							}
 						}
-						global $woocommerce_loop, $uncode_vc_index, $is_footer;
- 						if ( !$uncode_vc_index && !$is_footer && ( !function_exists('is_product') || !is_product() ) && ( ( isset($woocommerce_loop['is_shortcode']) && $woocommerce_loop['is_shortcode'] ) || ( function_exists('is_product_category') && is_product_category() ) || ( function_exists('is_product_tag') && is_product_tag() ) || apply_filters( 'uncode_wc_apply_customizer_sizes', false, $block_data ) ) ) {
+						global $woocommerce_loop, $uncode_vc_index, $uncode_vc_gallery, $is_footer, $is_header_cb;
+ 						if ( !$uncode_vc_index && !$uncode_vc_gallery && !$is_footer && !$is_header_cb && ( !function_exists('is_product') || !is_product() ) && ( ( isset($woocommerce_loop['is_shortcode']) && $woocommerce_loop['is_shortcode'] ) || ( function_exists('is_product_category') && is_product_category() ) || ( function_exists('is_product_tag') && is_product_tag() ) || apply_filters( 'uncode_wc_apply_customizer_sizes', false, $block_data ) ) ) {
 							$WC_vers = uncode_get_WC_version();
 							if ( version_compare( $WC_vers, '3.3', '<' ) ) {
 								$wc_catalog_image_size = get_option('shop_catalog_image_size');
@@ -2214,6 +2225,7 @@ if (!function_exists('uncode_create_single_block')) {
 							$adaptive_async_class = uncode_get_adaptive_async_class();
 							if ( $adaptive_async_class ) {
 								$adaptive_async_data = uncode_get_adaptive_async_data( $item_thumb_id, $media_attributes, $image_orig_w, $image_orig_h, $single_width, $single_height, $crop, $single_fixed );
+								$adaptive_async_data = apply_filters( 'uncode_adaptive_get_async_data', $adaptive_async_data, 'ai_async', $block_data, array(), $item_thumb_id, $media_attributes, $resized_image, $image_orig_w, $image_orig_h, $single_width, $single_height, $crop, $single_fixed );
 							}
 						} else if ( $adaptive_images === 'off' && $dynamic_srcset_active ) {
 							if ( $activate_webp ) {
@@ -2221,7 +2233,11 @@ if (!function_exists('uncode_create_single_block')) {
 							}
 							$adaptive_async_class    = uncode_get_srcset_async_class( $block_data );
 							$adaptive_async_data_all = uncode_get_srcset_async_data( $block_data, $dynamic_srcset_sizes, $item_thumb_id, $media_attributes, $resized_image, $image_orig_w, $image_orig_h, $single_width, $single_height, $crop, $single_fixed );
+							$adaptive_async_data_all = apply_filters( 'uncode_adaptive_get_async_data', $adaptive_async_data_all, 'srcset', $block_data, $dynamic_srcset_sizes, $item_thumb_id, $media_attributes, $resized_image, $image_orig_w, $image_orig_h, $single_width, $single_height, $crop, $single_fixed );
 							$adaptive_async_data     = $adaptive_async_data_all['string'];
+						} else {
+							// Empty by default but it can be filtered
+							$adaptive_async_data = apply_filters( 'uncode_adaptive_get_async_data', '', 'ai', $block_data, array(), $item_thumb_id, $media_attributes, $resized_image, $image_orig_w, $image_orig_h, $single_width, $single_height, $crop, $single_fixed );
 						}
 					}
 					$image_orig_w = isset( $resized_image['width'] ) ? $resized_image['width'] : 0;
@@ -2334,88 +2350,90 @@ if (!function_exists('uncode_create_single_block')) {
 
 								if (!empty($media_oembed['poster']) && $media_oembed['poster'] !== '') {
 									$poster_attributes = uncode_get_media_info($media_oembed['poster']);
-									$media_metavalues = unserialize($poster_attributes->metadata);
-									$image_orig_w = $media_metavalues['width'];
-									$image_orig_h = $media_metavalues['height'];
-									$resized_image = uncode_resize_image($poster_attributes->id, $poster_attributes->guid, $poster_attributes->path, $image_orig_w, $image_orig_h, $single_width, $single_height, $crop);
-									$item_media = isset( $resized_image['url'] ) ? esc_attr($resized_image['url']) : false;
-									if (strpos($poster_attributes->post_mime_type, 'image/') !== false && $poster_attributes->post_mime_type !== 'image/gif' && $poster_attributes->post_mime_type !== 'image/url') {
-										// Poster oembed
-										if ( $adaptive_images === 'on' && $adaptive_images_async === 'on' ) {
-											$adaptive_async_class = uncode_get_adaptive_async_class();
-											if ( $adaptive_async_class ) {
-												$adaptive_async_data = uncode_get_adaptive_async_data( $item_thumb_id, $poster_attributes, $image_orig_w, $image_orig_h, $single_width, $single_height, $crop );
-											}
-										} else if ( $adaptive_images === 'off' && $dynamic_srcset_active ) {
+									if ( ! is_null( $poster_attributes ) ) {
+										$media_metavalues = unserialize($poster_attributes->metadata);
+										$image_orig_w = $media_metavalues['width'];
+										$image_orig_h = $media_metavalues['height'];
+										$resized_image = uncode_resize_image($poster_attributes->id, $poster_attributes->guid, $poster_attributes->path, $image_orig_w, $image_orig_h, $single_width, $single_height, $crop);
+										$item_media = isset( $resized_image['url'] ) ? esc_attr($resized_image['url']) : false;
+										if (strpos($poster_attributes->post_mime_type, 'image/') !== false && $poster_attributes->post_mime_type !== 'image/gif' && $poster_attributes->post_mime_type !== 'image/url') {
+											// Poster oembed
+											if ( $adaptive_images === 'on' && $adaptive_images_async === 'on' ) {
+												$adaptive_async_class = uncode_get_adaptive_async_class();
+												if ( $adaptive_async_class ) {
+													$adaptive_async_data = uncode_get_adaptive_async_data( $item_thumb_id, $poster_attributes, $image_orig_w, $image_orig_h, $single_width, $single_height, $crop );
+												}
+											} else if ( $adaptive_images === 'off' && $dynamic_srcset_active ) {
 
-											if ( $media_poster ) {
-												$poster_th_id = get_post_meta($item_thumb_id, "_uncode_poster_image", true);
-											}
+												if ( $media_poster ) {
+													$poster_th_id = get_post_meta($item_thumb_id, "_uncode_poster_image", true);
+												}
 
-											if ( $activate_webp ) {
-												$block_data['activate_webp'] = true;
-											}
+												if ( $activate_webp ) {
+													$block_data['activate_webp'] = true;
+												}
 
-											$adaptive_async_class    = uncode_get_srcset_async_class( $block_data );
-											$adaptive_async_data_all = uncode_get_srcset_async_data( $block_data, $dynamic_srcset_sizes, $poster_th_id, $poster_attributes, $resized_image, $image_orig_w, $image_orig_h, $single_width, $single_height, $crop );
-											$adaptive_async_data     = $adaptive_async_data_all['string'];
+												$adaptive_async_class    = uncode_get_srcset_async_class( $block_data );
+												$adaptive_async_data_all = uncode_get_srcset_async_data( $block_data, $dynamic_srcset_sizes, $poster_th_id, $poster_attributes, $resized_image, $image_orig_w, $image_orig_h, $single_width, $single_height, $crop );
+												$adaptive_async_data     = $adaptive_async_data_all['string'];
+											}
 										}
-									}
-									$image_orig_w = isset( $resized_image['width'] ) ? $resized_image['width'] : 0;
-									$image_orig_h = isset( $resized_image['height'] ) ? $resized_image['height'] : 0;
-									$media_type = 'image';
-									if ($lightbox_classes) {
-										switch ($media_attributes->post_mime_type) {
-						    				case 'oembed/twitter':
-						    				case 'oembed/html':
-						    					global $adaptive_images, $adaptive_images_async;
-													if ($adaptive_images === 'on' && $adaptive_images_async === 'on') {
-														$poster_url = $poster_attributes->guid;
-													} else {
-														$big_image = uncode_resize_image($poster_attributes->id, $poster_attributes->guid, $poster_attributes->path, $image_orig_w, $image_orig_h, 12, null, false);
-														$create_link = $big_image['url'];
-													}
-							    			break;
-							    			case 'oembed/iframe':
-												$create_link = '#inline-'.$item_thumb_id.'" data-type="inline" target="#inline' . $item_thumb_id;
-												$inline_hidden = '<div id="inline-' . esc_attr( $item_thumb_id ) . '" class="ilightbox-html" style="display: none;">' . $media_attributes->post_content . '</div>';
-							    			break;
-							    			case 'oembed/youtube':
-							    				if ( uncode_privacy_allow_content( 'youtube' ) === false ) {
-								    				$create_link = '#inline-' . esc_attr( $item_thumb_id ) . '" data-type="inline" target="#inline' . esc_attr( $item_thumb_id );
-								    				$inline_hidden = '<div id="inline-' . esc_attr( $item_thumb_id ) . '" class="ilightbox-html" style="display: none;">' . $media_oembed['code'] . '</div>';
-							    				} else {
+										$image_orig_w = isset( $resized_image['width'] ) ? $resized_image['width'] : 0;
+										$image_orig_h = isset( $resized_image['height'] ) ? $resized_image['height'] : 0;
+										$media_type = 'image';
+										if ($lightbox_classes) {
+											switch ($media_attributes->post_mime_type) {
+							    				case 'oembed/twitter':
+							    				case 'oembed/html':
+							    					global $adaptive_images, $adaptive_images_async;
+														if ($adaptive_images === 'on' && $adaptive_images_async === 'on') {
+															$poster_url = $poster_attributes->guid;
+														} else {
+															$big_image = uncode_resize_image($poster_attributes->id, $poster_attributes->guid, $poster_attributes->path, $image_orig_w, $image_orig_h, 12, null, false);
+															$create_link = $big_image['url'];
+														}
+								    			break;
+								    			case 'oembed/iframe':
+													$create_link = '#inline-'.$item_thumb_id.'" data-type="inline" target="#inline' . $item_thumb_id;
+													$inline_hidden = '<div id="inline-' . esc_attr( $item_thumb_id ) . '" class="ilightbox-html" style="display: none;">' . $media_attributes->post_content . '</div>';
+								    			break;
+								    			case 'oembed/youtube':
+								    				if ( uncode_privacy_allow_content( 'youtube' ) === false ) {
+									    				$create_link = '#inline-' . esc_attr( $item_thumb_id ) . '" data-type="inline" target="#inline' . esc_attr( $item_thumb_id );
+									    				$inline_hidden = '<div id="inline-' . esc_attr( $item_thumb_id ) . '" class="ilightbox-html" style="display: none;">' . $media_oembed['code'] . '</div>';
+								    				} else {
+									    				$create_link = $media_oembed['code'];
+								    				}
+								    			break;
+								    			case 'oembed/vimeo':
+								    				if ( uncode_privacy_allow_content( 'vimeo' ) === false ) {
+									    				$create_link = '#inline-' . esc_attr( $item_thumb_id ) . '" data-type="inline" target="#inline' . esc_attr( $item_thumb_id );
+									    				$inline_hidden = '<div id="inline-' . esc_attr( $item_thumb_id ) . '" class="ilightbox-html" style="display: none;">' . $media_oembed['code'] . '</div>';
+								    				} else {
+									    				$create_link = $media_oembed['code'];
+								    				}
+								    			break;
+								    			case 'oembed/soundcloud':
+								    				if ( uncode_privacy_allow_content( 'soundcloud' ) === false ) {
+									    				$create_link = '#inline-' . esc_attr( $item_thumb_id ) . '" data-type="inline" target="#inline' . esc_attr( $item_thumb_id );
+									    				$inline_hidden = '<div id="inline-' . esc_attr( $item_thumb_id ) . '" class="ilightbox-html" style="display: none;">' . $media_oembed['code'] . '</div>';
+								    				} else {
+									    				$create_link = $media_oembed['code'];
+								    				}
+								    			break;
+								    			case 'oembed/spotify':
+								    				if ( uncode_privacy_allow_content( 'spotify' ) === false ) {
+									    				$create_link = '#inline-' . esc_attr( $item_thumb_id ) . '" data-type="inline" target="#inline' . esc_attr( $item_thumb_id );
+									    				$inline_hidden = '<div id="inline-' . esc_attr( $item_thumb_id ) . '" class="ilightbox-html" style="display: none;">' . $media_oembed['code'] . '</div>';
+								    				} else {
+									    				$create_link = $media_oembed['code'];
+								    				}
+								    			break;
+								    			default;
 								    				$create_link = $media_oembed['code'];
-							    				}
-							    			break;
-							    			case 'oembed/vimeo':
-							    				if ( uncode_privacy_allow_content( 'vimeo' ) === false ) {
-								    				$create_link = '#inline-' . esc_attr( $item_thumb_id ) . '" data-type="inline" target="#inline' . esc_attr( $item_thumb_id );
-								    				$inline_hidden = '<div id="inline-' . esc_attr( $item_thumb_id ) . '" class="ilightbox-html" style="display: none;">' . $media_oembed['code'] . '</div>';
-							    				} else {
-								    				$create_link = $media_oembed['code'];
-							    				}
-							    			break;
-							    			case 'oembed/soundcloud':
-							    				if ( uncode_privacy_allow_content( 'soundcloud' ) === false ) {
-								    				$create_link = '#inline-' . esc_attr( $item_thumb_id ) . '" data-type="inline" target="#inline' . esc_attr( $item_thumb_id );
-								    				$inline_hidden = '<div id="inline-' . esc_attr( $item_thumb_id ) . '" class="ilightbox-html" style="display: none;">' . $media_oembed['code'] . '</div>';
-							    				} else {
-								    				$create_link = $media_oembed['code'];
-							    				}
-							    			break;
-							    			case 'oembed/spotify':
-							    				if ( uncode_privacy_allow_content( 'spotify' ) === false ) {
-								    				$create_link = '#inline-' . esc_attr( $item_thumb_id ) . '" data-type="inline" target="#inline' . esc_attr( $item_thumb_id );
-								    				$inline_hidden = '<div id="inline-' . esc_attr( $item_thumb_id ) . '" class="ilightbox-html" style="display: none;">' . $media_oembed['code'] . '</div>';
-							    				} else {
-								    				$create_link = $media_oembed['code'];
-							    				}
-							    			break;
-							    			default;
-							    				$create_link = $media_oembed['code'];
-							    			break;
-							    		}
+								    			break;
+								    		}
+										}
 									}
 								}
 							} else {
@@ -2639,7 +2657,6 @@ if (!function_exists('uncode_create_single_block')) {
 		$output = '';
 		if ( ot_get_option('_uncode_woocommerce_hooks') === 'on' && $is_product ) {
 			ob_start();
-			$product = wc_get_product($block_data['id']);
 			do_action( 'woocommerce_before_shop_loop_item');
 			$output .= ob_get_clean();
 		}
@@ -2678,7 +2695,6 @@ if (!function_exists('uncode_create_single_block')) {
 
 		if ( ot_get_option('_uncode_woocommerce_hooks') === 'on' && $is_product ) {
 			ob_start();
-			$product = wc_get_product($block_data['id']);
 			do_action( 'woocommerce_before_shop_loop_item_title');
 			$output .= ob_get_clean();
 		}
@@ -2716,6 +2732,9 @@ if (!function_exists('uncode_create_single_block')) {
 
 					if ( ( $media_type === 'image' || $media_type === 'email' || uncode_privacy_allow_content( $consent_id ) === false ) && $image_orig_w != 0 && $image_orig_h != 0) {
 						$dummy_padding = round( ( $image_orig_h / $image_orig_w ) * 100, 1 );
+						if ( strpos($dummy_padding, ',' ) !== false ) {
+							$dummy_padding = str_replace(',', '.', $dummy_padding);
+						}
 						$dummy_style = 'padding-top: '.$dummy_padding.'%;';
 						$dummy_class = 'dummy';
 						$dummy_content = '';
@@ -2763,7 +2782,7 @@ if (!function_exists('uncode_create_single_block')) {
 
 				}
 
-				if (($single_text !== 'overlay' || $single_elements_click !== 'yes') && $media_type === 'image' && !isset($block_data['is_avatar'])) {
+				if (($single_text !== 'overlay' || $single_elements_click !== 'yes') && ( $media_type === 'image' || ( $media_mime === 'image/svg+xml' && apply_filters( 'uncode_use_svgs_for_links', false ) ) ) && !isset($block_data['is_avatar'])) {
 
 					if ($style_preset === 'masonry') {
 						$a_classes[] = 'pushed';
@@ -2819,10 +2838,10 @@ if (!function_exists('uncode_create_single_block')) {
 									} else {
 										$subHtml = '';
 										if ( $album_item_title !== '' ) {
-											$subHtml .= '<h6>' . esc_attr($album_item_title) . '</h6>';
+											$subHtml .= '<h6>' . esc_attr(addslashes($album_item_title)) . '</h6>';
 										}
 										if ( $album_item_caption !== '' ) {
-											$subHtml .= '<p>' . esc_html($album_item_caption) . '</p>';
+											$subHtml .= '<p>' . esc_html(addslashes($album_item_caption)) . '</p>';
 										}
 										if ( $subHtml !== '' ) {
 											$album_item_dimensions .= '"subHtml":"' . $subHtml . '",';
@@ -2940,12 +2959,12 @@ if (!function_exists('uncode_create_single_block')) {
 
 					if ( $lbox_enhance ) {
 						if ( $media_attributes->post_mime_type !== 'video/mp4' && $media_attributes->post_mime_type !== 'oembed/spotify' && ( ! isset($block_data['album_id']) || $block_data['album_id'] === '' ) ) {
-							$href_att = ' href="'. (($media_type === 'image') ? $create_link : '').'"';
+							$href_att = ' href="'. ( ($media_type === 'image' || ( $media_mime === 'image/svg+xml' && apply_filters( 'uncode_use_svgs_for_links', false ) ) ) ? $create_link : '').'"';
 						} else {
 							$href_att = '';
 						}
 					} else {
-						$href_att = ' href="'. (($media_type === 'image') ? $create_link : '').'"';
+						$href_att = ' href="'. ( ($media_type === 'image' || ( $media_mime === 'image/svg+xml' && apply_filters( 'uncode_use_svgs_for_links', false ) ) ) ? $create_link : '').'"';
 					}
 
 					$media_output .= '<a tabindex="-1"' . $href_att .((count($a_classes) > 0 ) ? ' class="'.trim(implode(' ', $a_classes)).'"' : '').$lightbox_data.$data_values.'>';
@@ -2962,13 +2981,13 @@ if (!function_exists('uncode_create_single_block')) {
 						$t_overlay_inner_output = '';
 						$t_overlay_has_content = false;
 
-						if ( $inline_price ) {
+						if ( $inline_price || $inline_count ) {
 							$t_overlay_has_content = true;
 						}
 
 						$t_overlay_inner_output .= 	'<div class="t-overlay-inner">
 														<div class="t-overlay-content">
-															<div class="t-overlay-text '.$block_data['text_padding']. $sep_extra . $inline_price .'">';
+															<div class="t-overlay-text '.$block_data['text_padding']. $sep_extra . $inline_price . $inline_count .'">';
 
 						if ( $single_text === 'overlay' ) {
 
@@ -3018,9 +3037,8 @@ if (!function_exists('uncode_create_single_block')) {
 
 				if ( ( isset($layout['media'][3]) && $layout['media'][3] === 'show-sale' ) || ( is_archive() && !isset($layout['media'][3]) ) ) {
 					global $woocommerce;
-					if ( class_exists( 'WooCommerce' ) ) {
+					if ( $is_product ) {
 						if (isset($block_data['id'])) {
-							$product = wc_get_product($block_data['id']);
 							$post_obj = get_post($product);
 							if ( is_object($product) ) {
 								if ( $product->is_on_sale() ) {
@@ -3037,8 +3055,8 @@ if (!function_exists('uncode_create_single_block')) {
 				/* Metro */
 				if ($style_preset === 'metro' || ( $is_titles && ( isset($block_data['drop_image_position']) || ( !isset($block_data['drop_image_position']) && $media_type !== 'image' ) ) ) ) {
 					if ( $adaptive_images === 'off' && $dynamic_srcset_active ) {
-						if ( isset($block_data_id) && class_exists( 'WooCommerce' ) && $product = wc_get_product($block_data_id) ) {
-							$media_post_id = $product instanceof WC_Data ? $product->get_id() : $product->id;
+						if ( $is_product ) {
+							$media_post_id = $product->get_id();
 						} elseif ( isset($block_data_id) ) {
 							$media_post_id = $block_data_id;
 						} else {
@@ -3249,8 +3267,8 @@ if (!function_exists('uncode_create_single_block')) {
 
                         global $post;
 						$media_alt = (isset($media_attributes->alt)) ? $media_attributes->alt : '';
-                        if ( isset($block_data_id) && class_exists( 'WooCommerce' ) && $product = wc_get_product($block_data_id) ) {
-                            $media_post_id = $product instanceof WC_Data ? $product->get_id() : $product->id;
+                        if ( $is_product ) {
+                            $media_post_id = $product->get_id();
                         } elseif ( isset($block_data_id) ) {
                             $media_post_id = $block_data_id;
                         } else {
@@ -3354,15 +3372,13 @@ if (!function_exists('uncode_create_single_block')) {
 
 			}
 
-			if (($single_text !== 'overlay' || $single_elements_click !== 'yes') && $media_type === 'image' && !isset($block_data['is_avatar'])) {
-
+			if (($single_text !== 'overlay' || $single_elements_click !== 'yes') && ( $media_type === 'image' || ( $media_mime === 'image/svg+xml' && apply_filters( 'uncode_use_svgs_for_links', false ) ) ) && !isset($block_data['is_avatar'])) {
 				$media_output .= '</a>';
-
 			}
 
-			if ( !$is_titles && class_exists( 'WooCommerce' ) && $is_product && ( !isset($block_data['show_atc']) || $block_data['show_atc'] == 'yes') ) {
-				$product = wc_get_product($block_data['id']);
+			$has_add_to_cart_overlay = false;
 
+			if ( !$is_titles && $is_product && ( !isset($block_data['show_atc']) || $block_data['show_atc'] == 'yes') ) {
 				ob_start();
 				woocommerce_template_loop_add_to_cart();
 				$add_to_cart_button_html = ob_get_clean();
@@ -3377,7 +3393,12 @@ if (!function_exists('uncode_create_single_block')) {
 					}
 					$add_to_cart_button_html = apply_filters( 'uncode_loop_add_to_cart_button_html', $add_to_cart_button_html, 'default' );
 					$media_output .= '<div class="add-to-cart-overlay">'.$add_to_cart_button_html.'</div>';
+					$has_add_to_cart_overlay = true;
 				}
+			}
+			if ( !$is_titles && $is_product && ( isset( $layout['variations'] ) && $layout['variations'] && isset( $layout['variations'][0] ) && ( $layout['variations'][0] === 'over' || $layout['variations'][0] === 'over_visible' ) ) && isset( $layout['variations'][1] ) && $layout['variations'][1] !== '_all' ) {
+
+				$media_output .= uncode_wc_print_variations_element( $product, $layout['variations'], $single_text, $has_add_to_cart_overlay );
 			}
 
 			ob_start();
@@ -3437,7 +3458,7 @@ if (!function_exists('uncode_create_single_block')) {
 
 		$post = $or_post;
 
-		if (class_exists( 'WooCommerce' ) && $is_product) {
+		if ( $is_product ) {
 			$product = $or_product;
 		}
 
@@ -3605,7 +3626,7 @@ if (!function_exists('uncode_breadcrumbs')) {
 		$text['category'] = esc_html__('Archive by Category', 'uncode') . ' ' . '"%s"';
 
 		// text for a category page
-		$text['search'] = esc_html__('Search Results for', 'uncode') . ' ' . '"%s" Query';
+		$text['search'] = esc_html__('Search Results for', 'uncode') . ' ' . '"%s"';
 
 		// text for a search results page
 		$text['tag'] = esc_html__('Posts Tagged', 'uncode') . ' ' . '"%s"';

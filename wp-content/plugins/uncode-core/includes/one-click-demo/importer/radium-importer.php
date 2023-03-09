@@ -193,16 +193,123 @@ class Radium_Theme_Importer {
 									$gallery_array = array();
 									$product_array = array();
 									$original_array = array();
+
 									foreach ($parsed_xml['posts'] as $key => $value) {
 										$original_array[$value['post_id']] = $value['post_title'];
 									}
+
 									foreach ($parsed_xml['posts'] as $key => $value) {
+										$post_content = isset( $value['post_content'] ) ? $value['post_content'] : '';
+
+										$extra_cb_ids = array();
+
+										// Check content blocks in content
+										if ( strpos( $post_content, '[uncode_block' ) !== false ) {
+											$regex = '/\[uncode_block(.*?)\]/';
+											$regex_attr = '/(.*?)=\"(.*?)\"/';
+											preg_match_all( $regex, $post_content, $matches, PREG_SET_ORDER );
+
+											foreach ( $matches as $regex_key => $regex_value ) {
+												if (isset( $regex_value[1] ) ) {
+													preg_match_all( $regex_attr, trim( $regex_value[ 1 ] ), $matches_attr, PREG_SET_ORDER );
+
+													foreach ( $matches_attr as $key_attr => $value_attr ) {
+														if ( 'id' === trim( $value_attr[1] ) ) {
+															$cb_id = $value_attr[2];
+
+															if ( $cb_id > 0 ) {
+																$extra_cb_ids[] = $cb_id;
+															}
+														}
+													}
+												}
+											}
+										}
+
+										// Check widgetized content blocks in post modules
+										if ( strpos( $post_content, 'widgetized_content_block_id' ) !== false ) {
+											$regex = '/widgetized_content_block_id=\"(\d+)\"/';
+											preg_match_all( $regex, $post_content, $matches, PREG_SET_ORDER );
+
+											foreach ( $matches as $regex_key => $regex_value ) {
+												if (isset( $regex_value[1] ) ) {
+													$cb_id = trim( $regex_value[1] );
+													if ( $cb_id > 0 ) {
+														$extra_cb_ids[] = $cb_id;
+													}
+												}
+											}
+										}
+
+										// Check ajax filters content blocks in post modules
+										if ( strpos( $post_content, 'ajax_filters_content_block_id' ) !== false ) {
+											$regex = '/ajax_filters_content_block_id=\"(\d+)\"/';
+											preg_match_all( $regex, $post_content, $matches, PREG_SET_ORDER );
+
+											foreach ( $matches as $regex_key => $regex_value ) {
+												if (isset( $regex_value[1] ) ) {
+													$cb_id = trim( $regex_value[1] );
+													if ( $cb_id > 0 ) {
+														$extra_cb_ids[] = $cb_id;
+													}
+												}
+											}
+										}
+
+										// Check custom grids content blocks in post modules
+										if ( strpos( $post_content, 'custom_grid_content_block_id' ) !== false ) {
+											$regex = '/custom_grid_content_block_id=\"(\d+)\"/';
+											preg_match_all( $regex, $post_content, $matches, PREG_SET_ORDER );
+
+											foreach ( $matches as $regex_key => $regex_value ) {
+												if (isset( $regex_value[1] ) ) {
+													$cb_id = trim( $regex_value[1] );
+													if ( $cb_id > 0 ) {
+														$extra_cb_ids[] = $cb_id;
+													}
+												}
+											}
+										}
+
+										$postmeta = array();
+
+										if ( isset( $value['postmeta'] ) && is_array( $value['postmeta'] ) ) {
+											foreach ( $value['postmeta'] as $meta_key => $meta_value ) {
+												$postmeta[ $meta_value['key'] ] = $meta_value['value'];
+											}
+										}
+
 										switch ($value['post_type']) {
 											case 'post':
 												$ids = array($value['post_id']);
-												if (isset($value['postmeta'])) {
-													foreach ($value['postmeta'] as $meta_key => $meta_value) {
-														if ($meta_value['key'] === '_uncode_blocks_list') $ids[] = $meta_value['value'];
+												if ( count( $extra_cb_ids ) > 0 ) {
+													$ids = array_merge( $ids, $extra_cb_ids );
+												}
+												foreach ( $postmeta as $meta_key => $meta_value ) {
+													if ( isset( $postmeta['_uncode_header_type'] ) && $postmeta['_uncode_header_type'] === 'header_uncodeblock' && $meta_key === '_uncode_blocks_list' ) {
+														if ( absint( $meta_value ) > 0 ) {
+															$ids[] = $meta_value;
+														}
+													}
+													if ( $meta_key === '_uncode_specific_footer_block' ) {
+														if ( absint( $meta_value ) > 0 ) {
+															$ids[] = $meta_value;
+														}
+													}
+													if ( $meta_key === '_uncode_specific_content_block_after_pre' ) {
+														if ( absint( $meta_value ) > 0 ) {
+															$ids[] = $meta_value;
+														}
+													}
+													if ( $meta_key === '_uncode_specific_content_block_after' ) {
+														if ( absint( $meta_value ) > 0 ) {
+															$ids[] = $meta_value;
+														}
+													}
+													if ( isset( $postmeta['_uncode_specific_navigation_hide'] ) && $postmeta['_uncode_specific_navigation_hide'] === 'uncodeblock' && $meta_key === '_uncode_specific_navigation_content_block') {
+														if ( absint( $meta_value ) > 0 ) {
+															$ids[] = $meta_value;
+														}
 													}
 												}
 												$post_array[$value['post_title']] = array(
@@ -211,10 +318,35 @@ class Radium_Theme_Importer {
 												break;
 											case 'page':
 												$ids = array($value['post_id']);
+												if ( count( $extra_cb_ids ) > 0 ) {
+													$ids = array_merge( $ids, $extra_cb_ids );
+												}
 												$parent = $value['post_parent'];
-												if (isset($value['postmeta'])) {
-													foreach ($value['postmeta'] as $meta_key => $meta_value) {
-														if ($meta_value['key'] === '_uncode_blocks_list') $ids[] = $meta_value['value'];
+												foreach ( $postmeta as $meta_key => $meta_value ) {
+													if ( isset( $postmeta['_uncode_header_type'] ) && $postmeta['_uncode_header_type'] === 'header_uncodeblock' && $meta_key === '_uncode_blocks_list' ) {
+														if ( absint( $meta_value ) > 0 ) {
+															$ids[] = $meta_value;
+														}
+													}
+													if ( $meta_key === '_uncode_specific_footer_block' ) {
+														if ( absint( $meta_value ) > 0 ) {
+															$ids[] = $meta_value;
+														}
+													}
+													if ( $meta_key === '_uncode_specific_content_block_after_pre' ) {
+														if ( absint( $meta_value ) > 0 ) {
+															$ids[] = $meta_value;
+														}
+													}
+													if ( $meta_key === '_uncode_specific_content_block_after' ) {
+														if ( absint( $meta_value ) > 0 ) {
+															$ids[] = $meta_value;
+														}
+													}
+													if ( isset( $postmeta['_uncode_specific_navigation_hide'] ) && $postmeta['_uncode_specific_navigation_hide'] === 'uncodeblock' && $meta_key === '_uncode_specific_navigation_content_block') {
+														if ( absint( $meta_value ) > 0 ) {
+															$ids[] = $meta_value;
+														}
 													}
 												}
 												$value_post_title = $value['post_title'];
@@ -227,9 +359,34 @@ class Radium_Theme_Importer {
 												break;
 											case 'portfolio':
 												$ids = array($value['post_id']);
-												if (isset($value['postmeta'])) {
-													foreach ($value['postmeta'] as $meta_key => $meta_value) {
-														if ($meta_value['key'] === '_uncode_blocks_list') $ids[] = $meta_value['value'];
+												if ( count( $extra_cb_ids ) > 0 ) {
+													$ids = array_merge( $ids, $extra_cb_ids );
+												}
+												foreach ( $postmeta as $meta_key => $meta_value ) {
+													if ( isset( $postmeta['_uncode_header_type'] ) && $postmeta['_uncode_header_type'] === 'header_uncodeblock' && $meta_key === '_uncode_blocks_list' ) {
+														if ( absint( $meta_value ) > 0 ) {
+															$ids[] = $meta_value;
+														}
+													}
+													if ( $meta_key === '_uncode_specific_footer_block' ) {
+														if ( absint( $meta_value ) > 0 ) {
+															$ids[] = $meta_value;
+														}
+													}
+													if ( $meta_key === '_uncode_specific_content_block_after_pre' ) {
+														if ( absint( $meta_value ) > 0 ) {
+															$ids[] = $meta_value;
+														}
+													}
+													if ( $meta_key === '_uncode_specific_content_block_after' ) {
+														if ( absint( $meta_value ) > 0 ) {
+															$ids[] = $meta_value;
+														}
+													}
+													if ( isset( $postmeta['_uncode_specific_navigation_hide'] ) && $postmeta['_uncode_specific_navigation_hide'] === 'uncodeblock' && $meta_key === '_uncode_specific_navigation_content_block') {
+														if ( absint( $meta_value ) > 0 ) {
+															$ids[] = $meta_value;
+														}
 													}
 												}
 												$portfolio_array[$value['post_title']] = array(
@@ -238,9 +395,34 @@ class Radium_Theme_Importer {
 												break;
 											case 'uncode_gallery':
 												$ids = array($value['post_id']);
-												if (isset($value['postmeta'])) {
-													foreach ($value['postmeta'] as $meta_key => $meta_value) {
-														if ($meta_value['key'] === '_uncode_blocks_list') $ids[] = $meta_value['value'];
+												if ( count( $extra_cb_ids ) > 0 ) {
+													$ids = array_merge( $ids, $extra_cb_ids );
+												}
+												foreach ( $postmeta as $meta_key => $meta_value ) {
+													if ( isset( $postmeta['_uncode_header_type'] ) && $postmeta['_uncode_header_type'] === 'header_uncodeblock' && $meta_key === '_uncode_blocks_list' ) {
+														if ( absint( $meta_value ) > 0 ) {
+															$ids[] = $meta_value;
+														}
+													}
+													if ( $meta_key === '_uncode_specific_footer_block' ) {
+														if ( absint( $meta_value ) > 0 ) {
+															$ids[] = $meta_value;
+														}
+													}
+													if ( $meta_key === '_uncode_specific_content_block_after_pre' ) {
+														if ( absint( $meta_value ) > 0 ) {
+															$ids[] = $meta_value;
+														}
+													}
+													if ( $meta_key === '_uncode_specific_content_block_after' ) {
+														if ( absint( $meta_value ) > 0 ) {
+															$ids[] = $meta_value;
+														}
+													}
+													if ( isset( $postmeta['_uncode_specific_navigation_hide'] ) && $postmeta['_uncode_specific_navigation_hide'] === 'uncodeblock' && $meta_key === '_uncode_specific_navigation_content_block') {
+														if ( absint( $meta_value ) > 0 ) {
+															$ids[] = $meta_value;
+														}
 													}
 												}
 												$gallery_array[$value['post_title']] = array(
@@ -249,9 +431,34 @@ class Radium_Theme_Importer {
 												break;
 											case 'product':
 												$ids = array($value['post_id']);
-												if (isset($value['postmeta'])) {
-													foreach ($value['postmeta'] as $meta_key => $meta_value) {
-														if ($meta_value['key'] === '_uncode_blocks_list') $ids[] = $meta_value['value'];
+												if ( count( $extra_cb_ids ) > 0 ) {
+													$ids = array_merge( $ids, $extra_cb_ids );
+												}
+												foreach ( $postmeta as $meta_key => $meta_value ) {
+													if ( isset( $postmeta['_uncode_header_type'] ) && $postmeta['_uncode_header_type'] === 'header_uncodeblock' && $meta_key === '_uncode_blocks_list' ) {
+														if ( absint( $meta_value ) > 0 ) {
+															$ids[] = $meta_value;
+														}
+													}
+													if ( $meta_key === '_uncode_specific_footer_block' ) {
+														if ( absint( $meta_value ) > 0 ) {
+															$ids[] = $meta_value;
+														}
+													}
+													if ( $meta_key === '_uncode_specific_content_block_after_pre' ) {
+														if ( absint( $meta_value ) > 0 ) {
+															$ids[] = $meta_value;
+														}
+													}
+													if ( $meta_key === '_uncode_specific_content_block_after' ) {
+														if ( absint( $meta_value ) > 0 ) {
+															$ids[] = $meta_value;
+														}
+													}
+													if ( isset( $postmeta['_uncode_specific_navigation_hide'] ) && $postmeta['_uncode_specific_navigation_hide'] === 'uncodeblock' && $meta_key === '_uncode_specific_navigation_content_block') {
+														if ( absint( $meta_value ) > 0 ) {
+															$ids[] = $meta_value;
+														}
 													}
 												}
 												$product_array[$value['post_title']] = array(
@@ -541,8 +748,11 @@ class Radium_Theme_Importer {
 
 					// When the user clicks on the import button (demo or singles), show some instructions
 					var import_warning_text = '<ol>' +
-						'<li><?php esc_html_e( 'This action will not import the Uncode demo site\'s main menu. If you want to import that element as well, please use the "Import Menu" button.', 'uncode-core' ); ?></li>' +
-						'<li><?php esc_html_e( 'If you are importing demos to an existing installation of Uncode, please note that this action will also overwrite your "Theme Options". If you need to import specific layouts to your existing installation, please use the "Single Layouts" button.', 'uncode-core' ); ?></li>';
+						'<li><?php esc_html_e( 'This action will not import the Uncode demo site\'s main menu. If you want to import that element as well, please use the "Import Menu" button.', 'uncode-core' ); ?></li>'
+
+					if (!$(e.currentTarget).hasClass('uncode-import-form--singles')) {
+						import_warning_text += '<li><?php esc_html_e( 'If you are importing demos to an existing installation of Uncode, please note that this action will also overwrite your "Theme Options". If you need to import specific layouts to your existing installation, please use the "Single Layouts" button.', 'uncode-core' ); ?></li>';
+					}
 
 					// Show a different message when the user deletes the uncode medias
 					var delete_media_text = '<p><?php esc_html_e('This action will delete your images.', 'uncode-core'); ?></p>';
@@ -1290,6 +1500,37 @@ class Radium_Theme_Importer {
 	}
 
 	/**
+	 * We only want to regenerate the two small crops
+	 */
+	public function adjust_intermediate_image_sizes() {
+		return array( 'uncode_woocommerce_nav_thumbnail_regular', 'uncode_woocommerce_nav_thumbnail_crop' );
+	}
+
+	/**
+	 * Generate small crops for product placeholders
+	 */
+	public function regenerate_thumbnails() {
+		require_once( ABSPATH . 'wp-admin/includes/image.php' );
+		global $wpdb;
+
+		$images = $wpdb->get_results( "SELECT ID FROM $wpdb->posts WHERE post_type = 'attachment' AND post_mime_type = 'image/jpeg' AND guid LIKE '%product-placeholder%'" );
+
+		if ( is_array( $images ) ) {
+			add_filter( 'intermediate_image_sizes', array( $this, 'adjust_intermediate_image_sizes' ) );
+
+			foreach ( $images as $image ) {
+				$image_path = wp_get_original_image_path( $image->ID );
+
+				if ( $image_path && @file_exists( $image_path ) ) {
+					wp_generate_attachment_metadata( $image->ID, $image_path );
+				}
+			}
+
+			remove_filter( 'intermediate_image_sizes', array( $this, 'uncode_import_adjust_intermediate_image_sizes' ) );
+		}
+	}
+
+	/**
 	 * Run custom actions after succesful import
 	 */
 	public function after_xml_demo_import() {
@@ -1318,7 +1559,7 @@ class Radium_Theme_Importer {
 		) );
 		foreach ($tags as $tag ) {
 			if ( isset( $tag->description ) && strpos( $tag->description, 'page with a thumbnail' ) !== false ) {
-				update_option( '_uncode_taxonomy_' . $tag->term_id, array( 'term_media' => 2440, 'term_color' => '' ) );
+				update_option( '_uncode_taxonomy_' . $tag->term_id, array( 'term_media' => 2286, 'term_color' => '' ) );
 			}
 		}
 		$cats = get_terms( array(
@@ -1327,7 +1568,7 @@ class Radium_Theme_Importer {
 		) );
 		foreach ($cats as $cat ) {
 			if ( isset( $cat->description ) && strpos( $cat->description, 'page with a thumbnail' ) !== false ) {
-				update_option( '_uncode_taxonomy_' . $cat->term_id, array( 'term_media' => 2440, 'term_color' => '' ) );;
+				update_option( '_uncode_taxonomy_' . $cat->term_id, array( 'term_media' => 2286, 'term_color' => '' ) );;
 			}
 		}
 
@@ -1337,9 +1578,85 @@ class Radium_Theme_Importer {
 			'hide_empty' => false,
 		) );
 		foreach ($product_cats as $product_cat ) {
-			if ( isset( $product_cat->description ) && strpos( $product_cat->description, 'page with a thumbnail' ) !== false ) {
+			if ( isset( $product_cat->description ) && strpos( $product_cat->description, 'Dynamic description for' ) !== false ) {
 				update_term_meta( $product_cat->term_id, 'thumbnail_id', 18912 );
 			}
 		}
+
+		// Set logo in brand product attribute
+		$brands = get_terms( array(
+			'taxonomy' => 'pa_brand',
+			'hide_empty' => false,
+		) );
+
+		if ( ! empty( $brands ) && ! is_wp_error( $brands ) ) {
+			foreach ( $brands as $key => $brand ) {
+				update_term_meta( $brand->term_id, 'uncode_pa_thumbnail_id', 17917 );
+			}
+		}
+
+		// Set color in color product attribute
+		$colors = get_terms( array(
+			'taxonomy' => 'pa_color',
+			'hide_empty' => false,
+		) );
+
+		if ( ! empty( $colors ) && ! is_wp_error( $colors ) ) {
+			foreach ( $colors as $key => $color ) {
+				switch ( $color->slug ) {
+					case 'black':
+						update_term_meta( $color->term_id, 'uncode_pa_color', '#000000' );
+						break;
+
+					case 'white':
+						update_term_meta( $color->term_id, 'uncode_pa_color', '#ffffff' );
+						break;
+
+					case 'orange':
+						update_term_meta( $color->term_id, 'uncode_pa_color', '#e58b14' );
+						break;
+
+					case 'blue':
+						update_term_meta( $color->term_id, 'uncode_pa_color', '#1e73be' );
+						break;
+
+					case 'green':
+						update_term_meta( $color->term_id, 'uncode_pa_color', '#89b750' );
+						break;
+
+					case 'grey':
+						update_term_meta( $color->term_id, 'uncode_pa_color', '#969696' );
+						break;
+
+					case 'yellow':
+						update_term_meta( $color->term_id, 'uncode_pa_color', '#f8d557' );
+						break;
+
+					case 'pink':
+						update_term_meta( $color->term_id, 'uncode_pa_color', '#e98198' );
+						break;
+
+					case 'red':
+						update_term_meta( $color->term_id, 'uncode_pa_color', '#dd3333' );
+						break;
+
+				}
+			}
+		}
+
+		// Update product attribute type
+		$brand_id = wc_attribute_taxonomy_id_by_name( 'pa_brand' );
+		wc_update_attribute( $brand_id, array( 'type' => 'image' ) );
+
+		$color_id = wc_attribute_taxonomy_id_by_name( 'pa_color' );
+		wc_update_attribute( $color_id, array( 'type' => 'color' ) );
+
+		$size_id = wc_attribute_taxonomy_id_by_name( 'pa_size' );
+		wc_update_attribute( $size_id, array( 'type' => 'label' ) );
+
+		$size_shoes_id = wc_attribute_taxonomy_id_by_name( 'pa_size-shoes' );
+		wc_update_attribute( $size_shoes_id, array( 'type' => 'label' ) );
+
+		$this->regenerate_thumbnails();
 	}
 }

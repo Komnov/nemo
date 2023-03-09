@@ -74,7 +74,21 @@ class wp_bootstrap_navwalker extends Walker_Nav_Menu {
 		$megamenu = $item->megamenu;
 		if ($megamenu == 'megamenu') {
 			if ($args->has_children) {
-				$megachildren = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $wpdb->postmeta WHERE meta_key = %s AND meta_value = %d", '_menu_item_menu_item_parent', $item->ID));
+				$megachildren_results = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->postmeta WHERE meta_key = %s AND meta_value = %d", '_menu_item_menu_item_parent', $item->ID));
+
+				$megachildren = 0;
+
+				if ( is_array( $megachildren_results ) ) {
+					foreach	( $megachildren_results as $megachildren_result ) {
+						$megachildren_obj_id = $megachildren_result->post_id;
+
+						$megachildren_exists = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $wpdb->term_relationships WHERE object_id = %d", $megachildren_obj_id));
+
+						if ( $megachildren_exists ) {
+							$megachildren++;
+						}
+					}
+				}
 			}
 		}
 		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';

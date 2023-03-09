@@ -23,7 +23,15 @@ function uncode_page_require_asset_woocommerce( $content_array ) {
 		}
 
 		foreach ( $content_array as $content ) {
-			if ( strpos( $content, '[uncode_woocommerce_widget' ) !== false || strpos( $content, 'post_type:product' ) !== false ) {
+			if (
+				strpos( $content, '[uncode_woocommerce_' ) !== false
+				||
+				strpos( $content, 'post_type:product' ) !== false
+				||
+				strpos( $content, '[add_to_cart' ) !== false
+				||
+				strpos( $content, '[product ' ) !== false
+			) {
 				return true;
 			}
 		}

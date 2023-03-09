@@ -123,6 +123,17 @@ class Uncode_Menu_Core_Settings_Page {
 								'warning'  => esc_html__( 'Enable this option to simplify the loop of settings of the Single Block tab. If you are using advanced Posts or Media Gallery thumbnails diversifications on some pages, it is recommended to recreate them.', 'uncode-core' ),
 							)
 						);
+
+						uncode_core_settings_page_on_off_input(
+							array(
+								'title'    => esc_html__( 'New Top-Bar', 'uncode-core' ),
+								'desc'     => sprintf( wp_kses_post( __( 'This option enables the new Top-Bar, positioned above the main Navbar, allowing three independent positions for Text, Secondary Menu, and Social Icons. <a href="%s" target="_blank">Read More...</a>', 'uncode-core' ) ), 'https://support.undsgn.com/hc/en-us/articles/4407819456273-Core-Settings-Panel#top-bar' ),
+								'id'       => 'uncode_core_settings_opt_enhanced_top_bar',
+								'autoload' => false,
+								'warning'  => esc_html__( 'Enable this option to activate the new Top-Bar settings with three independent positions for Text, Secondary Menu, and Social Icons.', 'uncode-core' ),
+							)
+						);
+
 						?>
 					</div><!-- .uncode-admin-panel__right -->
 				</div><!-- .uncode-admin-panel__content -->

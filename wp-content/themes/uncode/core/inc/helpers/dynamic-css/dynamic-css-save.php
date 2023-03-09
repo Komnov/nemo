@@ -18,37 +18,7 @@ add_action( 'post_submitbox_start', 'uncode_print_clean_dynamic_css_shortcode_no
 /**
  * Clean up post content
  */
-function uncode_get_clean_dynamic_css_shortcode_content( $data, $postarr ) {
-	$post_id = isset( $postarr['ID'] ) ? $postarr['ID'] : 0;
-
-	// If we are on the Frontend Editor and post ID is empty,
-	// check if we have at least the post_id passed by VC via AJAX
-	if ( ! $post_id && isset( $_POST['action'] ) && $_POST['action'] === 'vc_save' && isset( $_POST['post_id'] ) && $_POST['post_id'] ) {
-		$post_id = absint( $_POST['post_id'] );
-	}
-
-	// Post ID is required
-	if ( ! $post_id ) {
-		return $data;
-	}
-
-	// Check the nonce
-	if ( empty( $_POST['dynamic_css_cleanup'] ) || ! wp_verify_nonce( wp_unslash( $_POST['dynamic_css_cleanup'] ), 'uncode-clean-dynamic-css-shortcode-nonce' ) ) {
-		return $data;
-	}
-
-	// Check user has permission to edit
-	if ( ! current_user_can( 'edit_post', $post_id ) ) {
-		return $data;
-	}
-
-	$content = isset( $data['post_content'] ) ? $data['post_content'] : '';
-
-	// Return early if the content is empty
-	if ( ! $content ) {
-		return $data;
-	}
-
+function uncode_get_clean_dynamic_css_shortcode_content( $content ) {
 	$regex = '/\[([^\[]+) [^\s]+_type=\\\\\"(uncode-palette|uncode-solid|uncode-gradient)\\\\\".*?\]/m';
 	preg_match_all( $regex, $content, $shortcodes, PREG_SET_ORDER, 0 );
 
@@ -135,8 +105,6 @@ function uncode_get_clean_dynamic_css_shortcode_content( $data, $postarr ) {
 		}
 	}
 
-	$data['post_content'] = $content;
-
-	return $data;
+	return $content;
 }
-add_filter( 'wp_insert_post_data', 'uncode_get_clean_dynamic_css_shortcode_content', 10, 2 );
+add_filter( 'content_save_pre', 'uncode_get_clean_dynamic_css_shortcode_content' );

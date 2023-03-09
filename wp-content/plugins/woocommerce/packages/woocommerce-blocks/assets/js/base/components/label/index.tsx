@@ -3,13 +3,13 @@
  */
 import { Fragment } from '@wordpress/element';
 import classNames from 'classnames';
-import type { ReactElement, HTMLAttributes } from 'react';
+import type { ReactElement, HTMLProps } from 'react';
 
-interface LabelProps {
-	label?: string;
-	screenReaderLabel?: string;
+interface LabelProps extends HTMLProps< HTMLElement > {
+	label?: string | undefined;
+	screenReaderLabel?: string | undefined;
 	wrapperElement?: string;
-	wrapperProps?: HTMLAttributes< HTMLElement >;
+	wrapperProps?: HTMLProps< HTMLElement >;
 }
 
 /**

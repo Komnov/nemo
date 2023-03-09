@@ -331,7 +331,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				$yes.add($errors).add($checker).fadeOut(200);
 				setTimeout(function(){
 					$calculating.fadeIn(200);
-					uncode_test_max_input_vars(10000);
+					uncode_test_max_input_vars(3000);
 				}, 200);
 
 			});
@@ -382,6 +382,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							// It can be enabled for debugging purposes setting
 							// the 'uncode_enable_debug_on_js_scripts' filter to true
 							console.log('Max vars test failed');
+							console.log(response);
 						}
 					} else if (response && response.success === true) {
 						intData = parseInt(response.data.count);
@@ -398,7 +399,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							var_string.add('#max_vars_checker').fadeIn();
 
 						} else {
-							uncode_test_max_input_vars($vars+10000);
+							uncode_test_max_input_vars($vars+1000);
 						}
 
 						$.ajax({
@@ -417,6 +418,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								// It can be enabled for debugging purposes setting
 								// the 'uncode_enable_debug_on_js_scripts' filter to true
 								console.log('Max vars update failed');
+								console.log(response);
 							}
 						}).fail(function() {
 							if (enable_debug == true) {
@@ -426,6 +428,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								// It can be enabled for debugging purposes setting
 								// the 'uncode_enable_debug_on_js_scripts' filter to true
 								console.log('Max vars update failed');
+								console.log(response);
 							}
 						});
 					} else {
@@ -437,6 +440,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							// It can be enabled for debugging purposes setting
 							// the 'uncode_enable_debug_on_js_scripts' filter to true
 							console.log('Unknown error during max vars text');
+							console.log(response);
 						}
 					}
 				}
@@ -492,7 +496,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		});
 		<?php if ( current_user_can( 'switch_themes' ) && $uncode_test_max_input_vars == '' ) { ?>
-		uncode_test_max_input_vars(10000);
+		uncode_test_max_input_vars(3000);
 		<?php } ?>
 
 	});

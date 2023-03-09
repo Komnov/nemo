@@ -71,7 +71,7 @@ if (!empty($metabox_data)) {
 	$media = get_post_meta($post->ID, '_uncode_featured_media', 1);
 	$media_display = get_post_meta($post->ID, '_uncode_featured_media_display', 1);
 	$featured_image = get_post_thumbnail_id($post->ID);
-	if ( $featured_image === '' || $featured_image == 0 ) {
+	if ( apply_filters( 'uncode_use_medias_when_featured_empty', true ) && ( $featured_image === '' || $featured_image == 0 ) ) {
 		$featured_image = $media;
 	}
 }
@@ -137,7 +137,9 @@ if ($page_header_type !== '' && $page_header_type !== 'none') {
 	$get_subtitle = '';
 
 	if ( ot_get_option('_uncode_' . $post_type . '_custom_title_activate') === 'on' ) {
-		$page_title = ot_get_option('_uncode_' . $post_type . '_custom_title_text');
+		if ( ! is_search() ) {
+			$page_title = ot_get_option('_uncode_' . $post_type . '_custom_title_text');
+		}
 		$get_subtitle = ot_get_option('_uncode_' . $post_type . '_custom_subtitle_text');
 	}
 
@@ -155,7 +157,7 @@ if ($page_header_type !== '' && $page_header_type !== 'none') {
 }
 echo '<script type="text/javascript">UNCODE.initHeader();</script>';
 
-if (have_posts()):
+if ( have_posts() || uncode_is_filtering() ):
 
 	if (isset($metabox_data['post_id']) && $metabox_data['post_id'] !== '') {
 		$content_id = $metabox_data['post_id'];
@@ -341,12 +343,19 @@ if (have_posts()):
 
 	}
 
+	$content_output = do_shortcode($the_content);
+
+	$has_custom_query = false;
+	if ( strpos( $the_content, '[uncode_index' ) !== false ) {
+		$has_custom_query = true;
+	}
+
 	/** Build and display navigation html **/
 	$remove_pagination = ot_get_option('_uncode_' . $post_type . '_remove_pagination');
 	if ( !$index_has_navigation && $remove_pagination !== 'on' ) {
 		$navigation_option = ot_get_option('_uncode_' . $post_type . '_navigation_activate');
 		if ($navigation_option !== 'off') {
-			$navigation = uncode_posts_navigation();
+			$navigation = uncode_posts_navigation( $has_custom_query );
 			if (!empty($navigation) && $navigation !== '') {
 				$navigation_content = uncode_get_row_template($navigation, '', $limit_content_width, $style, ' row-navigation row-navigation-' . $style, true, true, true);
 			}
@@ -356,7 +365,7 @@ if (have_posts()):
 	/** Display post html **/
 	echo '<div class="page-body' . $bg_color . '">
           <div class="post-wrapper">
-          	<div class="post-body">' . do_shortcode($the_content) . '</div>' .
+          	<div class="post-body">' . $content_output . '</div>' .
           	$navigation_content . '
           </div>
         </div>';

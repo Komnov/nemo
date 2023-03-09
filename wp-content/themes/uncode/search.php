@@ -16,6 +16,7 @@ get_header();
 $limit_width = $limit_content_width = $the_content = $main_content = $layout = $sidebar_style = $sidebar_bg_color = $sidebar = $sidebar_size = $sidebar_sticky = $sidebar_padding = $sidebar_inner_padding = $sidebar_content = $navigation_content = $page_custom_width = $row_classes = $main_classes = $footer_classes = $generic_body_content_block = '';
 
 $post_type = 'search_index';
+$uncode_add_container = true;
 
 /** Get general datas **/
 $style = ot_get_option('_uncode_general_style');
@@ -96,7 +97,9 @@ if ($page_header_type !== '' && $page_header_type !== 'none') {
 	$get_subtitle = '';
 
 	if ( ot_get_option('_uncode_' . $post_type . '_custom_title_activate') === 'on' && !is_category() && !is_tax() ) {
-		$get_title = ot_get_option('_uncode_' . $post_type . '_custom_title_text');
+		if ( ! is_search() ) {
+			$get_title = ot_get_option('_uncode_' . $post_type . '_custom_title_text');
+		}
 		$get_subtitle = ot_get_option('_uncode_' . $post_type . '_custom_subtitle_text');
 	}
 
@@ -112,7 +115,7 @@ if ($page_header_type !== '' && $page_header_type !== 'none') {
 }
 echo '<script type="text/javascript">UNCODE.initHeader();</script>';
 
-if (have_posts()):
+if ( have_posts() || uncode_is_filtering() ):
 
 	$generic_body_content_block = ot_get_option('_uncode_' . $post_type . '_content_block');
 
@@ -138,6 +141,9 @@ if (have_posts()):
 		  $uncode_block = str_replace('[uncode_index','[uncode_index using_plugin="yes"', $uncode_block);
 		} else {
 			$archive_query = ' loop="size:'.get_option('posts_per_page').'|order_by:relevance|search:' . get_search_query() . '"';
+			if ( isset( $_GET['post_type'] ) && $_GET['post_type'] ) {
+				$archive_query .= '|post_type:' . esc_attr( $_GET['post_type'] );
+			}
 			$regex = '/\[uncode_index(.*?)\]/';
 			$regex_attr = '/(.*?)=\"(.*?)\"/';
 			preg_match_all($regex, $uncode_block, $matches, PREG_SET_ORDER);
@@ -183,6 +189,9 @@ if (have_posts()):
 							if ($loop_array[$k][0] === 'size') {
 								$rebuild_array['size'] = $v;
 							}
+							if ($loop_array[$k][0] === 'post_type') {
+								$rebuild_array['post_type'] = $v;
+							}
 						}
 						if (!isset($rebuild_array['order_by'])) {
 							$rebuild_array['order_by'] = 'order_by:relevance';
@@ -214,9 +223,19 @@ if (have_posts()):
 
 	else :
 
-		ob_start();
-		get_template_part('content', 'none');
-		$the_content .= ob_get_clean();
+		$no_results_content_block = ot_get_option( '_uncode_search_index_no_results_content_block' );
+
+		if ( $no_results_content_block !== '' ) {
+			$no_results_content_block = apply_filters( 'wpml_object_id', $no_results_content_block, 'post' );
+			$no_results_content_block = get_post_field( 'post_content', $no_results_content_block );
+			$uncode_add_container = false;
+
+			$the_content .= $no_results_content_block;
+		} else {
+			ob_start();
+			get_template_part('content', 'none');
+			$the_content .= ob_get_clean();
+		}
 
 	endif;
 
@@ -303,7 +322,7 @@ if (have_posts()):
 	} else {
 
 		/** Create html without sidebar **/
-		if ($generic_body_content_block === '') {
+		if ($generic_body_content_block === '' && $uncode_add_container) {
 			$the_content = '<div class="post-content un-no-sidebar-layout"' . $page_custom_width . '>' . uncode_get_row_template($the_content, $limit_width, $limit_content_width, $style, '', 'double', true, 'double') . '</div>';
 		} else {
 			$the_content = '<div class="post-content un-no-sidebar-layout"' . $page_custom_width . '>' . $the_content . '</div>';
@@ -311,10 +330,17 @@ if (have_posts()):
 
 	}
 
+	$content_output = do_shortcode($the_content);
+
+	$has_custom_query = false;
+	if ( strpos( $the_content, '[uncode_index' ) !== false ) {
+		$has_custom_query = true;
+	}
+
 	/** Build and display navigation html **/
 	$remove_pagination = ot_get_option('_uncode_' . $post_type . '_remove_pagination');
 	if ($remove_pagination !== 'on') {
-		$navigation = uncode_posts_navigation();
+		$navigation = uncode_posts_navigation( $has_custom_query );
 		if (!empty($navigation) && $navigation !== '') {
 			$navigation_content = uncode_get_row_template($navigation, '', $limit_content_width, $style, ' row-navigation row-navigation-' . $style, true, true, true);
 		}
@@ -323,7 +349,7 @@ if (have_posts()):
 	/** Display post html **/
 	echo 	'<div class="page-body' . $bg_color . '">
           <div class="post-wrapper">
-          	<div class="post-body">' . do_shortcode($the_content) . '</div>' .
+          	<div class="post-body">' . $content_output . '</div>' .
           	$navigation_content . '
           </div>
         </div>';

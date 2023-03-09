@@ -362,6 +362,9 @@ if ($media_lightbox !== '') {
 			if ($lbox_skin !== '') {
 				$lightbox_classes['data-skin'] = $lbox_skin;
 			}
+			if ($lbox_transparency !== '') {
+				$lightbox_classes['data-transparency'] = $lbox_transparency;
+			}
 			if ($lbox_dir !== '') {
 				$lightbox_classes['data-dir'] = $lbox_dir;
 			}
@@ -449,7 +452,10 @@ if ($media_lightbox !== '') {
 
 	}
 
-	$lightbox_data .= ' ' . implode(' ', $div_data_attributes);
+	if ( isset( $div_data_attributes ) && is_array( $div_data_attributes ) ) {
+		$lightbox_data .= ' ' . implode(' ', $div_data_attributes);
+	}
+
 	$lightbox_data .= ' data-lbox="ilightbox_single-' . esc_attr( $lbox_id ) . '"';
 
 }

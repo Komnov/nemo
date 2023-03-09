@@ -1,6 +1,6 @@
 /*!
  * WPBakery Page Builder v6.0.0 (https://wpbakery.com)
- * Copyright 2011-2021 Michael M, WPBakery
+ * Copyright 2011-2022 Michael M, WPBakery
  * License: Commercial. More details: http://go.wpbakery.com/licensing
  */
 
@@ -42,16 +42,16 @@ window.vc || (window.vc = {}),
                 "\u2029": "u2029"
             },
             escapeRegExp = /\\|'|\r|\n|\u2028|\u2029/g;
-        vc.template = function(text, argument) {
-            argument = _.defaults({}, argument, vc.templateOptions.default);
-            var render, matcher = RegExp([(argument.escape || noMatch).source, (argument.interpolate || noMatch).source, (argument.evaluate || noMatch).source].join("|") + "|$", "g"),
+        vc.template = function(text, settings) {
+            settings = _.defaults({}, settings, vc.templateOptions.default);
+            var render, matcher = RegExp([(settings.escape || noMatch).source, (settings.interpolate || noMatch).source, (settings.evaluate || noMatch).source].join("|") + "|$", "g"),
                 index = 0,
                 source = "__p+='";
             text.replace(matcher, function(match, escape, interpolate, evaluate, offset) {
                 return source += text.slice(index, offset).replace(escapeRegExp, escapeChar), index = offset + match.length, escape ? source += "'+\n((__t=(" + escape + "))==null?'':_.escape(__t))+\n'" : interpolate ? source += "'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'" : evaluate && (source += "';\n" + evaluate + "\n__p+='"), match
-            }), source += "';\n", source = "var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};\n" + (source = !argument.variable ? "with(obj||{}){\n" + source + "}\n" : source) + "return __p;\n";
+            }), source += "';\n", source = "var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};\n" + (source = settings.variable ? source : "with(obj||{}){\n" + source + "}\n") + "return __p;\n";
             try {
-                render = new Function(argument.variable || "obj", "_", source)
+                render = new Function(settings.variable || "obj", "_", source)
             } catch (e) {
                 throw e.source = source, e
             }
@@ -59,8 +59,8 @@ window.vc || (window.vc = {}),
             function template(data) {
                 return render.call(this, data, _)
             }
-            argument = argument.variable || "obj";
-            return template.source = "function(" + argument + "){\n" + source + "}", template
+            matcher = settings.variable || "obj";
+            return template.source = "function(" + matcher + "){\n" + source + "}", template
         }
     }(),
     function($) {
@@ -167,11 +167,11 @@ window.vc || (window.vc = {}),
         }, old = $.fn.vcTabsLine, $.fn.vcTabsLine = Plugin = function(option) {
             return this.each(function() {
                 var $this = $(this),
-                    action = $this.data("vcUiTabsLine"),
+                    optionsData = $this.data("vcUiTabsLine"),
                     data = $this.data("vc.tabsLine"),
-                    options = $.extend(!0, {}, TabsLine.DEFAULTS, $this.data(), action, "object" == typeof option && option),
-                    action = "string" == typeof option ? option : options.action;
-                data || $this.data("vc.tabsLine", data = new TabsLine(this, options)), action && data[action]()
+                    optionsData = $.extend(!0, {}, TabsLine.DEFAULTS, $this.data(), optionsData, "object" == typeof option && option),
+                    action = "string" == typeof option ? option : optionsData.action;
+                data || $this.data("vc.tabsLine", data = new TabsLine(this, optionsData)), action && data[action]()
             })
         }, $.fn.vcTabsLine.Constructor = TabsLine, $.fn.vcTabsLine.noConflict = function() {
             return $.fn.vcTabsLine = old, this
@@ -215,10 +215,10 @@ window.vc || (window.vc = {}),
                 var count;
                 this.aceEnabled() ? (this.$editor.focus(), count = this.$editor.session.getLength(), this.$editor.gotoLine(count, this.$editor.session.getLine(count - 1).length)) : this.$editor.focus()
             },
-            setEditorAce: function(count) {
-                this.$editor || (this.$editor = ace.edit(this.sel), this.$editor.getSession().setMode("ace/mode/css"), this.$editor.setTheme("ace/theme/chrome")), this.$editor.setValue(count), this.$editor.clearSelection(), this.$editor.focus();
-                count = this.$editor.getSession().getLength();
-                return this.$editor.gotoLine(count, this.$editor.getSession().getLine(count - 1).length), this.$editor
+            setEditorAce: function(value) {
+                this.$editor || (this.$editor = ace.edit(this.sel), this.$editor.getSession().setMode("ace/mode/css"), this.$editor.setTheme("ace/theme/chrome")), this.$editor.setValue(value), this.$editor.clearSelection(), this.$editor.focus();
+                value = this.$editor.getSession().getLength();
+                return this.$editor.gotoLine(value, this.$editor.getSession().getLine(value - 1).length), this.$editor
             },
             setEditorTextarea: function(value) {
                 return this.$editor || (this.$editor = $("<textarea></textarea>").css({
@@ -248,14 +248,14 @@ window.vc || (window.vc = {}),
             },
             setSizeResizable: function() {
                 var $editor = $("#" + this.sel),
-                    height = $editor.offset().top,
-                    height = vc.active_panel.$el.find('[data-vc-ui-element="panel-footer"]').offset().top - height - 70;
+                    editorPositionTop = $editor.offset().top,
+                    editorPositionTop = vc.active_panel.$el.find('[data-vc-ui-element="panel-footer"]').offset().top - editorPositionTop - 70;
                 this.aceEnabled() ? $editor.css({
-                    height: height,
-                    minHeight: height
+                    height: editorPositionTop,
+                    minHeight: editorPositionTop
                 }) : (this.$editor.parent().css({
-                    height: height,
-                    minHeight: height
+                    height: editorPositionTop,
+                    minHeight: editorPositionTop
                 }), this.$editor.css({
                     height: "98%",
                     width: "98%"
@@ -292,21 +292,21 @@ window.vc || (window.vc = {}),
             return str.replace(/\w\S*/g, function(txt) {
                 return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
             })
-        }, window.vc_convert_column_size = function(num) {
-            var dev = num ? num.split("/") : [1, 1],
+        }, window.vc_convert_column_size = function(width) {
+            var width = width ? width.split("/") : [1, 1],
                 range = _.range(1, 13),
-                num = !_.isUndefined(dev[0]) && 0 <= _.indexOf(range, parseInt(dev[0], 10)) && parseInt(dev[0], 10),
-                dev = !_.isUndefined(dev[1]) && 0 <= _.indexOf(range, parseInt(dev[1], 10)) && parseInt(dev[1], 10);
-            return !1 !== num && !1 !== dev ? "vc_col-sm-" + 12 * num / dev : "vc_col-sm-12"
+                num = !_.isUndefined(width[0]) && 0 <= _.indexOf(range, parseInt(width[0], 10)) && parseInt(width[0], 10),
+                range = !_.isUndefined(width[1]) && 0 <= _.indexOf(range, parseInt(width[1], 10)) && parseInt(width[1], 10);
+            return !1 !== num && !1 !== range ? "vc_col-sm-" + 12 * num / range : "vc_col-sm-12"
         }, window.vc_convert_column_span_size = function(width) {
             return "span12" === (width = width.replace(/^vc_/, "")) ? "1/1" : "span11" === width ? "11/12" : "span10" === width ? "5/6" : "span9" === width ? "3/4" : "span8" === width ? "2/3" : "span7" === width ? "7/12" : "span6" === width ? "1/2" : "span5" === width ? "5/12" : "span4" === width ? "1/3" : "span3" === width ? "1/4" : "span2" === width ? "1/6" : "span1" === width && "1/12"
-        }, window.vc_get_column_mask = function(columns_count) {
-            var i, sp, numbers_sum, columns = columns_count.split("_"),
-                columns_count = columns.length;
+        }, window.vc_get_column_mask = function(cells) {
+            var i, sp, numbers_sum, columns = cells.split("_"),
+                cells = columns.length;
             for (i in numbers_sum = 0, columns) !isNaN(parseFloat(columns[i])) && isFinite(columns[i]) && (sp = columns[i].match(/(\d{1,2})(\d{1,2})/), numbers_sum = _.reduce(sp.slice(1), function(memo, num) {
                 return memo + parseInt(num, 10)
             }, numbers_sum));
-            return columns_count + "" + numbers_sum
+            return cells + "" + numbers_sum
         }, window.VCS4 = function() {
             return (65536 * (1 + Math.random()) | 0).toString(16).substring(1)
         }, window.vc_guid = function() {
@@ -385,21 +385,21 @@ window.vc || (window.vc = {}),
         }, window.vc_wpnop = function(html) {
             if (html = void 0 !== html ? html + "" : "", window.switchEditors && void 0 !== window.switchEditors.pre_wpautop) return html = (html = window.switchEditors.pre_wpautop(html)).replace(/<p>(<!--(?:.*)-->)<\/p>/g, "$1");
             if (!html) return "";
-            var preserve_br = "blockquote|ul|ol|li|dl|dt|dd|table|thead|tbody|tfoot|tr|th|td|h[1-6]|fieldset|figure",
-                blocklist1 = preserve_br + "|div|p",
-                blocklist2 = preserve_br + "|pre",
+            var blocklist = "blockquote|ul|ol|li|dl|dt|dd|table|thead|tbody|tfoot|tr|th|td|h[1-6]|fieldset|figure",
+                blocklist1 = blocklist + "|div|p",
+                blocklist = blocklist + "|pre",
                 preserve_linebreaks = !1,
                 preserve_br = !1,
                 preserve = [];
-            return -1 !== (html = -1 !== html.indexOf("<script") || -1 !== html.indexOf("<style") ? html.replace(/<(script|style)[^>]*>[\s\S]*?<\/\1>/g, function(match) {
+            return -1 !== (html = -1 === html.indexOf("<script") && -1 === html.indexOf("<style") ? html : html.replace(/<(script|style)[^>]*>[\s\S]*?<\/\1>/g, function(match) {
                 return preserve.push(match), "<wp-preserve>"
-            }) : html).indexOf("<pre") && (preserve_linebreaks = !0, html = html.replace(/<pre[^>]*>[\s\S]+?<\/pre>/g, function(a) {
+            })).indexOf("<pre") && (preserve_linebreaks = !0, html = html.replace(/<pre[^>]*>[\s\S]+?<\/pre>/g, function(a) {
                 return (a = (a = a.replace(/<br ?\/?>(\r\n|\n)?/g, "<wp-line-break>")).replace(/<\/?p( [^>]*)?>(\r\n|\n)?/g, "<wp-line-break>")).replace(/\r?\n/g, "<wp-line-break>")
             })), -1 !== html.indexOf("[caption") && (preserve_br = !0, html = html.replace(/\[caption[\s\S]+?\[\/caption\]/g, function(a) {
                 return a.replace(/<br([^>]*)>/g, "<wp-temp-br$1>").replace(/[\r\n\t]+/, "")
             })), html = (html = (html = (html = (html = -1 !== (html = -1 !== (html = -1 !== (html = (html = (html = (html = (html = (html = (html = (html = (html = (html = (html = (html = (html = (html = (html = html.replace(new RegExp("\\s*</(" + blocklist1 + ")>\\s*", "g"), "</$1>\n")).replace(new RegExp("\\s*<((?:" + blocklist1 + ")(?: [^>]*)?)>", "g"), "\n<$1>")).replace(/(<p [^>]+>.*?)<\/p>/g, "$1</p#>")).replace(/<div( [^>]*)?>\s*<p>/gi, "<div$1>\n\n")).replace(/\s*<p>/gi, "")).replace(/\s*<\/p>\s*/gi, "\n\n")).replace(/\n[\s\u00a0]+\n/g, "\n\n")).replace(/(\s*)<br ?\/?>\s*/gi, function(match, space) {
                 return space && -1 !== space.indexOf("\n") ? "\n\n" : "\n"
-            })).replace(/\s*<div/g, "\n<div")).replace(/<\/div>\s*/g, "</div>\n")).replace(/\s*\[caption([^\[]+)\[\/caption\]\s*/gi, "\n\n[caption$1[/caption]\n\n")).replace(/caption\]\n\n+\[caption/g, "caption]\n\n[caption")).replace(new RegExp("\\s*<((?:" + blocklist2 + ")(?: [^>]*)?)\\s*>", "g"), "\n<$1>")).replace(new RegExp("\\s*</(" + blocklist2 + ")>\\s*", "g"), "</$1>\n")).replace(/<((li|dt|dd)[^>]*)>/g, " \t<$1>")).indexOf("<option") ? (html = html.replace(/\s*<option/g, "\n<option")).replace(/\s*<\/select>/g, "\n</select>") : html).indexOf("<hr") ? html.replace(/\s*<hr( [^>]*)?>\s*/g, "\n\n<hr$1>\n\n") : html).indexOf("<object") ? html.replace(/<object[\s\S]+?<\/object>/g, function(a) {
+            })).replace(/\s*<div/g, "\n<div")).replace(/<\/div>\s*/g, "</div>\n")).replace(/\s*\[caption([^\[]+)\[\/caption\]\s*/gi, "\n\n[caption$1[/caption]\n\n")).replace(/caption\]\n\n+\[caption/g, "caption]\n\n[caption")).replace(new RegExp("\\s*<((?:" + blocklist + ")(?: [^>]*)?)\\s*>", "g"), "\n<$1>")).replace(new RegExp("\\s*</(" + blocklist + ")>\\s*", "g"), "</$1>\n")).replace(/<((li|dt|dd)[^>]*)>/g, " \t<$1>")).indexOf("<option") ? (html = html.replace(/\s*<option/g, "\n<option")).replace(/\s*<\/select>/g, "\n</select>") : html).indexOf("<hr") ? html.replace(/\s*<hr( [^>]*)?>\s*/g, "\n\n<hr$1>\n\n") : html).indexOf("<object") ? html.replace(/<object[\s\S]+?<\/object>/g, function(a) {
                 return a.replace(/[\r\n]+/g, "")
             }) : html).replace(/<\/p#>/g, "</p>\n")).replace(/\s*(<p [^>]+>[\s\S]*?<\/p>)/g, "\n$1")).replace(/^\s+/, "")).replace(/[\s\u00a0]+$/, ""), preserve_linebreaks && (html = html.replace(/<wp-line-break>/g, "\n")), preserve_br && (html = html.replace(/<wp-temp-br([^>]*)>/g, "<br$1>")), html = preserve.length ? html.replace(/<wp-preserve>/g, function() {
                 return preserve.shift()
@@ -443,8 +443,8 @@ window.vc || (window.vc = {}),
                 var key = resolver ? resolver.apply(this, arguments) : arguments[0];
                 return _.hasOwnProperty.call(cache, key) || (cache[key] = func.apply(this, arguments)), _.isObject(cache[key]) ? window.jQuery.fn.extend(!0, {}, cache[key]) : cache[key]
             }
-        }, window.vcChartParamAfterAddCallback = function($elem, colors) {
-            if ("new" !== colors && "clone" !== colors || $elem.find(".vc_control.column_toggle").click(), "new" === colors) {
+        }, window.vcChartParamAfterAddCallback = function($elem, action) {
+            if ("new" !== action && "clone" !== action || $elem.find(".vc_control.column_toggle").click(), "new" === action) {
                 for (var random, exclude = ["white", "black"], $select = $elem.find("[name=values_color]"), $options = $select.find("option"), i = 0;;) {
                     if (100 < i++) break;
                     if (random = Math.floor(Math.random() * $options.length), -1 === window.jQuery.inArray($options.eq(random).val(), exclude)) {
@@ -452,10 +452,10 @@ window.vc || (window.vc = {}),
                         break
                     }
                 }
-                colors = ["#5472d2", "#00c1cf", "#fe6c61", "#8d6dc4", "#4cadc9", "#cec2ab", "#50485b", "#75d69c", "#f7be68", "#5aa1e3", "#6dab3c", "#f4524d", "#f79468", "#b97ebb", "#ebebeb", "#f7f7f7", "#0088cc", "#58b9da", "#6ab165", "#ff9900", "#ff675b", "#555555"], random = Math.floor(Math.random() * colors.length), $elem.find("[name=values_custom_color]").val(colors[random]).trigger("change")
+                action = ["#5472d2", "#00c1cf", "#fe6c61", "#8d6dc4", "#4cadc9", "#cec2ab", "#50485b", "#75d69c", "#f7be68", "#5aa1e3", "#6dab3c", "#f4524d", "#f79468", "#b97ebb", "#ebebeb", "#f7f7f7", "#0088cc", "#58b9da", "#6ab165", "#ff9900", "#ff675b", "#555555"], random = Math.floor(Math.random() * action.length), $elem.find("[name=values_custom_color]").val(action[random]).trigger("change")
             }
-        }, vc.events.on("shortcodes:vc_row:add:param:name:parallax shortcodes:vc_row:update:param:name:parallax", function(model, params) {
-            !params || (params = model.get("params")) && params.css && (params.css = params.css.replace(/(background(\-position)?\s*\:\s*[\S]+(\s*[^\!\s]+)?)[\s*\!important]*/g, "$1"), model.set("params", params, {
+        }, vc.events.on("shortcodes:vc_row:add:param:name:parallax shortcodes:vc_row:update:param:name:parallax", function(model, value) {
+            value && (value = model.get("params")) && value.css && (value.css = value.css.replace(/(background(\-position)?\s*\:\s*[\S]+(\s*[^\!\s]+)?)[\s*\!important]*/g, "$1"), model.set("params", value, {
                 silent: !0
             }))
         }), vc.events.on("shortcodes:vc_single_image:sync shortcodes:vc_single_image:add", function(model) {
@@ -549,9 +549,9 @@ window.vc || (window.vc = {}),
             var that = this,
                 attachmentId = this.model.get("id");
             return attachmentCompatRender.call(this), _.defer(function() {
-                var html, $filter, $container = that.controller.$el.find(".attachment-info"),
+                var html, $container = that.controller.$el.find(".attachment-info"),
                     $input = that.controller.$el.find("[data-vc-preview-image-filter]");
-                $container.length && $input.length && (html = '<label class="setting vc-image-filter-setting">', html += '<span class="name">' + $input.parent().find(".vc-filter-label").text() + "</span>", html += $input[0].outerHTML, $container.before(html += "</label>"), $input.parents("tr").remove()), void 0 !== window.vc_selectedFilters && void 0 !== window.vc_selectedFilters[attachmentId] && ($filter = $(".media-frame:visible [data-vc-preview-image-filter=" + attachmentId + "]")).length && $filter.val(window.vc_selectedFilters[attachmentId]).trigger("change"), previewFilter(attachmentId)
+                $container.length && $input.length && (html = (html = '<label class="setting vc-image-filter-setting">') + '<span class="name">' + $input.parent().find(".vc-filter-label").text() + "</span>" + $input[0].outerHTML, $container.before(html += "</label>"), $input.parents("tr").remove()), void 0 !== window.vc_selectedFilters && void 0 !== window.vc_selectedFilters[attachmentId] && ($container = $(".media-frame:visible [data-vc-preview-image-filter=" + attachmentId + "]")).length && $container.val(window.vc_selectedFilters[attachmentId]).trigger("change"), previewFilter(attachmentId)
             }), this
         }, media.editor.send.attachment = function(props, attachment) {
             attachCb.push(attachment.id), processImages([attachment.id], function(newAttachment) {
@@ -574,8 +574,8 @@ window.vc || (window.vc = {}),
                     ids: [id],
                     _vcnonce: window.vcAdminNonce
                 }
-            }).done(function(newId) {
-                !0 === newId.success && newId.data.ids.length ? (newId = newId.data.ids.pop(), origFeaturedImageSet(newId)) : origFeaturedImageSet(id)
+            }).done(function(response) {
+                !0 === response.success && response.data.ids.length ? (response = response.data.ids.pop(), origFeaturedImageSet(response)) : origFeaturedImageSet(id)
             }).fail(function() {
                 origFeaturedImageSet(id)
             }) : origFeaturedImageSet(id)
@@ -592,9 +592,9 @@ window.vc || (window.vc = {}),
             updateSelection: function() {
                 var attachments, selection = this.get("selection"),
                     ids = media.vc_editor.getData();
-                void 0 !== ids && "" !== ids && -1 !== ids && (attachments = _.map(ids.toString().split(/,/), function(attachment) {
-                    attachment = media.model.Attachment.get(attachment);
-                    return attachment.get("url") && attachment.get("url").length || attachment.fetch(), attachment
+                void 0 !== ids && "" !== ids && -1 !== ids && (attachments = _.map(ids.toString().split(/,/), function(id) {
+                    id = media.model.Attachment.get(id);
+                    return id.get("url") && id.get("url").length || id.fetch(), id
                 })), selection.reset(attachments)
             }
         }), media.controller.VcGallery = media.controller.VcSingleImage.extend({
@@ -676,16 +676,16 @@ window.vc || (window.vc = {}),
                 return media.vc_editor.$vc_editor_element.closest(".edit_form_line").find(".gallery_widget_attached_images_ids").val()
             },
             insert: function(images) {
-                var $img_ul = media.vc_editor.$vc_editor_element.closest(".edit_form_line"),
-                    $hidden_ids = $img_ul.find(".gallery_widget_attached_images_ids"),
-                    $img_ul = $img_ul.find(".gallery_widget_attached_images_list"),
+                var $block = media.vc_editor.$vc_editor_element.closest(".edit_form_line"),
+                    $hidden_ids = $block.find(".gallery_widget_attached_images_ids"),
+                    $block = $block.find(".gallery_widget_attached_images_list"),
                     $thumbnails_string = "",
                     template = vc.template($("#vc_settings-image-block").html(), vc.templateOptions.custom);
                 _.each(images, function(image) {
                     $thumbnails_string += template(image)
                 }), $hidden_ids.val(_.map(images, function(image) {
                     return image.id
-                }).join(",")).trigger("change"), $img_ul.html($thumbnails_string)
+                }).join(",")).trigger("change"), $block.html($thumbnails_string)
             },
             open: function(id) {
                 var workflow;
@@ -695,7 +695,7 @@ window.vc || (window.vc = {}),
             },
             add: function(id, options) {
                 var workflow = this.get(id);
-                return workflow || workflows[id] || (workflow = workflows[id] = new media.view.MediaFrame.VcGallery(_.defaults(options || {}, {
+                return workflow || workflows[id] || (workflows[id] = new media.view.MediaFrame.VcGallery(_.defaults(options || {}, {
                     state: "vc_gallery",
                     title: l10n.add_images,
                     library: {
@@ -705,20 +705,20 @@ window.vc || (window.vc = {}),
                 })))
             },
             init: function() {
-                $("body").off("click.vcGalleryWidget").on("click.vcGalleryWidget", ".gallery_widget_add_images", function($this) {
-                    $this.preventDefault();
-                    $this = $(this);
-                    media.vc_editor.$vc_editor_element = $(this), "true" !== $this.attr("use-single") ? ($this.blur(), media.vc_editor.open("wpbakery")) : media.VcSingleImage.frame(this).open("vc_editor")
+                $("body").off("click.vcGalleryWidget").on("click.vcGalleryWidget", ".gallery_widget_add_images", function(event) {
+                    event.preventDefault();
+                    event = $(this);
+                    media.vc_editor.$vc_editor_element = $(this), "true" === event.attr("use-single") ? media.VcSingleImage.frame(this).open("vc_editor") : (event.blur(), media.vc_editor.open("wpbakery"))
                 })
             }
         }), _.bindAll(media.vc_editor, "open"), $(document).ready(function() {
             media.vc_editor.init()
         }), vc.events.on("click:media_editor:add_image", function(selection, type) {
-            $(".media-modal").addClass("processing-media"), processImages(selection, function(attachments) {
-                var objects, attachments = _.map(attachments, function(newAttachment) {
+            $(".media-modal").addClass("processing-media"), processImages(selection, function(newAttachments) {
+                var objects, newAttachments = _.map(newAttachments, function(newAttachment) {
                     return newAttachment.attributes
                 });
-                switch (selection.reset(attachments), objects = _.map(selection.models, function(model) {
+                switch (selection.reset(newAttachments), objects = _.map(selection.models, function(model) {
                         return model.attributes
                     }), type = void 0 === type ? "" : type) {
                     case "gallery":
@@ -761,8 +761,8 @@ window.vc || (window.vc = {}),
             }), this.init()
         }
         window.init_textarea_html = function($element) {
-            var textfield_id, $form_line, $content_holder = $("#wp-link");
-            $content_holder.parent().hasClass("wp-dialog") && $content_holder.wpdialog("destroy"), textfield_id = $element.attr("id"), $content_holder = ($form_line = $element.closest(".edit_form_line")).find(".vc_textarea_html_content");
+            var textfield_id, $content_holder, $wp_link = $("#wp-link");
+            $wp_link.parent().hasClass("wp-dialog") && $wp_link.wpdialog("destroy"), textfield_id = $element.attr("id"), $content_holder = ($wp_link = $element.closest(".edit_form_line")).find(".vc_textarea_html_content");
             try {
                 _.isUndefined(tinyMCEPreInit.qtInit[textfield_id]) && (window.tinyMCEPreInit.qtInit[textfield_id] = _.extend({}, window.tinyMCEPreInit.qtInit[window.wpActiveEditor], {
                     id: textfield_id
@@ -779,7 +779,7 @@ window.vc || (window.vc = {}),
                     }
                 }), window.tinyMCEPreInit.mceInit[textfield_id].plugins = window.tinyMCEPreInit.mceInit[textfield_id].plugins.replace(/,?wpfullscreen/, ""), window.tinyMCEPreInit.mceInit[textfield_id].wp_autoresize_on = !1), vc.edit_element_block_view && vc.edit_element_block_view.currentModelParams ? $element.val(vc_wpautop(vc.edit_element_block_view.currentModelParams[$content_holder.attr("name")] || "")) : $element.val($content_holder.val()), quicktags(window.tinyMCEPreInit.qtInit[textfield_id]), QTags._buttonsInit(), window.tinymce && (window.switchEditors && window.switchEditors.go(textfield_id, "tmce"), "4" === tinymce.majorVersion && tinymce.execCommand("mceAddEditor", !0, textfield_id)), window.wpActiveEditor = textfield_id
             } catch (e) {
-                $element.data("vcTinyMceDisabled", !0).appendTo($form_line), $("#wp-" + textfield_id + "-wrap").remove(), console && console.error && (console.error("VC: Tinymce error! Compatibility problem with other plugins."), console.error(e))
+                $element.data("vcTinyMceDisabled", !0).appendTo($wp_link), $("#wp-" + textfield_id + "-wrap").remove(), console && console.error && (console.error("VC: Tinymce error! Compatibility problem with other plugins."), console.error(e))
             }
         }, Color.prototype.toString = function() {
             if (this._alpha < 1) return this.toCSS("rgba", this._alpha).replace(/\s+/g, "");
@@ -788,11 +788,11 @@ window.vc || (window.vc = {}),
             if (hex.length < 6)
                 for (var i = 6 - hex.length - 1; 0 <= i; i--) hex = "0" + hex;
             return "#" + hex
-        }, vc.loop_partial = function(template_name, key, data, settings) {
-            data = _.isObject(data) && !_.isUndefined(data[key]) ? data[key] : "";
+        }, vc.loop_partial = function(template_name, key, loop, settings) {
+            loop = _.isObject(loop) && !_.isUndefined(loop[key]) ? loop[key] : "";
             return vc.template($("#_vcl-" + template_name).html(), vc.templateOptions.custom)({
                 name: key,
-                data: data,
+                data: loop,
                 settings: settings
             })
         }, vc.loop_field_not_hidden = function(key, loop) {
@@ -828,10 +828,10 @@ window.vc || (window.vc = {}),
             itemSelected: function(event, ui) {
                 return this.$el.blur(), this.create(ui.item), this.$el.trigger("focus"), !1
             },
-            create: function($label) {
-                var exclude_css, index = this.selected_items.push($label) - 1,
-                    remove = !0 === this.options.check_locked_callback(this.$el, $label) ? "" : ' <a class="remove">&times;</a>';
-                _.isUndefined(this.selected_items[index].action) && (this.selected_items[index].action = "+"), exclude_css = "-" === this.selected_items[index].action ? " exclude" : " include", ($label = $('<li class="vc_suggest-label' + exclude_css + '" data-index="' + index + '" data-value="' + $label.value + '"><span class="label">' + $label.name + "</span>" + remove + "</li>")).insertBefore(this.$el_wrap), _.isEmpty(remove) || $label.on("click", this.labelClick), this.options.select_callback($label, this.selected_items)
+            create: function(item) {
+                var exclude_css, index = this.selected_items.push(item) - 1,
+                    remove = !0 === this.options.check_locked_callback(this.$el, item) ? "" : ' <a class="remove">&times;</a>';
+                _.isUndefined(this.selected_items[index].action) && (this.selected_items[index].action = "+"), exclude_css = "-" === this.selected_items[index].action ? " exclude" : " include", (exclude_css = $('<li class="vc_suggest-label' + exclude_css + '" data-index="' + index + '" data-value="' + item.value + '"><span class="label">' + item.name + "</span>" + remove + "</li>")).insertBefore(this.$el_wrap), _.isEmpty(remove) || exclude_css.on("click", this.labelClick), this.options.select_callback(exclude_css, this.selected_items)
             },
             labelClick: function(e) {
                 e.preventDefault();
@@ -884,10 +884,10 @@ window.vc || (window.vc = {}),
                     var template = vc.template($("#vcl-loop-frame").html(), _.extend({}, vc.templateOptions.custom, {
                         variable: "loop"
                     }));
-                    return this.controller = controller, this.$el.html(template(this.model)), this.controller.$el.append(this.$el), _.each($("[data-suggest]"), function(current_value) {
-                        var $field = $(current_value),
-                            current_value = window.decodeURIComponent($("[data-suggest-prefill=" + $field.data("suggest") + "]").val());
-                        $field.suggester({
+	                return this.controller = controller, this.$el.html(template(this.model)), this.controller.$el.append(this.$el), _.each($("[data-suggest]"), function(object) {
+                        var object = $(object),
+                            current_value = window.decodeURIComponent($("[data-suggest-prefill=" + object.data("suggest") + "]").val());
+                        object.suggester({
                             predefined: $.parseJSON(current_value),
                             select_callback: this.updateSuggestion,
                             update_callback: this.updateSuggestion,
@@ -900,9 +900,9 @@ window.vc || (window.vc = {}),
                     this.$el.slideDown()
                 },
                 save: function(e) {
-                    this.return_array = {}, _.each(this.model, function(parsedValue, key) {
-                        parsedValue = this.getValue(key, parsedValue);
-                        _.isString(parsedValue) && !_.isEmpty(parsedValue) && (this.return_array[key] = parsedValue)
+                    this.return_array = {}, _.each(this.model, function(value, key) {
+                        value = this.getValue(key, value);
+                        _.isString(value) && !_.isEmpty(value) && (this.return_array[key] = value)
                     }, this), this.controller.setInputValue(this.return_array)
                 },
                 getValue: function(key) {
@@ -914,23 +914,23 @@ window.vc || (window.vc = {}),
                 toggle: function() {
                     this.$el.is(":animated") || this.$el.slideToggle()
                 },
-                updateCheckbox: function($input) {
-                    var input_name = $($input.currentTarget).data("input"),
-                        $input = $("[data-name=" + input_name + "]", this.$el),
+                updateCheckbox: function(e) {
+                    var e = $(e.currentTarget).data("input"),
+                        $input = $("[data-name=" + e + "]", this.$el),
                         value = [];
-                    $("[data-input=" + input_name + "]:checked").each(function() {
+                    $("[data-input=" + e + "]:checked").each(function() {
                         value.push($(this).val())
                     }), $input.val(value), this.save()
                 },
-                updateSuggestion: function($suggestion_block, value) {
-                    $suggestion_block = $suggestion_block.closest("[data-block=suggestion]"), value = _.reduce(value, function(memo, label) {
+                updateSuggestion: function($elem, data) {
+                    $elem = $elem.closest("[data-block=suggestion]"), data = _.reduce(data, function(memo, label) {
                         return _.isEmpty(label) ? "" : memo + (_.isEmpty(memo) ? "" : ",") + ("-" === label.action ? "-" : "") + label.value
                     }, "").trim();
-                    $suggestion_block.find("[data-suggest-value]").val(value).trigger("change")
+                    $elem.find("[data-suggest-value]").val(data).trigger("change")
                 },
-                suggestionLocked: function(field, value) {
-                    value = value.value, field = field.closest("[data-block=suggestion]").find("[data-suggest-value]").data("suggest-value");
-                    return this.controller.settings && this.controller.settings[field] && _.isBoolean(this.controller.settings[field].locked) && 1 == this.controller.settings[field].locked && _.isString(this.controller.settings[field].value) && 0 <= _.indexOf(this.controller.settings[field].value.replace("-", "").split(/\,/), "" + value)
+                suggestionLocked: function($elem, data) {
+                    data = data.value, $elem = $elem.closest("[data-block=suggestion]").find("[data-suggest-value]").data("suggest-value");
+                    return this.controller.settings && this.controller.settings[$elem] && _.isBoolean(this.controller.settings[$elem].locked) && 1 == this.controller.settings[$elem].locked && _.isString(this.controller.settings[$elem].value) && 0 <= _.indexOf(this.controller.settings[$elem].value.replace("-", "").split(/\,/), "" + data)
                 }
             }),
             VcLoop = Backbone.View.extend({
@@ -986,8 +986,8 @@ window.vc || (window.vc = {}),
                     var html = "";
                     return _.each(this.settings, function(field) {
                         _.isUndefined(this.data[field.name]) ? _.isUndefined(field.value) || (field.value = field.value.toString().split(","), this.data[field.name] = field.value) : field.value = this.data[field.name], this.fields[field.name] = field;
-                        var template = $("#vcl-options-field-" + field.type);
-                        template.is("script") && (template = vc.template(template.html(), vc.templateOptions.custom), html += template(_.extend({}, {
+	                    var $field = $("#vcl-options-field-" + field.type);
+                        $field.is("script") && ($field = vc.template($field.html(), vc.templateOptions.custom), html += $field(_.extend({}, {
                             name: "",
                             label: "",
                             value: [],
@@ -997,9 +997,9 @@ window.vc || (window.vc = {}),
                     }, this), this.$form.html(html + this.$form.html()), this
                 },
                 parseData: function() {
-                    _.each(this.$input.val().split("|"), function(name) {
-                        var value;
-                        name.match(/\:/) && (name = (value = name.split(":"))[0], value = value[1], this.data[name] = _.map(value.split(","), function(v) {
+                    _.each(this.$input.val().split("|"), function(data) {
+                        var name;
+                        data.match(/\:/) && (name = (data = data.split(":"))[0], data = data[1], this.data[name] = _.map(data.split(","), function(v) {
                             return window.decodeURIComponent(v)
                         }))
                     }, this)
@@ -1015,11 +1015,11 @@ window.vc || (window.vc = {}),
                 showEditor: function() {
                     this.$form.slideToggle()
                 },
-                save: function($field) {
-                    var value, $field = $($field.currentTarget);
-                    $field.is(":checkbox") ? (value = [], this.$el.find("input[name=" + $field.attr("name") + "]").each(function() {
+                save: function(e) {
+                    var value, e = $(e.currentTarget);
+                    e.is(":checkbox") ? (value = [], this.$el.find("input[name=" + e.attr("name") + "]").each(function() {
                         this.checked && value.push($(this).val())
-                    }), this.data[$field.attr("name")] = value) : this.data[$field.attr("name")] = [$field.val()], this.saveData()
+                    }), this.data[e.attr("name")] = value) : this.data[e.attr("name")] = [e.val()], this.saveData()
                 }
             });
 
@@ -1058,13 +1058,13 @@ window.vc || (window.vc = {}),
                     }), sub_control += "</select>"
                 }, this), this.$current_control.append('<li class="vc_control-' + data.value + '" data-name="' + data.value + '">' + data.label + sub_control + "</li>")
             },
-            controlEvent: function($control) {
-                $control = $($control.currentTarget);
-                $control[0].checked ? this.createControl({
-                    value: $control.val(),
-                    label: $control.parent().text(),
-                    sub: $control.data("subcontrol")
-                }) : this.$current_control.find(".vc_control-" + $control.val()).remove(), this.save()
+            controlEvent: function(e) {
+                e = $(e.currentTarget);
+                e[0].checked ? this.createControl({
+                    value: e.val(),
+                    label: e.parent().text(),
+                    sub: e.data("subcontrol")
+                }) : this.$current_control.find(".vc_control-" + e.val()).remove(), this.save()
             },
             save: function() {
                 var string_value = _.map(this.$current_control.find("[data-name]"), function(element) {
@@ -1196,11 +1196,10 @@ window.vc || (window.vc = {}),
                     var elems = this.$sortable_wrapper.sortable("toArray", {
                             attribute: "data-index"
                         }),
-                        items = [];
-                    _.each(elems, function(index) {
-                        items.push(this.selected_items[index])
-                    }, this);
-                    var index = 0;
+                        items = [],
+                        index = (_.each(elems, function(index) {
+                            items.push(this.selected_items[index])
+                        }, this), 0);
                     $("li.vc_data", this.$sortable_wrapper).each(function() {
                         $(this).attr("data-index", index++)
                     }), this.selected_items = items, this.updateItems()
@@ -1246,9 +1245,9 @@ window.vc || (window.vc = {}),
                     var $li_el, $prev_el, $next_el;
                     return this.selected = 1, ui.item && (this.options.unique_values && ($li_el = this.getWidget().data("uiMenu").active, this.options.groups && ($prev_el = $li_el.prev(), $next_el = $li_el.next(), $prev_el.hasClass("vc_autocomplete-group") && !$next_el.hasClass("vc_autocomplete-item") && $prev_el.remove()), $li_el.remove(), $("li.ui-menu-item", this.getWidget()).length || (this.selected = void 0)), this.createBox(ui.item), this.isMultiple ? this.$el.trigger("focus") : this.$el.hide()), !1
                 },
-                createBox: function($label) {
-                    var index = this.selected_items.push($label) - 1;
-                    this.updateItems(), ($label = $('<li class="vc_autocomplete-label vc_data" data-index="' + index + '" data-value="' + $label.value + '" data-label="' + $label.label + '"><span class="vc_autocomplete-label"><a>' + $label.label + '</a></span><a class="vc_autocomplete-remove">&times;</a></li>')).insertBefore(this.$el_wrap), this.labelRemoveHook($label)
+                createBox: function(item) {
+                    var index = this.selected_items.push(item) - 1;
+                    this.updateItems(), (index = $('<li class="vc_autocomplete-label vc_data" data-index="' + index + '" data-value="' + item.value + '" data-label="' + item.label + '"><span class="vc_autocomplete-label"><a>' + item.label + '</a></span><a class="vc_autocomplete-remove">&times;</a></li>')).insertBefore(this.$el_wrap), this.labelRemoveHook(index)
                 },
                 labelRemoveHook: function($label) {
                     this.$el.blur(), this.$el.val(""), $label.on("click", this.labelRemoveClick)
@@ -1259,13 +1258,10 @@ window.vc || (window.vc = {}),
                     if ($(e.target).is(".vc_autocomplete-remove")) return this.selected_items.splice($label.index(), 1), $label.remove(), this.updateItems(), this.$el.show(), !1
                 },
                 getSelectedItems: function() {
-                    if (this.selected_items.length) {
-                        var results = [];
-                        return _.each(this.selected_items, function(item) {
-                            results.push(item.value)
-                        }), results
-                    }
-                    return !1
+                    var results;
+                    return !!this.selected_items.length && (results = [], _.each(this.selected_items, function(item) {
+                        results.push(item.value)
+                    }), results)
                 },
                 _renderMenu: function(ul, items) {
                     var that = this,
@@ -1361,11 +1357,11 @@ window.vc || (window.vc = {}),
                     })
                 },
                 addNew: function(ev) {
-                    var $newEl;
-                    ev.preventDefault(), this.addAllowed() && (void 0 !== this.options.param.callbacks && void 0 !== this.options.param.callbacks.before_add && "function" == typeof($newEl = window[this.options.param.callbacks.before_add]) && !$newEl() || (($newEl = $(JSON.parse(this.$ul.next(".vc_param_group-template").html()))).removeClass("vc_param_group-add_content-wrapper"), $newEl.insertBefore(ev.currentTarget), $newEl.show(), this.initializer.setContent($newEl.find("> .wpb_element_wrapper")), this.initializer.render(), this.items++, $newEl.data("vc-param-group-param", new VC_ParamGroup_Param({
-                        el: $newEl,
+                    var fn;
+                    ev.preventDefault(), this.addAllowed() && (void 0 === this.options.param.callbacks || void 0 === this.options.param.callbacks.before_add || "function" != typeof(fn = window[this.options.param.callbacks.before_add]) || fn()) && ((fn = $(JSON.parse(this.$ul.next(".vc_param_group-template").html()))).removeClass("vc_param_group-add_content-wrapper"), fn.insertBefore(ev.currentTarget), fn.show(), this.initializer.setContent(fn.find("> .wpb_element_wrapper")), this.initializer.render(), this.items++, fn.data("vc-param-group-param", new VC_ParamGroup_Param({
+                        el: fn,
                         parent: this
-                    })), this.afterAdd($newEl, "new"), vc.events.trigger("vc-param-group-add-new", ev, $newEl, this)))
+                    })), this.afterAdd(fn, "new"), vc.events.trigger("vc-param-group-add-new", ev, fn, this))
                 },
                 addAllowed: function() {
                     return 0 < this.options.max_items && this.items + 1 <= this.options.max_items || this.options.max_items <= 0
@@ -1400,26 +1396,26 @@ window.vc || (window.vc = {}),
                             }))
                         }, i = 0; i < this.adminLabelParams.length; i++) $("[name=" + this.adminLabelParams[i] + "].wpb_vc_param_value", this.$el).each(f)
                 },
-                hookAdminLabel: function($wrapperLabel) {
-                    for (var labelName = "", labelValue = "", labels = [], $parent = ($field = $($wrapperLabel.currentTarget)).closest(".vc_param_group-wrapper"), $wrapperLabel = $field.closest(".vc_param").find(".vc_param-group-admin-labels"), i = 0; i < this.adminLabelParams.length; i++) {
+	            hookAdminLabel: function(e) {
+                    for (var labelName = "", labelValue = "", labels = [], $parent = ($field = $(e.currentTarget)).closest(".vc_param_group-wrapper"), e = $field.closest(".vc_param").find(".vc_param-group-admin-labels"), i = 0; i < this.adminLabelParams.length; i++) {
                         var $field, elemName = this.adminLabelParams[i],
-                            paramSettings = ($field = $parent.find("[name=" + elemName + "]")).closest('[data-vc-ui-element="panel-shortcode-param"]');
-                        void 0 !== this.mappedParams[elemName] && (labelName = this.mappedParams[elemName].heading), labelValue = $field.is("select") ? $field.find("option:selected").text() : !$field.is("input:checkbox") || $field[0].checked ? $field.val() : "", paramSettings = {
-                            type: paramSettings.data("param_type"),
-                            param_name: paramSettings.data("param_name")
-                        }, "" !== (labelValue = _.isObject(vc.atts[paramSettings.type]) && _.isFunction(vc.atts[paramSettings.type].render) ? vc.atts[paramSettings.type].render.call(this, paramSettings, labelValue) : labelValue) && labels.push("<label>" + labelName + "</label>: " + labelValue)
+                            $paramWrapper = ($field = $parent.find("[name=" + elemName + "]")).closest('[data-vc-ui-element="panel-shortcode-param"]');
+                        void 0 !== this.mappedParams[elemName] && (labelName = this.mappedParams[elemName].heading), labelValue = $field.is("select") ? $field.find("option:selected").text() : !$field.is("input:checkbox") || $field[0].checked ? $field.val() : "", elemName = {
+                            type: $paramWrapper.data("param_type"),
+                            param_name: $paramWrapper.data("param_name")
+                        }, "" !== (labelValue = _.isObject(vc.atts[elemName.type]) && _.isFunction(vc.atts[elemName.type].render) ? vc.atts[elemName.type].render.call(this, elemName, labelValue) : labelValue) && labels.push("<label>" + labelName + "</label>: " + labelValue)
                     }
-                    $wrapperLabel.html(labels.join(", ")).toggleClass("vc_hidden-label", !labels.length)
+                    e.html(labels.join(", ")).toggleClass("vc_hidden-label", !labels.length)
                 },
                 initializeDependency: function() {
                     var callDependencies = {};
                     _.each(this.mappedParams, function(param, name) {
                         var $masters, $slave;
-                        _.isObject(param) && _.isObject(param.dependency) && _.isString(param.dependency.element) && ($masters = $("[name=" + this.groupParamName + "_" + param.dependency.element + "].wpb_vc_param_value", this.$el), ($slave = $("[name=" + name + "].wpb_vc_param_value", this.$el)).length && _.each($masters, function(rules) {
-                            var $master = $(rules),
-                                masterName = $master.attr("name"),
+                        _.isObject(param) && _.isObject(param.dependency) && _.isString(param.dependency.element) && ($masters = $("[name=" + this.groupParamName + "_" + param.dependency.element + "].wpb_vc_param_value", this.$el), ($slave = $("[name=" + name + "].wpb_vc_param_value", this.$el)).length && _.each($masters, function(master) {
+                            var master = $(master),
+                                masterName = master.attr("name"),
                                 rules = param.dependency;
-                            _.isArray(this.dependentElements[masterName]) || (this.dependentElements[masterName] = []), this.dependentElements[masterName].push($slave), $master.data("dependentSet") || ($master.attr("data-dependent-set", "true"), $master.on("keyup change", this.hookDependent)), callDependencies[masterName] || (callDependencies[masterName] = $master), _.isString(rules.callback) && window[rules.callback].call(this)
+                            _.isArray(this.dependentElements[masterName]) || (this.dependentElements[masterName] = []), this.dependentElements[masterName].push($slave), master.data("dependentSet") || (master.attr("data-dependent-set", "true"), master.on("keyup change", this.hookDependent)), callDependencies[masterName] || (callDependencies[masterName] = master), _.isString(rules.callback) && window[rules.callback].call(this)
                         }, this))
                     }, this), _.each(callDependencies, function(obj) {
                         this.hookDependent({
@@ -1427,22 +1423,22 @@ window.vc || (window.vc = {}),
                         })
                     }, this)
                 },
-                hookDependent: function(dependentElements) {
-                    var $master = $(dependentElements.currentTarget),
-                        $masterContainer = $master.closest(".vc_column"),
-                        dependentElements = this.dependentElements[$master.attr("name")],
-                        masterValue = $master.is(":checkbox") ? _.map(this.$el.find("[name=" + $master.attr("name") + "].wpb_vc_param_value:checked"), function(element) {
+                hookDependent: function(e) {
+                    var e = $(e.currentTarget),
+                        $masterContainer = e.closest(".vc_column"),
+                        dependentElements = this.dependentElements[e.attr("name")],
+                        masterValue = e.is(":checkbox") ? _.map(this.$el.find("[name=" + e.attr("name") + "].wpb_vc_param_value:checked"), function(element) {
                             return $(element).val()
-                        }) : $master.val(),
-                        isMasterEmpty = $master.is(":checkbox") ? !this.$el.find("[name=" + $master.attr("name") + "].wpb_vc_param_value:checked").length : !masterValue.length;
+                        }) : e.val(),
+                        isMasterEmpty = e.is(":checkbox") ? !this.$el.find("[name=" + e.attr("name") + "].wpb_vc_param_value:checked").length : !masterValue.length;
                     return $masterContainer.hasClass("vc_dependent-hidden") ? _.each(dependentElements, function($element) {
                         var event = $.Event("change");
                         event.extra_type = "vcHookDependedParamGroup", $element.closest(".vc_column").addClass("vc_dependent-hidden"), $element.trigger(event)
                     }) : _.each(dependentElements, function($element) {
-                        var event = $element.attr("name"),
-                            rules = _.isObject(this.mappedParams[event]) && _.isObject(this.mappedParams[event].dependency) ? this.mappedParams[event].dependency : {},
-                            event = $element.closest(".vc_column");
-                        _.isBoolean(rules.not_empty) && !0 === rules.not_empty && !isMasterEmpty || _.isBoolean(rules.is_empty) && !0 === rules.is_empty && isMasterEmpty || rules.value && _.intersection(_.isArray(rules.value) ? rules.value : [rules.value], _.isArray(masterValue) ? masterValue : [masterValue]).length || rules.value_not_equal_to && !_.intersection(_.isArray(rules.value_not_equal_to) ? rules.value_not_equal_to : [rules.value_not_equal_to], _.isArray(masterValue) ? masterValue : [masterValue]).length ? event.removeClass("vc_dependent-hidden") : event.addClass("vc_dependent-hidden"), (event = $.Event("change")).extra_type = "vcHookDependedParamGroup", $element.trigger(event)
+                        var paramName = $element.attr("name"),
+                            paramName = _.isObject(this.mappedParams[paramName]) && _.isObject(this.mappedParams[paramName].dependency) ? this.mappedParams[paramName].dependency : {},
+                            $paramBlock = $element.closest(".vc_column");
+                        _.isBoolean(paramName.not_empty) && !0 === paramName.not_empty && !isMasterEmpty || _.isBoolean(paramName.is_empty) && !0 === paramName.is_empty && isMasterEmpty || paramName.value && _.intersection(_.isArray(paramName.value) ? paramName.value : [paramName.value], _.isArray(masterValue) ? masterValue : [masterValue]).length || paramName.value_not_equal_to && !_.intersection(_.isArray(paramName.value_not_equal_to) ? paramName.value_not_equal_to : [paramName.value_not_equal_to], _.isArray(masterValue) ? masterValue : [masterValue]).length ? $paramBlock.removeClass("vc_dependent-hidden") : $paramBlock.addClass("vc_dependent-hidden"), (paramName = $.Event("change")).extra_type = "vcHookDependedParamGroup", $element.trigger(paramName)
                     }, this), this
                 },
                 deleteParam: function(ev) {
@@ -1451,14 +1447,14 @@ window.vc || (window.vc = {}),
                 content: function() {
                     return this.$content
                 },
-                clone: function(value) {
-                    var param, $content;
-                    value.preventDefault(), this.options.parent.addAllowed() && (param = this.options.parent.$ul.data("settings"), $content = this.$content, this.$content = this.$el, value = vc.atts.param_group.parseOne.call(this, param), $.ajax({
+                clone: function(ev) {
+                    var $content, value;
+                    ev.preventDefault(), this.options.parent.addAllowed() && (ev = this.options.parent.$ul.data("settings"), $content = this.$content, this.$content = this.$el, value = vc.atts.param_group.parseOne.call(this, ev), $.ajax({
                         type: "POST",
                         url: window.ajaxurl,
                         data: {
                             action: "vc_param_group_clone",
-                            param: fixedEncodeURIComponent(JSON.stringify(param)),
+                            param: fixedEncodeURIComponent(JSON.stringify(ev)),
                             shortcode: vc.active_panel.model.get("shortcode"),
                             value: value,
                             vc_inline: !0,
@@ -1466,321 +1462,317 @@ window.vc || (window.vc = {}),
                         },
                         dataType: "json",
                         context: this
-                    }).done(function($newEl) {
-                        var $newEl = $newEl.data || "",
-                            $newEl = $($newEl);
-                        $newEl.insertAfter(this.$el), this.$content = $content, this.options.parent.initializer.$content = $("> .wpb_element_wrapper", $newEl), this.options.parent.initializer.render(), $newEl.data("vc-param-group-param", new VC_ParamGroup_Param({
-                            el: $newEl,
+                    }).done(function(response) {
+                        response = response.data || "", response = $(response);
+                        response.insertAfter(this.$el), this.$content = $content, this.options.parent.initializer.$content = $("> .wpb_element_wrapper", response), this.options.parent.initializer.render(), response.data("vc-param-group-param", new VC_ParamGroup_Param({
+                            el: response,
                             parent: this.options.parent
-                        })), this.options.parent.items++, this.options.parent.afterAdd($newEl, "clone")
+                        })), this.options.parent.items++, this.options.parent.afterAdd(response, "clone")
                     }))
                 },
-                toggle: function($parent) {
-                    $parent.preventDefault();
-                    $parent = this.$el;
-                    $parent.find("> .wpb_element_wrapper").slideToggle(), $parent.toggleClass("vc_param_group-collapsed").siblings(":not(.vc_param_group-collapsed)").addClass("vc_param_group-collapsed").find("> .wpb_element_wrapper").slideUp()
+                toggle: function(ev) {
+                    ev.preventDefault();
+                    ev = this.$el;
+                    ev.find("> .wpb_element_wrapper").slideToggle(), ev.toggleClass("vc_param_group-collapsed").siblings(":not(.vc_param_group-collapsed)").addClass("vc_param_group-collapsed").find("> .wpb_element_wrapper").slideUp()
                 }
-            });
-        window.i18nLocale;
-        vc.edit_form_callbacks = [], vc.atts = {
-            parse: function(param) {
-                var $field = this.content().find(".wpb_vc_param_value[name=" + param.param_name + "]"),
-                    $param = $field.closest('[data-vc-ui-element="panel-shortcode-param"]'),
-                    value = _.isUndefined(vc.atts[param.type]) || _.isUndefined(vc.atts[param.type].parse) ? $field.length ? $field.val() : null : $param.data("vcInitParam") ? vc.atts[param.type].parse.call(this, param) : (value = this.model.get("params"), _.isUndefined(value[param.param_name]) ? $field.length ? $field.val() : null : value[param.param_name]);
-                return void 0 !== $field.data("js-function") && void 0 !== window[$field.data("js-function")] && (0, window[$field.data("js-function")])(this.$el, this, param), value
-            },
-            parseFrame: function(param) {
-                return vc.atts.parse.call(this, param)
-            },
-            init: function(param, $field) {
-                _.isUndefined(vc.atts[param.type]) || _.isUndefined(vc.atts[param.type].init) || vc.atts[param.type].init.call(this, param, $field)
-            }
-        }, vc.atts.textarea_html = {
-            parse: function($field) {
-                var _window = this.window(),
-                    $field = this.content().find(".textarea_html." + $field.param_name);
-                try {
-                    _window.tinyMCE && _.isArray(_window.tinyMCE.editors) && _.each(_window.tinyMCE.editors, function(_editor) {
-                        "wpb_tinymce_content" === _editor.id && _editor.save()
-                    })
-                } catch (err) {
-                    window.console && window.console.warn && window.console.warn("textarea_html atts parse error", err)
+            }),
+            getControlsHTML = (window.i18nLocale, vc.edit_form_callbacks = [], vc.atts = {
+                parse: function(param) {
+                    var $field = this.content().find(".wpb_vc_param_value[name=" + param.param_name + "]"),
+                        $param = $field.closest('[data-vc-ui-element="panel-shortcode-param"]'),
+                        $param = _.isUndefined(vc.atts[param.type]) || _.isUndefined(vc.atts[param.type].parse) ? $field.length ? $field.val() : null : $param.data("vcInitParam") ? vc.atts[param.type].parse.call(this, param) : ($param = this.model.get("params"), _.isUndefined($param[param.param_name]) ? $field.length ? $field.val() : null : $param[param.param_name]);
+                    return void 0 !== $field.data("js-function") && void 0 !== window[$field.data("js-function")] && (0, window[$field.data("js-function")])(this.$el, this, param), $param
+                },
+                parseFrame: function(param) {
+                    return vc.atts.parse.call(this, param)
+                },
+                init: function(param, $field) {
+                    _.isUndefined(vc.atts[param.type]) || _.isUndefined(vc.atts[param.type].init) || vc.atts[param.type].init.call(this, param, $field)
                 }
-                return $field.val()
-            },
-            render: function(param, value) {
-                return _.isUndefined(value) ? value : vc_wpautop(value)
-            }
-        }, vc.atts.textarea_safe = {
-            parse: function(new_value) {
-                new_value = this.content().find(".wpb_vc_param_value[name=" + new_value.param_name + "]").val();
-                return new_value.match(/"|(http)/) ? "#E-8_" + base64_encode(rawurlencode(new_value)) : new_value
-            },
-            render: function(param, value) {
-                return value && value.match(/^#E\-8_/) ? $("<div/>").text(rawurldecode(base64_decode(value.replace(/^#E\-8_/, "")))).html() : value
-            }
-        }, vc.atts.checkbox = {
-            parse: function(param) {
-                var arr = [],
-                    newValue = "";
-                return $("input[name=" + param.param_name + "]", this.content()).each(function() {
-                    var self = $(this);
-                    this.checked && arr.push(self.attr("value"))
-                }), newValue = 0 < arr.length ? arr.join(",") : newValue
-            },
-            defaults: function(param) {
-                return ""
-            }
-        }, vc.atts.el_id = {
-            clone: function(clonedModel, paramValue, paramSettings) {
-                var shortcodeParams = clonedModel.get("params");
-                _.isUndefined(paramSettings) || _.isUndefined(paramSettings.settings) || _.isUndefined(paramSettings.settings.auto_generate) || !0 !== paramSettings.settings.auto_generate ? shortcodeParams[paramSettings.param_name] = "" : shortcodeParams[paramSettings.param_name] = Date.now() + "-" + vc_guid(), clonedModel.set({
-                    params: shortcodeParams
-                }, {
-                    silent: !0
-                })
-            },
-            create: function(shortcodeModel, shortcodeParams, paramSettings) {
-                if (shortcodeModel.get("cloned")) return vc.atts.el_id.clone(shortcodeModel, shortcodeParams, paramSettings);
-                !_.isEmpty(shortcodeParams) || _.isUndefined(paramSettings) || _.isUndefined(paramSettings.settings) || _.isUndefined(paramSettings.settings.auto_generate) || 1 != paramSettings.settings.auto_generate || ((shortcodeParams = shortcodeModel.get("params"))[paramSettings.param_name] = Date.now() + "-" + vc_guid(), shortcodeModel.set({
-                    params: shortcodeParams
-                }, {
-                    silent: !0
-                }))
-            }
-        }, vc.events.on("shortcodes:add:param:type:el_id", vc.atts.el_id.create), vc.atts.posttypes = {
-            parse: function(param) {
-                var posstypes_arr = [],
-                    new_value = "";
-                return $("input[name=" + param.param_name + "]", this.content()).each(function() {
-                    var self = $(this);
-                    this.checked && posstypes_arr.push(self.attr("value"))
-                }), new_value = 0 < posstypes_arr.length ? posstypes_arr.join(",") : new_value
-            }
-        }, vc.atts.taxonomies = {
-            parse: function(param) {
-                var posstypes_arr = [],
-                    new_value = "";
-                return $("input[name=" + param.param_name + "]", this.content()).each(function() {
-                    var self = $(this);
-                    this.checked && posstypes_arr.push(self.attr("value"))
-                }), new_value = 0 < posstypes_arr.length ? posstypes_arr.join(",") : new_value
-            }
-        }, vc.atts.exploded_textarea = {
-            parse: function(param) {
-                return this.content().find(".wpb_vc_param_value[name=" + param.param_name + "]").val().replace(/\n/g, ",")
-            }
-        }, vc.atts.exploded_textarea_safe = {
-            parse: function(new_value) {
-                new_value = this.content().find(".wpb_vc_param_value[name=" + new_value.param_name + "]").val();
-                return (new_value = new_value.replace(/\n/g, ",")).match(/"|(http)/) ? "#E-8_" + base64_encode(rawurlencode(new_value)) : new_value
-            },
-            render: function(param, value) {
-                return value && value.match(/^#E\-8_/) ? $("<div/>").text(rawurldecode(base64_decode(value.replace(/^#E\-8_/, "")))).html() : value
-            }
-        }, vc.atts.textarea_raw_html = {
-            parse: function(new_value) {
-                new_value = this.content().find(".wpb_vc_param_value[name=" + new_value.param_name + "]").val();
-                return base64_encode(rawurlencode(new_value))
-            },
-            render: function(param, value) {
-                return value ? $("<div/>").text(rawurldecode(base64_decode(value.trim()))).html() : ""
-            }
-        }, vc.atts.dropdown = {
-            render: function(param, value) {
-                return value
-            },
-            init: function(param, $field) {
-                $(".wpb_vc_param_value.dropdown", $field).on("change", function() {
-                    var $this = $(this),
-                        option_class = $this.find(":selected"),
-                        prev_option_class = $this.data("option"),
-                        option_class = option_class.length ? option_class.attr("class").replace(/\s/g, "_") : "";
-                    option_class = option_class.replace("#", "hash-"), void 0 !== prev_option_class && $this.removeClass(prev_option_class), void 0 !== option_class && ($this.data("option", option_class), $this.addClass(option_class))
-                })
-            },
-            defaults: function(param) {
-                var values;
-                return _.isArray(param.value) || _.isString(param.value) ? _.isArray(param.value) ? (values = param.value[0], _.isArray(values) && values.length ? values[0] : values) : "" : (values = _.values(param.value)[0]).label ? values.value : values
-            }
-        }, vc.atts.attach_images = {
-            parse: function(param) {
-                var $field = this.content().find(".wpb_vc_param_value[name=" + param.param_name + "]"),
-                    thumbnails_html = "";
-                return $field.parent().find("li.added").each(function() {
-                    thumbnails_html += '<li><img src="' + $(this).find("img").attr("src") + '" alt=""></li>'
-                }), $("[data-model-id=" + this.model.id + "]").data("field-" + param.param_name + "-attach-images", thumbnails_html), $field.length ? $field.val() : null
-            },
-            render: function(param, value) {
-                var $thumbnails = this.$el.find(".attachment-thumbnails[data-name=" + param.param_name + "]");
-                return "external_link" === this.model.getParam("source") && (value = this.model.getParam("custom_srcs")), _.isEmpty(value) ? (this.$el.removeData("field-" + param.param_name + "-attach-images"), vc.atts.attach_images.updateImages($thumbnails, "")) : $.ajax({
-                    type: "POST",
-                    url: window.ajaxurl,
-                    data: {
-                        action: "wpb_gallery_html",
-                        content: value,
-                        _vcnonce: window.vcAdminNonce
-                    },
-                    dataType: "json",
-                    context: this
-                }).done(function(html) {
-                    html = html.data;
-                    vc.atts.attach_images.updateImages($thumbnails, html)
-                }), value
-            },
-            updateImages: function($thumbnails, thumbnails_html) {
-                $thumbnails.html(thumbnails_html), thumbnails_html.length ? $thumbnails.removeClass("image-exists").next().addClass("image-exists") : $thumbnails.addClass("image-exists").next().removeClass("image-exists")
-            }
-        }, vc.atts.href = {
-            parse: function(val) {
-                var $field = this.content().find(".wpb_vc_param_value[name=" + val.param_name + "]"),
-                    val = "";
-                return val = $field.length && "http://" !== $field.val() ? $field.val() : val
-            }
-        }, vc.atts.attach_image = {
-            parse: function(param) {
-                var $field = this.content().find(".wpb_vc_param_value[name=" + param.param_name + "]"),
-                    image_src = "";
-                return $field.parent().find("li.added").length && (image_src = $field.parent().find("li.added img").attr("src")), $("[data-model-id=" + this.model.id + "]").data("field-" + param.param_name + "-attach-image", image_src), $field.length ? $field.val() : null
-            },
-            render: function(param, value) {
-                var $model = $("[data-model-id=" + this.model.id + "]"),
-                    image_src = $model.data("field-" + param.param_name + "-attach-image"),
-                    $thumbnail = this.$el.find(".attachment-thumbnail[data-name=" + param.param_name + "]");
-                return "image" === param.param_name && ("external_link" === this.model.getParam("source") ? vc.atts.attach_image.updateImage($thumbnail, this.model.getParam("custom_src")) : _.isEmpty(value) && "featured_image" !== this.model.getParam("source") ? _.isUndefined(image_src) || ($model.removeData("field-" + param.param_name + "-attach-image"), vc.atts.attach_image.updateImage($thumbnail, image_src)) : $.ajax({
-                    type: "POST",
-                    url: window.ajaxurl,
-                    data: {
-                        action: "wpb_single_image_src",
-                        content: value,
-                        params: this.model.get("params"),
-                        post_id: vc_post_id,
-                        _vcnonce: window.vcAdminNonce
-                    },
-                    dataType: "html",
-                    context: this
-                }).done(function(image_src) {
-                    var image_exists = image_src.length || "featured_image" === this.model.getParam("source");
-                    vc.atts.attach_image.updateImage($thumbnail, image_src, image_exists)
-                })), value
-            },
-            updateImage: function($thumbnail, image_src, image_exists) {
-                $thumbnail.length && ((image_exists = void 0 === image_exists ? !1 : image_exists) || !_.isEmpty(image_src) ? ($thumbnail.attr("src", image_src), _.isEmpty(image_src) ? ($thumbnail.hide(), $thumbnail.next().removeClass("image-exists").next().addClass("image-exists")) : ($thumbnail.show(), $thumbnail.next().addClass("image-exists").next().addClass("image-exists"))) : $thumbnail.attr("src", "").hide().next().removeClass("image-exists").next().removeClass("image-exists"))
-            }
-        }, vc.atts.google_fonts = {
-            parse: function(string_pieces) {
-                var $block = this.content().find(".wpb_vc_param_value[name=" + string_pieces.param_name + "]").parent(),
-                    string_pieces = {};
-                return string_pieces.font_family = $block.find(".vc_google_fonts_form_field-font_family-select > option:selected").val(), string_pieces.font_style = $block.find(".vc_google_fonts_form_field-font_style-select > option:selected").val(), string_pieces = _.map(string_pieces, function(value, key) {
-                    if (_.isString(value) && 0 < value.length) return key + ":" + encodeURIComponent(value)
-                }), $.grep(string_pieces, function(value) {
-                    return _.isString(value) && 0 < value.length
-                }).join("|")
-            },
-            init: function(param, $field) {
-                var $g_fonts = $field;
-                $g_fonts.length && ("undefined" != typeof WebFont ? $field.data("vc-param-object", new GoogleFonts({
-                    el: $g_fonts
-                })) : $g_fonts.find("> .edit_form_line").html(window.i18nLocale.gfonts_unable_to_load_google_fonts || "Unable to load Google Fonts"))
-            }
-        }, vc.atts.font_container = {
-            parse: function(string_pieces) {
-                var $block = this.content().find(".wpb_vc_param_value[name=" + string_pieces.param_name + "]").parent(),
-                    string_pieces = {};
-                return string_pieces.tag = $block.find(".vc_font_container_form_field-tag-select > option:selected").val(), string_pieces.font_size = $block.find(".vc_font_container_form_field-font_size-input").val(), string_pieces.text_align = $block.find(".vc_font_container_form_field-text_align-select > option:selected").val(), string_pieces.font_family = $block.find(".vc_font_container_form_field-font_family-select > option:selected").val(), string_pieces.color = $block.find(".vc_font_container_form_field-color-input").val(), string_pieces.line_height = $block.find(".vc_font_container_form_field-line_height-input").val(), string_pieces.font_style_italic = $block.find(".vc_font_container_form_field-font_style-checkbox.italic").prop("checked") ? "1" : "", string_pieces.font_style_bold = $block.find(".vc_font_container_form_field-font_style-checkbox.bold").prop("checked") ? "1" : "", string_pieces = _.map(string_pieces, function(value, key) {
-                    if (_.isString(value) && 0 < value.length) return key + ":" + encodeURIComponent(value)
-                }), $.grep(string_pieces, function(value) {
-                    return _.isString(value) && 0 < value.length
-                }).join("|")
-            },
-            init: function(param, $field) {
-                vc.atts.colorpicker.init.call(this, param, $field)
-            }
-        }, vc.atts.param_group = {
-            parse: function(param) {
-                var $content = this.content(),
-                    data = $content.find('.wpb_el_type_param_group[data-vc-ui-element="panel-shortcode-param"][data-vc-shortcode-param-name="' + param.param_name + '"]').find("> .edit_form_line > .vc_param_group-list"),
-                    data = vc.atts.param_group.extractValues.call(this, param, $('>.wpb_vc_row:not(".vc_param_group-add_content-wrapper")', data));
-                return this.$content = $content, encodeURIComponent(JSON.stringify(data))
-            },
-            extractValues: function(param, $el) {
-                var data = [],
-                    self = this;
-                return $el.each(function() {
-                    var innerData = {};
-                    self.$content = $(this), _.each(param.params, function(value) {
-                        var innerParam = $.extend({}, value),
-                            innerParamName = innerParam.param_name;
-                        innerParam.param_name = param.param_name + "_" + innerParamName, ((value = vc.atts.parse.call(self, innerParam)).length || innerParam.save_always) && (innerData[innerParamName] = value)
-                    }), data.push(innerData)
-                }), data
-            },
-            parseOne: function(data) {
-                var $content = this.content(),
-                    data = vc.atts.param_group.extractValues.call(this, data, $content);
-                return this.$content = $content, fixedEncodeURIComponent(JSON.stringify(data))
-            },
-            init: function(param, $field) {
-                $field.data("vc-param-object", new VC_ParamGroup({
-                    el: $field,
-                    settings: {
-                        param: param
-                    }
-                }))
-            }
-        }, vc.atts.colorpicker = {
-            init: function(param, $field) {
-                $(".vc_color-control", $field).each(function() {
-                    var $alpha, $alpha_output, $control = $(this),
-                        $pickerContainer = $control.val().replace(/\s+/g, ""),
-                        alpha_val = 100;
-                    $pickerContainer.match(/rgba\(\d+\,\d+\,\d+\,([^\)]+)\)/) && (alpha_val = 100 * parseFloat($pickerContainer.match(/rgba\(\d+\,\d+\,\d+\,([^\)]+)\)/)[1])), $control.wpColorPicker({
-                        clear: function(event, ui) {
-                            $alpha.val(100), $alpha_output.val("100%")
-                        },
-                        change: _.debounce(function() {
-                            $(this).trigger("change")
-                        }, 500)
-                    }), $pickerContainer = $control.closest(".wp-picker-container"), $('<div class="vc_alpha-container"><label>Alpha: <output class="rangevalue">' + alpha_val + '%</output></label><input type="range" min="1" max="100" value="' + alpha_val + '" name="alpha" class="vc_alpha-field"></div>').appendTo($pickerContainer.addClass("vc_color-picker").find(".iris-picker")), $alpha = $pickerContainer.find(".vc_alpha-field"), $alpha_output = $pickerContainer.find(".vc_alpha-container output"), $alpha.on("change keyup", function() {
-                        var alpha_val = parseFloat($alpha.val()),
-                            iris = $control.data("a8c-iris"),
-                            color_picker = $control.data("wp-wpColorPicker");
-                        $alpha_output.val($alpha.val() + "%"), iris._color._alpha = alpha_val / 100, $control.val(iris._color.toString()), color_picker.toggler.css({
-                            backgroundColor: $control.val()
+            }, vc.atts.textarea_html = {
+                parse: function(param) {
+                    var _window = this.window(),
+                        param = this.content().find(".textarea_html." + param.param_name);
+                    try {
+                        _window.tinyMCE && _.isArray(_window.tinyMCE.editors) && _.each(_window.tinyMCE.editors, function(_editor) {
+                            "wpb_tinymce_content" === _editor.id && _editor.save()
                         })
-                    }).val(alpha_val).trigger("change")
-                })
-            }
-        }, vc.atts.autocomplete = {
-            init: function(param, $el_type_autocomplete) {
-                $el_type_autocomplete.length && $el_type_autocomplete.each(function() {
-                    var $param = $(".wpb_vc_param_value", this),
-                        options = $param.attr("name"),
-                        ac = $(".vc_auto_complete_param", this),
-                        options = $.extend({
-                            $param_input: $param,
-                            param_name: options,
-                            $el: ac
-                        }, $param.data("settings")),
-                        ac = new VC_AutoComplete(options);
-                    options.multiple && ac.enableMultiple(), options.sortable && ac.enableSortable(), $param.data("vc-param-object", ac)
-                })
-            }
-        }, vc.atts.loop = {
-            init: function(param, $field) {
-                $field.data("vc-param-object", new VcLoop({
-                    el: $field
-                }))
-            }
-        }, vc.atts.vc_link = {
-            init: function(param, $field) {
-                $(".vc_link-build", $field).on("click", function(value_object) {
-                    var $input, $url_label, $title_label, $link_submit, $vc_link_submit, $vc_link_nofollow;
-                    value_object && value_object.preventDefault && value_object.preventDefault(), value_object && value_object.stopImmediatePropagation && value_object.stopImmediatePropagation(), value_object = $(this).closest(".vc_link"), $input = value_object.find(".wpb_vc_param_value"), $url_label = value_object.find(".url-label"), $title_label = value_object.find(".title-label"), value_object = $input.data("json"), $link_submit = $("#wp-link-submit"), $vc_link_submit = $('<input type="submit" name="vc_link-submit" id="vc_link-submit" class="button-primary" value="Set Link">'), $link_submit.hide(), $("#vc_link-submit").remove(), $vc_link_submit.insertBefore($link_submit), $vc_link_nofollow = $('<div class="link-target vc-link-nofollow"><label><span></span> <input type="checkbox" id="vc-link-nofollow"> Add nofollow option to link</label></div>'), $("#link-options .vc-link-nofollow").remove(), $vc_link_nofollow.insertAfter($("#link-options .link-target")), setTimeout(function() {
-                        var currentHeight = $("#most-recent-results").css("top");
-                        $("#most-recent-results").css("top", parseInt(currentHeight, 10) + $vc_link_nofollow.height())
-                    }, 200);
-                    var dialog = !window.wpLink && $.fn.wpdialog && $("#wp-link").length ? {
+                    } catch (err) {
+                        window.console && window.console.warn && window.console.warn("textarea_html atts parse error", err)
+                    }
+                    return param.val()
+                },
+                render: function(param, value) {
+                    return _.isUndefined(value) ? value : vc_wpautop(value)
+                }
+            }, vc.atts.textarea_safe = {
+                parse: function(param) {
+                    param = this.content().find(".wpb_vc_param_value[name=" + param.param_name + "]").val();
+                    return param.match(/"|(http)/) ? "#E-8_" + base64_encode(rawurlencode(param)) : param
+                },
+                render: function(param, value) {
+                    return value && value.match(/^#E\-8_/) ? $("<div/>").text(rawurldecode(base64_decode(value.replace(/^#E\-8_/, "")))).html() : value
+                }
+            }, vc.atts.checkbox = {
+                parse: function(param) {
+                    var arr = [],
+                        newValue = "";
+                    return $("input[name=" + param.param_name + "]", this.content()).each(function() {
+                        var self = $(this);
+                        this.checked && arr.push(self.attr("value"))
+                    }), newValue = 0 < arr.length ? arr.join(",") : newValue
+                },
+                defaults: function(param) {
+                    return ""
+                }
+            }, vc.atts.el_id = {
+                clone: function(clonedModel, paramValue, paramSettings) {
+                    var shortcodeParams = clonedModel.get("params");
+                    _.isUndefined(paramSettings) || _.isUndefined(paramSettings.settings) || _.isUndefined(paramSettings.settings.auto_generate) || !0 !== paramSettings.settings.auto_generate ? shortcodeParams[paramSettings.param_name] = "" : shortcodeParams[paramSettings.param_name] = Date.now() + "-" + vc_guid(), clonedModel.set({
+                        params: shortcodeParams
+                    }, {
+                        silent: !0
+                    })
+                },
+                create: function(shortcodeModel, paramValue, paramSettings) {
+                    if (shortcodeModel.get("cloned")) return vc.atts.el_id.clone(shortcodeModel, paramValue, paramSettings);
+                    !_.isEmpty(paramValue) || _.isUndefined(paramSettings) || _.isUndefined(paramSettings.settings) || _.isUndefined(paramSettings.settings.auto_generate) || 1 != paramSettings.settings.auto_generate || ((paramValue = shortcodeModel.get("params"))[paramSettings.param_name] = Date.now() + "-" + vc_guid(), shortcodeModel.set({
+                        params: paramValue
+                    }, {
+                        silent: !0
+                    }))
+                }
+            }, vc.events.on("shortcodes:add:param:type:el_id", vc.atts.el_id.create), vc.atts.posttypes = {
+                parse: function(param) {
+                    var posstypes_arr = [],
+                        new_value = "";
+                    return $("input[name=" + param.param_name + "]", this.content()).each(function() {
+                        var self = $(this);
+                        this.checked && posstypes_arr.push(self.attr("value"))
+                    }), new_value = 0 < posstypes_arr.length ? posstypes_arr.join(",") : new_value
+                }
+            }, vc.atts.taxonomies = {
+                parse: function(param) {
+                    var posstypes_arr = [],
+                        new_value = "";
+                    return $("input[name=" + param.param_name + "]", this.content()).each(function() {
+                        var self = $(this);
+                        this.checked && posstypes_arr.push(self.attr("value"))
+                    }), new_value = 0 < posstypes_arr.length ? posstypes_arr.join(",") : new_value
+                }
+            }, vc.atts.exploded_textarea = {
+                parse: function(param) {
+                    return this.content().find(".wpb_vc_param_value[name=" + param.param_name + "]").val().replace(/\n/g, ",")
+                }
+            }, vc.atts.exploded_textarea_safe = {
+                parse: function(param) {
+                    param = this.content().find(".wpb_vc_param_value[name=" + param.param_name + "]").val();
+                    return (param = param.replace(/\n/g, ",")).match(/"|(http)/) ? "#E-8_" + base64_encode(rawurlencode(param)) : param
+                },
+                render: function(param, value) {
+                    return value && value.match(/^#E\-8_/) ? $("<div/>").text(rawurldecode(base64_decode(value.replace(/^#E\-8_/, "")))).html() : value
+                }
+            }, vc.atts.textarea_raw_html = {
+                parse: function(param) {
+                    param = this.content().find(".wpb_vc_param_value[name=" + param.param_name + "]").val();
+                    return base64_encode(rawurlencode(param))
+                },
+                render: function(param, value) {
+                    return value ? $("<div/>").text(rawurldecode(base64_decode(value.trim()))).html() : ""
+                }
+            }, vc.atts.dropdown = {
+                render: function(param, value) {
+                    return value
+                },
+                init: function(param, $field) {
+                    $(".wpb_vc_param_value.dropdown", $field).on("change", function() {
+                        var $this = $(this),
+                            $options = $this.find(":selected"),
+                            prev_option_class = $this.data("option"),
+                            $options = $options.length ? $options.attr("class").replace(/\s/g, "_") : "";
+                        $options = $options.replace("#", "hash-"), void 0 !== prev_option_class && $this.removeClass(prev_option_class), void 0 !== $options && ($this.data("option", $options), $this.addClass($options))
+                    })
+                },
+                defaults: function(param) {
+                    var values;
+                    return _.isArray(param.value) || _.isString(param.value) ? _.isArray(param.value) ? (values = param.value[0], _.isArray(values) && values.length ? values[0] : values) : "" : (values = _.values(param.value)[0]).label ? values.value : values
+                }
+            }, vc.atts.attach_images = {
+                parse: function(param) {
+                    var $field = this.content().find(".wpb_vc_param_value[name=" + param.param_name + "]"),
+                        thumbnails_html = "";
+                    return $field.parent().find("li.added").each(function() {
+                        thumbnails_html += '<li><img src="' + $(this).find("img").attr("src") + '" alt=""></li>'
+                    }), $("[data-model-id=" + this.model.id + "]").data("field-" + param.param_name + "-attach-images", thumbnails_html), $field.length ? $field.val() : null
+                },
+                render: function(param, value) {
+                    var $thumbnails = this.$el.find(".attachment-thumbnails[data-name=" + param.param_name + "]");
+                    return "external_link" === this.model.getParam("source") && (value = this.model.getParam("custom_srcs")), _.isEmpty(value) ? (this.$el.removeData("field-" + param.param_name + "-attach-images"), vc.atts.attach_images.updateImages($thumbnails, "")) : $.ajax({
+                        type: "POST",
+                        url: window.ajaxurl,
+                        data: {
+                            action: "wpb_gallery_html",
+                            content: value,
+                            _vcnonce: window.vcAdminNonce
+                        },
+                        dataType: "json",
+                        context: this
+                    }).done(function(response) {
+                        response = response.data;
+                        vc.atts.attach_images.updateImages($thumbnails, response)
+                    }), value
+                },
+                updateImages: function($thumbnails, thumbnails_html) {
+                    $thumbnails.html(thumbnails_html), thumbnails_html.length ? $thumbnails.removeClass("image-exists").next().addClass("image-exists") : $thumbnails.addClass("image-exists").next().removeClass("image-exists")
+                }
+            }, vc.atts.href = {
+                parse: function(param) {
+                    var param = this.content().find(".wpb_vc_param_value[name=" + param.param_name + "]"),
+                        val = "";
+                    return val = param.length && "http://" !== param.val() ? param.val() : val
+                }
+            }, vc.atts.attach_image = {
+                parse: function(param) {
+                    var $field = this.content().find(".wpb_vc_param_value[name=" + param.param_name + "]"),
+                        image_src = "";
+                    return $field.parent().find("li.added").length && (image_src = $field.parent().find("li.added img").attr("src")), $("[data-model-id=" + this.model.id + "]").data("field-" + param.param_name + "-attach-image", image_src), $field.length ? $field.val() : null
+                },
+                render: function(param, value) {
+                    var $model = $("[data-model-id=" + this.model.id + "]"),
+                        image_src = $model.data("field-" + param.param_name + "-attach-image"),
+                        $thumbnail = this.$el.find(".attachment-thumbnail[data-name=" + param.param_name + "]");
+                    return "image" === param.param_name && ("external_link" === this.model.getParam("source") ? vc.atts.attach_image.updateImage($thumbnail, this.model.getParam("custom_src")) : _.isEmpty(value) && "featured_image" !== this.model.getParam("source") ? _.isUndefined(image_src) || ($model.removeData("field-" + param.param_name + "-attach-image"), vc.atts.attach_image.updateImage($thumbnail, image_src)) : $.ajax({
+                        type: "POST",
+                        url: window.ajaxurl,
+                        data: {
+                            action: "wpb_single_image_src",
+                            content: value,
+                            params: this.model.get("params"),
+                            post_id: vc_post_id,
+                            _vcnonce: window.vcAdminNonce
+                        },
+                        dataType: "html",
+                        context: this
+                    }).done(function(image_src) {
+                        var image_exists = image_src.length || "featured_image" === this.model.getParam("source");
+                        vc.atts.attach_image.updateImage($thumbnail, image_src, image_exists)
+                    })), value
+                },
+                updateImage: function($thumbnail, image_src, image_exists) {
+                    $thumbnail.length && ((image_exists = void 0 === image_exists ? !1 : image_exists) || !_.isEmpty(image_src) ? ($thumbnail.attr("src", image_src), _.isEmpty(image_src) ? ($thumbnail.hide(), $thumbnail.next().removeClass("image-exists").next().addClass("image-exists")) : ($thumbnail.show(), $thumbnail.next().addClass("image-exists").next().addClass("image-exists"))) : $thumbnail.attr("src", "").hide().next().removeClass("image-exists").next().removeClass("image-exists"))
+                }
+            }, vc.atts.google_fonts = {
+                parse: function(param) {
+                    var param = this.content().find(".wpb_vc_param_value[name=" + param.param_name + "]").parent(),
+                        options = {};
+                    return options.font_family = param.find(".vc_google_fonts_form_field-font_family-select > option:selected").val(), options.font_style = param.find(".vc_google_fonts_form_field-font_style-select > option:selected").val(), param = _.map(options, function(value, key) {
+                        if (_.isString(value) && 0 < value.length) return key + ":" + encodeURIComponent(value)
+                    }), $.grep(param, function(value) {
+                        return _.isString(value) && 0 < value.length
+                    }).join("|")
+                },
+                init: function(param, $field) {
+                    var $g_fonts = $field;
+                    $g_fonts.length && ("undefined" != typeof WebFont ? $field.data("vc-param-object", new GoogleFonts({
+                        el: $g_fonts
+                    })) : $g_fonts.find("> .edit_form_line").html(window.i18nLocale.gfonts_unable_to_load_google_fonts || "Unable to load Google Fonts"))
+                }
+            }, vc.atts.font_container = {
+                parse: function(param) {
+                    var param = this.content().find(".wpb_vc_param_value[name=" + param.param_name + "]").parent(),
+                        options = {};
+                    return options.tag = param.find(".vc_font_container_form_field-tag-select > option:selected").val(), options.font_size = param.find(".vc_font_container_form_field-font_size-input").val(), options.text_align = param.find(".vc_font_container_form_field-text_align-select > option:selected").val(), options.font_family = param.find(".vc_font_container_form_field-font_family-select > option:selected").val(), options.color = param.find(".vc_font_container_form_field-color-input").val(), options.line_height = param.find(".vc_font_container_form_field-line_height-input").val(), options.font_style_italic = param.find(".vc_font_container_form_field-font_style-checkbox.italic").prop("checked") ? "1" : "", options.font_style_bold = param.find(".vc_font_container_form_field-font_style-checkbox.bold").prop("checked") ? "1" : "", param = _.map(options, function(value, key) {
+                        if (_.isString(value) && 0 < value.length) return key + ":" + encodeURIComponent(value)
+                    }), $.grep(param, function(value) {
+                        return _.isString(value) && 0 < value.length
+                    }).join("|")
+                },
+                init: function(param, $field) {
+                    vc.atts.colorpicker.init.call(this, param, $field)
+                }
+            }, vc.atts.param_group = {
+                parse: function(param) {
+                    var $content = this.content(),
+                        $list = $content.find('.wpb_el_type_param_group[data-vc-ui-element="panel-shortcode-param"][data-vc-shortcode-param-name="' + param.param_name + '"]').find("> .edit_form_line > .vc_param_group-list"),
+                        param = vc.atts.param_group.extractValues.call(this, param, $('>.wpb_vc_row:not(".vc_param_group-add_content-wrapper")', $list));
+                    return this.$content = $content, encodeURIComponent(JSON.stringify(param))
+                },
+                extractValues: function(param, $el) {
+                    var data = [],
+                        self = this;
+                    return $el.each(function() {
+                        var innerData = {};
+                        self.$content = $(this), _.each(param.params, function(par) {
+                            var value, par = $.extend({}, par),
+                                innerParamName = par.param_name;
+                            par.param_name = param.param_name + "_" + innerParamName, ((value = vc.atts.parse.call(self, par)).length || par.save_always) && (innerData[innerParamName] = value)
+                        }), data.push(innerData)
+                    }), data
+                },
+                parseOne: function(param) {
+                    var $content = this.content(),
+                        param = vc.atts.param_group.extractValues.call(this, param, $content);
+                    return this.$content = $content, fixedEncodeURIComponent(JSON.stringify(param))
+                },
+                init: function(param, $field) {
+                    $field.data("vc-param-object", new VC_ParamGroup({
+                        el: $field,
+                        settings: {
+                            param: param
+                        }
+                    }))
+                }
+            }, vc.atts.colorpicker = {
+                init: function(param, $field) {
+                    $(".vc_color-control", $field).each(function() {
+                        var $alpha, $alpha_output, $control = $(this),
+                            value = $control.val().replace(/\s+/g, ""),
+                            alpha_val = 100;
+                        value.match(/rgba\(\d+\,\d+\,\d+\,([^\)]+)\)/) && (alpha_val = 100 * parseFloat(value.match(/rgba\(\d+\,\d+\,\d+\,([^\)]+)\)/)[1])), $control.wpColorPicker({
+                            clear: function(event, ui) {
+                                $alpha.val(100), $alpha_output.val("100%")
+                            },
+                            change: _.debounce(function() {
+                                $(this).trigger("change")
+                            }, 500)
+                        }), value = $control.closest(".wp-picker-container"), $('<div class="vc_alpha-container"><label>Alpha: <output class="rangevalue">' + alpha_val + '%</output></label><input type="range" min="1" max="100" value="' + alpha_val + '" name="alpha" class="vc_alpha-field"></div>').appendTo(value.addClass("vc_color-picker").find(".iris-picker")), $alpha = value.find(".vc_alpha-field"), $alpha_output = value.find(".vc_alpha-container output"), $alpha.on("change keyup", function() {
+                            var alpha_val = parseFloat($alpha.val()),
+                                iris = $control.data("a8c-iris"),
+                                color_picker = $control.data("wp-wpColorPicker");
+                            $alpha_output.val($alpha.val() + "%"), iris._color._alpha = alpha_val / 100, $control.val(iris._color.toString()), color_picker.toggler.css({
+                                backgroundColor: $control.val()
+                            })
+                        }).val(alpha_val).trigger("change")
+                    })
+                }
+            }, vc.atts.autocomplete = {
+                init: function(param, $field) {
+                    $field.length && $field.each(function() {
+                        var $param = $(".wpb_vc_param_value", this),
+                            param_name = $param.attr("name"),
+                            $el = $(".vc_auto_complete_param", this),
+                            param_name = $.extend({
+                                $param_input: $param,
+                                param_name: param_name,
+                                $el: $el
+                            }, $param.data("settings")),
+                            $el = new VC_AutoComplete(param_name);
+                        param_name.multiple && $el.enableMultiple(), param_name.sortable && $el.enableSortable(), $param.data("vc-param-object", $el)
+                    })
+                }
+            }, vc.atts.loop = {
+                init: function(param, $field) {
+                    $field.data("vc-param-object", new VcLoop({
+                        el: $field
+                    }))
+                }
+            }, vc.atts.vc_link = {
+                init: function(param, $field) {
+                    $(".vc_link-build", $field).on("click", function(e) {
+                        e && e.preventDefault && e.preventDefault(), e && e.stopImmediatePropagation && e.stopImmediatePropagation(), e = $(this).closest(".vc_link"), $input = e.find(".wpb_vc_param_value"), $url_label = e.find(".url-label"), $title_label = e.find(".title-label"), e = $input.data("json"), $link_submit = $("#wp-link-submit"), $vc_link_submit = $('<input type="submit" name="vc_link-submit" id="vc_link-submit" class="button-primary" value="Set Link">'), $link_submit.hide(), $("#vc_link-submit").remove(), $vc_link_submit.insertBefore($link_submit), $vc_link_nofollow = $('<div class="link-target vc-link-nofollow"><label><span></span> <input type="checkbox" id="vc-link-nofollow"> Add nofollow option to link</label></div>'), $("#link-options .vc-link-nofollow").remove(), $vc_link_nofollow.insertAfter($("#link-options .link-target")), setTimeout(function() {
+                            var currentHeight = $("#most-recent-results").css("top");
+                            $("#most-recent-results").css("top", parseInt(currentHeight, 10) + $vc_link_nofollow.height())
+                        }, 200), dialog = !window.wpLink && $.fn.wpdialog && $("#wp-link").length ? {
                             $link: !1,
                             open: function() {
                                 this.$link = $("#wp-link").wpdialog({
@@ -1795,127 +1787,123 @@ window.vc || (window.vc = {}),
                             close: function() {
                                 this.$link && (this.$link.wpdialog("close"), this.$link.removeClass("vc-link-wrapper"))
                             }
-                        } : window.wpLink,
-                        onOpen = function(e, wrap) {
-                            jQuery(wrap).addClass("vc-link-wrapper");
-                            var $cancelButton = $("#wp-link-cancel button");
-                            $vc_link_submit.off("click.vcLink").on("click.vcLink", function(string) {
-                                var options;
-                                string && string.preventDefault && string.preventDefault(), string && string.stopImmediatePropagation && string.stopImmediatePropagation(), (options = {}).url = ($("#wp-link-url").length ? $("#wp-link-url") : $("#url-field")).val(), options.title = ($("#wp-link-text").length ? $("#wp-link-text") : $("#link-title-field")).val();
-                                var $checkbox = $("#wp-link-target").length ? $("#wp-link-target") : $("#link-target-checkbox");
-                                return options.target = $checkbox[0].checked ? "_blank" : "", options.rel = $("#vc-link-nofollow")[0].checked ? "nofollow" : "", string = _.map(options, function(value, key) {
-                                    if (_.isString(value) && 0 < value.length) return key + ":" + encodeURIComponent(value).trim()
-                                }).filter(function(item) {
-                                    return item
-                                }).join("|"), $input.val(string).trigger("change"), $input.data("json", options), $url_label.html(options.url + options.target), $title_label.html(options.title), dialog.close("noReset"), $link_submit.show(), $vc_link_submit.off("click.vcLink"), $vc_link_submit.remove(), $cancelButton.off("click.vcLinkCancel"), window.wpLink.textarea = "", $checkbox.attr("checked", !1), $("#most-recent-results").css("top", ""), $("#vc-link-nofollow").attr("checked", !1), !1
-                            }), $cancelButton.off("click").on("click.vcLinkCancel", function(e) {
-                                e && e.preventDefault && e.preventDefault(), e && e.stopImmediatePropagation && e.stopImmediatePropagation(), dialog.close("noReset"), $vc_link_submit.off("click.vcLink"), $vc_link_submit.remove(), $cancelButton.off("click.vcLinkCancel"), window.wpLink.textarea = ""
-                            })
-                        },
-                        onClose = function(e, wrap) {
-                            jQuery(wrap).removeClass("vc-link-wrapper"), jQuery(document).off("wplink-open", onOpen), jQuery(document).off("wplink-close", onClose)
-                        };
-                    jQuery(document).off("wplink-open", onOpen).on("wplink-open", onOpen), jQuery(document).off("wplink-close", onClose).on("wplink-close", onClose), "admin_frontend_editor" === vc_mode ? dialog.open("vc-hidden-editor") : dialog.open("content"), _.isString(value_object.url) && ($("#wp-link-url").length ? $("#wp-link-url") : $("#url-field")).val(value_object.url), _.isString(value_object.title) && ($("#wp-link-text").length ? $("#wp-link-text") : $("#link-title-field")).val(value_object.title), ($("#wp-link-target").length ? $("#wp-link-target") : $("#link-target-checkbox")).prop("checked", !_.isEmpty(value_object.target)), $("#vc-link-nofollow").length && $("#vc-link-nofollow").prop("checked", !_.isEmpty(value_object.rel))
-                })
-            }
-        }, vc.atts.sorted_list = {
-            init: function(param, $field) {
-                $(".vc_sorted-list", $field).VcSortedList()
-            }
-        }, vc.atts.options = {
-            init: function(param, $field) {
-                $field.data("vc-param-object", new VcOptionsField({
-                    el: $field
-                }))
-            }
-        }, vc.atts.iconpicker = {
-            change: function(param, $select) {
-                $select = $select.find(".vc-iconpicker");
-                $select.val(this.value), $select.data("vc-no-check", !0), $select.find('[value="' + this.value + '"]').attr("selected", "selected"), $select.data("vcFontIconPicker").loadIcons()
-            },
-            parse: function(param) {
-                return this.content().find(".wpb_vc_param_value[name=" + param.param_name + "]").parent().find(".vc-iconpicker").val()
-            },
-            init: function(param, $field) {
-                var $el = $field.find(".wpb_vc_param_value"),
-                    settings = $.extend({
-                        iconsPerPage: 100,
-                        iconDownClass: "fip-fa fa fa-arrow-down",
-                        iconUpClass: "fip-fa fa fa-arrow-up",
-                        iconLeftClass: "fip-fa fa fa-arrow-left",
-                        iconRightClass: "fip-fa fa fa-arrow-right",
-                        iconSearchClass: "fip-fa fa fa-search",
-                        iconCancelClass: "fip-fa fa fa-remove",
-                        iconBlockClass: "fip-fa"
-                    }, $el.data("settings"));
-                $field.find(".vc-iconpicker").vcFontIconPicker(settings).on("change", function(e) {
-                    var $select = $(this);
-                    $select.data("vc-no-check") || $el.data("vc-no-check", !0).val(this.value).trigger("change"), $select.data("vc-no-check", !1)
-                }), $el.on("change", function(e) {
-                    $el.data("vc-no-check") || vc.atts.iconpicker.change.call(this, param, $field), $el.data("vc-no-check", !1)
-                })
-            }
-        }, vc.atts.animation_style = {
-            init: function(param, $field) {
-                var content = $field,
-                    $field_input = $(".wpb_vc_param_value[name=" + param.param_name + "]", content);
-
-                function animation_style_test(el, x) {
-                    $(el).removeClass().addClass(x + " animated").one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function() {
-                        $(this).removeClass().addClass("vc_param-animation-style-preview")
+                        } : window.wpLink;
+                        var $input, $url_label, $title_label, $link_submit, $vc_link_submit, $vc_link_nofollow, dialog, onOpen = function(e, wrap) {
+                                jQuery(wrap).addClass("vc-link-wrapper");
+                                var $cancelButton = $("#wp-link-cancel button");
+                                $vc_link_submit.off("click.vcLink").on("click.vcLink", function(e) {
+                                    e && e.preventDefault && e.preventDefault(), e && e.stopImmediatePropagation && e.stopImmediatePropagation(), (e = {}).url = ($("#wp-link-url").length ? $("#wp-link-url") : $("#url-field")).val(), e.title = ($("#wp-link-text").length ? $("#wp-link-text") : $("#link-title-field")).val();
+                                    var string, $checkbox = $("#wp-link-target").length ? $("#wp-link-target") : $("#link-target-checkbox");
+                                    return e.target = $checkbox[0].checked ? "_blank" : "", e.rel = $("#vc-link-nofollow")[0].checked ? "nofollow" : "", string = _.map(e, function(value, key) {
+                                        if (_.isString(value) && 0 < value.length) return key + ":" + encodeURIComponent(value).trim()
+                                    }).filter(function(item) {
+                                        return item
+                                    }).join("|"), $input.val(string).trigger("change"), $input.data("json", e), $url_label.html(e.url + e.target), $title_label.html(e.title), dialog.close("noReset"), $link_submit.show(), $vc_link_submit.off("click.vcLink"), $vc_link_submit.remove(), $cancelButton.off("click.vcLinkCancel"), window.wpLink.textarea = "", $checkbox.attr("checked", !1), $("#most-recent-results").css("top", ""), $("#vc-link-nofollow").attr("checked", !1), !1
+                                }), $cancelButton.off("click").on("click.vcLinkCancel", function(e) {
+                                    e && e.preventDefault && e.preventDefault(), e && e.stopImmediatePropagation && e.stopImmediatePropagation(), dialog.close("noReset"), $vc_link_submit.off("click.vcLink"), $vc_link_submit.remove(), $cancelButton.off("click.vcLinkCancel"), window.wpLink.textarea = ""
+                                })
+                            },
+                            onClose = function(e, wrap) {
+                                jQuery(wrap).removeClass("vc-link-wrapper"), jQuery(document).off("wplink-open", onOpen), jQuery(document).off("wplink-close", onClose)
+                            };
+                        jQuery(document).off("wplink-open", onOpen).on("wplink-open", onOpen), jQuery(document).off("wplink-close", onClose).on("wplink-close", onClose), "admin_frontend_editor" === vc_mode ? dialog.open("vc-hidden-editor") : dialog.open("content"), _.isString(e.url) && ($("#wp-link-url").length ? $("#wp-link-url") : $("#url-field")).val(e.url), _.isString(e.title) && ($("#wp-link-text").length ? $("#wp-link-text") : $("#link-title-field")).val(e.title), ($("#wp-link-target").length ? $("#wp-link-target") : $("#link-target-checkbox")).prop("checked", !_.isEmpty(e.target)), $("#vc-link-nofollow").length && $("#vc-link-nofollow").prop("checked", !_.isEmpty(e.rel))
                     })
                 }
-                $('option[value="' + $field_input.val() + '"]', content).attr("selected", !0), $(".vc_param-animation-style-trigger", content).on("click", function(animation) {
-                    animation.preventDefault();
-                    animation = $(".vc_param-animation-style", content).val();
-                    "none" !== animation && animation_style_test(this.parentNode, "vc_param-animation-style-preview " + animation)
-                }), $(".vc_param-animation-style", content).on("change", function() {
-                    var animation = $(this).val();
-                    $field_input.val(animation), "none" !== animation && animation_style_test($(".vc_param-animation-style-preview", content), "vc_param-animation-style-preview " + animation)
-                })
-            }
-        }, vc.atts.gutenberg = {
-            content: null,
-            gutenbergParamObj: null,
-            $frame: null,
-            closeEditor: function(e) {
-                e && e.preventDefault && e.preventDefault();
-                var _this = this;
-                _.delay(function() {
-                    _this.content.find(".vc_gutenberg-modal-wrapper").html(""), _this.$frame = null, _this.gutenbergParamObj = null
-                }, 100)
-            },
-            updateEditor: function(e) {
-                e && e.preventDefault && e.preventDefault(), this.gutenbergParamObj && this.gutenbergParamObj.updateValueFromIframe(), this.closeEditor()
-            },
-            init: function(param, $field) {
-                var _this = vc.atts.gutenberg;
-                _this.content = $field;
-                var $field_input = $(".wpb_vc_param_value[name=" + param.param_name + "]", _this.content);
-                $('[data-vc-action="open"]', _this.content).on("click", function(iframeURL) {
-                    iframeURL.preventDefault();
-                    var value = $field_input.val(),
-                        iframeURL = window.wpbGutenbergEditorUrl || "/wp-admin/post-new.php?post_type=wpb_gutenberg_param";
-                    _this.gutenbergParamObj = new GutenbergParam({
-                        onSetValue: function(value) {
-                            $field_input.val(value)
-                        },
-                        onError: _this.closeEditor,
-                        value: value
-                    }), vc.createOverlaySpinner(), _this.content.find(".vc_gutenberg-modal-wrapper").html('<div class="wpb-gutenberg-modal"><div class="wpb-gutenberg-modal-inner"><iframe style="width: 100%;" data-vc-gutenberg-param-iframe></iframe></div></div>'), _this.$frame = _this.content.find("iframe[data-vc-gutenberg-param-iframe]"), _this.$frame.attr("src", iframeURL), _this.$frame.on("load", function() {
-                        vc.removeOverlaySpinner(), _this.gutenbergParamObj && (_this.gutenbergParamObj.iframe = _this.$frame.get(0), _this.gutenbergParamObj.iframeLoaded())
+            }, vc.atts.sorted_list = {
+                init: function(param, $field) {
+                    $(".vc_sorted-list", $field).VcSortedList()
+                }
+            }, vc.atts.options = {
+                init: function(param, $field) {
+                    $field.data("vc-param-object", new VcOptionsField({
+                        el: $field
+                    }))
+                }
+            }, vc.atts.iconpicker = {
+                change: function(param, $field) {
+                    $field = $field.find(".vc-iconpicker");
+                    $field.val(this.value), $field.data("vc-no-check", !0), $field.find('[value="' + this.value + '"]').attr("selected", "selected"), $field.data("vcFontIconPicker").loadIcons()
+                },
+                parse: function(param) {
+                    return this.content().find(".wpb_vc_param_value[name=" + param.param_name + "]").parent().find(".vc-iconpicker").val()
+                },
+                init: function(param, $field) {
+                    var $el = $field.find(".wpb_vc_param_value"),
+                        settings = $.extend({
+                            iconsPerPage: 100,
+                            iconDownClass: "fip-fa fa fa-arrow-down",
+                            iconUpClass: "fip-fa fa fa-arrow-up",
+                            iconLeftClass: "fip-fa fa fa-arrow-left",
+                            iconRightClass: "fip-fa fa fa-arrow-right",
+                            iconSearchClass: "fip-fa fa fa-search",
+                            iconCancelClass: "fip-fa fa fa-remove",
+                            iconBlockClass: "fip-fa"
+                        }, $el.data("settings"));
+                    $field.find(".vc-iconpicker").vcFontIconPicker(settings).on("change", function(e) {
+                        var $select = $(this);
+                        $select.data("vc-no-check") || $el.data("vc-no-check", !0).val(this.value).trigger("change"), $select.data("vc-no-check", !1)
+                    }), $el.on("change", function(e) {
+                        $el.data("vc-no-check") || vc.atts.iconpicker.change.call(this, param, $field), $el.data("vc-no-check", !1)
                     })
-                })
-            }
-        };
-        var getControlsHTML = function() {
+                }
+            }, vc.atts.animation_style = {
+                init: function(param, $field) {
+                    var content = $field,
+                        $field_input = $(".wpb_vc_param_value[name=" + param.param_name + "]", content);
+
+                    function animation_style_test(el, x) {
+                        $(el).removeClass().addClass(x + " animated").one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function() {
+                            $(this).removeClass().addClass("vc_param-animation-style-preview")
+                        })
+                    }
+                    $('option[value="' + $field_input.val() + '"]', content).attr("selected", !0), $(".vc_param-animation-style-trigger", content).on("click", function(e) {
+                        e.preventDefault();
+                        e = $(".vc_param-animation-style", content).val();
+                        "none" !== e && animation_style_test(this.parentNode, "vc_param-animation-style-preview " + e)
+                    }), $(".vc_param-animation-style", content).on("change", function() {
+                        var animation = $(this).val();
+                        $field_input.val(animation), "none" !== animation && animation_style_test($(".vc_param-animation-style-preview", content), "vc_param-animation-style-preview " + animation)
+                    })
+                }
+            }, vc.atts.gutenberg = {
+                content: null,
+                gutenbergParamObj: null,
+                $frame: null,
+                closeEditor: function(e) {
+                    e && e.preventDefault && e.preventDefault();
+                    var _this = this;
+                    _.delay(function() {
+                        _this.content.find(".vc_gutenberg-modal-wrapper").html(""), _this.$frame = null, _this.gutenbergParamObj = null
+                    }, 100)
+                },
+                updateEditor: function(e) {
+                    e && e.preventDefault && e.preventDefault(), this.gutenbergParamObj && this.gutenbergParamObj.updateValueFromIframe(), this.closeEditor()
+                },
+                init: function(param, $field) {
+                    var _this = vc.atts.gutenberg,
+                        $field_input = (_this.content = $field, $(".wpb_vc_param_value[name=" + param.param_name + "]", _this.content));
+                    $('[data-vc-action="open"]', _this.content).on("click", function(e) {
+                        e.preventDefault();
+                        var e = $field_input.val(),
+                            iframeURL = window.wpbGutenbergEditorUrl || "/wp-admin/post-new.php?post_type=wpb_gutenberg_param";
+                        _this.gutenbergParamObj = new GutenbergParam({
+                            onSetValue: function(value) {
+                                $field_input.val(value)
+                            },
+                            onError: _this.closeEditor,
+                            value: e
+                        }), vc.createOverlaySpinner(), _this.content.find(".vc_gutenberg-modal-wrapper").html('<div class="wpb-gutenberg-modal"><div class="wpb-gutenberg-modal-inner"><iframe style="width: 100%;" data-vc-gutenberg-param-iframe></iframe></div></div>'), _this.$frame = _this.content.find("iframe[data-vc-gutenberg-param-iframe]"), _this.$frame.attr("src", iframeURL), _this.$frame.on("load", function() {
+                            vc.removeOverlaySpinner(), _this.gutenbergParamObj && (_this.gutenbergParamObj.iframe = _this.$frame.get(0), _this.gutenbergParamObj.iframeLoaded())
+                        })
+                    })
+                }
+            }, function() {
                 return '<div class="wpb-gutenberg-controls-container"><style>.wpb-gutenberg-controls-container {display: flex;justify-content: center;align-items: center;}.vc_gutenberg-modal-update-button {padding-top: 8px;padding-bottom: 8px;min-height: 10px;padding: 5px 10px;font-size: 12px;line-height: 1.5;border-radius: 3px;color: #fff;background-color: #00aef0;border-color: transparent;cursor: pointer;display: inline-block;text-decoration: none !important;}.vc_gutenberg-modal-update-button:hover {background-color: #0089bd;}.wpb-gutenberg-modal-close-button {display: inline-flex;justify-content: center;align-items: center;margin: 0 0 0 10px;background: transparent;border: 0;box-shadow: none;padding: 5px;cursor: pointer;outline: none;}.wpb-gutenberg-modal-close-button:hover .vc-c-icon-close {opacity: 1;}.vc-c-icon-close {position: relative;display: inline-flex;width: 13px;height: 13px;justify-content: center;align-items: center;transform: rotate(45deg);opacity: .65;transition: opacity .2s ease-in-out;}.vc-c-icon-close::before,.vc-c-icon-close::after {content: "";position: absolute;background: #353535;}.vc-c-icon-close::before {width: 1px;height: 100%;}.vc-c-icon-close::after {width: 100%;height: 1px;}</style><button class="vc_gutenberg-modal-update-button">' + (window.i18nLocale.gutenbergEditorUpdateButton || "Update") + '</button><button class="wpb-gutenberg-modal-close-button"><i class="vc-composer-icon vc-c-icon-close"></i></button></div>'
-            },
+            }),
             GutenbergParam = function(options) {
                 return this.iframe = null, this.options = options || {}, this.value = this.options && this.options.value ? this.options.value : "", this.iframeLoaded = function() {
-                    var notice = !!this.iframe.contentWindow.wp && this.iframe.contentWindow.wp.data;
-                    notice || (postTitle = (selectEditor = window.i18nLocale || !1) && selectEditor.gutenbergDoesntWorkProperly ? selectEditor.gutenbergDoesntWorkProperly : "Gutenberg plugin doesn't work properly. Please check Gutenberg plugin.", window.alert(postTitle), this.options && this.options.onError && this.options.onError());
-                    var newPost = {
+                    var wpData = !!this.iframe.contentWindow.wp && this.iframe.contentWindow.wp.data,
+                        localizations = (wpData || (localizations = (localizations = window.i18nLocale || !1) && localizations.gutenbergDoesntWorkProperly ? localizations.gutenbergDoesntWorkProperly : "Gutenberg plugin doesn't work properly. Please check Gutenberg plugin.", window.alert(localizations), this.options && this.options.onError && this.options.onError()), {
                             id: parseInt(this.iframe.contentWindow.document.getElementById("post_ID").value),
                             guid: {
                                 raw: "/?",
@@ -1934,25 +1922,17 @@ window.vc || (window.vc = {}),
                             link: "/?",
                             format: "standard",
                             categories: []
-                        },
-                        editor = notice.dispatch("core/editor"),
-                        selectEditor = notice.select("core/edit-post"),
+                        }),
+                        editor = wpData.dispatch("core/editor"),
+                        wpData = wpData.select("core/edit-post"),
                         postTitle = this.iframe.contentWindow.document.querySelector(".editor-post-title"),
                         notice = this.iframe.contentWindow.document.querySelector(".components-notice-list");
-                    postTitle && postTitle.classList.add("hidden"), notice && notice.classList.add("hidden"), selectEditor.isPublishSidebarOpened = function() {
-                            return !0
-                        }, "function" == typeof editor.autosave && (editor.autosave = function() {}), editor.setupEditor(newPost),
-                        function(controlHTML) {
-                            var $iframeDocument = $(controlHTML).contents(),
-                                gutenberg = $iframeDocument.find(".edit-post-header-toolbar"),
-                                controlHTML = getControlsHTML();
-                            $(controlHTML).insertAfter(gutenberg);
-                            gutenberg = vc.atts.gutenberg;
-                            $iframeDocument.find(".wpb-gutenberg-modal-close-button").on("click", gutenberg.closeEditor.bind(gutenberg)), $iframeDocument.find(".vc_gutenberg-modal-update-button").on("click", gutenberg.updateEditor.bind(gutenberg))
-                        }(this.iframe)
+                    postTitle && postTitle.classList.add("hidden"), notice && notice.classList.add("hidden"), wpData.isPublishSidebarOpened = function() {
+                        return !0
+                    }, "function" == typeof editor.autosave && (editor.autosave = function() {}), editor.setupEditor(localizations), postTitle = this.iframe, postTitle = $(postTitle).contents(), notice = postTitle.find(".edit-post-header-toolbar"), wpData = getControlsHTML(), $(wpData).insertAfter(notice), wpData = vc.atts.gutenberg, postTitle.find(".wpb-gutenberg-modal-close-button").on("click", wpData.closeEditor.bind(wpData)), postTitle.find(".vc_gutenberg-modal-update-button").on("click", wpData.updateEditor.bind(wpData))
                 }, this.updateValueFromIframe = function() {
-                    var value;
-                    this.iframe && this.iframe.contentWindow && this.iframe.contentWindow.wp && this.iframe.contentWindow.wp.data && (value = this.iframe.contentWindow.wp.data) && (value = value.select("core/editor").getEditedPostContent(), this.setValue(value))
+                    var wpData;
+                    this.iframe && this.iframe.contentWindow && this.iframe.contentWindow.wp && this.iframe.contentWindow.wp.data && (wpData = this.iframe.contentWindow.wp.data) && (wpData = wpData.select("core/editor").getEditedPostContent(), this.setValue(wpData))
                 }, this.setValue = function(value) {
                     this.value = value, this.options.onSetValue && this.options.onSetValue(value)
                 }, this
@@ -2030,20 +2010,20 @@ window.vc || (window.vc = {}),
                 } catch (err) {
                     window.console && window.console.warn && window.console.warn("BuildFromContent error", err)
                 }
-                _.each(window.vc.post_shortcodes, function(params) {
-                    var model = JSON.parse(decodeURIComponent(params + "")),
-                        $block = window.vc.$page.find("[data-model-id=" + model.id + "]"),
-                        params = ($block.parents("[data-model-id]"), _.isObject(model.attrs) ? model.attrs : {}),
-                        model = window.vc.shortcodes.create({
-                            id: model.id,
-                            shortcode: model.tag,
+                _.each(window.vc.post_shortcodes, function(data) {
+                    var data = JSON.parse(decodeURIComponent(data + "")),
+                        $block = window.vc.$page.find("[data-model-id=" + data.id + "]"),
+                        params = ($block.parents("[data-model-id]"), _.isObject(data.attrs) ? data.attrs : {}),
+                        params = window.vc.shortcodes.create({
+                            id: data.id,
+                            shortcode: data.tag,
                             params: this.unescapeParams(params),
-                            parent_id: model.parent_id,
+                            parent_id: data.parent_id,
                             from_content: !0
                         }, {
                             silent: !0
                         });
-                    $block.attr("data-model-id", model.get("id")), this._renderBlockCallback($block.get(0))
+                    $block.attr("data-model-id", params.get("id")), this._renderBlockCallback($block.get(0))
                 }, this), window.vc.frame.setSortable(), this.checkNoContent(), window.vc.frame.render();
                 try {
                     window.vc.frame_window.vc_iframe.reload()
@@ -2056,29 +2036,29 @@ window.vc || (window.vc = {}),
                 return _.each($(html), function(block) {
                     var $block = $(block);
                     $block.is("[data-type=files]") ? this._renderBlockCallback(block) : window.vc.app.placeElement($block)
-                }, this), _.each(data, function(id_param) {
-                    var model = JSON.parse(decodeURIComponent(id_param + "")),
-                        $block = window.vc.$page.find("[data-model-id=" + model.id + "]"),
-                        params = _.isObject(model.attrs) ? model.attrs : {};
-                    templateShortcodesHasId || (id_param = window.vc.shortcodeHasIdParam(model.tag)) && !_.isUndefined(params) && !_.isUndefined(params[id_param.param_name]) && 0 < params[id_param.param_name].length && (templateShortcodesHasId = !0), model = window.vc.shortcodes.create({
-                        id: model.id,
-                        shortcode: model.tag,
+                }, this), _.each(data, function(encoded_shortcode) {
+                    var id_param, encoded_shortcode = JSON.parse(decodeURIComponent(encoded_shortcode + "")),
+                        $block = window.vc.$page.find("[data-model-id=" + encoded_shortcode.id + "]"),
+                        params = _.isObject(encoded_shortcode.attrs) ? encoded_shortcode.attrs : {};
+                    templateShortcodesHasId || (id_param = window.vc.shortcodeHasIdParam(encoded_shortcode.tag)) && !_.isUndefined(params) && !_.isUndefined(params[id_param.param_name]) && 0 < params[id_param.param_name].length && (templateShortcodesHasId = !0), id_param = window.vc.shortcodes.create({
+                        id: encoded_shortcode.id,
+                        shortcode: encoded_shortcode.tag,
                         params: this.unescapeParams(params),
-                        parent_id: model.parent_id,
+                        parent_id: encoded_shortcode.parent_id,
                         from_template: !0
-                    }), $block.attr("data-model-id", model.get("id")), this._renderBlockCallback($block.get(0))
+                    }), $block.attr("data-model-id", id_param.get("id")), this._renderBlockCallback($block.get(0))
                 }, this), window.vc.frame.setSortable(), window.vc.activity = !1, this.checkNoContent(), window.vc.frame_window.vc_iframe.loadScripts(), this.last() && window.vc.frame.scrollTo(this.first()), this.models = [], this.showResultMessage(), window.vc.frame.render(), this.is_build_complete = !0, templateShortcodesHasId
             },
-            _renderBlockCallback: function(model) {
-                var $html = $(model);
-                "files" === $html.data("type") ? (window.vc.frame_window.vc_iframe.addScripts($html.find("script,link")), window.vc.frame_window.vc_iframe.addStyles($html.find("style"))) : (model = window.vc.shortcodes.get($html.data("modelId")), $html = $html.is("[data-type=element]") ? $($html.html()) : $html, model && model.get("shortcode") && this.renderShortcode($html, model)), window.vc.setFrameSize()
+            _renderBlockCallback: function(block) {
+                var model, block = $(block);
+                "files" === block.data("type") ? (window.vc.frame_window.vc_iframe.addScripts(block.find("script,link")), window.vc.frame_window.vc_iframe.addStyles(block.find("style"))) : (model = window.vc.shortcodes.get(block.data("modelId")), block = block.is("[data-type=element]") ? $(block.html()) : block, model && model.get("shortcode") && this.renderShortcode(block, model)), window.vc.setFrameSize()
             },
             renderShortcode: function($html, model) {
                 var update_inner, view_name = this.getView(model),
                     inner_html = $html;
                 window.vc.last_inner = inner_html.html(), $("script", inner_html).each(function() {
-                    var key_inline;
-                    update_inner = ($(this).attr("src") ? (key_inline = window.vc.frame.addInlineScript($(this)), $('<span class="js_placeholder_' + key_inline + '"></span>').insertAfter($(this))) : (key_inline = window.vc.frame.addInlineScriptBody($(this)), $('<span class="js_placeholder_inline_' + key_inline + '"></span>').insertAfter($(this))), !0), $(this).remove()
+                    var key;
+                    update_inner = ($(this).attr("src") ? (key = window.vc.frame.addInlineScript($(this)), $('<span class="js_placeholder_' + key + '"></span>').insertAfter($(this))) : (key = window.vc.frame.addInlineScriptBody($(this)), $('<span class="js_placeholder_inline_' + key + '"></span>').insertAfter($(this))), !0), $(this).remove()
                 }), update_inner && $html.html(inner_html.html()), model.get("from_content") || model.get("from_template") || this.placeContainer($html, model), model.view = new view_name({
                     model: model,
                     el: $html
@@ -2121,35 +2101,35 @@ window.vc || (window.vc = {}),
                     context: this
                 }), this._ajax
             },
-            notifyParent: function(parent) {
-                parent = window.vc.shortcodes.get(parent);
-                parent && parent.view && parent.view.changed()
+            notifyParent: function(parent_id) {
+                parent_id = window.vc.shortcodes.get(parent_id);
+                parent_id && parent_id.view && parent_id.view.changed()
             },
             remove: function() {},
-            _getContainer: function(parent_id) {
-                var container, parent_id = parent_id.get("parent_id");
-                if (!1 !== parent_id) {
-                    if (container = window.vc.shortcodes.get(parent_id), _.isUndefined(container)) return window.vc.app;
-                    container = container.view
+            _getContainer: function(model) {
+                var container, model = model.get("parent_id");
+                if (!1 !== model) {
+                    if (model = window.vc.shortcodes.get(model), _.isUndefined(model)) return window.vc.app;
+                    container = model.view
                 } else container = window.vc.app;
                 return container
             },
-            placeContainer: function($html, container) {
-                container = this._getContainer(container);
-                return container && container.placeElement($html, window.vc.activity), container
+            placeContainer: function($html, model) {
+                model = this._getContainer(model);
+                return model && model.placeElement($html, window.vc.activity), model
             },
-            toString: function(mergedParams, type) {
+            toString: function(model, type) {
                 var paramsForString = {},
-                    tag = mergedParams.get("shortcode"),
-                    content = _.extend({}, mergedParams.get("params")),
-                    mergedParams = window.vc.getMergedParams(tag, content),
-                    content = _.isString(content.content) ? content.content : "";
+                    tag = model.get("shortcode"),
+                    model = _.extend({}, model.get("params")),
+                    mergedParams = window.vc.getMergedParams(tag, model),
+                    model = _.isString(model.content) ? model.content : "";
                 return _.each(mergedParams, function(value, key) {
                     paramsForString[key] = this.escapeParam(value)
                 }, this), wp.shortcode.string({
                     tag: tag,
                     attrs: paramsForString,
-                    content: content,
+                    content: model,
                     type: _.isString(type) ? type : ""
                 })
             },
@@ -2178,23 +2158,23 @@ window.vc || (window.vc = {}),
             },
             parse: function(data, content, parent) {
                 var tags = _.keys(window.vc.map).join("|"),
-                    matches = window.wp.shortcode.regexp(tags),
-                    matches = content.trim().match(matches);
-                return _.isNull(matches) || _.each(matches, function(raw) {
-                    var shortcode, sub_matches = raw.match(this.regexp(tags)),
+                    reg = window.wp.shortcode.regexp(tags),
+                    content = content.trim().match(reg);
+                return _.isNull(content) || _.each(content, function(raw) {
+                    var map_settings, sub_matches = raw.match(this.regexp(tags)),
                         sub_content = sub_matches[5],
                         sub_regexp = new RegExp("^[\\s]*\\[\\[?(" + _.keys(window.vc.map).join("|") + ")(?![\\w-])"),
-                        map_settings = window.wp.shortcode.attrs(sub_matches[3]),
+                        atts_raw = window.wp.shortcode.attrs(sub_matches[3]),
                         atts = {},
                         id = vc_guid();
-                    _.each(map_settings.named, function(value, key) {
+                    _.each(atts_raw.named, function(value, key) {
                         atts[key] = this.unescapeParam(value)
-                    }, this), shortcode = {
+                    }, this), atts_raw = {
                         id: id,
                         shortcode: sub_matches[2],
                         params: _.extend({}, atts),
                         parent_id: !!_.isObject(parent) && parent.id
-                    }, map_settings = window.vc.getMapped(shortcode.shortcode), _.isArray(data) ? (data.push(shortcode), id = data.length - 1) : data[id] = shortcode, id == shortcode.root_id && (data[id].html = raw), _.isString(sub_content) && sub_content.match(sub_regexp) && (map_settings.is_container && _.isBoolean(map_settings.is_container) && !0 === map_settings.is_container || !_.isEmpty(map_settings.as_parent) && !1 !== map_settings.as_parent) ? data = this.parse(data, sub_content, data[id]) : _.isString(sub_content) && sub_content.length && "vc_row" === sub_matches[2] ? data = this.parse(data, '[vc_column width="1/1"][vc_column_text]' + sub_content + "[/vc_column_text][/vc_column]", data[id]) : _.isString(sub_content) && sub_content.length && "vc_column" === sub_matches[2] ? data = this.parse(data, "[vc_column_text]" + sub_content + "[/vc_column_text]", data[id]) : _.isString(sub_content) && (data[id].params.content = sub_content)
+                    }, map_settings = window.vc.getMapped(atts_raw.shortcode), _.isArray(data) ? (data.push(atts_raw), id = data.length - 1) : data[id] = atts_raw, id == atts_raw.root_id && (data[id].html = raw), _.isString(sub_content) && sub_content.match(sub_regexp) && (map_settings.is_container && _.isBoolean(map_settings.is_container) && !0 === map_settings.is_container || !_.isEmpty(map_settings.as_parent) && !1 !== map_settings.as_parent) ? data = this.parse(data, sub_content, data[id]) : _.isString(sub_content) && sub_content.length && "vc_row" === sub_matches[2] ? data = this.parse(data, '[vc_column width="1/1"][vc_column_text]' + sub_content + "[/vc_column_text][/vc_column]", data[id]) : _.isString(sub_content) && sub_content.length && "vc_column" === sub_matches[2] ? data = this.parse(data, "[vc_column_text]" + sub_content + "[/vc_column_text]", data[id]) : _.isString(sub_content) && (data[id].params.content = sub_content)
                 }, this), data
             },
             regexp: _.memoize(function(tags) {
@@ -2264,11 +2244,11 @@ window.vc || (window.vc = {}),
                 removeEvents: function(model) {
                     window.vc.events.triggerShortcodeEvents("destroy", model)
                 },
-                removeChildren: function(models) {
-                    models = vc.shortcodes.where({
-                        parent_id: models.id
+                removeChildren: function(parent) {
+                    parent = vc.shortcodes.where({
+                        parent_id: parent.id
                     });
-                    _.each(models, function(model) {
+                    _.each(parent, function(model) {
                         model.destroy()
                     }, this)
                 },
@@ -2284,33 +2264,33 @@ window.vc || (window.vc = {}),
                     return this.modelsToString([vc.shortcodes.get(id)], state)
                 },
                 createShortcodeString: function(model, state) {
-                    var tag = model.get("shortcode"),
-                        content = _.extend({}, model.get("params")),
+                    var content, tag = model.get("shortcode"),
+                        params = _.extend({}, model.get("params")),
                         paramsForString = {},
-                        data = vc.getMergedParams(tag, content);
-                    return _.each(data, function(value, key) {
+                        params = vc.getMergedParams(tag, params);
+                    return _.each(params, function(value, key) {
                         paramsForString[key] = vc.builder.escapeParam(value)
-                    }, this), content = vc.getMapped(tag), data = _.isObject(content) && (_.isBoolean(content.is_container) && !0 === content.is_container || !_.isEmpty(content.as_parent)), content = this._getShortcodeContent(model, state), data = {
+                    }, this), params = vc.getMapped(tag), params = _.isObject(params) && (_.isBoolean(params.is_container) && !0 === params.is_container || !_.isEmpty(params.as_parent)), content = this._getShortcodeContent(model, state), content = {
                         tag: tag,
                         attrs: paramsForString,
                         content: content,
-                        type: _.isUndefined(vc.getParamSettings(tag, "content")) && !data ? "single" : ""
-                    }, _.isUndefined(state) ? model.trigger("stringify", model, data) : model.trigger("stringify:" + state, model, data), wp.shortcode.string(data)
+                        type: _.isUndefined(vc.getParamSettings(tag, "content")) && !params ? "single" : ""
+                    }, _.isUndefined(state) ? model.trigger("stringify", model, content) : model.trigger("stringify:" + state, model, content), wp.shortcode.string(content)
                 },
                 modelsToString: function(models, state) {
                     return _.reduce(models, function(memo, model) {
                         return memo + this.createShortcodeString(model, state)
                     }, "", this)
                 },
-                _getShortcodeContent: function(params, state) {
+                _getShortcodeContent: function(parent, state) {
                     var models = _.sortBy(window.vc.shortcodes.where({
-                        parent_id: params.get("id")
+                        parent_id: parent.get("id")
                     }), function(model) {
                         return model.get("order")
                     });
                     return models.length ? _.reduce(models, function(memo, model) {
                         return memo + this.createShortcodeString(model, state)
-                    }, "", this) : (params = _.extend({}, params.get("params")), _.isUndefined(params.content) ? "" : params.content)
+                    }, "", this) : (models = _.extend({}, parent.get("params")), _.isUndefined(models.content) ? "" : models.content)
                 },
                 create: function(model, options) {
                     return (model = Shortcodes.__super__.create.call(this, model, options)).get("cloned") && window.vc.events.triggerShortcodeEvents("clone", model), window.vc.events.triggerShortcodeEvents("add", model), model
@@ -2333,7 +2313,7 @@ window.vc || (window.vc = {}),
             // if (!this.active_panel) return !1;
             if (!this.active_panel || ($('body').hasClass('vc-sidebar-switch') && (vc.active_panel.model === false || (typeof model !== 'undefined' && typeof model.is !== 'undefined' && model.is('#vc_ui-panel-templates') && vc.active_panel.model.get("id") !== 'vc_ui-panel-templates')))) return !1;
             // END UNCODE Edit
-            (model && vc.active_panel.model && vc.active_panel.model.get("id") === model.get("id") || !model) && (vc.active_panel.model = null, this.active_panel.hide())
+                        (model && vc.active_panel.model && vc.active_panel.model.get("id") === model.get("id") || !model) && (vc.active_panel.model = null, this.active_panel.hide())
         }, vc.activePanelName = function() {
             return this.active_panel && this.active_panel.panelName ? this.active_panel.panelName : null
         }, vc.updateSettingsBadge = function() {
@@ -2379,9 +2359,8 @@ window.vc || (window.vc = {}),
                 "shown.bs.modal": "shown"
             },
             buildFiltering: function() {
-                var item_selector, tag, not_in;
                 this.do_render = !1, item_selector = '[data-vc-ui-element="add-element-button"]', tag = this.model ? this.model.get("shortcode") : "vc_column", not_in = this._getNotIn(tag), $("#vc_elements_name_filter").val(""), this.$content.addClass("vc_filter-all"), this.$content.attr("data-vc-ui-filter", "*");
-                var parent_selector, mapped = vc.getMapped(tag),
+                var item_selector, tag, not_in, parent_selector, mapped = vc.getMapped(tag),
                     as_parent = !(!tag || _.isUndefined(mapped.as_parent)) && mapped.as_parent;
                 _.isObject(as_parent) ? (parent_selector = [], _.isString(as_parent.only) && parent_selector.push(_.reduce(as_parent.only.replace(/\s/, "").split(","), function(memo, val) {
                     return memo + (_.isEmpty(memo) ? "" : ",") + '[data-element="' + val.trim() + '"]'
@@ -2408,42 +2387,42 @@ window.vc || (window.vc = {}),
             exit: function() {
                 this.builder.render()
             },
-            createElement: function(params) {
-                var _this, i;
+            createElement: function(e) {
+                var column_params, _this, i;
                 if (!this.preventDoubleExecution) {
-                    this.preventDoubleExecution = !0, this.do_render = !0, params.preventDefault(), newData = $(params.currentTarget).data("tag"), shortcodeFirst = {}, !(mapped = {
+                    this.preventDoubleExecution = !0, this.do_render = !0, e.preventDefault(), e = $(e.currentTarget).data("tag"), row_inner_params = {}, !(column_params = {
                         width: "1/1"
-                    }) === this.model && "vc_row" !== newData ? (this.builder.create({
+                    }) === this.model && "vc_row" !== e ? (this.builder.create({
                         shortcode: "vc_row",
                         params: {}
                     }).create({
                         shortcode: "vc_column",
                         parent_id: this.builder.lastID(),
-                        params: mapped
-                    }), this.model = this.builder.last()) : !1 !== this.model && "vc_row" === newData && (newData += "_inner");
-                    var shortcodeFirst, params = {
-                        shortcode: newData,
+                        params: column_params
+                    }), this.model = this.builder.last()) : !1 !== this.model && "vc_row" === e && (e += "_inner");
+                    var row_inner_params = {
+                        shortcode: e,
                         parent_id: !!this.model && this.model.get("id"),
-                        params: "vc_row_inner" === newData ? shortcodeFirst : {}
+                        params: "vc_row_inner" === e ? row_inner_params : {}
                     };
-                    for (this.prepend ? (params.order = 0, (shortcodeFirst = vc.shortcodes.findWhere({
+                    for (this.prepend ? (row_inner_params.order = 0, (shortcodeFirst = vc.shortcodes.findWhere({
                             parent_id: this.model.get("id")
-                        })) && (params.order = shortcodeFirst.get("order") - 1), vc.activity = "prepend") : this.place_after_id && (params.place_after_id = this.place_after_id), this.builder.create(params), i = this.builder.models.length - 1; 0 <= i; i--) this.builder.models[i].get("shortcode");
-                    "vc_row" === newData ? this.builder.create({
+                        })) && (row_inner_params.order = shortcodeFirst.get("order") - 1), vc.activity = "prepend") : this.place_after_id && (row_inner_params.place_after_id = this.place_after_id), this.builder.create(row_inner_params), i = this.builder.models.length - 1; 0 <= i; i--) this.builder.models[i].get("shortcode");
+                    "vc_row" === e ? this.builder.create({
                         shortcode: "vc_column",
                         parent_id: this.builder.lastID(),
-                        params: mapped
-                    }) : "vc_row_inner" === newData && (mapped = {
+                        params: column_params
+                    }) : "vc_row_inner" === e && (column_params = {
                         width: "1/1"
                     }, this.builder.create({
                         shortcode: "vc_column_inner",
                         parent_id: this.builder.lastID(),
-                        params: mapped
+                        params: column_params
                     }));
-                    var newData, mapped = vc.getMapped(newData);
-                    _.isString(mapped.default_content) && mapped.default_content.length && (newData = this.builder.parse({}, mapped.default_content, this.builder.last().toJSON()), _.each(newData, function(object) {
+                    var shortcodeFirst = vc.getMapped(e);
+                    _.isString(shortcodeFirst.default_content) && shortcodeFirst.default_content.length && (row_inner_params = this.builder.parse({}, shortcodeFirst.default_content, this.builder.last().toJSON()), _.each(row_inner_params, function(object) {
                         object.default_content = !0, this.builder.create(object)
-                    }, this)), this.show_settings = !(_.isBoolean(mapped.show_settings_on_create) && !1 === mapped.show_settings_on_create), (_this = this).$el.one("hidden.bs.modal", function() {
+                    }, this)), this.show_settings = !(_.isBoolean(shortcodeFirst.show_settings_on_create) && !1 === shortcodeFirst.show_settings_on_create), (_this = this).$el.one("hidden.bs.modal", function() {
                         _this.preventDoubleExecution = !1
                     }).modal("hide")
                 }
@@ -2451,15 +2430,15 @@ window.vc || (window.vc = {}),
             _getNotIn: _.memoize(function(tag) {
                 return '[data-vc-ui-element="add-element-button"]:not(' + _.reduce(vc.map, function(memo, shortcode) {
                     var separator = _.isEmpty(memo) ? "" : ",";
-                    return _.isObject(shortcode.as_child) ? (_.isString(shortcode.as_child.only) && (_.contains(shortcode.as_child.only.replace(/\s/, "").split(","), tag) || (memo += separator + "[data-element=" + shortcode.base + "]")), _.isString(shortcode.as_child.except) && _.contains(shortcode.as_child.except.replace(/\s/, "").split(","), tag) && (memo += separator + "[data-element=" + shortcode.base + "]")) : !1 === shortcode.as_child && (memo += separator + "[data-element=" + shortcode.base + "]"), memo
+                    return _.isObject(shortcode.as_child) ? (_.isString(shortcode.as_child.only) && !_.contains(shortcode.as_child.only.replace(/\s/, "").split(","), tag) && (memo += separator + "[data-element=" + shortcode.base + "]"), _.isString(shortcode.as_child.except) && _.contains(shortcode.as_child.except.replace(/\s/, "").split(","), tag) && (memo += separator + "[data-element=" + shortcode.base + "]")) : !1 === shortcode.as_child && (memo += separator + "[data-element=" + shortcode.base + "]"), memo
                 }, "") + ")"
             }),
-            filterElements: function(name_filter) {
-                name_filter.stopPropagation(), name_filter.preventDefault();
-                var filter_value = $(name_filter.currentTarget),
+            filterElements: function(e) {
+                e.stopPropagation(), e.preventDefault();
+                var e = $(e.currentTarget),
                     filter = '[data-vc-ui-element="add-element-button"]',
                     name_filter = $("#vc_elements_name_filter").val();
-                this.$content.removeClass("vc_filter-all"), filter_value.is("[data-filter]") ? ($(".wpb-content-layouts-container .isotope-filter .active", this.$content).removeClass("active"), filter_value.parent().addClass("active"), filter += filter_value = filter_value.data("filter"), "*" === filter_value ? this.$content.addClass("vc_filter-all") : this.$content.removeClass("vc_filter-all"), this.$content.attr("data-vc-ui-filter", filter_value.replace(".js-category-", "")), $("#vc_elements_name_filter").val("")) : 0 < name_filter.length ? (filter += ":containsi('" + name_filter + "'):not('.vc_element-deprecated')", $(".wpb-content-layouts-container .isotope-filter .active", this.$content).removeClass("active"), this.$content.attr("data-vc-ui-filter", "name:" + name_filter)) : name_filter.length || ($('.wpb-content-layouts-container .isotope-filter [data-filter="*"]').parent().addClass("active"), this.$content.attr("data-vc-ui-filter", "*"), this.$content.addClass("vc_filter-all")), $(".vc_visible", this.$content).removeClass("vc_visible"), $(filter, this.$content).addClass("vc_visible")
+                this.$content.removeClass("vc_filter-all"), e.is("[data-filter]") ? ($(".wpb-content-layouts-container .isotope-filter .active", this.$content).removeClass("active"), e.parent().addClass("active"), filter += e = e.data("filter"), "*" === e ? this.$content.addClass("vc_filter-all") : this.$content.removeClass("vc_filter-all"), this.$content.attr("data-vc-ui-filter", e.replace(".js-category-", "")), $("#vc_elements_name_filter").val("")) : 0 < name_filter.length ? (filter += ":containsi('" + name_filter + "'):not('.vc_element-deprecated')", $(".wpb-content-layouts-container .isotope-filter .active", this.$content).removeClass("active"), this.$content.attr("data-vc-ui-filter", "name:" + name_filter)) : name_filter.length || ($('.wpb-content-layouts-container .isotope-filter [data-filter="*"]').parent().addClass("active"), this.$content.attr("data-vc-ui-filter", "*"), this.$content.addClass("vc_filter-all")), $(".vc_visible", this.$content).removeClass("vc_visible"), $(filter, this.$content).addClass("vc_visible")
             },
             shown: function() {
                 vc.is_mobile || $("#vc_elements_name_filter").trigger("focus")
@@ -2468,40 +2447,40 @@ window.vc || (window.vc = {}),
             render: function(model, prepend) {
                 return this.prepend = !!_.isBoolean(prepend) && prepend, this.place_after_id = !!_.isString(prepend) && prepend, this.model = !!_.isObject(model) && model, this.$content = this.$el.find('[data-vc-ui-element="panel-add-element-list"]'), this.$buttons = $('[data-vc-ui-element="add-element-button"]', this.$content), vc.AddElementBlockView.__super__.render.call(this)
             },
-            createElement: function(column_params) {
-                var that, column_inner_params, tag, model;
-                this.preventDoubleExecution || (this.preventDoubleExecution = !0, column_params && column_params.preventDefault && column_params.preventDefault(), this.do_render = !0, tag = $(column_params.currentTarget).data("tag"), model = !(column_params = {
+            createElement: function(e) {
+                var that, row, column_params;
+                this.preventDoubleExecution || (this.preventDoubleExecution = !0, e && e.preventDefault && e.preventDefault(), this.do_render = !0, e = $(e.currentTarget).data("tag"), column_params = !(column_params = {
                     width: "1/1"
-                }) === this.model ? (model = vc.shortcodes.create({
+                }) === this.model ? (row = vc.shortcodes.create({
                     shortcode: "vc_row",
                     params: {}
-                }), column_inner_params = vc.shortcodes.create({
+                }), column_params = vc.shortcodes.create({
                     shortcode: "vc_column",
                     params: column_params,
-                    parent_id: model.id,
-                    root_id: model.id
-                }), "vc_row" !== tag ? vc.shortcodes.create({
-                    shortcode: tag,
-                    parent_id: column_inner_params.id,
-                    root_id: model.id
-                }) : model) : "vc_row" === tag ? (column_inner_params = {
+                    parent_id: row.id,
+                    root_id: row.id
+                }), "vc_row" !== e ? vc.shortcodes.create({
+                    shortcode: e,
+                    parent_id: column_params.id,
+                    root_id: row.id
+                }) : row) : "vc_row" === e ? (column_params = {
                     width: "1/1"
-                }, model = vc.shortcodes.create({
+                }, row = vc.shortcodes.create({
                     shortcode: "vc_row_inner",
                     params: {},
                     parent_id: this.model.id,
                     order: this.prepend ? this.getFirstPositionIndex() : vc.shortcodes.getNextOrder()
                 }), vc.shortcodes.create({
                     shortcode: "vc_column_inner",
-                    params: column_inner_params,
-                    parent_id: model.id,
-                    root_id: model.id
+                    params: column_params,
+                    parent_id: row.id,
+                    root_id: row.id
                 })) : vc.shortcodes.create({
-                    shortcode: tag,
+                    shortcode: e,
                     parent_id: this.model.id,
                     order: this.prepend ? this.getFirstPositionIndex() : vc.shortcodes.getNextOrder(),
                     root_id: this.model.get("root_id")
-                }), this.show_settings = !(_.isBoolean(vc.getMapped(tag).show_settings_on_create) && !1 === vc.getMapped(tag).show_settings_on_create), this.model = model, this.model.get("shortcode"), (that = this).$el.one("hidden.bs.modal", function() {
+                }), this.show_settings = !(_.isBoolean(vc.getMapped(e).show_settings_on_create) && !1 === vc.getMapped(e).show_settings_on_create), this.model = column_params, this.model.get("shortcode"), (that = this).$el.one("hidden.bs.modal", function() {
                     that.preventDoubleExecution = !1
                 }).modal("hide"))
             },
@@ -2607,8 +2586,8 @@ window.vc || (window.vc = {}),
             setTabsSize: function() {
                 this.$tabs && this.$tabs.parents(".vc_with-tabs.vc_panel-body").css("margin-top", this.$tabs.find(".vc_panel-tabs-menu").outerHeight())
             },
-            changeTab: function($tab) {
-                $tab && $tab.preventDefault && $tab.preventDefault(), $tab.target && this.$tabs && ($tab = $($tab.target), this.$tabs.find(".vc_active").removeClass("vc_active"), $tab.parent().addClass("vc_active"), this.$el.find($tab.data("target")).addClass("vc_active"), window.setTimeout(this.setTabsSize, 100))
+            changeTab: function(e) {
+                e && e.preventDefault && e.preventDefault(), e.target && this.$tabs && (e = $(e.target), this.$tabs.find(".vc_active").removeClass("vc_active"), e.parent().addClass("vc_active"), this.$el.find(e.data("target")).addClass("vc_active"), window.setTimeout(this.setTabsSize, 100))
             },
             showMessage: function(text, type) {
                 if (this.showMessageDisabled) return !1;
@@ -2654,7 +2633,7 @@ window.vc || (window.vc = {}),
             },
             save: function() {
                 var title;
-                !this.$title || (title = this.$title.val()) !== vc.title && vc.frame.setTitle(title), this.setAlertOnDataChange(), vc.$custom_css.val(this.editor.getValue()), vc.frame_window && vc.frame_window.vc_iframe.loadCustomCss(vc.$custom_css.val()), vc.updateSettingsBadge(), this.showMessage(window.i18nLocale.css_updated, "success"), this.trigger("save")
+                this.$title && (title = this.$title.val()) !== vc.title && vc.frame.setTitle(title), this.setAlertOnDataChange(), vc.$custom_css.val(this.editor.getValue()), vc.frame_window && vc.frame_window.vc_iframe.loadCustomCss(vc.$custom_css.val()), vc.updateSettingsBadge(), this.showMessage(window.i18nLocale.css_updated, "success"), this.trigger("save")
             },
             setAlertOnDataChange: function() {
                 (this.saved_css_data !== this.editor.getValue() || this.$title && this.saved_title !== this.$title.val()) && vc.setDataChanged()
@@ -2685,22 +2664,22 @@ window.vc || (window.vc = {}),
             render: function() {
                 this.trigger("render"), this.$name = $("#vc_template-name"), this.$list = $("#vc_template-list");
                 var $tabs = $("#vc_tabs-templates");
-                return $tabs.find(".vc_edit-form-tab-control").removeClass("vc_active").eq(0).addClass("vc_active"), $tabs.find('[data-vc-ui-element="panel-edit-element-tab"]').removeClass("vc_active").eq(0).addClass("vc_active"), $tabs.find(".vc_edit-form-link").on("click", function($this) {
-                    $this.preventDefault();
-                    $this = $(this);
-                    $tabs.find(".vc_active").removeClass("vc_active"), $this.parent().addClass("vc_active"), $($this.attr("href")).addClass("vc_active")
+                return $tabs.find(".vc_edit-form-tab-control").removeClass("vc_active").eq(0).addClass("vc_active"), $tabs.find('[data-vc-ui-element="panel-edit-element-tab"]').removeClass("vc_active").eq(0).addClass("vc_active"), $tabs.find(".vc_edit-form-link").on("click", function(e) {
+                    e.preventDefault();
+                    e = $(this);
+                    $tabs.find(".vc_active").removeClass("vc_active"), e.parent().addClass("vc_active"), $(e.attr("href")).addClass("vc_active")
                 }), this.trigger("afterRender"), this
             },
-            removeTemplate: function(template_name) {
-                template_name && template_name.preventDefault && template_name.preventDefault();
-                var $button = $(template_name.currentTarget),
-                    template_name = $button.closest('[data-vc-ui-element="template-title"]').text();
-                confirm(window.i18nLocale.confirm_deleting_template.replace("{template_name}", template_name)) && ($button.closest('[data-vc-ui-element="template"]').remove(), this.$list.html(window.i18nLocale.loading), $.ajax({
+            removeTemplate: function(e) {
+                e && e.preventDefault && e.preventDefault();
+                var e = $(e.currentTarget),
+                    template_name = e.closest('[data-vc-ui-element="template-title"]').text();
+                confirm(window.i18nLocale.confirm_deleting_template.replace("{template_name}", template_name)) && (e.closest('[data-vc-ui-element="template"]').remove(), this.$list.html(window.i18nLocale.loading), $.ajax({
                     type: "POST",
                     url: window.ajaxurl,
                     data: {
                         action: "wpb_delete_template",
-                        template_id: $button.attr("rel"),
+                        template_id: e.attr("rel"),
                         vc_inline: !0,
                         _vcnonce: window.vcAdminNonce
                     },
@@ -2709,15 +2688,15 @@ window.vc || (window.vc = {}),
                     this.$list.html(html)
                 }))
             },
-            loadTemplate: function($button) {
-                $button && $button.preventDefault && $button.preventDefault();
-                $button = $($button.currentTarget);
+            loadTemplate: function(e) {
+                e && e.preventDefault && e.preventDefault();
+                e = $(e.currentTarget);
                 $.ajax({
                     type: "POST",
                     url: vc.frame_window.location.href,
                     data: {
                         action: "vc_frontend_template",
-                        template_id: $button.data("template_id"),
+                        template_id: e.data("template_id"),
                         vc_inline: !0,
                         _vcnonce: window.vcAdminNonce
                     },
@@ -2742,13 +2721,13 @@ window.vc || (window.vc = {}),
                     _vcnonce: window.vcAdminNonce
                 }
             },
-            loadDefaultTemplate: function($button) {
-                $button && $button.preventDefault && $button.preventDefault();
-                $button = $($button.currentTarget);
+            loadDefaultTemplate: function(e) {
+                e && e.preventDefault && e.preventDefault();
+                e = $(e.currentTarget);
                 $.ajax({
                     type: "POST",
                     url: vc.frame_window.location.href,
-                    data: this.ajaxData($button),
+                    data: this.ajaxData(e),
                     context: this
                 }).done(function(html) {
                     var template, data;
@@ -2762,19 +2741,19 @@ window.vc || (window.vc = {}),
                     }), template && data && vc.builder.buildFromTemplate(template, data), this.showMessage(window.i18nLocale.template_added, "success")
                 })
             },
-            saveTemplate: function(shortcodes) {
-                shortcodes && shortcodes.preventDefault && shortcodes.preventDefault();
-                var data = this.$name.val();
-                if (_.isString(data) && data.length) {
+            saveTemplate: function(e) {
+                e && e.preventDefault && e.preventDefault();
+                var shortcodes, e = this.$name.val();
+                if (_.isString(e) && e.length) {
                     if (!(shortcodes = this.getPostContent()).trim().length) return this.showMessage(window.i18nLocale.template_is_empty, "error"), !1;
-                    data = {
+                    shortcodes = {
                         action: "wpb_save_template",
                         template: shortcodes,
-                        template_name: data,
+                        template_name: e,
                         frontend: !0,
                         vc_inline: !0,
                         _vcnonce: window.vcAdminNonce
-                    }, this.$name.val(""), this.showMessage(window.i18nLocale.template_save, "success"), this.reloadTemplateList(data)
+                    }, this.$name.val(""), this.showMessage(window.i18nLocale.template_save, "success"), this.reloadTemplateList(shortcodes)
                 } else this.showMessage(window.i18nLocale.please_enter_templates_name, "error")
             },
             reloadTemplateList: function(data) {
@@ -2792,13 +2771,13 @@ window.vc || (window.vc = {}),
                     _vcnonce: window.vcAdminNonce
                 }
             },
-            loadTemplate: function($button) {
-                $button && $button.preventDefault && $button.preventDefault();
-                $button = $($button.currentTarget);
+            loadTemplate: function(e) {
+                e && e.preventDefault && e.preventDefault();
+                e = $(e.currentTarget);
                 $.ajax({
                     type: "POST",
                     url: window.ajaxurl,
-                    data: this.ajaxData($button),
+                    data: this.ajaxData(e),
                     context: this
                 }).done(function(shortcodes) {
                     _.each(vc.filters.templates, function(callback) {
@@ -2808,15 +2787,15 @@ window.vc || (window.vc = {}),
                     }), vc.closeActivePanel()
                 })
             },
-            loadDefaultTemplate: function($button) {
-                $button && $button.preventDefault && $button.preventDefault();
-                $button = $($button.currentTarget);
+            loadDefaultTemplate: function(e) {
+                e && e.preventDefault && e.preventDefault();
+                e = $(e.currentTarget);
                 $.ajax({
                     type: "POST",
                     url: window.ajaxurl,
                     data: {
                         action: "vc_backend_default_template",
-                        template_name: $button.attr("data-template_name"),
+                        template_name: e.attr("data-template_name"),
                         vc_inline: !0,
                         _vcnonce: window.vcAdminNonce
                     },
@@ -2855,15 +2834,15 @@ window.vc || (window.vc = {}),
             render: function() {
                 return this.$el.css("left", ($(window).width() - this.$el.width()) / 2), this.$name = this.$el.find('[data-js-element="vc-templates-input"]'), this.$name.off("keypress").on("keypress", this.checkInput), this.$list = this.$el.find(".vc_templates-list-my_templates"), vc.TemplatesPanelViewBackend.__super__.render.call(this)
             },
-            saveTemplate: function(shortcodes) {
-                var data, _this;
-                return shortcodes && shortcodes.preventDefault && shortcodes.preventDefault(), data = this.$name.val(), _this = this, _.isString(data) && data.length ? (shortcodes = this.getPostContent()).trim().length ? (data = {
+            saveTemplate: function(e) {
+                var shortcodes, _this;
+                return e && e.preventDefault && e.preventDefault(), e = this.$name.val(), _this = this, _.isString(e) && e.length ? (shortcodes = this.getPostContent()).trim().length ? (shortcodes = {
                     action: this.save_template_action,
                     template: shortcodes,
-                    template_name: data,
+                    template_name: e,
                     vc_inline: !0,
                     _vcnonce: window.vcAdminNonce
-                }, void this.setButtonMessage(void 0, void 0, !0).reloadTemplateList(data, function() {
+                }, void this.setButtonMessage(void 0, void 0, !0).reloadTemplateList(shortcodes, function() {
                     _this.$name.val("").trigger("change")
                 }, function() {
                     _this.showMessage(window.i18nLocale.template_save_error, "error"), _this.clearButtonMessage()
@@ -2872,15 +2851,15 @@ window.vc || (window.vc = {}),
             checkInput: function(e) {
                 if (13 === e.which) return this.saveTemplate(), !1
             },
-            removeTemplate: function(template_action) {
-                template_action && template_action.preventDefault && template_action.preventDefault(), template_action && template_action.stopPropagation && template_action.stopPropagation();
-                var template_id, template_type, $template = $(template_action.target).closest("[data-template_id]"),
-                    template_action = $template.find('[data-vc-ui-element="template-title"]').text();
-                confirm(window.i18nLocale.confirm_deleting_template.replace("{template_name}", template_action)) && (template_id = $template.data("template_id"), template_type = $template.data("template_type"), template_action = $template.data("template_action"), $template.remove(), $.ajax({
+            removeTemplate: function(e) {
+                e && e.preventDefault && e.preventDefault(), e && e.stopPropagation && e.stopPropagation();
+                var template_id, template_type, e = $(e.target).closest("[data-template_id]"),
+                    template_name = e.find('[data-vc-ui-element="template-title"]').text();
+                confirm(window.i18nLocale.confirm_deleting_template.replace("{template_name}", template_name)) && (template_id = e.data("template_id"), template_type = e.data("template_type"), template_name = e.data("template_action"), e.remove(), $.ajax({
                     type: "POST",
                     url: window.ajaxurl,
                     data: {
-                        action: template_action || this.delete_template_action,
+                        action: template_name || this.delete_template_action,
                         template_id: template_id,
                         template_type: template_type,
                         vc_inline: !0,
@@ -2908,16 +2887,16 @@ window.vc || (window.vc = {}),
             getPostContent: function() {
                 return vc.shortcodes.stringify("template")
             },
-            loadTemplate: function($template) {
-                $template && $template.preventDefault && $template.preventDefault(), $template && $template.stopPropagation && $template.stopPropagation();
-                $template = $($template.target).closest("[data-template_id][data-template_type]");
+            loadTemplate: function(e) {
+                e && e.preventDefault && e.preventDefault(), e && e.stopPropagation && e.stopPropagation();
+                e = $(e.target).closest("[data-template_id][data-template_type]");
                 $.ajax({
                     type: "POST",
                     url: this.loadUrl,
                     data: {
                         action: this.template_load_action,
-                        template_unique_id: $template.data("template_id"),
-                        template_type: $template.data("template_type"),
+                        template_unique_id: e.data("template_id"),
+                        template_type: e.data("template_type"),
                         vc_inline: !0,
                         _vcnonce: window.vcAdminNonce
                     },
@@ -2944,16 +2923,16 @@ window.vc || (window.vc = {}),
                         if (this.$content = $localContent, this.$content.find("iframe").length) return $el.vcAccordion("collapseTemplate"), !0;
                         var _this = this;
                         $el.vcAccordion("collapseTemplate", function() {
-                            var question, $frame = $wrapper.data("template_id"),
+                            var question, templateId = $wrapper.data("template_id"),
                                 templateType = $wrapper.data("template_type");
-                            $frame && !localContentChilds && (question = "?", -1 < window.ajaxurl.indexOf("?") && (question = "&"), url = window.ajaxurl + question + $.param({
+                            templateId && !localContentChilds && (question = "?", -1 < window.ajaxurl.indexOf("?") && (question = "&"), url = window.ajaxurl + question + $.param({
                                 action: _this.templateLoadPreviewAction,
-                                template_unique_id: $frame,
+                                template_unique_id: templateId,
                                 template_type: templateType,
                                 vc_inline: !0,
                                 post_id: vc_post_id,
                                 _vcnonce: window.vcAdminNonce
-                            }), $el.find("i").addClass("vc_ui-wp-spinner"), _this.$content.html('<iframe style="width: 100%;" data-vc-template-preview-frame="' + $frame + '"></iframe>'), ($frame = _this.$content.find("[data-vc-template-preview-frame]")).attr("src", url), $wrapper.addClass("vc_loading"), $frame.on("load", function() {
+                            }), $el.find("i").addClass("vc_ui-wp-spinner"), _this.$content.html('<iframe style="width: 100%;" data-vc-template-preview-frame="' + templateId + '"></iframe>'), (question = _this.$content.find("[data-vc-template-preview-frame]")).attr("src", url), $wrapper.addClass("vc_loading"), question.on("load", function() {
                                 $wrapper.removeClass("vc_loading"), $el.find("i").removeClass("vc_ui-wp-spinner")
                             }))
                         })
@@ -3006,34 +2985,31 @@ window.vc || (window.vc = {}),
                 vc.shortcodes.sort();
                 var string = _.map(vc.shortcodes.where({
                     parent_id: this.model.get("id")
-                }), function(width) {
-                    width = width.getParam("width");
-                    return width || "1/1"
+                }), function(model) {
+                    model = model.getParam("width");
+                    return model || "1/1"
                 }, "", this).join(" + ");
                 this.$input.val(string)
             },
             isBuildComplete: function() {
                 return this.builder().isBuildComplete()
             },
-            setLayout: function(columns) {
-                if (columns && columns.preventDefault && columns.preventDefault(), !this.isBuildComplete()) return !1;
-                columns = $(columns.currentTarget).attr("data-cells"), columns = this.model.view.convertRowColumns(columns, this.builder());
-                this.$input.val(columns.join(" + "))
+            setLayout: function(e) {
+                if (e && e.preventDefault && e.preventDefault(), !this.isBuildComplete()) return !1;
+                e = $(e.currentTarget).attr("data-cells"), e = this.model.view.convertRowColumns(e, this.builder());
+                this.$input.val(e.join(" + "))
             },
-            updateFromInput: function(layout) {
-                if (layout && layout.preventDefault && layout.preventDefault(), !this.isBuildComplete()) return !1;
-                var layout = this.$input.val();
-                !1 !== (layout = this.validateCellsList(layout)) ? this.model.view.convertRowColumns(layout, this.builder()) : window.alert(window.i18nLocale.wrong_cells_layout)
+            updateFromInput: function(e) {
+                if (e && e.preventDefault && e.preventDefault(), !this.isBuildComplete()) return !1;
+                var e = this.$input.val();
+                !1 !== (e = this.validateCellsList(e)) ? this.model.view.convertRowColumns(e, this.builder()) : window.alert(window.i18nLocale.wrong_cells_layout)
             },
-            validateCellsList: function(split) {
+            validateCellsList: function(cells) {
                 var b, num, denom, return_cells = [],
-                    split = split.replace(/\s/g, "").split("+");
-                return !(1e3 <= _.reduce(_.map(split, function(c) {
-                    if (c.match(/^[vc\_]{0,1}span\d{1,2}$/)) {
-                        var converted_c = vc_convert_column_span_size(c);
-                        return !1 === converted_c ? 1e3 : (b = converted_c.split(/\//), return_cells.push(b[0] + "" + b[1]), 12 * parseInt(b[0], 10) / parseInt(b[1], 10))
-                    }
-                    return c.match(/^[1-9]|1[0-2]\/[1-9]|1[0-2]$/) ? (b = c.split(/\//), num = parseInt(b[0], 10), 5 !== (denom = parseInt(b[1], 10)) && 0 != 12 % denom || denom < num ? 1e3 : (return_cells.push(num + "" + denom), 5 === denom ? num : 12 * num / denom)) : 1e3
+                    cells = cells.replace(/\s/g, "").split("+");
+                return !(1e3 <= _.reduce(_.map(cells, function(c) {
+                    var converted_c;
+                    return c.match(/^[vc\_]{0,1}span\d{1,2}$/) ? !1 === (converted_c = vc_convert_column_span_size(c)) ? 1e3 : (b = converted_c.split(/\//), return_cells.push(b[0] + "" + b[1]), 12 * parseInt(b[0], 10) / parseInt(b[1], 10)) : c.match(/^[1-9]|1[0-2]\/[1-9]|1[0-2]$/) ? (b = c.split(/\//), num = parseInt(b[0], 10), 5 !== (denom = parseInt(b[1], 10)) && 0 != 12 % denom || denom < num ? 1e3 : (return_cells.push(num + "" + denom), 5 === denom ? num : 12 * num / denom)) : 1e3
                 }), function(num, memo) {
                     return memo += num
                 }, 0)) && return_cells.join("_")
@@ -3045,10 +3021,10 @@ window.vc || (window.vc = {}),
             isBuildComplete: function() {
                 return !0
             },
-            setLayout: function(columns) {
-                columns && columns.preventDefault && columns.preventDefault();
-                columns = $(columns.currentTarget).attr("data-cells"), columns = this.model.view.convertRowColumns(columns);
-                this.$input.val(columns.join(" + "))
+            setLayout: function(e) {
+                e && e.preventDefault && e.preventDefault();
+                e = $(e.currentTarget).attr("data-cells"), e = this.model.view.convertRowColumns(e);
+                this.$input.val(e.join(" + "))
             }
         }), $(window).on("orientationchange", function() {
             vc.active_panel && vc.active_panel.$el.css({
@@ -3104,16 +3080,16 @@ window.vc || (window.vc = {}),
             resetMinimize: function() {
                 this.$el.removeClass("vc_panel-opacity"), this.$el.removeClass("vc_minimized")
             },
-            toggleOpacity: function(styles) {
-                styles.preventDefault();
+            toggleOpacity: function(e) {
+                e.preventDefault();
                 var hasStyle, _this = this,
                     $target = this.$el,
                     $panel = $target.find($target.data("vcPanel")),
                     $panelContainer = $panel.closest($panel.data("vcPanelContainer")),
-                    $trigger = $(styles.currentTarget);
-                void 0 === $target.data("vcHasHeight") && $target.data("vcHasHeight", (styles = $target.attr("style"), hasStyle = !1, styles && styles.split(";").forEach(function(style) {
-                    style = style.split(":");
-                    "height" === $.trim(style[0]) && (hasStyle = !0)
+                    $trigger = $(e.currentTarget);
+                void 0 === $target.data("vcHasHeight") && $target.data("vcHasHeight", (e = $target.attr("style"), hasStyle = !1, e && e.split(";").forEach(function(e) {
+                    e = e.split(":");
+                    "height" === $.trim(e[0]) && (hasStyle = !0)
                 }), hasStyle)), $target.hasClass("vc_minimized") ? (void 0 === $target.data("vcMinimizeHeight") && $target.data("vcMinimizeHeight", $(window).height() - .2 * $(window).height()), $target.animate({
                     height: $target.data("vcMinimizeHeight")
                 }, {
@@ -3140,11 +3116,15 @@ window.vc || (window.vc = {}),
                     }
                 }))
             },
-            setButtonMessage: function(message, type, currentTextHtml) {
-                var $saveBtn;
+            setButtonMessage: function(message, type, showInBackend) {
+                var currentTextHtml;
+                return void 0 === showInBackend && (showInBackend = !1), this.clearButtonMessage = _.bind(this.clearButtonMessage, this), !showInBackend && !vc.frame_window || this.buttonMessageTimeout || (void 0 === message && (message = window.i18nLocale.ui_saved), void 0 === type && (type = "success"), currentTextHtml = (showInBackend = this.$el.find('[data-vc-ui-element="button-save"]')).html(), showInBackend.addClass("vc_ui-button-" + type + " vc_ui-button-undisabled").removeClass("vc_ui-button-action").data("vcCurrentTextHtml", currentTextHtml).data("vcCurrentTextType", type).html(message), _.delay(this.clearButtonMessage, 5e3), this.buttonMessageTimeout = !0), this
+            },
+            setButtonMessage: function(message, type, showInBackend) {
+                var currentTextHtml;
                 // START UNCODE EDIT
-                // return void 0 === showInBackend && (showInBackend = !1), this.clearButtonMessage = _.bind(this.clearButtonMessage, this), !showInBackend && !vc.frame_window || this.buttonMessageTimeout || (void 0 === message && (message = window.i18nLocale.ui_saved), void 0 === type && (type = "success"), currentTextHtml = ($saveBtn = this.$el.find('[data-vc-ui-element="button-save"]')).html(), $saveBtn.addClass("vc_ui-button-" + type + " vc_ui-button-undisabled").removeClass("vc_ui-button-action").data("vcCurrentTextHtml", currentTextHtml).data("vcCurrentTextType", type).html(message),  _.delay(this.clearButtonMessage, 5e3), this.buttonMessageTimeout = !0), this
-                return void 0 === currentTextHtml && (currentTextHtml = !1), this.clearButtonMessage = _.bind(this.clearButtonMessage, this), !currentTextHtml && !vc.frame_window || this.buttonMessageTimeout || (void 0 === message && (message = window.i18nLocale.ui_saved), void 0 === type && (type = "success"), currentTextHtml = ($saveBtn = this.$el.find('[data-vc-ui-element="button-save"]')).html(), $saveBtn.addClass("vc_ui-button-" + type + " vc_ui-button-undisabled").removeClass("vc_ui-button-action").data("vcCurrentTextHtml", currentTextHtml).data("vcCurrentTextType", type).html(message), _.delay(this.clearButtonMessage, 1e3), this.buttonMessageTimeout = !0), this
+                // return void 0 === showInBackend && (showInBackend = !1), this.clearButtonMessage = _.bind(this.clearButtonMessage, this), !showInBackend && !vc.frame_window || this.buttonMessageTimeout || (void 0 === message && (message = window.i18nLocale.ui_saved), void 0 === type && (type = "success"), currentTextHtml = (showInBackend = this.$el.find('[data-vc-ui-element="button-save"]')).html(), showInBackend.addClass("vc_ui-button-" + type + " vc_ui-button-undisabled").removeClass("vc_ui-button-action").data("vcCurrentTextHtml", currentTextHtml).data("vcCurrentTextType", type).html(message), _.delay(this.clearButtonMessage, 5e3), this.buttonMessageTimeout = !0), this
+                return void 0 === showInBackend && (showInBackend = !1), this.clearButtonMessage = _.bind(this.clearButtonMessage, this), !showInBackend && !vc.frame_window || this.buttonMessageTimeout || (void 0 === message && (message = window.i18nLocale.ui_saved), void 0 === type && (type = "success"), currentTextHtml = (showInBackend = this.$el.find('[data-vc-ui-element="button-save"]')).html(), showInBackend.addClass("vc_ui-button-" + type + " vc_ui-button-undisabled").removeClass("vc_ui-button-action").data("vcCurrentTextHtml", currentTextHtml).data("vcCurrentTextType", type).html(message), _.delay(this.clearButtonMessage, 1e3), this.buttonMessageTimeout = !0), this
                 // END UNCODE EDIT
             },
             clearButtonMessage: function() {
@@ -3167,9 +3147,9 @@ window.vc || (window.vc = {}),
             focusToSearch: function() {
                 vc.is_mobile || $(this.searchSelector, this.$el).trigger("focus")
             },
-            searchTemplate: function($el) {
-                $el = $($el.currentTarget);
-                $el.val().length ? this.searchByName($el.val()) : this.clearSearch()
+            searchTemplate: function(e) {
+                e = $(e.currentTarget);
+                e.val().length ? this.searchByName(e.val()) : this.clearSearch()
             },
             clearSearch: function() {
                 this.$el.find("[data-vc-templates-name-filter]").val(""), this.$el.find("[data-template_name]").css("display", "block"), this.$el.removeAttr("data-vc-template-search"), this.$el.find(".vc-search-result-empty").removeClass("vc-search-result-empty");
@@ -3316,10 +3296,10 @@ window.vc || (window.vc = {}),
                     $messageBox.remove()
                 }, 6e3)
             },
-            changeTab: function($tab) {
-                $tab && $tab.preventDefault && $tab.preventDefault(), $tab && !$tab.isClearSearch && this.clearSearch();
-                $tab = $($tab.currentTarget);
-                $tab.parent().hasClass("vc_active") || (this.$el.find('[data-vc-ui-element="panel-tabs-controls"] .vc_active:not([data-vc-ui-element="panel-tabs-line-dropdown"])').removeClass("vc_active"), $tab.parent().addClass("vc_active"), this.$el.find('[data-vc-ui-element="panel-edit-element-tab"].vc_active').removeClass("vc_active"), this.$el.find($tab.data("vcUiElementTarget")).addClass("vc_active"), this.$tabsMenu && this.$tabsMenu.vcTabsLine("checkDropdownContainerActive"))
+            changeTab: function(e) {
+                e && e.preventDefault && e.preventDefault(), e && !e.isClearSearch && this.clearSearch();
+                e = $(e.currentTarget);
+                e.parent().hasClass("vc_active") || (this.$el.find('[data-vc-ui-element="panel-tabs-controls"] .vc_active:not([data-vc-ui-element="panel-tabs-line-dropdown"])').removeClass("vc_active"), e.parent().addClass("vc_active"), this.$el.find('[data-vc-ui-element="panel-edit-element-tab"].vc_active').removeClass("vc_active"), this.$el.find(e.data("vcUiElementTarget")).addClass("vc_active"), this.$tabsMenu && this.$tabsMenu.vcTabsLine("checkDropdownContainerActive"))
             },
             setPreviewFrameHeight: function(templateID, height) {
                 parseInt(height, 10) < 100 && (height = 100), $('data-vc-template-preview-frame="' + templateID + '"').height(height)
@@ -3371,10 +3351,10 @@ window.vc || (window.vc = {}),
                     $messageBox.remove()
                 }, 6e3)
             },
-            changeTab: function($tab) {
-                $tab && $tab.preventDefault && $tab.preventDefault(), $tab && !$tab.isClearSearch && this.clearSearch();
-                $tab = $($tab.currentTarget);
-                $tab.parent().hasClass("vc_active") || (this.$el.find('[data-vc-ui-element="panel-tabs-controls"] .vc_active:not([data-vc-ui-element="panel-tabs-line-dropdown"])').removeClass("vc_active"), $tab.parent().addClass("vc_active"), this.$el.find('[data-vc-ui-element="panel-edit-element-tab"].vc_active').removeClass("vc_active"), this.$el.find($tab.data("vcUiElementTarget")).addClass("vc_active"), this.$tabsMenu && this.$tabsMenu.vcTabsLine("checkDropdownContainerActive"))
+            changeTab: function(e) {
+                e && e.preventDefault && e.preventDefault(), e && !e.isClearSearch && this.clearSearch();
+                e = $(e.currentTarget);
+                e.parent().hasClass("vc_active") || (this.$el.find('[data-vc-ui-element="panel-tabs-controls"] .vc_active:not([data-vc-ui-element="panel-tabs-line-dropdown"])').removeClass("vc_active"), e.parent().addClass("vc_active"), this.$el.find('[data-vc-ui-element="panel-edit-element-tab"].vc_active').removeClass("vc_active"), this.$el.find(e.data("vcUiElementTarget")).addClass("vc_active"), this.$tabsMenu && this.$tabsMenu.vcTabsLine("checkDropdownContainerActive"))
             }
         }), $.fn.vcAccordion.Constructor.prototype.collapseTemplate = function(showCallback) {
             var $triggerPanel, $wrapper, $panel, $this = this.$element,
@@ -3436,59 +3416,59 @@ window.vc || (window.vc = {}),
             _getNotIn: _.memoize(function(tag) {
                 return '[data-vc-ui-element="add-element-button"]:not(' + _.reduce(vc.map, function(memo, shortcode) {
                     var separator = _.isEmpty(memo) ? "" : ",";
-                    return _.isObject(shortcode.as_child) ? (_.isString(shortcode.as_child.only) && (_.contains(shortcode.as_child.only.replace(/\s/, "").split(","), tag) || (memo += separator + "[data-element=" + shortcode.base + "]")), _.isString(shortcode.as_child.except) && _.contains(shortcode.as_child.except.replace(/\s/, "").split(","), tag) && (memo += separator + "[data-element=" + shortcode.base + "]")) : !1 === shortcode.as_child && (memo += separator + "[data-element=" + shortcode.base + "]"), memo
+                    return _.isObject(shortcode.as_child) ? (_.isString(shortcode.as_child.only) && !_.contains(shortcode.as_child.only.replace(/\s/, "").split(","), tag) && (memo += separator + "[data-element=" + shortcode.base + "]"), _.isString(shortcode.as_child.except) && _.contains(shortcode.as_child.except.replace(/\s/, "").split(","), tag) && (memo += separator + "[data-element=" + shortcode.base + "]")) : !1 === shortcode.as_child && (memo += separator + "[data-element=" + shortcode.base + "]"), memo
                 }, "") + ")"
             }),
             filterElements: function(e) {
-                var $visibleElements, filterValue, filter, nameFilter;
-                e ? (e.preventDefault && e.preventDefault(), e.stopPropagation && e.stopPropagation()) : e = window.event, filterValue = $(e.currentTarget), filter = '[data-vc-ui-element="add-element-button"]', nameFilter = $(this.searchSelector).val(), this.$content.removeClass("vc_filter-all"), $('[data-vc-ui-element="panel-add-element-tab"].vc_active').removeClass("vc_active"), filterValue.is("[data-filter]") ? (filterValue.parent().addClass("vc_active"), filter += filterValue = filterValue.data("filter"), "*" === filterValue ? this.$content.addClass("vc_filter-all") : this.$content.removeClass("vc_filter-all"), this.$content.attr("data-vc-ui-filter", filterValue.replace(".js-category-", "")), $(this.searchSelector).val("")) : nameFilter.length ? (filter += ":containsi('" + nameFilter + "'):not('.vc_element-deprecated')", this.$content.attr("data-vc-ui-filter", "name:" + nameFilter)) : nameFilter.length || ($('[data-vc-ui-element="panel-tab-control"][data-filter="*"]').parent().addClass("vc_active"), this.$content.attr("data-vc-ui-filter", "*").addClass("vc_filter-all")), $(".vc_visible", this.$content).removeClass("vc_visible"), $(filter, this.$content).addClass("vc_visible"), nameFilter.length && 13 === (e.keyCode || e.which) && 1 === ($visibleElements = $(".vc_visible:not(.vc_inappropriate)", this.$content)).length && $visibleElements.find("[data-vc-clickable]").click()
+                var $control, filter, nameFilter;
+                e ? (e.preventDefault && e.preventDefault(), e.stopPropagation && e.stopPropagation()) : e = window.event, $control = $(e.currentTarget), filter = '[data-vc-ui-element="add-element-button"]', nameFilter = $(this.searchSelector).val(), this.$content.removeClass("vc_filter-all"), $('[data-vc-ui-element="panel-add-element-tab"].vc_active').removeClass("vc_active"), $control.is("[data-filter]") ? ($control.parent().addClass("vc_active"), filter += $control = $control.data("filter"), "*" === $control ? this.$content.addClass("vc_filter-all") : this.$content.removeClass("vc_filter-all"), this.$content.attr("data-vc-ui-filter", $control.replace(".js-category-", "")), $(this.searchSelector).val("")) : nameFilter.length ? (filter += ":containsi('" + nameFilter + "'):not('.vc_element-deprecated')", this.$content.attr("data-vc-ui-filter", "name:" + nameFilter)) : nameFilter.length || ($('[data-vc-ui-element="panel-tab-control"][data-filter="*"]').parent().addClass("vc_active"), this.$content.attr("data-vc-ui-filter", "*").addClass("vc_filter-all")), $(".vc_visible", this.$content).removeClass("vc_visible"), $(filter, this.$content).addClass("vc_visible"), nameFilter.length && 13 === (e.keyCode || e.which) && 1 === ($control = $(".vc_visible:not(.vc_inappropriate)", this.$content)).length && $control.find("[data-vc-clickable]").click()
             },
-            createElement: function(inner_column_params) {
-                var options, inner_row_params, showSettings, preset, presetType, closestPreset, model, row, column;
-                inner_column_params && inner_column_params.preventDefault && inner_column_params.preventDefault(), showSettings = (closestPreset = $(inner_column_params.currentTarget)).data("tag"), inner_row_params = {}, inner_column_params = {
+            createElement: function(e) {
+                var options, model, column, row, column_params, row_params, tag, preset, presetType;
+                e && e.preventDefault && e.preventDefault(), tag = (e = $(e.currentTarget)).data("tag"), row_params = {}, column_params = {
                     width: "1/1"
-                }, (closestPreset = closestPreset.closest("[data-preset]")) && (preset = closestPreset.data("preset"), presetType = closestPreset.data("element")), !1 === this.model ? (window.vc.storage.lock(), "vc_section" === showSettings ? (model = {
-                    shortcode: showSettings
-                }, preset && "vc_section" === presetType && (model.preset = preset), model = vc.shortcodes.create(model)) : (column = {
+                }, (e = e.closest("[data-preset]")) && (preset = e.data("preset"), presetType = e.data("element")), !1 === this.model ? (window.vc.storage.lock(), "vc_section" === tag ? (e = {
+                    shortcode: tag
+                }, preset && "vc_section" === presetType && (e.preset = preset), model = vc.shortcodes.create(e)) : (e = {
                     shortcode: "vc_row",
-                    params: inner_row_params
-                }, preset && presetType === showSettings && (column.preset = preset), column = {
+                    params: row_params
+                }, preset && presetType === tag && (e.preset = preset), e = {
                     shortcode: "vc_column",
-                    params: inner_column_params,
-                    parent_id: (row = vc.shortcodes.create(column)).id,
+                    params: column_params,
+                    parent_id: (row = vc.shortcodes.create(e)).id,
                     root_id: row.id
-                }, preset && "vc_column" === presetType && (column.preset = preset), column = vc.shortcodes.create(column), model = row, "vc_row" !== showSettings && (options = {
-                    shortcode: showSettings,
+                }, preset && "vc_column" === presetType && (e.preset = preset), column = vc.shortcodes.create(e), model = row, "vc_row" !== tag && (options = {
+                    shortcode: tag,
                     parent_id: column.id,
                     root_id: row.id
-                }, preset && presetType === showSettings && (options.preset = preset), model = vc.shortcodes.create(options)))) : model = "vc_row" === showSettings ? (column = "vc_section" === this.model.get("shortcode") ? (window.vc.storage.lock(), row = vc.shortcodes.create({
+                }, preset && presetType === tag && (options.preset = preset), model = vc.shortcodes.create(options)))) : model = "vc_row" === tag ? (column = "vc_section" === this.model.get("shortcode") ? (window.vc.storage.lock(), row = vc.shortcodes.create({
                     shortcode: "vc_row",
-                    params: inner_row_params,
+                    params: row_params,
                     parent_id: this.model.id,
                     order: this.prepend ? this.getFirstPositionIndex() : vc.shortcodes.getNextOrder()
                 }), vc.shortcodes.create({
                     shortcode: "vc_column",
-                    params: inner_column_params,
+                    params: column_params,
                     parent_id: row.id,
                     root_id: row.id
-                })) : (inner_row_params = {}, inner_column_params = {
+                })) : (e = {}, row_params = {
                     width: "1/1"
                 }, window.vc.storage.lock(), row = vc.shortcodes.create({
                     shortcode: "vc_row_inner",
-                    params: inner_row_params,
+                    params: e,
                     parent_id: this.model.id,
                     order: this.prepend ? this.getFirstPositionIndex() : vc.shortcodes.getNextOrder()
                 }), vc.shortcodes.create({
                     shortcode: "vc_column_inner",
-                    params: inner_column_params,
+                    params: row_params,
                     parent_id: row.id,
                     root_id: row.id
                 })), row) : (options = {
-                    shortcode: showSettings,
+                    shortcode: tag,
                     parent_id: this.model.id,
                     order: this.prepend ? this.getFirstPositionIndex() : vc.shortcodes.getNextOrder(),
                     root_id: this.model.get("root_id")
-                }, preset && presetType === showSettings && (options.preset = preset), vc.shortcodes.create(options)), this.model = model, showSettings = !(_.isBoolean(vc.getMapped(showSettings).show_settings_on_create) && !1 === vc.getMapped(showSettings).show_settings_on_create), this.model.get("shortcode"), this.hide(), showSettings && this.showEditForm()
+                }, preset && presetType === tag && (options.preset = preset), vc.shortcodes.create(options)), this.model = model, column_params = !(_.isBoolean(vc.getMapped(tag).show_settings_on_create) && !1 === vc.getMapped(tag).show_settings_on_create), this.model.get("shortcode"), this.hide(), column_params && this.showEditForm()
             },
             getFirstPositionIndex: function() {
                 return --window.vc.element_start_index, vc.element_start_index
@@ -3502,14 +3482,14 @@ window.vc || (window.vc = {}),
             showEditForm: function() {
                 window.vc.edit_element_block_view.render(this.model)
             },
-            addCustomCssStyleTag: function(customCss) {
-                customCss && customCss.getParam && ((customCss = customCss.getParam("css")) && vc.frame_window && window.vc.frame_window.vc_iframe.setCustomShortcodeCss(customCss))
+            addCustomCssStyleTag: function(model) {
+                model && model.getParam && ((model = model.getParam("css")) && vc.frame_window && window.vc.frame_window.vc_iframe.setCustomShortcodeCss(model))
             },
             updateAddElementPopUp: function(id, shortcode, title, data) {
-                var $anotherNewPreset = this.$el.find('[data-element="' + shortcode + '"]:first').clone(!0);
-                vc_all_presets[id] = data, $anotherNewPreset.find("[data-vc-shortcode-name]").text(title), $anotherNewPreset.find(".vc_element-description").text(""), $anotherNewPreset.attr("data-preset", id), $anotherNewPreset.addClass("js-category-_my_elements_"), $anotherNewPreset.insertAfter(this.$el.find('[data-element="' + shortcode + '"]:last')), this.$el.find('[data-filter="js-category-_my_elements_"]').show();
-                $anotherNewPreset = this.$body.find('[data-vc-ui-element="panel-preset"] [data-vc-presets-list-content] .vc_ui-template:first').clone(!0);
-                $anotherNewPreset.find('[data-vc-ui-element="template-title"]').attr("title", title).text(title), $anotherNewPreset.find('[data-vc-ui-delete="preset-title"]').attr("data-preset", id).attr("data-preset-parent", shortcode), $anotherNewPreset.find("[data-vc-ui-add-preset]").attr("data-preset", id).attr("id", shortcode).attr("data-tag", shortcode), $anotherNewPreset.show(), $anotherNewPreset.insertAfter(this.$body.find('[data-vc-ui-element="panel-preset"] [data-vc-presets-list-content] .vc_ui-template:last'))
+                var $newPreset = this.$el.find('[data-element="' + shortcode + '"]:first').clone(!0);
+                vc_all_presets[id] = data, $newPreset.find("[data-vc-shortcode-name]").text(title), $newPreset.find(".vc_element-description").text(""), $newPreset.attr("data-preset", id), $newPreset.addClass("js-category-_my_elements_"), $newPreset.insertAfter(this.$el.find('[data-element="' + shortcode + '"]:last')), this.$el.find('[data-filter="js-category-_my_elements_"]').show();
+                data = this.$body.find('[data-vc-ui-element="panel-preset"] [data-vc-presets-list-content] .vc_ui-template:first').clone(!0);
+                data.find('[data-vc-ui-element="template-title"]').attr("title", title).text(title), data.find('[data-vc-ui-delete="preset-title"]').attr("data-preset", id).attr("data-preset-parent", shortcode), data.find("[data-vc-ui-add-preset]").attr("data-preset", id).attr("id", shortcode).attr("data-tag", shortcode), data.show(), data.insertAfter(this.$body.find('[data-vc-ui-element="panel-preset"] [data-vc-presets-list-content] .vc_ui-template:last'))
             },
             removePresetFromAddElementPopUp: function(id) {
                 this.$el.find('[data-preset="' + id + '"]').remove()
@@ -3524,32 +3504,32 @@ window.vc || (window.vc = {}),
                 "click .vc_shortcode-link": "createElement",
                 "keyup #vc_elements_name_filter": "filterElements"
             },
-            createElement: function(inner_column_params) {
-                var newData, i, row_params, showSettings, preset, presetType, closestPreset, columnOptions;
-                for (inner_column_params && inner_column_params.preventDefault && inner_column_params.preventDefault(), showSettings = (closestPreset = $(inner_column_params.currentTarget)).data("tag"), row_params = {}, inner_column_params = {
+            createElement: function(e) {
+                var options, i, column_params, row_params, tag, preset, presetType;
+                for (e && e.preventDefault && e.preventDefault(), tag = (e = $(e.currentTarget)).data("tag"), row_params = {}, column_params = {
                         width: "1/1"
-                    }, (closestPreset = closestPreset.closest("[data-preset]")) && (preset = closestPreset.data("preset"), presetType = closestPreset.data("element")), this.prepend && (window.vc.activity = "prepend"), 0 == this.model ? "vc_section" === showSettings ? (columnOptions = {
-                        shortcode: showSettings
-                    }, preset && "vc_section" === presetType && (columnOptions.preset = preset), this.builder.create(columnOptions)) : (columnOptions = {
+                    }, (e = e.closest("[data-preset]")) && (preset = e.data("preset"), presetType = e.data("element")), this.prepend && (window.vc.activity = "prepend"), 0 == this.model ? "vc_section" === tag ? (e = {
+                        shortcode: tag
+                    }, preset && "vc_section" === presetType && (e.preset = preset), this.builder.create(e)) : (e = {
                         shortcode: "vc_row",
                         params: row_params
-                    }, preset && "vc_row" === presetType && (columnOptions.preset = preset), this.builder.create(columnOptions), columnOptions = {
+                    }, preset && "vc_row" === presetType && (e.preset = preset), this.builder.create(e), e = {
                         shortcode: "vc_column",
                         parent_id: this.builder.lastID(),
-                        params: inner_column_params
-                    }, preset && "vc_column" === presetType && (columnOptions.preset = preset), this.builder.create(columnOptions), "vc_row" !== showSettings && (newData = {
-                        shortcode: showSettings,
+                        params: column_params
+                    }, preset && "vc_column" === presetType && (e.preset = preset), this.builder.create(e), "vc_row" !== tag && (options = {
+                        shortcode: tag,
                         parent_id: this.builder.lastID()
-                    }, preset && presetType === showSettings && (newData.preset = preset), this.builder.create(newData))) : "vc_row" === showSettings ? "vc_section" === this.model.get("shortcode") ? this.builder.create({
+                    }, preset && presetType === tag && (options.preset = preset), this.builder.create(options))) : "vc_row" === tag ? "vc_section" === this.model.get("shortcode") ? this.builder.create({
                         shortcode: "vc_row",
                         params: row_params,
                         parent_id: this.model.id,
                         order: this.prepend ? this.getFirstPositionIndex() : vc.shortcodes.nextOrder()
                     }).create({
                         shortcode: "vc_column",
-                        params: inner_column_params,
+                        params: column_params,
                         parent_id: this.builder.lastID()
-                    }) : (inner_column_params = {
+                    }) : (e = {
                         width: "1/1"
                     }, this.builder.create({
                         shortcode: "vc_row_inner",
@@ -3558,20 +3538,19 @@ window.vc || (window.vc = {}),
                         order: this.prepend ? this.getFirstPositionIndex() : vc.shortcodes.nextOrder()
                     }).create({
                         shortcode: "vc_column_inner",
-                        params: inner_column_params,
+                        params: e,
                         parent_id: this.builder.lastID()
-                    })) : (newData = {
-                        shortcode: showSettings,
+                    })) : (options = {
+                        shortcode: tag,
                         parent_id: this.model.id,
                         order: this.prepend ? this.getFirstPositionIndex() : vc.shortcodes.nextOrder()
-                    }, preset && presetType === showSettings && (newData.preset = preset), this.builder.create(newData)), this.model = this.builder.last(), i = this.builder.models.length - 1; 0 <= i; i--) this.builder.models[i].get("shortcode");
-                _.isString(vc.getMapped(showSettings).default_content) && vc.getMapped(showSettings).default_content.length && (newData = this.builder.parse({}, window.vc.getMapped(showSettings).default_content, this.builder.last().toJSON()), _.each(newData, function(object) {
+                    }, preset && presetType === tag && (options.preset = preset), this.builder.create(options)), this.model = this.builder.last(), i = this.builder.models.length - 1; 0 <= i; i--) this.builder.models[i].get("shortcode");
+                _.isString(vc.getMapped(tag).default_content) && vc.getMapped(tag).default_content.length && (row_params = this.builder.parse({}, window.vc.getMapped(tag).default_content, this.builder.last().toJSON()), _.each(row_params, function(object) {
                     object.default_content = !0, this.builder.create(object)
                     // START UNCODE EDIT
-                    // }, this)), this.model = this.builder.last(), showSettings = !(_.isBoolean(vc.getMapped(showSettings).show_settings_on_create) && !1 === vc.getMapped(showSettings).show_settings_on_create), this.hide(), showSettings && this.showEditForm(), this.builder.render()
+                    // }, this)), this.model = this.builder.last(), column_params = !(_.isBoolean(vc.getMapped(tag).show_settings_on_create) && !1 === vc.getMapped(tag).show_settings_on_create), this.hide(), column_params && this.showEditForm(), this.builder.render()
                 }, this)), this.model = this.builder.last();
-                var tag = showSettings;
-                showSettings = !(_.isBoolean(vc.getMapped(showSettings).show_settings_on_create) && !1 === vc.getMapped(showSettings).show_settings_on_create), this.hide(), showSettings && this.showEditForm(), this.builder.render()
+                column_params = !(_.isBoolean(vc.getMapped(tag).show_settings_on_create) && !1 === vc.getMapped(tag).show_settings_on_create), this.hide(), column_params && this.showEditForm(), this.builder.render()
                 if (("vc_row" === tag || "uncode_slider" === tag || "vc_tabs" === tag ||
                         "vc_accordion" === tag || "vc_section" === tag || "rev_slider" === tag ||
                         "woocommerce_cart" === tag || "woocommerce_checkout" === tag || "woocommerce_order_tracking" === tag) &&
@@ -3669,11 +3648,10 @@ window.vc || (window.vc = {}),
             showSaveSettingsDialog: function(is_default) {
                 var _this = this;
                 this.isSettingsPresetDefault = !!is_default, this.fetchSaveSettingsDialog(function(created) {
-                    var $contentContainer = _this.$el.find(".vc_ui-panel-content-container"),
+                    var $btn, delay, $contentContainer = _this.$el.find(".vc_ui-panel-content-container"),
                         $prompt = $contentContainer.find(".vc_ui-prompt-presets"),
-                        $title = $prompt.find(".textfield");
-                    $contentContainer.find(".vc_ui-prompt.vc_visible").removeClass("vc_visible");
-                    var $btn, delay, $viewPresetsButton = $prompt.find("[data-vc-view-settings-preset]");
+                        $title = $prompt.find(".textfield"),
+                        $viewPresetsButton = ($contentContainer.find(".vc_ui-prompt.vc_visible").removeClass("vc_visible"), $prompt.find("[data-vc-view-settings-preset]"));
                     "undefined" !== window.vc_vendor_settings_presets[_this.model.get("shortcode")] ? $viewPresetsButton.removeAttr("disabled") : $viewPresetsButton.attr("disabled", "disabled"), $prompt.addClass("vc_visible"), $title.trigger("focus"), $contentContainer.addClass("vc_ui-content-hidden"), created && ($btn = $prompt.find("#vc_ui-save-preset-btn"), delay = 0, $prompt.on("submit", function() {
                         var title = $title.val();
                         return title.length && _this.saveSettings(title, _this.isSettingsPresetDefault).done(function(e) {
@@ -3717,14 +3695,14 @@ window.vc || (window.vc = {}),
                     _vcnonce: window.vcAdminNonce
                 }
             },
-            saveAsDefaultSettings: function(presetId, doneCallback) {
+            saveAsDefaultSettings: function(id, doneCallback) {
                 var shortcode_name = this.model.get("shortcode"),
-                    presetId = presetId || this.settingsPresetId;
-                presetId ? (this.checkAjax(), this.ajax = $.ajax({
+                    id = id || this.settingsPresetId;
+                id ? (this.checkAjax(), this.ajax = $.ajax({
                     type: "POST",
                     dataType: "json",
                     url: window.ajaxurl,
-                    data: this.saveAsDefaultSettingsAjaxData(shortcode_name, presetId),
+                    data: this.saveAsDefaultSettingsAjaxData(shortcode_name, id),
                     context: this
                 }).done(function(response) {
                     response.success && (this.setSettingsMenuContent(response.html), this.untaintSettingsPresetData(), doneCallback && doneCallback())
@@ -3893,17 +3871,17 @@ window.vc || (window.vc = {}),
                         $prompt = $tab.find(".vc_ui-prompt-templates"),
                         $title = $prompt.find(".textfield");
                     $tab.find(".vc_ui-prompt.vc_visible").removeClass("vc_visible"), $prompt.addClass("vc_visible"), $title.trigger("focus"), $tab.addClass("vc_ui-content-hidden"), created && (delay = 0, $btn = $prompt.find("#vc_ui-save-templates-btn"), $prompt.on("submit", function() {
-                        var data = $title.val();
+                        var title = $title.val();
                         _this.$el.find(_this.settingsButtonSelector);
-                        if (!data.length) return !1;
-                        data = {
+                        if (!title.length) return !1;
+                        title = {
                             action: vc.templates_panel_view.save_template_action,
                             template: vc.shortcodes.singleStringify(_this.model.get("id"), "template"),
-                            template_name: data,
+                            template_name: title,
                             vc_inline: !0,
                             _vcnonce: window.vcAdminNonce
                         };
-                        return vc.templates_panel_view.reloadTemplateList(data, function() {
+                        return vc.templates_panel_view.reloadTemplateList(title, function() {
                             $title.val(""), _this.setCustomButtonMessage($btn, void 0, void 0, !0), delay = _.delay(function() {
                                 $prompt.removeClass("vc_visible"), $tab.removeClass("vc_ui-content-hidden")
                             }, 5e3)
@@ -3950,15 +3928,15 @@ window.vc || (window.vc = {}),
             initialize: function() {
                 _.bindAll(this, "setSize", "setTabsSize", "fixElContainment", "hookDependent", "resetAjax", "removeAllPrompts"), this.on("setSize", this.setResize, this), this.on("render", this.resetMinimize, this), this.on("render", this.setTitle, this), this.on("render", this.prepareContentBlock, this)
             },
-            setCustomButtonMessage: function($btn, message, type, currentTextHtml) {
-                return void 0 === $btn && ($btn = this.$el.find('[data-vc-ui-element="button-save"]')), void 0 === currentTextHtml && (currentTextHtml = !1), this.clearCustomButtonMessage = _.bind(this.clearCustomButtonMessage, this), !currentTextHtml && !vc.frame_window || this.customButtonMessageTimeout || (void 0 === message && (message = window.i18nLocale.ui_saved), void 0 === type && (type = "success"), currentTextHtml = $btn.html(), $btn.addClass("vc_ui-button-" + type + " vc_ui-button-undisabled").removeClass("vc_ui-button-action").data("vcCurrentTextHtml", currentTextHtml).data("vcCurrentTextType", type).html(message), _.delay(this.clearCustomButtonMessage.bind(this, $btn), 5e3), this.customButtonMessageTimeout = !0), this
+            setCustomButtonMessage: function($btn, message, type, showInBackend) {
+                return void 0 === $btn && ($btn = this.$el.find('[data-vc-ui-element="button-save"]')), void 0 === showInBackend && (showInBackend = !1), this.clearCustomButtonMessage = _.bind(this.clearCustomButtonMessage, this), !showInBackend && !vc.frame_window || this.customButtonMessageTimeout || (void 0 === message && (message = window.i18nLocale.ui_saved), void 0 === type && (type = "success"), showInBackend = $btn.html(), $btn.addClass("vc_ui-button-" + type + " vc_ui-button-undisabled").removeClass("vc_ui-button-action").data("vcCurrentTextHtml", showInBackend).data("vcCurrentTextType", type).html(message), _.delay(this.clearCustomButtonMessage.bind(this, $btn), 5e3), this.customButtonMessageTimeout = !0), this
             },
             clearCustomButtonMessage: function($btn) {
                 var type, currentTextHtml;
                 this.customButtonMessageTimeout && (window.clearTimeout(this.customButtonMessageTimeout), currentTextHtml = $btn.data("vcCurrentTextHtml") || "Save", type = $btn.data("vcCurrentTextType"), $btn.html(currentTextHtml).removeClass("vc_ui-button-" + type + " vc_ui-button-undisabled").addClass("vc_ui-button-action"), this.customButtonMessageTimeout = !1)
             },
-            render: function(params, not_request_template) {
-                return this.$el.is(":hidden") && vc.closeActivePanel(), not_request_template && (this.notRequestTemplate = !0), this.model = params, this.currentModelParams = this.model.get("params"), (vc.active_panel = this).resetMinimize(), this.clicked = !1, this.$el.css("height", "auto"), this.$el.css("maxHeight", "75vh"), params = this.model.setting("params") || [], this.$el.attr("data-vc-shortcode", this.model.get("shortcode")), this.tabsInit = !1, this.panelInit = !1, this.active_tab_index = 0, this.requiredParamsInitialized = !1, this.mapped_params = {}, this.dependent_elements = {}, _.each(params, function(param) {
+            render: function(model, not_request_template) {
+                return this.$el.is(":hidden") && vc.closeActivePanel(), not_request_template && (this.notRequestTemplate = !0), this.model = model, this.currentModelParams = this.model.get("params"), (vc.active_panel = this).resetMinimize(), this.clicked = !1, this.$el.css("height", "auto"), this.$el.css("maxHeight", "75vh"), not_request_template = this.model.setting("params") || [], this.$el.attr("data-vc-shortcode", this.model.get("shortcode")), this.tabsInit = !1, this.panelInit = !1, this.active_tab_index = 0, this.requiredParamsInitialized = !1, this.mapped_params = {}, this.dependent_elements = {}, _.each(not_request_template, function(param) {
                     this.mapped_params[param.param_name] = param
                 }, this), this.trigger("render"), this.show(), this.checkAjax(), this.ajax = $.ajax({
                     type: "POST",
@@ -3970,25 +3948,25 @@ window.vc || (window.vc = {}),
             prepareContentBlock: function() {
                 this.$content = this.notRequestTemplate ? this.$el : this.$el.find(this.contentSelector).removeClass("vc_with-tabs"), this.$content.empty(), this.$spinner = $('<span class="vc_ui-wp-spinner vc_ui-wp-spinner-lg vc_ui-wp-spinner-dark"></span>'), this.$content.prepend(this.$spinner)
             },
-            buildParamsContent: function($panelHeader) {
-                var $data = $($panelHeader),
-                    $tabs = $data.find('[data-vc-ui-element="panel-tabs-controls"]');
-                $tabs.find(".vc_edit-form-tab-control:first-child").addClass("vc_active"), $panelHeader = this.$el.find('[data-vc-ui-element="panel-header-content"]'), $tabs.prependTo($panelHeader), this.$content.html($data), this.$content.removeAttr("data-vc-param-initialized"), this.active_tab_index = 0, this.tabsInit = !1, this.panelInit = !1, this.dependent_elements = {}, this.requiredParamsInitialized = !1, this.$content.find("[data-vc-param-initialized]").removeAttr("data-vc-param-initialized"), this.init(), this.$content.parent().scrollTop(1).scrollTop(0), this.$content.removeClass("vc_properties-list-init"), this.$el.trigger("vcPanel.shown"), this.trigger("afterRender")
+            buildParamsContent: function(data) {
+                var $panelHeader, data = $(data),
+                    $tabs = data.find('[data-vc-ui-element="panel-tabs-controls"]');
+                $tabs.find(".vc_edit-form-tab-control:first-child").addClass("vc_active"), $panelHeader = this.$el.find('[data-vc-ui-element="panel-header-content"]'), $tabs.prependTo($panelHeader), this.$content.html(data), this.$content.removeAttr("data-vc-param-initialized"), this.active_tab_index = 0, this.tabsInit = !1, this.panelInit = !1, this.dependent_elements = {}, this.requiredParamsInitialized = !1, this.$content.find("[data-vc-param-initialized]").removeAttr("data-vc-param-initialized"), this.init(), this.$content.parent().scrollTop(1).scrollTop(0), this.$content.removeClass("vc_properties-list-init"), this.$el.trigger("vcPanel.shown"), this.trigger("afterRender")
             },
             resetMinimize: function() {
                 this.$el.removeClass("vc_panel-opacity")
             },
             ajaxData: function() {
-                var mergedParams = this.model.get("parent_id"),
-                    parent_tag = mergedParams ? this.model.collection.get(mergedParams).get("shortcode") : null,
-                    mergedParams = this.model.get("params"),
-                    mergedParams = _.extend({}, vc.getDefaults(this.model.get("shortcode")), mergedParams);
+                var parent_id = this.model.get("parent_id"),
+                    parent_id = parent_id ? this.model.collection.get(parent_id).get("shortcode") : null,
+                    params = this.model.get("params"),
+                    params = _.extend({}, vc.getDefaults(this.model.get("shortcode")), params);
                 return {
                     action: "vc_edit_form",
                     tag: this.model.get("shortcode"),
-                    parent_tag: parent_tag,
+                    parent_tag: parent_id,
                     post_id: vc_post_id,
-                    params: mergedParams,
+                    params: params,
                     _vcnonce: window.vcAdminNonce
                 }
             },
@@ -4001,7 +3979,7 @@ window.vc || (window.vc = {}),
             initParams: function() {
                 var _this = this,
                     $content = this.content().find('#vc_edit-form-tabs [data-vc-ui-element="panel-edit-element-tab"]:eq(' + this.active_tab_index + ")");
-                ($content = !$content.length ? this.content() : $content).attr("data-vc-param-initialized") || ($('[data-vc-ui-element="panel-shortcode-param"]', $content).each(function() {
+                ($content = $content.length ? $content : this.content()).attr("data-vc-param-initialized") || ($('[data-vc-ui-element="panel-shortcode-param"]', $content).each(function() {
                     var param, $field = $(this);
                     $field.data("vcInitParam") || (param = $field.data("param_settings"), vc.atts.init.call(_this, param, $field), $field.data("vcInitParam", !0))
                 }), $content.attr("data-vc-param-initialized", !0)), this.requiredParamsInitialized || _.isUndefined(vc.required_params_to_init) || ($('[data-vc-ui-element="panel-shortcode-param"]', this.content()).each(function() {
@@ -4013,10 +3991,10 @@ window.vc || (window.vc = {}),
                 var callDependencies = {};
                 _.each(this.mapped_params, function(param) {
                     var rules, $masters, $slave;
-                    _.isObject(param) && _.isObject(param.dependency) && (rules = param.dependency, _.isString(param.dependency.element) && ($masters = $("[name=" + param.dependency.element + "].wpb_vc_param_value", this.$content), $slave = $("[name= " + param.param_name + "].wpb_vc_param_value", this.$content), _.each($masters, function(name) {
-                        var $master = $(name),
-                            name = $master.attr("name");
-                        _.isArray(this.dependent_elements[$master.attr("name")]) || (this.dependent_elements[$master.attr("name")] = []), this.dependent_elements[$master.attr("name")].push($slave), $master.data("dependentSet") || ($master.attr("data-dependent-set", "true"), $master.off("keyup change", this.hookDependent).on("keyup change", this.hookDependent)), callDependencies[name] || (callDependencies[name] = $master)
+                    _.isObject(param) && _.isObject(param.dependency) && (rules = param.dependency, _.isString(param.dependency.element) && ($masters = $("[name=" + param.dependency.element + "].wpb_vc_param_value", this.$content), $slave = $("[name= " + param.param_name + "].wpb_vc_param_value", this.$content), _.each($masters, function(master) {
+                        var master = $(master),
+                            name = master.attr("name");
+                        _.isArray(this.dependent_elements[master.attr("name")]) || (this.dependent_elements[master.attr("name")] = []), this.dependent_elements[master.attr("name")].push($slave), master.data("dependentSet") || (master.attr("data-dependent-set", "true"), master.off("keyup change", this.hookDependent).on("keyup change", this.hookDependent)), callDependencies[name] || (callDependencies[name] = master)
                     }, this)), _.isString(rules.callback) && window[rules.callback].call(this))
                 }, this), this.doCheckTabs = !1, _.each(callDependencies, function(obj) {
                     this.hookDependent({
@@ -4024,25 +4002,24 @@ window.vc || (window.vc = {}),
                     })
                 }, this), this.doCheckTabs = !0, this.checkTabs(), callDependencies = null
             },
-            hookDependent: function(checkTabs) {
-                var is_empty, $master = $(checkTabs.currentTarget),
+            hookDependent: function(e) {
+                var is_empty, $master = $(e.currentTarget),
                     $master_container = $master.closest(".vc_column"),
                     dependent_elements = this.dependent_elements[$master.attr("name")],
-                    master_value = $master.is(":checkbox") ? _.map(this.$content.find("[name=" + $(checkTabs.currentTarget).attr("name") + "].wpb_vc_param_value:checked"), function(element) {
+                    master_value = $master.is(":checkbox") ? _.map(this.$content.find("[name=" + $(e.currentTarget).attr("name") + "].wpb_vc_param_value:checked"), function(element) {
                         return $(element).val()
                     }) : $master.val(),
-                    checkTabs = this.doCheckTabs;
+                    e = this.doCheckTabs;
                 return this.doCheckTabs = !1, is_empty = $master.is(":checkbox") ? !this.$content.find("[name=" + $master.attr("name") + "].wpb_vc_param_value:checked").length : !master_value.length, $master_container.hasClass("vc_dependent-hidden") ? _.each(dependent_elements, function($element) {
                     var event = jQuery.Event("change");
                     event.extra_type = "vcHookDepended", $element.closest(".vc_column").addClass("vc_dependent-hidden"), $element.trigger(event)
                 }) : _.each(dependent_elements, function($element) {
-                    var event = $element.attr("name"),
-                        rules = _.isObject(this.mapped_params[event]) && _.isObject(this.mapped_params[event].dependency) ? this.mapped_params[event].dependency : {},
-                        event = $element.closest(".vc_column");
-                    _.isBoolean(rules.not_empty) && !0 === rules.not_empty && !is_empty || _.isBoolean(rules.is_empty) && !0 === rules.is_empty && is_empty || rules.value && _.intersection(_.isArray(rules.value) ? rules.value : [rules.value], _.isArray(master_value) ? master_value : [master_value]).length || rules.value_not_equal_to && !_.intersection(_.isArray(rules.value_not_equal_to) ? rules.value_not_equal_to : [rules.value_not_equal_to], _.isArray(master_value) ? master_value : [master_value]).length ? event.removeClass("vc_dependent-hidden") : event.addClass("vc_dependent-hidden");
-                    event = jQuery.Event("change");
-                    event.extra_type = "vcHookDepended", $element.trigger(event)
-                }, this), checkTabs && (this.checkTabs(), this.doCheckTabs = !0), this
+                    var param_name = $element.attr("name"),
+                        param_name = _.isObject(this.mapped_params[param_name]) && _.isObject(this.mapped_params[param_name].dependency) ? this.mapped_params[param_name].dependency : {},
+                        $param_block = $element.closest(".vc_column"),
+                        param_name = (_.isBoolean(param_name.not_empty) && !0 === param_name.not_empty && !is_empty || _.isBoolean(param_name.is_empty) && !0 === param_name.is_empty && is_empty || param_name.value && _.intersection(_.isArray(param_name.value) ? param_name.value : [param_name.value], _.isArray(master_value) ? master_value : [master_value]).length || param_name.value_not_equal_to && !_.intersection(_.isArray(param_name.value_not_equal_to) ? param_name.value_not_equal_to : [param_name.value_not_equal_to], _.isArray(master_value) ? master_value : [master_value]).length ? $param_block.removeClass("vc_dependent-hidden") : $param_block.addClass("vc_dependent-hidden"), jQuery.Event("change"));
+                    param_name.extra_type = "vcHookDepended", $element.trigger(param_name)
+                }, this), e && (this.checkTabs(), this.doCheckTabs = !0), this
             },
             checkTabs: function() {
                 var that = this;
@@ -4119,10 +4096,10 @@ window.vc || (window.vc = {}),
             buildTabs: function() {
                 this.content().find('[data-vc-ui-element="panel-tabs-controls"]').prependTo('[data-vc-ui-element="panel-header-content"]')
             },
-            changeTab: function($tab) {
-                $tab && $tab.preventDefault && $tab.preventDefault();
-                $tab = $($tab.currentTarget);
-                $tab.parent().hasClass("vc_active") || (this.$el.find('[data-vc-ui-element="panel-tabs-controls"] .vc_active:not([data-vc-ui-element="panel-tabs-line-dropdown"])').removeClass("vc_active"), $tab.parent().addClass("vc_active"), this.$el.find('[data-vc-ui-element="panel-edit-element-tab"].vc_active').removeClass("vc_active"), this.active_tab_index = this.$el.find($tab.data("vcUiElementTarget")).addClass("vc_active").index(), this.initParams(), this.$tabsMenu && this.$tabsMenu.vcTabsLine("checkDropdownContainerActive"), this.$content.parent().scrollTop(1).scrollTop(0), this.trigger("tabChange"))
+            changeTab: function(e) {
+                e && e.preventDefault && e.preventDefault();
+                e = $(e.currentTarget);
+                e.parent().hasClass("vc_active") || (this.$el.find('[data-vc-ui-element="panel-tabs-controls"] .vc_active:not([data-vc-ui-element="panel-tabs-line-dropdown"])').removeClass("vc_active"), e.parent().addClass("vc_active"), this.$el.find('[data-vc-ui-element="panel-edit-element-tab"].vc_active').removeClass("vc_active"), this.active_tab_index = this.$el.find(e.data("vcUiElementTarget")).addClass("vc_active").index(), this.initParams(), this.$tabsMenu && this.$tabsMenu.vcTabsLine("checkDropdownContainerActive"), this.$content.parent().scrollTop(1).scrollTop(0), this.trigger("tabChange"))
             },
             checkTabs: function() {
                 var _this = this;
@@ -4173,10 +4150,9 @@ window.vc || (window.vc = {}),
             },
             initialize: function() {
                 _.bindAll(this, "loadLibrary", "addTemplateStatus", "loadMyTemplates", "deleteTemplate"), this.$mainPopup = this.$el.find(".vc_ui-panel-popup"), this.$loadingPage = this.$el.find(".vc_ui-panel-loading"), this.$gridContainer = this.$el.find("#vc_template-library-template-grid"), this.$myTemplateContainer = this.$el.find("#vc_template-library-shared_templates"), this.$popupItems = this.$el.find(".vc_ui-panel-popup-item"), this.$previewImage = this.$el.find(".vc_ui-panel-preview-image"), this.$previewTitle = this.$el.find(".vc_ui-panel-template-preview .vc_ui-panel-title"), this.$previewUpdate = this.$el.find("#vc_template-library-update"), this.$previewDownload = this.$el.find("#vc_template-library-download"), this.$previewUpdateBtn = this.$previewUpdate.find("#vc_template-library-update-btn"), this.$previewDownloadBtn = this.$previewUpdate.find("#vc_template-library-download-btn"), this.$templatePreview = this.$el.find(".vc_ui-panel-template-preview"), this.$templatePage = this.$el.find(".vc_ui-panel-template-content"), this.$downloadPage = this.$el.find(".vc_ui-panel-download"), this.$updatePage = this.$el.find(".vc_ui-panel-update"), this.$filter = this.$el.find("#vc_template_lib_name_filter"), this.$content = this.$el.find(".vc_ui-templates-content");
-                var myTemplateHtml = $("#vc_template-grid-item").html();
-                this.compiledGridTemplate = vc.template(myTemplateHtml);
-                myTemplateHtml = $("#vc_template-item").html();
-                this.compiledTemplate = vc.template(myTemplateHtml), window.vc.events.on("templates:delete", this.deleteTemplate)
+                var gridTemplateHtml = $("#vc_template-grid-item").html(),
+                    gridTemplateHtml = (this.compiledGridTemplate = vc.template(gridTemplateHtml), $("#vc_template-item").html());
+                this.compiledTemplate = vc.template(gridTemplateHtml), window.vc.events.on("templates:delete", this.deleteTemplate)
             },
             getLibrary: function() {
                 var data, _this;
@@ -4202,11 +4178,11 @@ window.vc || (window.vc = {}),
                     return null
                 }
             },
-            setStorage: function(key, value, schedule) {
-                schedule = null == schedule ? 86400 : Math.abs(schedule);
-                schedule = Date.now() + 1e3 * schedule;
+            setStorage: function(key, value, expires) {
+                expires = null == expires ? 86400 : Math.abs(expires);
+                expires = Date.now() + 1e3 * expires;
                 try {
-                    localStorage.setItem("vc4-" + key, JSON.stringify(value)), localStorage.setItem("vc4-" + key + "_expiresIn", schedule)
+                    localStorage.setItem("vc4-" + key, JSON.stringify(value)), localStorage.setItem("vc4-" + key + "_expiresIn", expires)
                 } catch (err) {
                     return window.console && window.console.warn && window.console.warn("template setStorage error", err), !1
                 }
@@ -4254,30 +4230,29 @@ window.vc || (window.vc = {}),
             accessLibrary: function() {
                 this.$loadingPage.removeClass("vc_ui-hidden"), this.$content.addClass("vc_ui-hidden"), this.getLibrary()
             },
-            previewButton: function(templateId) {
-                var templateVersion = $(templateId.currentTarget),
-                    imgUrl = templateVersion.data("preview-url"),
-                    myTemplate = templateVersion.data("title"),
-                    templateId = templateVersion.data("template-id"),
-                    templateVersion = templateVersion.data("template-version");
-                this.$previewImage.attr("src", imgUrl), this.$previewTitle.text(myTemplate);
-                myTemplate = _.find(this.myTemplates, {
-                    id: templateId
-                });
-                this.$previewUpdate.toggleClass("vc_ui-hidden", !(myTemplate && myTemplate.version < templateVersion)), this.$previewDownload.toggleClass("vc_ui-hidden", !!myTemplate), this.$previewUpdateBtn.data("template-id", templateId), this.$previewDownloadBtn.data("template-id", templateId), this.$popupItems.addClass("vc_ui-hidden"), this.$templatePreview.removeClass("vc_ui-hidden"), this.$templatePreview.attr("data-template-id", templateId)
+            previewButton: function(e) {
+                var e = $(e.currentTarget),
+                    imgUrl = e.data("preview-url"),
+                    title = e.data("title"),
+                    templateId = e.data("template-id"),
+                    e = e.data("template-version"),
+                    imgUrl = (this.$previewImage.attr("src", imgUrl), this.$previewTitle.text(title), _.find(this.myTemplates, {
+                        id: templateId
+                    }));
+                this.$previewUpdate.toggleClass("vc_ui-hidden", !(imgUrl && imgUrl.version < e)), this.$previewDownload.toggleClass("vc_ui-hidden", !!imgUrl), this.$previewUpdateBtn.data("template-id", templateId), this.$previewDownloadBtn.data("template-id", templateId), this.$popupItems.addClass("vc_ui-hidden"), this.$templatePreview.removeClass("vc_ui-hidden"), this.$templatePreview.attr("data-template-id", templateId)
             },
             backToTemplates: function() {
                 this.$popupItems.addClass("vc_ui-hidden"), this.$templatePage.removeClass("vc_ui-hidden")
             },
-            deleteTemplate: function(index) {
-                "shared_templates" !== index.type || -1 !== (index = _.findIndex(this.myTemplates, {
-                    post_id: index.id
-                })) && (this.myTemplates.splice(index, 1), this.loaded && this.loadLibrary(this.data))
+            deleteTemplate: function(data) {
+                "shared_templates" === data.type && -1 !== (data = _.findIndex(this.myTemplates, {
+                    post_id: data.id
+                })) && (this.myTemplates.splice(data, 1), this.loaded && this.loadLibrary(this.data))
             },
-            downloadButton: function(id) {
-                id && id.preventDefault && id.preventDefault();
-                id = jQuery(id.currentTarget).closest("[data-template-id]").data("templateId");
-                id && (this.showDownloadOverlay(), this.downloadTemplate(id))
+            downloadButton: function(e) {
+                e && e.preventDefault && e.preventDefault();
+                e = jQuery(e.currentTarget).closest("[data-template-id]").data("templateId");
+                e && (this.showDownloadOverlay(), this.downloadTemplate(e))
             },
             updateButton: function(e) {
                 e && e.preventDefault && e.preventDefault(), jQuery(e.currentTarget).closest("[data-template-id]").data("templateId") && this.showUpdateOverlay()
@@ -4395,30 +4370,30 @@ window.vc || (window.vc = {}),
             initialize: function(options) {
                 this.frontEnd = options && options.frontEnd
             },
-            createPreset: function(column_params) {
-                var columnOptions, preset, tag, model, row;
-                _.isUndefined(vc.ShortcodesBuilder) || (this.builder = new vc.ShortcodesBuilder), preset = (row = $(column_params.currentTarget)).data("preset"), tag = row.data("tag"), column_params = {
+            createPreset: function(e) {
+                var options, columnOptions, preset, column_params, rowOptions;
+                _.isUndefined(vc.ShortcodesBuilder) || (this.builder = new vc.ShortcodesBuilder), preset = (e = $(e.currentTarget)).data("preset"), e = e.data("tag"), column_params = {
                     width: "1/1"
-                }, row = {
+                }, rowOptions = {
                     shortcode: "vc_row",
                     params: {}
-                }, this.frontEnd ? (this.builder.create(row), columnOptions = {
+                }, this.frontEnd ? (this.builder.create(rowOptions), columnOptions = {
                     shortcode: "vc_column",
                     params: column_params,
                     parent_id: this.builder.lastID()
-                }, this.builder.create(columnOptions), model = {
-                    shortcode: tag,
+                }, this.builder.create(columnOptions), options = {
+                    shortcode: e,
                     parent_id: this.builder.lastID()
-                }, preset && (model.preset = preset), window.vc.closeActivePanel(), this.builder.create(model), this.model = this.builder.last(), this.builder.render()) : (columnOptions = {
+                }, preset && (options.preset = preset), window.vc.closeActivePanel(), this.builder.create(options), this.model = this.builder.last(), this.builder.render()) : (columnOptions = {
                     shortcode: "vc_column",
                     params: column_params,
-                    parent_id: (row = vc.shortcodes.create(row)).id,
-                    root_id: row.id
-                }, model = {
-                    shortcode: tag,
+                    parent_id: (column_params = vc.shortcodes.create(rowOptions)).id,
+                    root_id: column_params.id
+                }, options = {
+                    shortcode: e,
                     parent_id: vc.shortcodes.create(columnOptions).id,
-                    root_id: row.id
-                }, preset && (model.preset = preset), model = vc.shortcodes.create(model), window.vc.closeActivePanel(), this.model = model), _.isBoolean(vc.getMapped(tag).show_settings_on_create) && !1 === vc.getMapped(tag).show_settings_on_create || this.showEditForm()
+                    root_id: column_params.id
+                }, preset && (options.preset = preset), rowOptions = vc.shortcodes.create(options), window.vc.closeActivePanel(), this.model = rowOptions), _.isBoolean(vc.getMapped(e).show_settings_on_create) && !1 === vc.getMapped(e).show_settings_on_create || this.showEditForm()
             },
             showEditForm: function() {
                 window.vc.edit_element_block_view.render(this.model)
@@ -4428,10 +4403,10 @@ window.vc || (window.vc = {}),
             },
             removePreset: function(e) {
                 e && e.preventDefault && e.preventDefault();
-                var presetParent = jQuery(e.currentTarget).closest('[data-vc-ui-delete="preset-title"]'),
-                    presetId = presetParent.data("preset"),
-                    presetParent = presetParent.data("preset-parent");
-                this.deleteSettings(presetId, presetParent, e)
+                var closestPreset = jQuery(e.currentTarget).closest('[data-vc-ui-delete="preset-title"]'),
+                    presetId = closestPreset.data("preset"),
+                    closestPreset = closestPreset.data("preset-parent");
+                this.deleteSettings(presetId, closestPreset, e)
             },
             deleteSettings: function(id, shortcode_name) {
                 var _this = this;
@@ -4552,17 +4527,17 @@ window.vc || (window.vc = {}),
                 'margin-top': iframe_top
                 // END UNCODE EDIT
             }), vc.$frame.height(height)
-        }, vc.getDefaults = vc.memoizeWrapper(function(params) {
+        }, vc.getDefaults = vc.memoizeWrapper(function(tag) {
             var defaults = {},
-                params = _.isArray(vc.getMapped(params).params) ? vc.getMapped(params).params : [];
-            return _.each(params, function(param) {
+                tag = _.isArray(vc.getMapped(tag).params) ? vc.getMapped(tag).params : [];
+            return _.each(tag, function(param) {
                 _.isObject(param) && (_.isUndefined(param.std) ? vc.atts[param.type] && vc.atts[param.type].defaults ? defaults[param.param_name] = vc.atts[param.type].defaults(param) : _.isUndefined(param.value) || (!_.isObject(param.value) || _.isArray(param.value) || _.isString(param.value) ? _.isArray(param.value) ? defaults[param.param_name] = param.value[0] : defaults[param.param_name] = param.value : defaults[param.param_name] = _.values(param.value)[0]) : defaults[param.param_name] = param.std)
             }), defaults
-        }), vc.getDefaultsAndDependencyMap = vc.memoizeWrapper(function(params) {
+        }), vc.getDefaultsAndDependencyMap = vc.memoizeWrapper(function(tag) {
             var dependencyMap = {},
                 defaults = {},
-                params = _.isArray(vc.getMapped(params).params) ? vc.getMapped(params).params : [];
-            return _.each(params, function(param) {
+                tag = _.isArray(vc.getMapped(tag).params) ? vc.getMapped(tag).params : [];
+            return _.each(tag, function(param) {
                 _.isObject(param) && "content" !== param.param_name && (_.isUndefined(param.std) ? _.isUndefined(param.value) || (vc.atts[param.type] && vc.atts[param.type].defaults ? defaults[param.param_name] = vc.atts[param.type].defaults(param) : _.isObject(param.value) ? defaults[param.param_name] = _.values(param.value)[0] : _.isArray(param.value) ? defaults[param.param_name] = param.value[0] : defaults[param.param_name] = param.value) : defaults[param.param_name] = param.std, _.isUndefined(param.dependency) || _.isUndefined(param.dependency.element) || (dependencyMap[param.param_name] = param.dependency))
             }), {
                 defaults: defaults,
@@ -4575,28 +4550,28 @@ window.vc || (window.vc = {}),
                 if ("content" !== key) {
                     if (!_.isUndefined(paramsDependencies[key])) {
                         if (!_.isUndefined(paramsDependencies[paramsDependencies[key].element]) && _.isBoolean(paramsDependencies[paramsDependencies[key].element].failed) && !0 === paramsDependencies[paramsDependencies[key].element].failed) return void(paramsDependencies[key].failed = !0);
-                        var isDependedEmpty, rules = paramsDependencies[key].element,
-                            dependedValue = values[rules],
-                            paramSettings = !1;
-                        if ("string" == typeof dependedValue && (paramSettings = values[rules].split(",").map(function(i) {
+                        var rules, dependedElement = paramsDependencies[key].element,
+                            dependedValue = values[dependedElement],
+                            dependedValueSplit = !1;
+                        if ("string" == typeof dependedValue && (dependedValueSplit = values[dependedElement].split(",").map(function(i) {
                                 return i.trim()
                             }).filter(function(i) {
                                 return i
-                            })), isDependedEmpty = _.isEmpty(dependedValue), rules = _.omit(paramsDependencies[key], "element"), _.isBoolean(rules.not_empty) && !0 === rules.not_empty && isDependedEmpty || _.isBoolean(rules.is_empty) && !0 === rules.is_empty && !isDependedEmpty || rules.value && !_.intersection(_.isArray(rules.value) ? rules.value : [rules.value], _.isArray(dependedValue) ? dependedValue : [dependedValue]).length && paramSettings && rules.value && !_.intersection(_.isArray(rules.value) ? rules.value : [rules.value], _.isArray(paramSettings) ? paramSettings : [paramSettings]).length || rules.value_not_equal_to && _.intersection(_.isArray(rules.value_not_equal_to) ? rules.value_not_equal_to : [rules.value_not_equal_to], _.isArray(dependedValue) ? dependedValue : [dependedValue]).length && paramSettings && rules.value_not_equal_to && _.intersection(_.isArray(rules.value_not_equal_to) ? rules.value_not_equal_to : [rules.value_not_equal_to], _.isArray(paramSettings) ? paramSettings : [paramSettings]).length) return void(paramsDependencies[key].failed = !0)
+                            })), dependedElement = _.isEmpty(dependedValue), rules = _.omit(paramsDependencies[key], "element"), _.isBoolean(rules.not_empty) && !0 === rules.not_empty && dependedElement || _.isBoolean(rules.is_empty) && !0 === rules.is_empty && !dependedElement || rules.value && !_.intersection(_.isArray(rules.value) ? rules.value : [rules.value], _.isArray(dependedValue) ? dependedValue : [dependedValue]).length && dependedValueSplit && rules.value && !_.intersection(_.isArray(rules.value) ? rules.value : [rules.value], _.isArray(dependedValueSplit) ? dependedValueSplit : [dependedValueSplit]).length || rules.value_not_equal_to && _.intersection(_.isArray(rules.value_not_equal_to) ? rules.value_not_equal_to : [rules.value_not_equal_to], _.isArray(dependedValue) ? dependedValue : [dependedValue]).length && dependedValueSplit && rules.value_not_equal_to && _.intersection(_.isArray(rules.value_not_equal_to) ? rules.value_not_equal_to : [rules.value_not_equal_to], _.isArray(dependedValueSplit) ? dependedValueSplit : [dependedValueSplit]).length) return void(paramsDependencies[key].failed = !0)
                     }
-                    paramSettings = vc.getParamSettings(tag, key), (_.isUndefined(paramSettings) || !_.isUndefined(paramsMap.defaults[key]) && paramsMap.defaults[key] !== value || _.isUndefined(paramsMap.defaults[key]) && "" !== value || !_.isUndefined(paramSettings.save_always) && !0 === paramSettings.save_always) && (outputParams[key] = value)
+                    dependedElement = vc.getParamSettings(tag, key), (_.isUndefined(dependedElement) || !_.isUndefined(paramsMap.defaults[key]) && paramsMap.defaults[key] !== value || _.isUndefined(paramsMap.defaults[key]) && "" !== value || !_.isUndefined(dependedElement.save_always) && !0 === dependedElement.save_always) && (outputParams[key] = value)
                 }
             }), outputParams
-        }, vc.getParamSettings = vc.memoizeWrapper(function(params, paramName) {
-            params = _.isArray(vc.getMapped(params).params) ? vc.getMapped(params).params : [];
-            return _.find(params, function(settings) {
+        }, vc.getParamSettings = vc.memoizeWrapper(function(tag, paramName) {
+            tag = _.isArray(vc.getMapped(tag).params) ? vc.getMapped(tag).params : [];
+            return _.find(tag, function(settings) {
                 return _.isObject(settings) && settings.param_name === paramName
             }, this)
         }, function() {
             return arguments[0] + "," + arguments[1]
-        }), vc.getParamSettingsByType = vc.memoizeWrapper(function(params, paramType) {
-            params = _.isArray(vc.getMapped(params).params) ? vc.getMapped(params).params : [];
-            return _.find(params, function(settings) {
+        }), vc.getParamSettingsByType = vc.memoizeWrapper(function(tag, paramType) {
+            tag = _.isArray(vc.getMapped(tag).params) ? vc.getMapped(tag).params : [];
+            return _.find(tag, function(settings) {
                 return _.isObject(settings) && settings.type === paramType
             }, this)
         }, function() {
@@ -4610,15 +4585,15 @@ window.vc || (window.vc = {}),
                 return !(_.isArray(vc.shortcode_relevance["parent_only_" + tag]) && !_.contains(vc.shortcode_relevance["parent_only_" + tag], related_tag)) && ((!_.isArray(vc.shortcode_relevance["parent_except_" + tag]) || !_.contains(vc.shortcode_relevance["parent_except_" + tag], related_tag)) && (!(_.isArray(vc.shortcode_relevance["child_only_" + related_tag]) && !_.contains(vc.shortcode_relevance["child_only_" + related_tag], tag)) && (!_.isArray(vc.shortcode_relevance["child_except_" + related_tag]) || !_.contains(vc.shortcode_relevance["child_except" + related_tag], tag))))
             }
         }, vc.CloneModel = function(builder, model, parent_id, child_of_clone) {
-            var newOrder, tag, data, newModel;
-            return vc.clone_index /= 10, newOrder = _.isBoolean(child_of_clone) && !0 === child_of_clone ? model.get("order") : parseFloat(model.get("order")) + vc.clone_index, data = _.extend({}, model.get("params")), data = {
+            var newOrder, params, tag, newModel;
+            return vc.clone_index /= 10, newOrder = _.isBoolean(child_of_clone) && !0 === child_of_clone ? model.get("order") : parseFloat(model.get("order")) + vc.clone_index, params = _.extend({}, model.get("params")), parent_id = {
                 shortcode: tag = model.get("shortcode"),
                 parent_id: parent_id,
                 order: newOrder,
                 cloned: !0,
                 cloned_from: model.toJSON(),
-                params: data
-            }, vc["cloneMethod_" + tag] && (data = vc["cloneMethod_" + tag](data, model)), _.isBoolean(child_of_clone) && !0 === child_of_clone || (data.place_after_id = model.get("id")), builder.create(data), newModel = builder.last(), _.each(vc.shortcodes.where({
+                params: params
+            }, vc["cloneMethod_" + tag] && (parent_id = vc["cloneMethod_" + tag](parent_id, model)), _.isBoolean(child_of_clone) && !0 === child_of_clone || (parent_id.place_after_id = model.get("id")), builder.create(parent_id), newModel = builder.last(), _.each(vc.shortcodes.where({
                 parent_id: model.get("id")
             }), function(shortcode) {
                 vc.CloneModel(builder, shortcode, newModel.get("id"), !0)
@@ -4658,8 +4633,8 @@ window.vc || (window.vc = {}),
                 return this.$el.attr("data-tag", tag), this.$el.addClass("vc_" + tag), this.addControls(), _.isObject(vc.getMapped(tag)) && (_.isBoolean(vc.getMapped(tag).is_container) && !0 === vc.getMapped(tag).is_container || !_.isEmpty(vc.getMapped(tag).as_parent)) && this.$el.addClass("vc_container-block"), this.changed(), this
             },
             checkControlsPosition: function() {
-                var new_position, element_height;
-                this.$controls_buttons && (element_height = this.$el.height(), vc.$frame.height() < element_height && (new_position = $(vc.frame_window).scrollTop(), this.$controls_buttons.offset().top, 40 < (new_position = new_position - this.$el.offset().top + vc.$frame.height() / 2) && new_position < element_height ? this.$controls_buttons.css("top", new_position) : element_height < new_position ? this.$controls_buttons.css("top", element_height - 40) : this.$controls_buttons.css("top", 40)))
+                var window_top, element_height;
+                this.$controls_buttons && (element_height = this.$el.height(), vc.$frame.height() < element_height && (window_top = $(vc.frame_window).scrollTop(), this.$controls_buttons.offset().top, 40 < (window_top = window_top - this.$el.offset().top + vc.$frame.height() / 2) && window_top < element_height ? this.$controls_buttons.css("top", window_top) : element_height < window_top ? this.$controls_buttons.css("top", element_height - 40) : this.$controls_buttons.css("top", 40)))
             },
             beforeUpdate: function() {
                 // START UNCODE EDIT
@@ -4688,34 +4663,34 @@ window.vc || (window.vc = {}),
             },
             addControls: function() {
                 var shortcodeTag = this.model.get("shortcode"),
-                    parent = $("#vc_controls-template-" + shortcodeTag),
+                    $controls_el = $("#vc_controls-template-" + shortcodeTag),
                     allAccess = vc_user_access().shortcodeAll(shortcodeTag),
                     editAccess = vc_user_access().shortcodeEdit(shortcodeTag),
-                    data = vc_user_access().partAccess("dragndrop"),
-                    compiledTemplate = parent.length ? parent.html() : this._getDefaultTemplate(),
+                    moveAccess = vc_user_access().partAccess("dragndrop"),
+                    $controls_el = $controls_el.length ? $controls_el.html() : this._getDefaultTemplate(),
                     parent = vc.shortcodes.get(this.model.get("parent_id")),
-                    data = {
+                    shortcodeTag = {
                         name: vc.getMapped(shortcodeTag).name,
                         tag: shortcodeTag,
                         parent_name: parent ? vc.getMapped(parent.get("shortcode")).name : "",
                         parent_tag: parent ? parent.get("shortcode") : "",
                         can_edit: editAccess,
                         can_all: allAccess,
-                        moveAccess: data,
+                        moveAccess: moveAccess,
                         state: vc_user_access().getState("shortcodes"),
                         allowAdd: null
                     },
-                    compiledTemplate = vc.template(_.unescape(compiledTemplate), _.extend({}, vc.templateOptions.custom, {
+                    parent = vc.template(_.unescape($controls_el), _.extend({}, vc.templateOptions.custom, {
                         evaluate: /\{#([\s\S]+?)#}/g
                     }));
-                this.$controls = $(compiledTemplate(data).trim()).addClass("vc_controls"), this.$controls.appendTo(this.$el), this.$controls_buttons = this.$controls.find("> :first")
+                this.$controls = $(parent(shortcodeTag).trim()).addClass("vc_controls"), this.$controls.appendTo(this.$el), this.$controls_buttons = this.$controls.find("> :first")
             },
             content: function() {
                 return !1 === this.$content && (this.$content = this.$el.find("> :first")), this.$content
             },
             changeParentId: function() {
-                var parent = this.model.get("parent_id");
-                vc.builder.notifyParent(this.model.get("parent_id")), !1 === parent ? this.placeElement(this.$el) : (parent = vc.shortcodes.get(parent)) && parent.view && parent.view.placeElement(this.$el), this.parentChanged()
+                var parent_id = this.model.get("parent_id");
+                vc.builder.notifyParent(this.model.get("parent_id")), !1 === parent_id ? this.placeElement(this.$el) : (parent_id = vc.shortcodes.get(parent_id)) && parent_id.view && parent_id.view.placeElement(this.$el), this.parentChanged()
             },
             _getDefaultTemplate: function() {
                 var controls;
@@ -4753,7 +4728,7 @@ window.vc || (window.vc = {}),
                 // END UNCODE EDIT
                 var new_model, builder = new vc.ShortcodesBuilder;
                 if (e && e.preventDefault && e.preventDefault(), e && e.stopPropagation && e.stopPropagation(), this.builder && !this.builder.is_build_complete) return !1;
-                this.builder = builder, new_model = vc.CloneModel(builder, this.model, this.model.get("parent_id")), builder.setResultMessage(window.sprintf(window.i18nLocale.inline_element_cloned, new_model.setting("name"), new_model.get("id"))), builder.render()
+                this.builder = builder, e = vc.CloneModel(builder, this.model, this.model.get("parent_id")), builder.setResultMessage(window.sprintf(window.i18nLocale.inline_element_cloned, e.setting("name"), e.get("id"))), builder.render()
             },
             getParam: function(param_name) {
                 return _.isObject(this.model.get("params")) && !_.isUndefined(this.model.get("params")[param_name]) ? this.model.get("params")[param_name] : null
@@ -4809,13 +4784,13 @@ window.vc || (window.vc = {}),
             addElement: function(e) {
                 e && e.preventDefault && e.preventDefault(), vc.add_element_block_view.render(!1)
             },
-            addTextBlock: function(builder) {
-                var row_params, column_params, column_text_params;
-                builder && builder.preventDefault && builder.preventDefault(), row_params = {}, column_params = {
+            addTextBlock: function(e) {
+                var builder, column_params, column_text_params;
+                e && e.preventDefault && e.preventDefault(), e = {}, column_params = {
                     width: "1/1"
                 }, column_text_params = vc.getDefaults("vc_column_text"), (builder = new vc.ShortcodesBuilder).create({
                     shortcode: "vc_row",
-                    params: row_params
+                    params: e
                 }).create({
                     shortcode: "vc_column",
                     parent_id: builder.lastID(),
@@ -4877,8 +4852,8 @@ window.vc || (window.vc = {}),
                 if (e && e.preventDefault && e.preventDefault(), $control.hasClass("active")) return !1;
                 this.$size_control.find(".active").removeClass("active"), $("#vc_screen-size-current").attr("class", "vc_current-layout-icon " + $control.attr("class")), this.current_size = $control.data("size"), $control.addClass("active"), vc.setFrameSize(this.current_size)
             },
-            editCloned: function(model) {
-                model && model.preventDefault && model.preventDefault(), model = $(model.currentTarget).data("modelId"), model = vc.shortcodes.get(model), vc.edit_element_block_view.render(model)
+            editCloned: function(e) {
+                e && e.preventDefault && e.preventDefault(), e = $(e.currentTarget).data("modelId"), e = vc.shortcodes.get(e), vc.edit_element_block_view.render(e)
             },
             resizeWindow: function() {
                 vc.setFrameSize(this.current_size)
@@ -4907,28 +4882,28 @@ window.vc || (window.vc = {}),
                 }, this)
             },
             createShortcodeHtml: function(model) {
-                var compiledTemplate = $("#vc_template-" + model.get("shortcode")),
-                    compiledTemplate = compiledTemplate.length ? compiledTemplate.html() : '<div class="vc_block"></div>',
-                    compiledTemplate = vc.template(compiledTemplate, vc.templateOptions.custom);
-                return $(compiledTemplate(model.toJSON()).trim())
+                var $template = $("#vc_template-" + model.get("shortcode")),
+                    $template = $template.length ? $template.html() : '<div class="vc_block"></div>',
+                    $template = vc.template($template, vc.templateOptions.custom);
+                return $($template(model.toJSON()).trim())
             },
             addAll: function(models) {
                 this.addShortcodes(models.where({
                     parent_id: !1
                 }))
             },
-            createRow: function(column_params) {
-                column_params && column_params.preventDefault && column_params.preventDefault();
-                var builder = new vc.ShortcodesBuilder,
+            createRow: function(e) {
+                e && e.preventDefault && e.preventDefault();
+                var e = new vc.ShortcodesBuilder,
                     column_params = {
                         width: "1/1"
                     };
-                builder.create({
+                e.create({
                     shortcode: "vc_row",
                     params: {}
                 }).create({
                     shortcode: "vc_column",
-                    parent_id: builder.lastID(),
+                    parent_id: e.lastID(),
                     params: column_params
                 }).render()
             },
@@ -4954,23 +4929,23 @@ window.vc || (window.vc = {}),
                         $rows = $current_parent.find("> [data-tag=vc_row],> [data-tag=vc_section]"),
                         builder = new vc.ShortcodesBuilder;
                     $rows.each(function(key, value) {
-                        var model, prev_parent, current_parent = $(this);
-                        current_parent.is(".droppable") ? (row_params = {}, column_params = {
+                        var row_data, current_parent, $el = $(this);
+                        $el.is(".droppable") ? (row_params = {}, column_params = {
                             width: "1/1"
-                        }, current_parent.remove(), prev_parent = {
+                        }, $el.remove(), row_data = {
                             shortcode: "vc_row",
                             params: row_params,
                             order: key
-                        }, 0 === key ? vc.activity = "prepend" : key + 1 !== $rows.length && (prev_parent.place_after_id = vc.$page.find("> [data-tag=vc_row]:eq(" + (key - 1) + ")").data("modelId")), builder.create(prev_parent).create({
+                        }, 0 === key ? vc.activity = "prepend" : key + 1 !== $rows.length && (row_data.place_after_id = vc.$page.find("> [data-tag=vc_row]:eq(" + (key - 1) + ")").data("modelId")), builder.create(row_data).create({
                             shortcode: "vc_column",
                             parent_id: builder.lastID(),
                             params: column_params
-                        }).render()) : (prev_parent = (model = vc.shortcodes.get(current_parent.data("modelId"))).get("parent_id"), current_parent = $current_parent.closest(".vc_element").data("modelId") || !1, model.save({
+                        }).render()) : ($el = (row_data = vc.shortcodes.get($el.data("modelId"))).get("parent_id"), current_parent = $current_parent.closest(".vc_element").data("modelId") || !1, row_data.save({
                             order: key,
                             parent_id: current_parent
                         }, {
                             silent: !0
-                        }), prev_parent !== current_parent && (vc.builder.notifyParent(current_parent), vc.builder.notifyParent(prev_parent)))
+                        }), $el !== current_parent && (vc.builder.notifyParent(current_parent), vc.builder.notifyParent($el)))
                     }), vc.setDataChanged()
                 }, this)
             },
@@ -4978,14 +4953,14 @@ window.vc || (window.vc = {}),
                 _.defer(function(app, e, ui) {
                     var $column, $elements;
                     _.isNull(ui.sender) && ($column = ui.item.parent(), $elements = $column.find("> [data-model-id]"), $column.find("> [data-model-id]").each(function(key, value) {
-                        var current_parent, prev_parent = $(this),
-                            model = !1;
-                        prev_parent.is(".droppable") ? (current_parent = vc.shortcodes.get($column.parents(".vc_element[data-tag]:first").data("modelId")), prev_parent.remove(), 0 === key ? model = !0 : key + 1 !== $elements.length && (model = $column.find("> [data-tag]:eq(" + (key - 1) + ")").data("modelId")), current_parent && vc.add_element_block_view.render(current_parent, model)) : (prev_parent = (model = vc.shortcodes.get(prev_parent.data("modelId"))).get("parent_id"), current_parent = $column.parents(".vc_element[data-tag]:first").data("modelId"), model.save({
+                        var current_parent, $element = $(this),
+                            prepend = !1;
+                        $element.is(".droppable") ? (current_parent = vc.shortcodes.get($column.parents(".vc_element[data-tag]:first").data("modelId")), $element.remove(), 0 === key ? prepend = !0 : key + 1 !== $elements.length && (prepend = $column.find("> [data-tag]:eq(" + (key - 1) + ")").data("modelId")), current_parent && vc.add_element_block_view.render(current_parent, prepend)) : ($element = (prepend = vc.shortcodes.get($element.data("modelId"))).get("parent_id"), current_parent = $column.parents(".vc_element[data-tag]:first").data("modelId"), prepend.save({
                             order: key,
                             parent_id: current_parent
                         }, {
                             silent: !0
-                        }), prev_parent !== current_parent && (vc.builder.notifyParent(current_parent), vc.builder.notifyParent(prev_parent)))
+                        }), $element !== current_parent && (vc.builder.notifyParent(current_parent), vc.builder.notifyParent($element)))
                     })), vc.setDataChanged()
                 }, this, event, ui)
             },
@@ -5014,8 +4989,8 @@ window.vc || (window.vc = {}),
     }(window.jQuery),
     function($) {
         "use strict";
-        window.vc.events.on("shortcodeView:updated", function(modelId) {
-            !0 === (vc.map[modelId.get("shortcode")] || !1).is_container && (modelId = modelId.get("id"), window.vc.frame_window.vc_iframe.updateChildGrids(modelId))
+        window.vc.events.on("shortcodeView:updated", function(model) {
+            !0 === (vc.map[model.get("shortcode")] || !1).is_container && (model = model.get("id"), window.vc.frame_window.vc_iframe.updateChildGrids(model))
         }), window.InlineShortcodeViewContainer = window.InlineShortcodeView.extend({
             controls_selector: "#vc_controls-template-container",
             events: {
@@ -5084,47 +5059,47 @@ window.vc || (window.vc = {}),
                 }
                 // e && e.preventDefault && e.preventDefault(), this.prepend = !0, window.vc.add_element_block_view.render(this.model, !0)
                 //END UNCODE EDIT
-                e && e.preventDefault && e.preventDefault(), this.prepend = !0, this.appendElement(e)            },
+                e && e.preventDefault && e.preventDefault(), this.prepend = !0, this.appendElement(e)
+            },
             appendElement: function(e) {
                 e && e.preventDefault && e.preventDefault(), window.vc.add_element_block_view.render(this.model)
             },
             addControls: function() {
-                var parentShortcodeTag, parentName, shortcodeTag = this.model.get("shortcode"),
-                    compiledTemplate = $(this.controls_selector).html(),
-                    moveAccess = vc.shortcodes.get(this.model.get("parent_id"));
-                moveAccess && (parentName = vc.getMapped(moveAccess.get("shortcode")).name, parentShortcodeTag = moveAccess.get("shortcode"));
-                var data = vc_user_access().shortcodeAll(shortcodeTag),
+                var parentShortcodeTag, shortcodeTag = this.model.get("shortcode"),
+                    template = $(this.controls_selector).html(),
+                    parent = vc.shortcodes.get(this.model.get("parent_id")),
+                    parent = (parent && (parentName = vc.getMapped(parent.get("shortcode")).name, parentShortcodeTag = parent.get("shortcode")), vc_user_access().shortcodeAll(shortcodeTag)),
                     editAccess = vc_user_access().shortcodeEdit(shortcodeTag),
                     parentAllAccess = vc_user_access().shortcodeAll(parentShortcodeTag),
                     parentEditAccess = vc_user_access().shortcodeEdit(parentShortcodeTag),
                     moveAccess = vc_user_access().partAccess("dragndrop"),
-                    data = {
+                    shortcodeTag = {
                         name: vc.getMapped(shortcodeTag).name,
                         tag: shortcodeTag,
                         parent_name: parentName,
                         parent_tag: parentShortcodeTag,
                         can_edit: editAccess,
-                        can_all: data,
+                        can_all: parent,
                         moveAccess: moveAccess,
                         parent_can_edit: parentEditAccess,
                         parent_can_all: parentAllAccess,
                         state: vc_user_access().getState("shortcodes"),
                         allowAdd: this.allowAddControl(),
-                        switcherPrefix: parentAllAccess && data ? "" : "-disable-switcher"
+                        switcherPrefix: parentAllAccess && parent ? "" : "-disable-switcher"
                     },
-                    compiledTemplate = vc.template(_.unescape(compiledTemplate), _.extend({}, vc.templateOptions.custom, {
+                    parentName = vc.template(_.unescape(template), _.extend({}, vc.templateOptions.custom, {
                         evaluate: /\{#([\s\S]+?)#}/g
                     }));
-                this.$controls = $(compiledTemplate(data).trim()).addClass("vc_controls"), this.$controls.appendTo(this.$el)
+                this.$controls = $(parentName(shortcodeTag).trim()).addClass("vc_controls"), this.$controls.appendTo(this.$el)
             },
             allowAddControl: function() {
                 return "edit" !== vc_user_access().getState("shortcodes")
             },
             multi_edit: function(e) {
-                var children, models = [];
-                e && e.preventDefault && e.preventDefault(), (children = this.model.get("parent_id") ? vc.shortcodes.get(this.model.get("parent_id")) : children) ? (models.push(children), children = vc.shortcodes.where({
-                    parent_id: children.get("id")
-                }), window.vc.multi_edit_element_block_view.render(models.concat(children), this.model.get("id"))) : window.vc.edit_element_block_view.render(this.model)
+                var parent, models = [];
+                e && e.preventDefault && e.preventDefault(), (parent = this.model.get("parent_id") ? vc.shortcodes.get(this.model.get("parent_id")) : parent) ? (models.push(parent), e = vc.shortcodes.where({
+                    parent_id: parent.get("id")
+                }), window.vc.multi_edit_element_block_view.render(models.concat(e), this.model.get("id"))) : window.vc.edit_element_block_view.render(this.model)
             },
             allowAddControlOnEmpty: function() {
                 return "edit" !== vc_user_access().getState("shortcodes")
@@ -5166,8 +5141,8 @@ window.vc || (window.vc = {}),
             changeLayout: function(e) {
                 e && e.preventDefault && e.preventDefault(), this.parent_view.changeLayout(e)
             },
-            switchControls: function($current) {
-                $current && $current.preventDefault && $current.preventDefault(), vc.unsetHoldActive(), ($current = $($current.currentTarget).parent()).addClass("vc_active"), ($current = $current.siblings(".vc_active")).removeClass("vc_active"), $current.hasClass("vc_element") || window.setTimeout(this.holdActive, 500)
+            switchControls: function(e) {
+                e && e.preventDefault && e.preventDefault(), vc.unsetHoldActive(), (e = $(e.currentTarget).parent()).addClass("vc_active"), (e = e.siblings(".vc_active")).removeClass("vc_active"), e.hasClass("vc_element") || window.setTimeout(this.holdActive, 500)
             }
         })
     }(window.jQuery),
@@ -5292,10 +5267,10 @@ window.vc || (window.vc = {}),
                     return model.get("deleted")
                 }).length, this.$el.addClass("vc_layout_" + this.layout)
             },
-            convertRowColumns: function(columns, builder) {
-                if (!columns) return !1;
+            convertRowColumns: function(layout, builder) {
+                if (!layout) return !1;
                 var column_params, new_model, columns_contents = [],
-                    columns = this.convertToWidthsArray(columns);
+                    layout = this.convertToWidthsArray(layout);
                 return vc.layout_change_shortcodes = [], vc.layout_old_columns = vc.shortcodes.where({
                     parent_id: this.model.get("id")
                 }), _.each(vc.layout_old_columns, function(column) {
@@ -5305,7 +5280,7 @@ window.vc || (window.vc = {}),
                         }),
                         params: column.get("params")
                     })
-                }), _.each(columns, function(column) {
+                }), _.each(layout, function(column) {
                     var prev_settings = columns_contents.shift();
                     _.isObject(prev_settings) ? (new_model = builder.create({
                         shortcode: this.column_tag,
@@ -5344,7 +5319,7 @@ window.vc || (window.vc = {}),
                     }), _.each(vc.layout_old_columns, function(column) {
                         column.destroy()
                     }), vc.layout_old_columns = [], vc.layout_change_shortcodes = []
-                }), columns
+                }), layout
             },
             allowAddControl: function() {
                 return "edit" !== vc_user_access().getState("shortcodes")
@@ -5411,21 +5386,21 @@ window.vc || (window.vc = {}),
             stopChangeSize: function() {
                 this._x = 0, vc.frame_window.jQuery("body").removeClass("vc_column-dragging").enableSelection(), vc.$page.unbind("mousemove." + this.resizeDomainName)
             },
-            resize: function(old_width) {
+            resize: function(e) {
                 var params = this.model.get("params"),
-                    diff = old_width.pageX - this._x;
-                Math.abs(diff) < this._grid_step || (this._x = parseInt(old_width.pageX, 10), old_width = "" + this.css_class_width, 0 < diff ? this.css_class_width += 1 : diff < 0 && --this.css_class_width, 12 < this.css_class_width && (this.css_class_width = 12), this.css_class_width < 1 && (this.css_class_width = 1), params.width = vc.getColumnSize(this.css_class_width), this.model.save({
+                    diff = e.pageX - this._x;
+                Math.abs(diff) < this._grid_step || (this._x = parseInt(e.pageX, 10), e = "" + this.css_class_width, 0 < diff ? this.css_class_width += 1 : diff < 0 && --this.css_class_width, 12 < this.css_class_width && (this.css_class_width = 12), this.css_class_width < 1 && (this.css_class_width = 1), params.width = vc.getColumnSize(this.css_class_width), this.model.save({
                     params: params
                 }, {
                     silent: !0
-                }), this.$el.removeClass("vc_col-sm-" + old_width).addClass("vc_col-sm-" + this.css_class_width))
+                }), this.$el.removeClass("vc_col-sm-" + e).addClass("vc_col-sm-" + this.css_class_width))
             },
             convertSize: function(width) {
                 var numbers = width ? width.split("/") : [1, 1],
-                    dev = _.range(1, 13),
-                    num = !_.isUndefined(numbers[0]) && 0 <= _.indexOf(dev, parseInt(numbers[0], 10)) && parseInt(numbers[0], 10),
-                    dev = !_.isUndefined(numbers[1]) && 0 <= _.indexOf(dev, parseInt(numbers[1], 10)) && parseInt(numbers[1], 10);
-                return "5" === numbers[1] ? width : !1 !== num && !1 !== dev ? "vc_col-sm-" + 12 * num / dev : "vc_col-sm-12"
+                    range = _.range(1, 13),
+                    num = !_.isUndefined(numbers[0]) && 0 <= _.indexOf(range, parseInt(numbers[0], 10)) && parseInt(numbers[0], 10),
+                    range = !_.isUndefined(numbers[1]) && 0 <= _.indexOf(range, parseInt(numbers[1], 10)) && parseInt(numbers[1], 10);
+                return "5" === numbers[1] ? width : !1 !== num && !1 !== range ? "vc_col-sm-" + 12 * num / range : "vc_col-sm-12"
             },
             allowAddControl: function() {
                 // START UNCODE EDIT
@@ -5728,9 +5703,9 @@ window.vc || (window.vc = {}),
             getPaginationList: function() {
                 var $accordions, classes, style_chunks, that, html, params = this.model.get("params");
                 return !_.isUndefined(params.pagination_style) && params.pagination_style.length ? ($accordions = this.$el.find("[data-vc-accordion]"), (classes = []).push("vc_general"), classes.push("vc_pagination"), style_chunks = params.pagination_style.split("-"), classes.push("vc_pagination-style-" + style_chunks[0]), classes.push("vc_pagination-shape-" + style_chunks[1]), !_.isUndefined(params.pagination_color) && params.pagination_color.length && classes.push("vc_pagination-color-" + params.pagination_color), (html = []).push('<ul class="' + classes.join(" ") + '">'), that = this, $accordions.each(function() {
-                    var a_html, $this = $(this),
+                    var selector, $this = $(this),
                         section_classes = ["vc_pagination-item"];
-                    $this.closest(".vc_tta-panel").hasClass(that.activeClass) && section_classes.push(that.activeClass), 0 !== (a_html = $this.attr("href")).indexOf("#") && (a_html = ""), a_html = '<a href="javascript:;" data-vc-target="' + (a_html = $this.attr("data-vc-target") ? $this.attr("data-vc-target") : a_html) + '" class="vc_pagination-trigger" data-vc-tabs data-vc-container=".vc_tta"></a>', html.push('<li class="' + section_classes.join(" ") + '" data-vc-tab>' + a_html + "</li>")
+                    $this.closest(".vc_tta-panel").hasClass(that.activeClass) && section_classes.push(that.activeClass), 0 !== (selector = $this.attr("href")).indexOf("#") && (selector = ""), $this = '<a href="javascript:;" data-vc-target="' + (selector = $this.attr("data-vc-target") ? $this.attr("data-vc-target") : selector) + '" class="vc_pagination-trigger" data-vc-tabs data-vc-container=".vc_tta"></a>', html.push('<li class="' + section_classes.join(" ") + '" data-vc-tab>' + $this + "</li>")
                 }), html.push("</ul>"), $(html.join(""))) : null
             }
         })
@@ -5757,27 +5732,27 @@ window.vc || (window.vc = {}),
                 return "true" === model.getParam("add_icon") && (icon = model.getParam("i_icon_" + model.getParam("i_type")), _.isUndefined(icon) || (icon_html = '<i class="' + ("vc_tta-icon " + icon) + '"></i>'), "right" === model.getParam("i_position") ? html += icon_html : html = icon_html + html), html
             },
             sectionUpdated: function(model, justAppend) {
-                var index, $element, tabAdded = !1,
+                var html, tabAdded = !1,
                     sectionId = model.get("id"),
                     $navigation = this.$el.find(".vc_tta-tabs-container .vc_tta-tabs-list"),
                     $tabEl = $navigation.find('[data-vc-target="[data-model-id=' + sectionId + ']"]'),
                     title = model.getParam("title");
-                $tabEl.length ? ($element = this.addIcon(model, $element = '<span class="vc_tta-title-text">' + title + "</span>"), $tabEl.html($element)) : ($element = this.addIcon(model, $element = '<span class="vc_tta-title-text">' + title + "</span>"), $element = $('<li class="vc_tta-tab" data-vc-target-model-id="' + sectionId + '" data-vc-tab><a href="javascript:;" data-vc-use-cache="false" data-vc-tabs data-vc-target="[data-model-id=' + sectionId + ']" data-vc-container=".vc_tta">' + $element + "</a></li>"), !0 !== justAppend && -1 < (index = _.pluck(_.sortBy(vc.shortcodes.where({
+                $tabEl.length ? (html = this.addIcon(model, html = '<span class="vc_tta-title-text">' + title + "</span>"), $tabEl.html(html)) : (html = this.addIcon(model, html = '<span class="vc_tta-title-text">' + title + "</span>"), $tabEl = $('<li class="vc_tta-tab" data-vc-target-model-id="' + sectionId + '" data-vc-tab><a href="javascript:;" data-vc-use-cache="false" data-vc-tabs data-vc-target="[data-model-id=' + sectionId + ']" data-vc-container=".vc_tta">' + html + "</a></li>"), !0 !== justAppend && -1 < (title = _.pluck(_.sortBy(vc.shortcodes.where({
                     parent_id: this.model.get("id")
                 }), function(childModel) {
                     return childModel.get("order")
-                }), "id").indexOf(model.get("id")) - 1) && $navigation.find("[data-vc-tab]:eq(" + index + ")").length && ($element.insertAfter($navigation.find("[data-vc-tab]:eq(" + index + ")")), tabAdded = !0), tabAdded || $element.appendTo($navigation), model.get("isActiveSection") && $element.addClass(this.activeClass)), this.buildPagination()
+                }), "id").indexOf(model.get("id")) - 1) && $navigation.find("[data-vc-tab]:eq(" + title + ")").length && ($tabEl.insertAfter($navigation.find("[data-vc-tab]:eq(" + title + ")")), tabAdded = !0), tabAdded || $tabEl.appendTo($navigation), model.get("isActiveSection") && $tabEl.addClass(this.activeClass)), this.buildPagination()
             },
-            getNextTab: function($nextTab) {
+            getNextTab: function($viewTab) {
                 var $navigationSections = this.$el.find(".vc_tta-tabs-container .vc_tta-tabs-list").children(),
                     lastIndex = $navigationSections.length - 1,
-                    $nextTab = $nextTab.index(),
-                    $nextTab = $nextTab !== lastIndex ? $navigationSections.eq($nextTab + 1) : $navigationSections.eq($nextTab - 1);
-                return $nextTab
+                    $viewTab = $viewTab.index(),
+                    lastIndex = $viewTab !== lastIndex ? $navigationSections.eq($viewTab + 1) : $navigationSections.eq($viewTab - 1);
+                return lastIndex
             },
-            removeSection: function($nextTab) {
-                var $viewTab = this.$el.find('.vc_tta-tabs-container .vc_tta-tabs-list [data-vc-target="[data-model-id=' + $nextTab + ']"]').parent();
-                $viewTab.hasClass(this.activeClass) && ($nextTab = this.getNextTab($viewTab), vc.frame_window.jQuery($nextTab).find("[data-vc-target]").trigger("click")), $viewTab.remove(), this.buildPagination()
+            removeSection: function(modelId) {
+                var $nextTab, modelId = this.$el.find('.vc_tta-tabs-container .vc_tta-tabs-list [data-vc-target="[data-model-id=' + modelId + ']"]').parent();
+                modelId.hasClass(this.activeClass) && ($nextTab = this.getNextTab(modelId), vc.frame_window.jQuery($nextTab).find("[data-vc-target]").trigger("click")), modelId.remove(), this.buildPagination()
             },
             buildSortableNavigation: function() {
                 vc_user_access().shortcodeEdit(this.model.get("shortcode")) && this.$el.find(".vc_tta-tabs-container .vc_tta-tabs-list").sortable({
@@ -5812,29 +5787,29 @@ window.vc || (window.vc = {}),
                     })
                 }), this.updatePanelsPositions($tabs)
             },
-            updateTabsPositions: function(tabSortableData) {
+            updateTabsPositions: function($panels) {
                 var $elements, $tabs = this.$el.find(".vc_tta-tabs-list");
-                $tabs.length && ($elements = [], tabSortableData = tabSortableData.sortable("toArray", {
+                $tabs.length && ($elements = [], $panels = $panels.sortable("toArray", {
                     attribute: "data-model-id"
-                }), _.each(tabSortableData, function(value) {
+                }), _.each($panels, function(value) {
                     $elements.push($tabs.find('[data-vc-target-model-id="' + value + '"]'))
                 }, this), $tabs.prepend($elements)), this.buildPagination()
             },
-            updatePanelsPositions: function(tabSortableData) {
+            updatePanelsPositions: function($tabs) {
                 var $panels = this.getPanelsList(),
                     $elements = [],
-                    tabSortableData = tabSortableData.sortable("toArray", {
+                    $tabs = $tabs.sortable("toArray", {
                         attribute: "data-vc-target-model-id"
                     });
-                _.each(tabSortableData, function(value) {
+                _.each($tabs, function(value) {
                     $elements.push($panels.find('[data-model-id="' + value + '"]'))
                 }, this), $panels.prepend($elements), this.buildPagination()
             },
-            renderSortingHelper: function(event, currentItemHeight) {
-                var helper = currentItemHeight,
-                    currentItemWidth = currentItemHeight.width() + 1,
-                    currentItemHeight = currentItemHeight.height();
-                return helper.width(currentItemWidth), helper.height(currentItemHeight), helper
+            renderSortingHelper: function(event, currentItem) {
+                var helper = currentItem,
+                    currentItemWidth = currentItem.width() + 1,
+                    currentItem = currentItem.height();
+                return helper.width(currentItemWidth), helper.height(currentItem), helper
             },
             buildPagination: function() {
                 var params;
@@ -5904,8 +5879,8 @@ window.vc || (window.vc = {}),
                 this.previousClasses && (this.$el.get(0).className = this.$el.get(0).className.replace(this.previousClasses, "")), panelClassName = this.$el.find(".vc_tta-panel").get(0).className, this.$el.attr("data-vc-content", this.$el.find(".vc_tta-panel").data("vcContent")), this.previousClasses = panelClassName, this.$el.find(".vc_tta-panel").get(0).className = "", this.$el.get(0).className = this.$el.get(0).className + " " + this.previousClasses, this.$el.find(".vc_tta-panel-title [data-vc-target]").attr("data-vc-target", "[data-model-id=" + this.model.get("id") + "]")
             },
             refreshContent: function(noSectionUpdate) {
-                var $controlsIconsPositionEl, parentParams, $controlsIcon, parentModel = vc.shortcodes.get(this.model.get("parent_id"));
-                _.isObject(parentModel) && ($controlsIcon = vc.getDefaultsAndDependencyMap(parentModel.get("shortcode")), parentParams = _.extend({}, $controlsIcon.defaults, parentModel.get("params")), $controlsIcon = this.$el.find(".vc_tta-controls-icon"), parentParams && !_.isUndefined(parentParams.c_icon) && 0 < parentParams.c_icon.length ? ($controlsIcon.length ? $controlsIcon.attr("data-vc-tta-controls-icon", parentParams.c_icon) : this.$el.find("[data-vc-tta-controls-icon-wrapper]").append($('<i class="vc_tta-controls-icon" data-vc-tta-controls-icon="' + parentParams.c_icon + '"></i>')), !_.isUndefined(parentParams.c_position) && 0 < parentParams.c_position.length && ($controlsIconsPositionEl = this.$el.find("[data-vc-tta-controls-icon-position]")).length && $controlsIconsPositionEl.attr("data-vc-tta-controls-icon-position", parentParams.c_position)) : ($controlsIcon.remove(), this.$el.find("[data-vc-tta-controls-icon-position]").attr("data-vc-tta-controls-icon-position", "")), !0 !== noSectionUpdate && parentModel.view && parentModel.view.sectionUpdated && parentModel.view.sectionUpdated(this.model))
+                var $controlsIcon, $controlsIconsPositionEl, paramsMap, parentModel = vc.shortcodes.get(this.model.get("parent_id"));
+                _.isObject(parentModel) && (paramsMap = vc.getDefaultsAndDependencyMap(parentModel.get("shortcode")), paramsMap = _.extend({}, paramsMap.defaults, parentModel.get("params")), $controlsIcon = this.$el.find(".vc_tta-controls-icon"), paramsMap && !_.isUndefined(paramsMap.c_icon) && 0 < paramsMap.c_icon.length ? ($controlsIcon.length ? $controlsIcon.attr("data-vc-tta-controls-icon", paramsMap.c_icon) : this.$el.find("[data-vc-tta-controls-icon-wrapper]").append($('<i class="vc_tta-controls-icon" data-vc-tta-controls-icon="' + paramsMap.c_icon + '"></i>')), !_.isUndefined(paramsMap.c_position) && 0 < paramsMap.c_position.length && ($controlsIconsPositionEl = this.$el.find("[data-vc-tta-controls-icon-position]")).length && $controlsIconsPositionEl.attr("data-vc-tta-controls-icon-position", paramsMap.c_position)) : ($controlsIcon.remove(), this.$el.find("[data-vc-tta-controls-icon-position]").attr("data-vc-tta-controls-icon-position", "")), !0 !== noSectionUpdate && parentModel.view && parentModel.view.sectionUpdated && parentModel.view.sectionUpdated(this.model))
             },
             setAsActiveSection: function(isActive) {
                 this.model.set("isActiveSection", !!isActive)
@@ -5919,11 +5894,11 @@ window.vc || (window.vc = {}),
                     that.setAsActiveSection("show" === e.type)
                 })
             },
-            destroy: function(parentModel) {
+            destroy: function(e) {
                 var parentId = this.model.get("parent_id");
-                window.InlineShortcodeView_vc_tta_section.__super__.destroy.call(this, parentModel), parentModel = vc.shortcodes.get(parentId), vc.shortcodes.where({
+                window.InlineShortcodeView_vc_tta_section.__super__.destroy.call(this, e), e = vc.shortcodes.get(parentId), vc.shortcodes.where({
                     parent_id: parentId
-                }).length ? parentModel.view && parentModel.view.removeSection && parentModel.view.removeSection(this.model.get("id")) : parentModel.destroy()
+                }).length ? e.view && e.view.removeSection && e.view.removeSection(this.model.get("id")) : e.destroy()
             }
         })
     }(window.jQuery),
@@ -5983,15 +5958,15 @@ window.vc || (window.vc = {}),
             changed: function() {
                 this.allowAddControlOnEmpty() && 0 === this.$el.find(".vc_element[data-tag]").length ? this.$el.addClass("vc_empty").find("> :first > div").addClass("vc_empty-element") : this.$el.removeClass("vc_empty").find("> :first > div").removeClass("vc_empty-element"), this.setSorting()
             },
-            setActiveTab: function($tab) {
-                $tab = $($tab.currentTarget);
-                this.active_model_id = $tab.data("m-id")
+            setActiveTab: function(e) {
+                e = $(e.currentTarget);
+                this.active_model_id = e.data("m-id")
             },
             tabsControls: function() {
                 return this.$tabsNav || (this.$tabsNav = this.$el.find(".wpb_tabs_nav"))
             },
-            buildTabs: function(active_el) {
-                active_el && (this.active_model_id = active_el.get("id"), this.active = this.tabsControls().find("[data-m-id=" + this.active_model_id + "]").index()), !1 === this.active_model_id && (active_el = this.tabsControls().find("li:first"), this.active = active_el.index(), this.active_model_id = active_el.data("m-id")), this.checkCount() || window.vc.frame_window.vc_iframe.buildTabs(this.$tabs, this.active)
+            buildTabs: function(active_model) {
+                active_model && (this.active_model_id = active_model.get("id"), this.active = this.tabsControls().find("[data-m-id=" + this.active_model_id + "]").index()), !1 === this.active_model_id && (active_model = this.tabsControls().find("li:first"), this.active = active_model.index(), this.active_model_id = active_model.data("m-id")), this.checkCount() || window.vc.frame_window.vc_iframe.buildTabs(this.$tabs, this.active)
             },
             checkCount: function() {
                 return this.$tabs.find('> .wpb_wrapper > .vc_element[data-tag="vc_tab"]').length != this.$tabs.find("> .wpb_wrapper > .vc_element.vc_vc_tab").length
@@ -6039,7 +6014,7 @@ window.vc || (window.vc = {}),
                 var $control = this.buildControlHtml(model);
                 // START UNCODE EDIT
                 if (this.tabsControls().closest('.wootabs').length) {
-                    $content = this.tabsControls().closest('.wootabs').find('.tab-content');
+                    var $content = this.tabsControls().closest('.wootabs').find('.tab-content');
                     var pane_length = $('.tab-pane', $content).length;
                     $('.tab-pane', $content).eq(pane_length - 1).find('> div:first-child').addClass('product-tab');
                 }
@@ -6151,23 +6126,13 @@ window.vc || (window.vc = {}),
                 model && model.get("place_after_id") ? ($view.insertAfter(window.vc.$page.find("[data-model-id=" + model.get("place_after_id") + "]")), model.unset("place_after_id")) : $view.appendTo(this.content()), this.changed()
                 // END UNCODE EDIT
             },
-            removeTab: function(index) {
+            removeTab: function(model) {
                 if (1 === window.vc.shortcodes.where({
                         parent_id: this.model.get("id")
                     }).length) return this.model.destroy();
-                // START UNCODE EDIT
-                // var $tab = this.tabsControls().find("[data-m-id=" + model.get("id") + "]"),
-            	var slug = index.attributes.params.slug;
-                var $tab;
-                if ( typeof slug !== 'undefined') {
-                	$tab = this.tabsControls().find("[data-tab-id=" + slug + "]");
-                } else {
-	                $tab = this.tabsControls().find("[data-tab-id=tab-" + index.getParam("tab_id") + "]");
-	            }
-                var index = $tab.index();
-                // this.tabsControls().find("[data-m-id]:eq(" + (index + 1) + ")").length ? window.vc.frame_window.vc_iframe.setActiveTab(this.$tabs, index + 1) : this.tabsControls().find("[data-m-id]:eq(" + (index - 1) + ")").length ? window.vc.frame_window.vc_iframe.setActiveTab(this.$tabs, index - 1) : window.vc.frame_window.vc_iframe.setActiveTab(this.$tabs, 0), $tab.remove()
-                this.tabsControls().find("[data-tab-id]:eq(" + (index + 1) + ")").length ? window.vc.frame_window.vc_iframe.setActiveTab(this.$tabs, index + 1) : this.tabsControls().find("[data-tab-id]:eq(" + (index - 1) + ")").length ? window.vc.frame_window.vc_iframe.setActiveTab(this.$tabs, index - 1) : window.vc.frame_window.vc_iframe.setActiveTab(this.$tabs, 0), $tab.remove()
-                // END UNCODE EDIT
+                var model = this.tabsControls().find("[data-m-id=" + model.get("id") + "]"),
+                    index = model.index();
+                this.tabsControls().find("[data-m-id]:eq(" + (index + 1) + ")").length ? window.vc.frame_window.vc_iframe.setActiveTab(this.$tabs, index + 1) : this.tabsControls().find("[data-m-id]:eq(" + (index - 1) + ")").length ? window.vc.frame_window.vc_iframe.setActiveTab(this.$tabs, index - 1) : window.vc.frame_window.vc_iframe.setActiveTab(this.$tabs, 0), model.remove()
             },
             clone: function(e) {
                 _.each(window.vc.shortcodes.where({
@@ -6197,8 +6162,8 @@ window.vc || (window.vc = {}),
         window.InlineShortcodeView_vc_tab = window.InlineShortcodeViewContainerWithParent.extend({
             controls_selector: "#vc_controls-template-vc_tab",
             render: function() {
-                var active, params = this.model.get("params");
-                return window.InlineShortcodeView_vc_tab.__super__.render.call(this), this.$tab = this.$el.find("> :first"), _.isEmpty(params.tab_id) ? (params.tab_id = vc_guid() + "-" + Math.floor(11 * Math.random()), this.model.save("params", params), active = "tab-" + params.tab_id, this.$tab.attr("id", active)) : active = this.$tab.attr("id"), this.$el.attr("id", active), this.$tab.attr("id", active + "-real"), this.$tab.find(".vc_element[data-tag]").length || this.$tab.empty(), this.$el.addClass("ui-tabs-panel wpb_ui-tabs-hide"), this.$tab.removeClass("ui-tabs-panel wpb_ui-tabs-hide"), this.parent_view && this.parent_view.addTab && (this.parent_view.addTab(this.model) || this.$el.removeClass("wpb_ui-tabs-hide")), active = this.doSetAsActive(), this.parent_view.buildTabs(active), this
+                var tab_id, params = this.model.get("params");
+                return window.InlineShortcodeView_vc_tab.__super__.render.call(this), this.$tab = this.$el.find("> :first"), _.isEmpty(params.tab_id) ? (params.tab_id = vc_guid() + "-" + Math.floor(11 * Math.random()), this.model.save("params", params), tab_id = "tab-" + params.tab_id, this.$tab.attr("id", tab_id)) : tab_id = this.$tab.attr("id"), this.$el.attr("id", tab_id), this.$tab.attr("id", tab_id + "-real"), this.$tab.find(".vc_element[data-tag]").length || this.$tab.empty(), this.$el.addClass("ui-tabs-panel wpb_ui-tabs-hide"), this.$tab.removeClass("ui-tabs-panel wpb_ui-tabs-hide"), this.parent_view && this.parent_view.addTab && (this.parent_view.addTab(this.model) || this.$el.removeClass("wpb_ui-tabs-hide")), params = this.doSetAsActive(), this.parent_view.buildTabs(params), this
             },
             allowAddControl: function() {
                 return vc_user_access().shortcodeAll("vc_tab")
@@ -6210,13 +6175,11 @@ window.vc || (window.vc = {}),
             removeView: function(model) {
                 window.InlineShortcodeView_vc_tab.__super__.removeView.call(this, model), this.parent_view && this.parent_view.removeTab && this.parent_view.removeTab(model)
             },
-            clone: function(builder) {
-                builder && builder.preventDefault && builder.preventDefault(), builder && builder.stopPropagation && builder.stopPropagation(), vc.clone_index /= 10;
-                this.model.clone().get("params");
-                var builder = new vc.ShortcodesBuilder,
-                    new_model = vc.CloneModel(builder, this.model, this.model.get("parent_id")),
+            clone: function(e) {
+                e && e.preventDefault && e.preventDefault(), e && e.stopPropagation && e.stopPropagation(), vc.clone_index /= 10, this.model.clone().get("params"), e = new vc.ShortcodesBuilder;
+                var new_model = vc.CloneModel(e, this.model, this.model.get("parent_id")),
                     that = (this.parent_view.active_model_id, this);
-                builder.render(function() {
+                e.render(function() {
                     that.parent_view.cloneTabAfter && that.parent_view.cloneTabAfter(new_model)
                 })
             },
@@ -6448,10 +6411,10 @@ window.vc || (window.vc = {}),
                 this.pointer && (this.pointer.close(), this.pointerData = null, this.pointer = null, vc.events.trigger("vcPointer:close", this))
             },
             buttonsEvent: function() {
-                var $buttons = this.pointer.domCloseBtn(),
+                var $closeBtn = this.pointer.domCloseBtn(),
                     $nextBtn = this.pointer.domNextBtn(),
                     $prevBtn = this.pointer.domPrevBtn();
-                return $buttons.bind("click.vcPointer", this.clickEventClose), $buttons = this.pointer.domButtonsWrapper().append($buttons), 0 < this._index && ($prevBtn.bind("click.vcPointer", this.clickEventPrev), $buttons.addClass("vc_wp-pointer-controls-prev").append($prevBtn)), this._index + 1 < this.pointers.length && ($nextBtn.bind("click.vcPointer", this.clickEventNext), $buttons.addClass("vc_wp-pointer-controls-next").append($nextBtn)), $buttons
+                return $closeBtn.bind("click.vcPointer", this.clickEventClose), $closeBtn = this.pointer.domButtonsWrapper().append($closeBtn), 0 < this._index && ($prevBtn.bind("click.vcPointer", this.clickEventPrev), $closeBtn.addClass("vc_wp-pointer-controls-prev").append($prevBtn)), this._index + 1 < this.pointers.length && ($nextBtn.bind("click.vcPointer", this.clickEventNext), $closeBtn.addClass("vc_wp-pointer-controls-next").append($nextBtn)), $closeBtn
             },
             clickEventClose: function() {
                 this.close(), this.dismissMessages()
@@ -6586,12 +6549,11 @@ window.vc || (window.vc = {}),
                 }, 50)
             }, window.vc.events.on("undoredo:add undoredo:undo undoredo:redo undoredo:lock undoredo:unlock", function() {
                 $undoControl.attr("disabled", !window.vc.undoRedoApi.canUndo()), $redoControl.attr("disabled", !window.vc.undoRedoApi.canRedo())
-            }), $undoControl.on("click.vc-undo", function(newContent) {
-                $(this).is("[disabled]") || window.vc.undoRedoApi.isLocked() ? newContent && newContent.preventDefault && newContent.preventDefault() : (window.vc.undoRedoApi.lock(), newContent = window.vc.undoRedoApi.undo(), renderNewContent(newContent))
-            }), $redoControl.on("click.vc-redo", function(newContent) {
-                $(this).is("[disabled]") || window.vc.undoRedoApi.isLocked() ? newContent && newContent.preventDefault && newContent.preventDefault() : (window.vc.undoRedoApi.lock(), newContent = window.vc.undoRedoApi.redo(), renderNewContent(newContent))
+            }), $undoControl.on("click.vc-undo", function(e) {
+                $(this).is("[disabled]") || window.vc.undoRedoApi.isLocked() ? e && e.preventDefault && e.preventDefault() : (window.vc.undoRedoApi.lock(), e = window.vc.undoRedoApi.undo(), renderNewContent(e))
+            }), $redoControl.on("click.vc-redo", function(e) {
+                $(this).is("[disabled]") || window.vc.undoRedoApi.isLocked() ? e && e.preventDefault && e.preventDefault() : (window.vc.undoRedoApi.lock(), e = window.vc.undoRedoApi.redo(), renderNewContent(e))
             }))
-
             // START UNCODE EDIT
             window.listenKeyboardEvents = function(e, w, is_tinymce) {
                 if (uncodeFrontEditorShortkeysConf.enable_front_editor_shortkeys !== '1') {

@@ -57,7 +57,7 @@ function uncode_page_require_asset_background_media( $content_array ) {
 		// Check the posts module to get a list of all posts
 		// displayed in a page and then check their media type
 		if ( class_exists( 'uncode_index' ) && strpos( $content, '[uncode_index' ) !== false ) {
-			global $uncode_index_posts;
+			global $uncode_index_query;
 
 			$regex = '/\[uncode_index(.*?)\]/';
 			$regex_attr = '/(.*?)=\"(.*?)\"/';
@@ -137,12 +137,15 @@ function uncode_page_require_asset_background_media( $content_array ) {
 							$media_type = 'secondary';
 						}
 
-						$uncode_index_string = str_replace('[uncode_index', '[uncode_index assets_check="yes"', $value[0] );
+						$uncode_index_string = str_replace('[uncode_index', '[uncode_index run_dry="yes"', $value[0] );
 
 						do_shortcode( $uncode_index_string );
 
-						if ( is_array( $uncode_index_posts ) ) {
-							foreach ( $uncode_index_posts as $post ) {
+						if ( $uncode_index_query && $uncode_index_query instanceof WP_Query ) {
+							while ( $uncode_index_query->have_posts() ) {
+								$uncode_index_query->the_post();
+								global $post;
+
 								$media = uncode_asset_check_post_media( $post->id, $media_type );
 
 								if ( is_array( $media ) ) {
@@ -166,6 +169,7 @@ function uncode_page_require_asset_background_media( $content_array ) {
 									}
 								}
 							}
+							wp_reset_query();
 						}
 					}
 				}

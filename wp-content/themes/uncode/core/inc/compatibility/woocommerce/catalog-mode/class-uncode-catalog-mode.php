@@ -18,6 +18,8 @@ class Uncode_Catalog_Mode {
 	 */
 	public function __construct() {
 		if ( $this->is_catalog_mode_active() && ( ! is_admin() || $this->is_quick_view() ) ) {
+			$show_variations = ot_get_option( '_uncode_woocommerce_catalog_mode_show_variations' ) === 'on' ? true : false;
+
 			// Hide cart icon from menu
 			add_filter( 'uncode_woo_cart', '__return_false' );
 
@@ -38,11 +40,21 @@ class Uncode_Catalog_Mode {
 			// Hide add to cart in shop pages and post modules
 			add_filter( 'woocommerce_loop_add_to_cart_link', '__return_empty_string', 10 );
 
-			// Hide add to cart in single product pages
-			remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
+			if ( ! $show_variations ) {
+				// Hide add to cart in single product pages
+				remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
 
-			// Hide add to cart when using a custom VC Button
-			add_filter( 'uncode_hide_vc_button', '__return_true' );
+				// Hide add to cart when using a custom VC Button
+				add_filter( 'uncode_hide_vc_button', '__return_true' );
+			} else {
+				// Hide add to cart actions but keep the variation one
+				remove_action( 'woocommerce_simple_add_to_cart', 'woocommerce_simple_add_to_cart', 30 );
+				remove_action( 'woocommerce_grouped_add_to_cart', 'woocommerce_grouped_add_to_cart', 30 );
+				remove_action( 'woocommerce_external_add_to_cart', 'woocommerce_external_add_to_cart', 30 );
+
+				// Remove just the button from the variations form
+				remove_action( 'woocommerce_single_variation', 'woocommerce_single_variation_add_to_cart_button', 20 );
+			}
 
 			// Hide cart widget
 			add_filter( 'woocommerce_widget_cart_is_hidden', '__return_true' );

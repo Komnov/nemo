@@ -37,4 +37,10 @@
 		$(document).bind("yith_wcwl_init_after_ajax", refresh_wishlist_count);
 		$(document).on("yith_wcwl_popup_opened", append_skin_to_popup);
 	});
+
+	$(document).on('uncode-ajax-filtered more-items-loaded', function () {
+		if (window.UncodeWCParameters != undefined && window.UncodeWCParameters.yith_ajax_wishlist === '1') {
+			$(document).trigger( 'yith_wcwl_reload_fragments' );
+		}
+	});
 })(jQuery);

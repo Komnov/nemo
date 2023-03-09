@@ -597,7 +597,7 @@ class WP_Import extends WP_Importer {
 				continue;
 			}
 
-			if (!empty($ids_array) && !in_array($post['post_id'], $ids_array) && ($post['post_type'] === 'post' || $post['post_type'] === 'page' || $post['post_type'] === 'portfolio' || $post['post_type'] === 'product' || $post['post_type'] === 'uncodeblock' || $post['post_type'] === 'nav_menu_item')) continue;
+			if (!empty($ids_array) && !in_array($post['post_id'], $ids_array) && ($post['post_type'] === 'post' || $post['post_type'] === 'page' || $post['post_type'] === 'portfolio' || $post['post_type'] === 'product' || $post['post_type'] === 'uncodeblock' || $post['post_type'] === 'nav_menu_item' || $post['post_type'] === 'product_variation')) continue;
 
 			if ( ! post_type_exists( $post['post_type'] ) ) {
 				printf( esc_html__( 'Failed to import &#8220;%s&#8221;: Invalid post type %s', 'uncode-core' ),
@@ -732,6 +732,43 @@ class WP_Import extends WP_Importer {
 					$term_id = is_array( $term_exists ) ? $term_exists['term_id'] : $term_exists;
 					if ( ! $term_id ) {
 						$t = wp_insert_term( $term['name'], $taxonomy, array( 'slug' => $term['slug'] ) );
+
+						// Fix for product attributes
+						if ( strstr( $term['domain'], 'pa_' ) ) {
+							if ( ! taxonomy_exists( $term['domain'] ) ) {
+								$attribute_name  = wc_attribute_taxonomy_slug( $term['domain'] );
+								$attribute_label = ucwords( str_replace( '-', ' ', $attribute_name ) );
+
+								// Create the taxonomy.
+								if ( ! in_array( $attribute_name, wc_get_attribute_taxonomies(), true ) ) {
+									wc_create_attribute(
+										array(
+											'name'         => $attribute_label,
+											'slug'         => $attribute_name,
+											'type'         => 'select',
+											'order_by'     => 'menu_order',
+											'has_archives' => false,
+										)
+									);
+								}
+
+								// Register the taxonomy now so that the import works!
+								register_taxonomy(
+									$term['domain'],
+									apply_filters( 'woocommerce_taxonomy_objects_' . $term['domain'], array( 'product' ) ),
+									apply_filters(
+										'woocommerce_taxonomy_args_' . $term['domain'],
+										array(
+											'hierarchical' => true,
+											'show_ui'      => false,
+											'query_var'    => true,
+											'rewrite'      => false,
+										)
+									)
+								);
+							}
+						}
+
 						if ( ! is_wp_error( $t ) ) {
 							$term_id = $t['term_id'];
 							do_action( 'wp_import_insert_term', $t, $term, $post_id, $post );
@@ -1123,7 +1160,7 @@ class WP_Import extends WP_Importer {
 	 * Parse a WXR file
 	 *
 	 * @param string $file Path to WXR file for parsing
-	 * @return array Information gathered from the WXR file
+	 * @return object Information gathered from the WXR file
 	 */
 	function parse( $file ) {
 		$parser = new Uncode_WXR_Parser();

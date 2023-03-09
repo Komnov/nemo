@@ -185,7 +185,7 @@ if ($show_title) {
  */
 do_action( 'woocommerce_archive_description' );
 
-if (have_posts()):
+if ( have_posts() || uncode_is_filtering() ):
 
 	ob_start();
 	if ( woocommerce_product_subcategories() ) {
@@ -458,12 +458,19 @@ if (have_posts()):
 
 	}
 
+	$content_output = do_shortcode($the_content);
+
+	$has_custom_query = false;
+	if ( strpos( $the_content, '[uncode_index' ) !== false ) {
+		$has_custom_query = true;
+	}
+
 	/** Build and display navigation html **/
 	$remove_pagination = ot_get_option('_uncode_' . $post_type . '_remove_pagination');
 	if ( !$index_has_navigation && $remove_pagination !== 'on' ) {
 		$navigation_option = ot_get_option('_uncode_' . $post_type . '_navigation_activate');
 		if ($navigation_option !== 'off') {
-			$navigation = uncode_posts_navigation();
+			$navigation = uncode_posts_navigation( $has_custom_query );
 			if (!empty($navigation) && $navigation !== '') {
 				$navigation_content = uncode_get_row_template($navigation, '', $limit_content_width, $style, ' row-navigation row-navigation-' . $style, true, true, true);
 			}
@@ -473,7 +480,7 @@ if (have_posts()):
 	/** Display post html **/
 	echo '<div class="page-body' . $bg_color . '">
           <div class="post-wrapper">
-          	<div class="post-body">' . do_shortcode($the_content) . '</div>' .
+          	<div class="post-body">' . $content_output . '</div>' .
           	$navigation_content . '
           </div>
         </div>';

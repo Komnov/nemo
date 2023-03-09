@@ -158,7 +158,7 @@ function uncode_get_adaptive_async_data( $id, $media_attributes, $orig_w, $orig_
 	$adaptive_async_data = ' data-uniqueid="' . $id . '-' . uncode_big_rand() . '" data-guid="' . ( is_array( $media_attributes->guid ) ? $media_attributes->guid['url'] : $media_attributes->guid ) . '" data-path="' . $media_attributes->path . '" data-width="' . $orig_w . '" data-height="' . $orig_h . '" data-singlew="' . $single_w . '" data-singleh="' . $single_h . '" data-crop="' . $crop . '"';
 
 	if ( isset( $fixed ) ) {
-		$adaptive_async_data .= 'data-fixed="' . $fixed . '"';
+		$adaptive_async_data .= ' data-fixed="' . $fixed . '"';
 	}
 
 	return $adaptive_async_data;

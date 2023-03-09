@@ -115,7 +115,7 @@ class Uncode_WooCommerce_Settings {
 		$page_id           = get_option( $option );
 		$page              = get_post( $page_id );
 
-		if ( strstr( $page->post_content, $shortcode ) ) {
+		if ( $page && isset( $page->post_content ) && strstr( $page->post_content, $shortcode ) ) {
 			$found = array(
 				'found' => true,
 				'mark'  => '#' . absint( $page_id ) . ' - ' . esc_html( str_replace( home_url(), '', get_permalink( $page_id ) ) ),

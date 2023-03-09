@@ -11,7 +11,7 @@ vc_map(array(
 	'name' => esc_html__('Product Reviews', 'uncode-core') ,
 	'base' => 'uncode_single_product_reviews',
 	'php_class_name' => 'uncode_generic_admin',
-	'icon' => 'fa fa-comments',
+	'icon' => 'fa fa-star-half-full',
 	'weight' => -135,
 	'category' => array(
 		esc_html__('WooCommerce Product', 'uncode-core') ,

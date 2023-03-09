@@ -75,7 +75,7 @@
 							$elSelector.find('.owl-item:not(.new-indexed)').removeClass('index-active');
 							$elSelector.find('.owl-item[data-index="' + itendIndex + '"]').addClass('index-active').addClass('new-indexed');
 							if ($.fn.counterUp) {
-								$elSelector.find('.owl-item[data-index="' + itendIndex + '"] .counter').each(function(){
+								$elSelector.find('.owl-item[data-index="' + itendIndex + '"] .uncode-counter').each(function(){
 									var $counter = $(this);
 									$counter.addClass('started').counterUp({
 										delay: 10,
@@ -780,8 +780,8 @@ UNCODE.owlPlayVideo = function(carousel) {
 		}
 		if ($(this).attr('data-provider') == 'vimeo') {
 			iframe = $(this).find('iframe');
-			player = $f(iframe[0]);
-			player.api('play');
+			player = new Vimeo.Player(iframe[0]);
+			player.play();
 		} else if ($(this).attr('data-provider') == 'youtube') {
 			if (youtubePlayers[$(this).attr('data-id')] != undefined) youtubePlayers[$(this).attr('data-id')].playVideo();
 		} else {
@@ -800,8 +800,8 @@ UNCODE.owlStopVideo = function(carousel) {
 		var player, iframe;
 		if ($(this).attr('data-provider') == 'vimeo') {
 			iframe = $(this).find('iframe');
-			player = $f(iframe[0]);
-			player.api('pause');
+			player = new Vimeo.Player(iframe[0]);
+			player.pause();
 		} else if ($(this).attr('data-provider') == 'youtube') {
 			if (youtubePlayers[$(this).attr('data-id')] != undefined) youtubePlayers[$(this).attr('data-id')].pauseVideo();
 		} else {

@@ -2,15 +2,22 @@
 ---------------------------------------------------------- */
 div.wpcf7 span.ajax-loader,
 div.wpcf7 span.wpcf7-spinner {
-  background-image: url(../img/preloader.svg);
-  background-position: 50%;
-  background-size: 20px;
-  position: absolute;
+  display: none !important;
+}
+div.wpcf7 span.ajax-loader:before,
+div.wpcf7 span.wpcf7-spinner:before {
+  display: none;
+}
+div.wpcf7 form.submitting .wpcf7-submit {
+  cursor: progress;
 }
 div.wpcf7 form .wpcf7-response-output {
   border-radius: 3px;
+  border-width: 1px;
   margin: 27px 0px 0px 0px;
-  padding: 9px 18px 9px 18px;
+  padding: 0;
+  border: none;
+  font-size: .9em;
 }
 span.wpcf7-list-item {
   margin-right: 1em;
@@ -91,6 +98,9 @@ p + .wpcf7-inline-wrapper,
 }
 .wpcf7-inline-wrapper.wpcf7-input-group p {
   padding: 0;
+}
+.wpcf7-inline-wrapper.wpcf7-input-group .wpcf7-not-valid-tip {
+  display: none;
 }
 body:not(.rtl) .wpcf7-inline-wrapper.wpcf7-input-group > *:first-child input:not(.btn-inset):not(.inset-input) {
   border-top-right-radius: 0px !important;

@@ -22,7 +22,7 @@ function uncode_page_require_asset_share( $content_array ) {
 					return true;
 				} else if ( $page_show_share === '' ) {
 					$generic_show_share = ot_get_option( '_uncode_' . $uncode_post_data['post_type'] . '_share' );
-					if ( $generic_show_share === 'on' ) {
+					if ( $generic_show_share !== '' && $generic_show_share !== 'off' ) {
 						return true;
 					}
 				}

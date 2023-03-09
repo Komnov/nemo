@@ -124,7 +124,6 @@
 		} else if ( label == '' && $('body').hasClass('uncode-empty-dots') ) {
 			$('ul.onepage-pagination').append("<li><a class='one-dot-link' data-index='" + (index) + "' href='#" + (getName) + "'><span class='cd-dot-cont'><span class='cd-dot'></span></span></a></li>");
 		}
-
 	});
 
 	var checkVisible = function( el, off ) {
@@ -161,8 +160,8 @@
 		$('body:not(.uncode-fullpage-zoom) .background-video-shortcode, .uncode-video-container.video', $currentSlide).each(function(index, val) {
 			if ($(this).attr('data-provider') == 'vimeo') {
 				iframe = $(this).find('iframe');
-				player = $f(iframe[0]);
-				player.api('pause');
+				player = new Vimeo.Player(iframe[0]);
+				player.pause();
 			} else if ($(this).attr('data-provider') == 'youtube') {
 				if (youtubePlayers[$(this).attr('data-id')] != undefined) youtubePlayers[$(this).attr('data-id')].pauseVideo();
 			} else {
@@ -500,8 +499,8 @@
 		$('.uncode-fullpage-zoom .background-video-shortcode, .uncode-video-container.video', $currentSlide).each(function(index, val) {
 			if ($(this).attr('data-provider') == 'vimeo') {
 				iframe = $(this).find('iframe');
-				player = $f(iframe[0]);
-				player.api('pause');
+				player = new Vimeo.Player(iframe[0]);
+				player.pause();
 			} else if ($(this).attr('data-provider') == 'youtube') {
 				if (youtubePlayers[$(this).attr('data-id')] != undefined) youtubePlayers[$(this).attr('data-id')].pauseVideo();
 			} else {
@@ -515,8 +514,14 @@
 		$('.background-video-shortcode, .uncode-video-container.video', $nextSlide).each(function(index, val) {
 			if ($(this).attr('data-provider') == 'vimeo') {
 				iframe = $(this).find('iframe');
-				player = $f(iframe[0]);
-				player.api('play');
+				iframe.on('load', function(){
+					player = new Vimeo.Player(iframe);
+					player.setVolume(0);
+					player.play();
+				});
+				player = new Vimeo.Player(iframe);
+				player.setVolume(0);
+				player.play();
 			} else if ($(this).attr('data-provider') == 'youtube') {
 				if (youtubePlayers[$(this).attr('data-id')] != undefined) youtubePlayers[$(this).attr('data-id')].playVideo();
 			} else {

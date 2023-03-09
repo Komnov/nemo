@@ -34,6 +34,12 @@
   column-gap: 108px;
   row-gap: 108px;
 }
+@media (max-width: 1499px) {
+  .cssgrid-triple-gutter .cssgrid-container {
+    column-gap: 72px;
+    row-gap: 72px;
+  }
+}
 @media (max-width: 959px) {
   .cssgrid-triple-gutter .cssgrid-container {
     column-gap: 36px;
@@ -61,6 +67,12 @@
     column-gap: 36px;
     row-gap: 36px;
   }
+}
+.cssgrid-container.cssgrid-equal-height {
+  grid-auto-rows: 1fr;
+}
+.cssgrid-container.cssgrid-equal-height .tmb > .t-inside {
+  height: 100%;
 }
 .cssgrid-footer {
   opacity: 1 !important;
@@ -121,4 +133,7 @@
     padding-bottom: 36px;
     padding-top: 36px;
   }
+}
+.cssgrid-no-gutter .tmb.tmb-bordered {
+  margin: 0 -1px -1px 0;
 }

@@ -1842,21 +1842,48 @@ function uncode_core_vc_params_get_wc_buttons_and_forms_options( $button_options
 }
 
 /**
- * Get widget collapse option
+ * Get widget collapse option (desktop)
  */
-function uncode_core_vc_params_get_widget_collapse() {
+function uncode_core_vc_params_get_widget_collapse_desktop() {
 	$widget_style = array(
-		"type" => 'checkbox',
-		"heading" => esc_html__("Mobile collapse", 'uncode-core') ,
-		"param_name" => "widget_collapse",
-		"description" => esc_html__("Activate to collapse the widgets on mobile devices.", 'uncode-core') ,
-		"value" => Array(
-			esc_html__("Yes, please", 'uncode-core') => 'yes'
+		"type" => 'dropdown',
+		"heading" => esc_html__("Desktop collapse", 'uncode-core') ,
+		"param_name" => "widget_desktop_collapse",
+		"description" => esc_html__("Activate to collapse the widgets on desktop devices.", 'uncode-core') ,
+		"value" => array(
+			esc_html__('None', 'uncode-core') => '',
+			esc_html__('Collapsed on load', 'uncode-core') => 'yes',
+			esc_html__('Collapsable on click', 'uncode-core') => 'click',
 		) ,
 		"dependency" => array(
 			'element' => "use_widget_style",
 			'value' => 'yes'
 		) ,
+		"group" => esc_html__("Style", 'uncode-core') ,
+	);
+
+	return $widget_style;
+}
+
+/**
+ * Get widget collapse option (mobile)
+ */
+function uncode_core_vc_params_get_widget_collapse() {
+	$widget_style = array(
+		"type" => 'dropdown',
+		"heading" => esc_html__("Mobile collapse", 'uncode-core') ,
+		"param_name" => "widget_collapse",
+		"description" => esc_html__("Activate to collapse the widgets on mobile devices.", 'uncode-core') ,
+		"value" => array(
+			esc_html__('None', 'uncode-core') => '',
+			esc_html__('Collapsed on load', 'uncode-core') => 'yes',
+			esc_html__('Collapsable on click', 'uncode-core') => 'click',
+		) ,
+		"dependency" => array(
+			'element' => "use_widget_style",
+			'value' => 'yes'
+		) ,
+		"group" => esc_html__("Style", 'uncode-core') ,
 	);
 
 	return $widget_style;
@@ -1867,17 +1894,43 @@ function uncode_core_vc_params_get_widget_collapse() {
  */
 function uncode_core_vc_params_get_widget_collapse_tablet() {
 	$widget_style = array(
-		"type" => 'checkbox',
+		"type" => 'dropdown',
 		"heading" => esc_html__("Tablet collapse", 'uncode-core') ,
 		"param_name" => "widget_collapse_tablet",
 		"description" => esc_html__("Activate to collapse the widgets on tablet devices.", 'uncode-core') ,
-		"value" => Array(
-			esc_html__("Yes, please", 'uncode-core') => 'yes'
+		"value" => array(
+			esc_html__('None', 'uncode-core') => '',
+			esc_html__('Collapsed on load', 'uncode-core') => 'yes',
+			esc_html__('Collapsable on click', 'uncode-core') => 'click',
 		) ,
 		"dependency" => array(
-			'element' => "widget_collapse",
+			'element' => "use_widget_style",
 			'value' => 'yes'
 		) ,
+		"group" => esc_html__("Style", 'uncode-core') ,
+	);
+
+	return $widget_style;
+}
+
+/**
+ * Get widget collapse icon option
+ */
+function uncode_core_vc_params_get_widget_collapse_icon() {
+	$widget_style = array(
+		"type" => 'dropdown',
+		"heading" => esc_html__("Collapse icon", 'uncode-core') ,
+		"param_name" => "widget_collapse_icon",
+		"description" => esc_html__("Choose the icon.", 'uncode-core') ,
+		"value" => array(
+			esc_html__('^ (Chevron sign)', 'uncode-core') => '',
+			esc_html__('+ (Plus sign)', 'uncode-core') => '-plus',
+		) ,
+		"dependency" => array(
+			'element' => "use_widget_style",
+			'value' => 'yes'
+		) ,
+		"group" => esc_html__("Style", 'uncode-core') ,
 	);
 
 	return $widget_style;
@@ -1895,6 +1948,7 @@ function uncode_core_vc_params_get_widget_style() {
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
+		"group" => esc_html__("Style", 'uncode-core') ,
 	);
 
 	return $widget_style;
@@ -1916,6 +1970,7 @@ function uncode_core_vc_params_get_widget_style_no_arrows() {
 			'element' => "use_widget_style",
 			'value' => 'yes'
 		) ,
+		"group" => esc_html__("Style", 'uncode-core') ,
 	);
 
 	return $widget_style_no_arrows;
@@ -1937,6 +1992,7 @@ function uncode_core_vc_params_get_widget_style_no_separator() {
 			'element' => "use_widget_style",
 			'value' => 'yes'
 		) ,
+		"group" => esc_html__("Style", 'uncode-core') ,
 	);
 
 	return $widget_style_no_separator;
@@ -1959,6 +2015,7 @@ function uncode_core_vc_params_get_widget_style_title_typography() {
 			'element' => "use_widget_style",
 			'value' => 'yes'
 		) ,
+		"group" => esc_html__("Style", 'uncode-core') ,
 	);
 
 	return $widget_style_title_typography;
@@ -1976,6 +2033,7 @@ function uncode_core_vc_params_get_widget_style_no_stars() {
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
+		"group" => esc_html__("Style", 'uncode-core') ,
 	);
 
 	return $widget_style_no_stars;
@@ -1993,6 +2051,7 @@ function uncode_core_vc_params_get_widget_style_no_thumbs() {
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
+		"group" => esc_html__("Style", 'uncode-core') ,
 	);
 
 	return $widget_style_no_thumbs;

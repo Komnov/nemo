@@ -12,7 +12,7 @@
  *
  * @see https://docs.woocommerce.com/document/template-structure/
  * @package WooCommerce/Templates
- * @version 3.4.0
+ * @version 7.0.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -31,7 +31,7 @@ $dynamic_button = isset ( $vc_shortcode ) ? ' dynamic-button' : '';
 	<?php // BEGIN UNCODE EDIT
 		$button_class = isset( $button_class ) ? $button_class : 'alt btn btn-default';
 	?>
-	<button type="submit" class="single_add_to_cart_button button <?php echo esc_attr( uncode_btn_style() ); ?> <?php echo esc_attr( $button_class ); ?>"><?php echo esc_html( $button_text ); ?></button>
+	<button type="submit" class="single_add_to_cart_button button <?php echo esc_attr( uncode_btn_style() ); ?> <?php echo esc_attr( $button_class ); ?><?php echo esc_attr( uncode_wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . uncode_wc_wp_theme_get_element_class_name( 'button' ) : '' ); ?>"><?php echo esc_html( $button_text ); ?></button>
 	<?php // END UNCODE EDIT ?>
 
 	<?php wc_query_string_form_fields( $product_url ); ?>

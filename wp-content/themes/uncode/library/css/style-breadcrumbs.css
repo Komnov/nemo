@@ -9,7 +9,6 @@
   margin: 0px 0px 0px 0px;
   padding: 0px 0px 0px 0px;
   list-style: none;
-  font-weight: 500;
   line-height: 1.2;
 }
 .breadcrumb > li {
@@ -88,4 +87,7 @@
   .row-breadcrumb .row > *:not(:first-child) {
     margin: 9px 0px 0px 0px !important;
   }
+}
+.breadcrumb-module {
+  text-align: inherit;
 }

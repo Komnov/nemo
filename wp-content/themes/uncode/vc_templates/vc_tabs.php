@@ -12,6 +12,7 @@ extract( shortcode_atts( array(
 	'align' => '',
 	'width_100' => '',
 	'border_100' => '',
+	'tab_scrolling' => '',
 	'el_id' => '',
 	'el_class' => '',
 	'product_from_builder' => '',
@@ -59,6 +60,10 @@ if ( $width_100 === 'yes' && $vertical !== 'yes' ) {
 
 if ( $border_100 === 'yes' && $vertical !== 'yes' ) {
 	$el_class .= ' border-100';
+}
+
+if ( $tab_scrolling === 'yes' && $vertical !== 'yes' ) {
+	$el_class .= ' tab-scrolling';
 }
 
 $tabs_nav = '<div class="vc_tta-tabs-container';

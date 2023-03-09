@@ -121,7 +121,7 @@ if ($button !== '') {
 	$a_title = $button['title'];
 	$a_target = $button['target'];
 	if ($a_title !== '') {
-		$content_output .= '<div class="plan-button'.esc_attr($el_color).'"><a href="'.esc_url($a_href).'" class="btn btn-' . esc_attr($button_color) . esc_attr($button_class) . '" target="'.esc_attr($a_target).'">'.$a_title.'</a></div>';
+		$content_output .= '<div class="plan-button'.esc_attr($el_color).'"><a href="'.esc_url($a_href).'" class="btn btn-no-scale btn-' . esc_attr($button_color) . esc_attr($button_class) . '" target="'.esc_attr($a_target).'">'.$a_title.'</a></div>';
 	}
 }
 $content_output .= '</div>';

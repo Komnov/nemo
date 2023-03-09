@@ -43,9 +43,10 @@
 		UNCODE.stickyElements();
 		UNCODE.twentytwenty();
 		UNCODE.disableHoverScroll();
-		UNCODE.printScreen();
+		// UNCODE.printScreen();
 		UNCODE.particles();
 		UNCODE.filters();
+		UNCODE.ajax_filters();
 		UNCODE.widgets();
 		UNCODE.unmodal();
 		UNCODE.onePage(UNCODE.isMobile);
@@ -596,6 +597,14 @@
 				}
 			}
 
+			requestTimeout(function(){
+				if ( $('.woocommerce-product-gallery__image-first__img', $el).length ) {
+					$('.woocommerce-product-gallery__image-first__img', $el).css({
+						'min-width':'100px'
+					});
+				}
+			}, 250);
+
 			if ( shortcode !== 'uncode_slider' ) {
 				UNCODE.carousel( $el );
 			}
@@ -782,6 +791,10 @@
 					UNCODE.animate_css_grids($el, $el.find('.tmb-grid'), 0, sequential, false);
 					UNCODE.cssGrid();
 				}
+			}
+
+			if ( shortcode === 'uncode_index' && model.changed.params.filtering === 'ajax' ) {
+				$( window ).trigger('uncode.ajax_filters', $el);
 			}
 
 			requestTimeout(function(){

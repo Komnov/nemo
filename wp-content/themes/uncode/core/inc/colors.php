@@ -108,7 +108,7 @@ function uncode_define_global_colors() {
 		}
 	}
 
-	if (isset($retrieve_options['_uncode_accent_color']) && $retrieve_options['_uncode_accent_color'] !== '')
+	if (isset($retrieve_options['_uncode_accent_color']) && $retrieve_options['_uncode_accent_color'] !== '' && isset($front_background_colors[$retrieve_options['_uncode_accent_color']]))
 	{
 		$front_background_colors['accent'] = $front_background_colors[$retrieve_options['_uncode_accent_color']];
 	}

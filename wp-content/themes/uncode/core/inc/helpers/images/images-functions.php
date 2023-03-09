@@ -12,7 +12,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function uncode_recheck_attachment_meta( $media_id, $width, $height, $url, $cropped_img_url ) {
 	// Check meta only when the admin is logged in
-	if ( ! ( current_user_can( 'administrator' ) && is_user_logged_in() ) ) {
+	$can_check_meta = current_user_can( 'administrator' ) && is_user_logged_in() ? true : false;
+	$can_check_meta = apply_filters( 'uncode_can_recheck_attachment_meta', $can_check_meta );
+
+	if ( ! $can_check_meta ) {
 		return;
 	}
 

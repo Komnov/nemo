@@ -678,6 +678,27 @@
 					$marker.html(0).val(0);
 					break;
 			}
+		} else if ($input.attr("id") == '_uncode_menu_custom_lateral_padding') {
+			switch (parseInt($value)) {
+				case 72:
+					$marker.html('2x').val('2x');
+					break;
+				case 108:
+					$marker.html('3x').val('3x');
+					break;
+				case 144:
+					$marker.html('4x').val('4x');
+					break;
+				case 180:
+					$marker.html('5x').val('5x');
+					break;
+				case 216:
+					$marker.html('6x').val('6x');
+					break;
+				default:
+					$marker.html('1x').val('1x');
+					break;
+			}
 		} else if ($input.attr("id") == '_uncode_product_index_ppp') {
 			switch (parseInt($value)) {
 				case 0:

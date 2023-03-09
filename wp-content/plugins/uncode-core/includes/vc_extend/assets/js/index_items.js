@@ -292,7 +292,7 @@
 				window.showHideQueryBuilderOptions();
 			});
 			/** update query when some changes are made **/
-			$('[data-vc-shortcode="vc_gallery"] li[data-tab-index="3"], [data-vc-shortcode="uncode_index"] li[data-tab-index="4"]').on('click', function(event) {
+			$('[data-vc-shortcode="vc_gallery"] li[data-tab-index="3"], [data-vc-shortcode="uncode_index"] li[data-tab-index="5"]').on('click', function(event) {
 				$('select[name="post_matrix"]').trigger('change');
 			});
 
@@ -329,7 +329,7 @@
 					wrapSelect($(val));
 				});
 			}
-			$('[data-vc-shortcode="vc_gallery"] li[data-tab-index="3"], [data-vc-shortcode="uncode_index"] li[data-tab-index="4"]').on('click', function(event) {
+			$('[data-vc-shortcode="vc_gallery"] li[data-tab-index="3"], [data-vc-shortcode="uncode_index"] li[data-tab-index="5"]').on('click', function(event) {
 				$('select[name="post_matrix"]').trigger('change');
 			});
 
@@ -561,7 +561,7 @@
 				return false;
 			}
 
-			var woo_fields = $('#vc_edit-form-tab-1 .woo-dependent-field');
+			var woo_fields = $('#vc_edit-form-tab-2 .woo-dependent-field');
 
 			woo_fields.hide();
 
@@ -589,7 +589,9 @@
 			if (layout.val() === 'isotope' || layout.val() === 'css_grid' || layout.val() === 'titles') {
 				nav_option.prop('disabled', false);
 			} else {
-				auto_query_type_select.val('').trigger('change');
+				if (auto_query_type_select.val() === 'navigation') {
+					auto_query_type_select.val('').trigger('change');
+				}
 			}
 		}
 
@@ -700,10 +702,15 @@
 			} else {
 				$matrix_amount = $container.closest('.vc_edit-form-tab').find('.matrix_amount').val();
 			}
+			var is_css_grid = $('select.index_type').val() === 'css_grid' ? true : false;
 			$container.empty();
 			$containerParent = $container.parent();
 			$bundleInput = $containerParent.find('.uncode_bundle_items');
-			$templateSingle = $('#vc_edit-form-tab-2').clone();
+			if (is_css_grid) {
+				$templateSingle = false;
+			} else {
+				$templateSingle = $('#vc_edit-form-tab-3').clone();
+			}
 			$templateCatEl = $('#vc_edit-form-tab-1 .wpb_el_type_sorted_list');
 			var has_post_elements = $templateCatEl.hasClass('simple-single-tab-disabled') ? false : true;
 			$templatePostObj = {};
@@ -711,8 +718,10 @@
 			$custom_order = (($('#custom_order-yes')[0].checked) ? true : false);
 			$order_ids = $container.closest('.vc_edit-form-tab').find('.order_ids').val();
 
-			$($templateSingle).find('.vc-iconpicker, .vc-icons-selector').remove();
-			$templateSingle.find('.simple-single-tab-disabled').remove();
+			if (!is_css_grid) {
+				$($templateSingle).find('.vc-iconpicker, .vc-icons-selector').remove();
+				$templateSingle.find('.simple-single-tab-disabled').remove();
+			}
 			$('.spinner', $containerParent).css('visibility', 'visible').show();
 			$('button', $containerParent).attr('disabled');
 			$('button', $containerParent).css('opacity', 0.5);
@@ -745,7 +754,7 @@
 			$templatePostObj['action'] = 'uncode_get_query';
 			$templatePostObj['content'] = $query;
 			$templatePostObj['allItems'] = $allItems;
-			$templatePostObj['templateSingle'] = $templateSingle.html();
+			$templatePostObj['templateSingle'] = $templateSingle ? $templateSingle.html() : false;
 			$templatePostObj['custom_order'] = $custom_order;
 			$templatePostObj['order_ids'] = $order_ids;
 			$templatePostObj['matrix_amount'] = $matrix_amount;
@@ -1007,7 +1016,9 @@
 					if (!$(this).hasClass('active')) {
 						$("body").addClass('wait');
 						setTimeout(function() {
-							$('.vc-iconpicker-wrapper', $iconContainer).append($('#vc_edit-form-tab-2 .vc-iconpicker').clone());
+							var $vc_shortcode_type = $container.closest('.vc_ui-panel-window').attr('data-vc-shortcode');
+							var $tab_index = $vc_shortcode_type ==='vc_gallery' ? 2 : 3;
+							$('.vc-iconpicker-wrapper', $iconContainer).append($('#vc_edit-form-tab-' + $tab_index + ' .vc-iconpicker').clone());
 							var $el = $iconContainer.find('.wpb_vc_param_value');
 							var settings = $.extend({
 								iconsPerPage: 100, // default icons per page for iconpicker

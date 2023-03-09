@@ -23,7 +23,7 @@
 					$(cssGridContainersArray[i]).infinitescroll({
 						navSelector: '#' + cssGridId + ' .loadmore-button', // selector for the pagination container
 						nextSelector: '#' + cssGridId + ' .loadmore-button a', // selector for the NEXT link (to page 2)
-						itemSelector: '#' + cssGridId + ' .cssgrid-layout .tmb, #' + cssGridId + ' .grid-filters li', // selector for all items you'll retrieve
+						itemSelector: '#' + cssGridId + ' .cssgrid-layout .tmb, #' + cssGridId + ' .grid-filters li.filter-cat', // selector for all items you'll retrieve
 						animate: false,
 						behavior: 'local',
 						debug: false,
@@ -100,6 +100,7 @@
 							twttr.widgets.load(cssGridContainersArray[i]);
 						}
 
+						UNCODE.carousel($(newElements));
 						requestTimeout(function() {
 							$cssGrid.trigger('more-items-loaded');
 						}, 1000);
@@ -135,6 +136,13 @@
 
                 calc_scroll -= UNCODE.get_scroll_offset();
 
+				var menu_container = $('.menu-sticky');
+				var menu = menu_container.find('.menu-container');
+
+				if (menu_container.length > 0 && menu.length > 0) {
+					calc_scroll = calc_scroll - menu.outerHeight();
+				}
+
 				var bodyTop = document.documentElement['scrollTop'] || document.body['scrollTop'],
 					delta = bodyTop - calc_scroll,
 					scrollSpeed = (SiteParameters.constant_scroll == 'on') ? Math.abs(delta) / parseFloat(SiteParameters.scroll_speed) : SiteParameters.scroll_speed;
@@ -156,7 +164,7 @@
 					}
 				}
 
-				loadCssGrid($(this));
+				loadCssGrid($(this), true);
 				evt.preventDefault();
 			});
 		}
@@ -300,53 +308,63 @@
 			evt.preventDefault();
 		});
 
-		$(window).on("popstate", function(e) {
-			if (e.originalEvent.state === null) {
+		$(window).off('popstate.cssgrid').on("popstate.cssgrid", function(e) {
+			var params = UNCODE.getURLParams(window.location);
+			var old_params = UNCODE.getURLParams(UNCODE.lastURL, true);
+
+			UNCODE.lastURL = window.location.href;
+
+			if (UNCODE.hasEqualURLParams(params, old_params) || ($.isEmptyObject(params) && $.isEmptyObject(old_params))) {
 				return;
 			}
-			var params = {};
-			if (location.search) {
-				var parts = location.search.substring(1).split('&');
-				for (var i = 0; i < parts.length; i++) {
-					var nv = parts[i].split('=');
-					if (!nv[0]) {
-						continue;
-					}
-					params[nv[0]] = nv[1] || true;
-				}
-			}
+
 			if (params.id === undefined) {
 				$.each($('.cssgrid-system'), function(index, val) {
 					loadCssGrid($(val));
 				});
 			} else {
-				loadCssGrid($('#' + params.id));
+				if (!params.hasOwnProperty(SiteParameters.ajax_filter_key_unfilter)) {
+					loadCssGrid($('#' + params.id));
+				}
 			}
 		});
 
-		var loadCssGrid = function($href) {
+		var loadCssGrid = function($href, $paginating) {
+			var is_paginating = false;
+
+			if (undefined !== $paginating && $paginating) {
+				var is_paginating = $paginating;
+			}
+
 			var href = ($href.is("a") ? $href.attr('href') : location),
 				cssgridSystem = ($href.is("a") ? $href.closest($('.cssgrid-system')) : $href),
 				cssgridWrapper = cssgridSystem.find($('.cssgrid-wrapper')),
 				cssgridFooter = cssgridSystem.find($('.cssgrid-footer-inner')),
+				cssgridResultCount = cssgridSystem.find($('.woocommerce-result-count-wrapper')),
 				cssgridContainer = cssgridSystem.find($('.cssgrid-layout')),
 				cssgridId = cssgridSystem.attr('id');
 			if ( $href.is("a") && ! cssgridSystem.hasClass('un-no-history') ) {
+				UNCODE.lastURL = href;
 				history.pushState({
 					myCSSgrid: true
 				}, document.title, href);
 			}
 			cssgridWrapper.addClass('cssgrid-loading');
+			if (is_paginating) {
+				cssgridWrapper.addClass('grid-filtering');
+			}
 			$.ajax({
 				url: href
 			}).done(function(data) {
 				var $resultItems = $(data).find('#' + cssgridId + ' .cssgrid-layout').html(),
-					$resultPagination = $(data).find('#' + cssgridId + ' .pagination');
+					$resultPagination = $(data).find('#' + cssgridId + ' .pagination')[0],
+					$resultCount = $(data).find('#' + cssgridId + ' .woocommerce-result-count')[0];
 				requestTimeout(function() {
 					cssgridContainer.html($resultItems);
 					cssgridWrapper.removeClass('cssgrid-loading');
+					cssgridWrapper.removeClass('grid-filtering');
 					var sequential = cssgridSystem.hasClass('cssgrid-animate-sequential') ? true : false;
-					UNCODE.animate_css_grids(cssgridSystem, cssgridContainer.find('.tmb-grid'), 0, false, false);
+					UNCODE.animate_css_grids(cssgridSystem, cssgridContainer.find('.tmb-grid'), 0, sequential, false);
 					UNCODE.adaptive();
 					if (SiteParameters.dynamic_srcset_active === '1') {
 						UNCODE.refresh_dynamic_srcset_size(cssgridContainer);
@@ -364,6 +382,11 @@
 
 				$('.pagination', cssgridFooter).remove();
 				cssgridFooter.append($resultPagination);
+
+				if (cssgridResultCount.length > 0) {
+					$('.woocommerce-result-count', cssgridResultCount).remove();
+					cssgridResultCount.append($resultCount);
+				}
 			});
 		};
 

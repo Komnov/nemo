@@ -41,15 +41,36 @@ class WC_Cache_Helper {
 	 * @since 3.6.0
 	 */
 	public static function additional_nocache_headers( $headers ) {
+		global $wp_query;
+		
 		$agent = isset( $_SERVER['HTTP_USER_AGENT'] ) ? wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
+		$set_cache = false;
+
 		/**
 		 * Allow plugins to enable nocache headers. Enabled for Google weblight.
 		 *
-		 * @see   https://support.google.com/webmasters/answer/1061943?hl=en
 		 * @param bool $enable_nocache_headers Flag indicating whether to add nocache headers. Default: false.
 		 */
-		if ( false !== strpos( $agent, 'googleweblight' ) || apply_filters( 'woocommerce_enable_nocache_headers', false ) ) {
+		if ( apply_filters( 'woocommerce_enable_nocache_headers', false ) ) {
+			$set_cache = true;
+		}
+
+		/**
+		 * Enabled for Google weblight.
+		 *
+		 * @see https://support.google.com/webmasters/answer/1061943?hl=en
+		 */
+		if ( false !== strpos( $agent, 'googleweblight' ) ) {
 			// no-transform: Opt-out of Google weblight. https://support.google.com/webmasters/answer/6211428?hl=en.
+			$set_cache = true;
+		}
+
+		if ( false !== strpos( $agent, 'Chrome' ) && isset( $wp_query ) && is_cart() ) {
+			$set_cache = true;
+		}
+
+		if ( $set_cache ) {
 			$headers['Cache-Control'] = 'no-transform, no-cache, no-store, must-revalidate';
 		}
 		return $headers;
@@ -167,7 +188,7 @@ class WC_Cache_Helper {
 	 * This prevents caching of the wrong data for this request.
 	 */
 	public static function geolocation_ajax_redirect() {
-		if ( 'geolocation_ajax' === get_option( 'woocommerce_default_customer_address' ) && ! is_checkout() && ! is_cart() && ! is_account_page() && ! is_ajax() && empty( $_POST ) ) { // WPCS: CSRF ok, input var ok.
+		if ( 'geolocation_ajax' === get_option( 'woocommerce_default_customer_address' ) && ! is_checkout() && ! is_cart() && ! is_account_page() && ! wp_doing_ajax() && empty( $_POST ) ) { // WPCS: CSRF ok, input var ok.
 			$location_hash = self::geolocation_ajax_get_location_hash();
 			$current_hash  = isset( $_GET['v'] ) ? wc_clean( wp_unslash( $_GET['v'] ) ) : ''; // WPCS: sanitization ok, input var ok, CSRF ok.
 			if ( empty( $current_hash ) || $current_hash !== $location_hash ) {

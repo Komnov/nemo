@@ -13,6 +13,11 @@ $custom_tag = 'script';
 		_groupAccessRules = <?php echo wp_json_encode( array_merge( array( 'current_user' => wp_get_current_user()->roles ), (array) vc_settings()->get( 'groups_access_rules' ) ) ); ?>;
 		_mergedCaps = <?php echo wp_json_encode( vc_user_access()->part( 'shortcodes' )->getMergedCaps() ); ?>;
 		_check = function ( part, rule, custom, not_check_state ) {
+			<?php
+			if ( current_user_can( 'administrator' ) ) {
+				echo 'return rule==="disabled_ce_editor" ? false : true;';
+			}
+			?>
 			var state, partObj, findRule;
 
 			partObj = _.isUndefined( _localCapabilities[ part ] ) ? {} : _localCapabilities[ part ];

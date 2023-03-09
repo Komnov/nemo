@@ -718,12 +718,15 @@ class Vc_Frontend_Editor {
 		// START UNCODE EDIT
 		// $this->enqueueRequired();
 		$break_array = apply_filters( 'uncode_js_composer_frontend_not_allowed_shortcodes', array() );
-		if ( in_array( $shortcode['tag'], $break_array )) {
-			return;
-		}
 		// END UNCODE EDIT
 		$output = '';
 		foreach ( $shortcodes as $shortcode ) {
+			// START UNCODE EDIT
+			if ( in_array( $shortcode['tag'], $break_array )) {
+				return;
+			}
+			// END UNCODE EDIT
+
 			if ( isset( $shortcode['id'] ) && isset( $shortcode['string'] ) ) {
 				if ( isset( $shortcode['tag'] ) ) {
 					$shortcode_obj = wpbakery()->getShortCode( $shortcode['tag'] );

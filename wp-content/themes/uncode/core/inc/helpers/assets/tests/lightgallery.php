@@ -25,7 +25,7 @@ function uncode_page_require_asset_lightgallery( $content_array ) {
 			$lg_plugins['fullscreen'] = true;
 		}
 
-		if ( strpos( $content, 'lbox_deep="yes"' ) !== false && ! in_array( 'hash', $lg_plugins ) ) {
+		if ( ( strpos( $content, 'lbox_deep="yes"' ) !== false || strpos( $content, '[vc_gallery ' ) !== false ) && ! in_array( 'hash', $lg_plugins ) ) {
 			$lg_plugins['hash'] = true;
 		}
 

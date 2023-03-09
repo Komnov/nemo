@@ -75,7 +75,7 @@ if ($counter_color !== '') {
 	$counter_color = ' text-' . $counter_color . '-color';
 }
 
-$css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, 'uncode-counter ', $this->settings['base'], $atts );
+$css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, 'uncode-counter-wrap ', $this->settings['base'], $atts );
 $classes = array( $css_class );
 $classes[] = trim( $this->getExtraClass( $el_class ) );
 
@@ -97,7 +97,7 @@ $output .= '<p class="' . esc_attr(trim(implode(' ', $counter_class))) . '">';
 if ($prefix !== '') {
 	$output .= '<span class="counter-prefix'.$counter_color.'">'.$prefix.'</span>';
 }
-$output .= '<span class="counter' . esc_attr( $counter_color ) . '" data-val="' . $value . '">' . $value . '</span>';
+$output .= '<span class="uncode-counter counter' . esc_attr( $counter_color ) . '" data-val="' . $value . '">' . $value . '</span>';
 if ($suffix !== '') {
 	$output .= '<span class="counter-suffix' . esc_attr( $counter_color ) . '">'.$suffix.'</span>';
 }

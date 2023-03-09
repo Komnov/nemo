@@ -52,7 +52,7 @@
 					lastMove = thisMove;
 				},
 				'touchstart.smartmenus_mouse pointerover.smartmenus_mouse MSPointerOver.smartmenus_mouse': function(e) {
-					if (!/^(4|mouse)$/.test(e.originalEvent.pointerType)) {
+					if (!/^(4|mouse|pen)$/.test(e.originalEvent.pointerType)) {
 						mouse = false;
 					}
 				}
@@ -707,8 +707,8 @@
 				}
 				if ( !$sub.closest('.menu-accordion').length ) {
 					var rightPos = 'auto';
-					if ( $sub.parents('.isotope-filters').length ) {
-						if ( $sub.parents('.text-right').eq(0).length ) {
+					if ( $sub.closest('.grid-filters').length ) {
+						if ( $sub.closest('.text-right').length ) {
 							leftPos = '0px';
 							rightPos = 'auto';
 						} else {

@@ -53,6 +53,7 @@ class WC_Meta_Box_Product_Data {
 	 * @return array
 	 */
 	private static function get_product_type_options() {
+		/* phpcs:disable WooCommerce.Commenting.CommentHooks.MissingHookComment */
 		return apply_filters(
 			'product_type_options',
 			array(
@@ -72,6 +73,7 @@ class WC_Meta_Box_Product_Data {
 				),
 			)
 		);
+		/* phpcs: enable */
 	}
 
 	/**
@@ -80,6 +82,7 @@ class WC_Meta_Box_Product_Data {
 	 * @return array
 	 */
 	private static function get_product_data_tabs() {
+		/* phpcs:disable WooCommerce.Commenting.CommentHooks.MissingHookComment */
 		$tabs = apply_filters(
 			'woocommerce_product_data_tabs',
 			array(
@@ -127,6 +130,7 @@ class WC_Meta_Box_Product_Data {
 				),
 			)
 		);
+		/* phpcs: enable */
 
 		// Sort tabs based on priority.
 		uasort( $tabs, array( __CLASS__, 'product_data_tabs_sort' ) );
@@ -171,11 +175,14 @@ class WC_Meta_Box_Product_Data {
 	public static function output_variations() {
 		global $post, $wpdb, $product_object;
 
+		/* phpcs:disable WooCommerce.Commenting.CommentHooks.MissingHookComment */
 		$variation_attributes   = array_filter( $product_object->get_attributes(), array( __CLASS__, 'filter_variation_attributes' ) );
 		$default_attributes     = $product_object->get_default_attributes();
 		$variations_count       = absint( apply_filters( 'woocommerce_admin_meta_boxes_variations_count', $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts WHERE post_parent = %d AND post_type = 'product_variation' AND post_status IN ('publish', 'private')", $post->ID ) ), $post->ID ) );
 		$variations_per_page    = absint( apply_filters( 'woocommerce_admin_meta_boxes_variations_per_page', 15 ) );
 		$variations_total_pages = ceil( $variations_count / $variations_per_page );
+		$modal_title            = get_bloginfo( 'name' ) . __( ' says', 'woocommerce' );
+		/* phpcs: enable */
 
 		include __DIR__ . '/views/html-product-data-variations.php';
 	}
@@ -272,7 +279,9 @@ class WC_Meta_Box_Product_Data {
 				$attribute->set_position( $attribute_position[ $i ] );
 				$attribute->set_visible( isset( $attribute_visibility[ $i ] ) );
 				$attribute->set_variation( isset( $attribute_variation[ $i ] ) );
+				/* phpcs:disable WooCommerce.Commenting.CommentHooks.MissingHookComment */
 				$attributes[] = apply_filters( 'woocommerce_admin_meta_boxes_prepare_attribute', $attribute, $data, $i );
+				/* phpcs: enable */
 			}
 		}
 		return $attributes;
@@ -425,9 +434,9 @@ class WC_Meta_Box_Product_Data {
 
 			$product->get_data_store()->sync_variation_names( $product, $original_post_title, $post_title );
 		}
-
+		/* phpcs:disable WooCommerce.Commenting.CommentHooks.MissingHookComment */
 		do_action( 'woocommerce_process_product_meta_' . $product_type, $post_id );
-		// phpcs:enable WordPress.Security.NonceVerification.Missing
+		/* phpcs:enable WordPress.Security.NonceVerification.Missing and WooCommerce.Commenting.CommentHooks.MissingHookComment */
 	}
 
 	/**
@@ -437,6 +446,8 @@ class WC_Meta_Box_Product_Data {
 	 * @param WP_Post $post Post object.
 	 */
 	public static function save_variations( $post_id, $post ) {
+		global $wpdb;
+
 		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		if ( isset( $_POST['variable_post_id'] ) ) {
 			$parent = wc_get_product( $post_id );
@@ -446,6 +457,26 @@ class WC_Meta_Box_Product_Data {
 			$max_loop   = max( array_keys( wp_unslash( $_POST['variable_post_id'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			$data_store = $parent->get_data_store();
 			$data_store->sort_all_product_variations( $parent->get_id() );
+			$new_variation_menu_order_id    = ! empty( $_POST['new_variation_menu_order_id'] ) ? wc_clean( wp_unslash( $_POST['new_variation_menu_order_id'] ) ) : false;
+			$new_variation_menu_order_value = ! empty( $_POST['new_variation_menu_order_value'] ) ? wc_clean( wp_unslash( $_POST['new_variation_menu_order_value'] ) ) : false;
+
+			// Only perform this operation if setting menu order via the prompt.
+			if ( $new_variation_menu_order_id && $new_variation_menu_order_value ) {
+				/*
+				 * We need to gather all the variations with menu order that is
+				 * equal or greater than the menu order that is newly set and
+				 * increment them by one so that we can correctly insert the updated
+				 * variation menu order.
+				 */
+				$wpdb->query(
+					$wpdb->prepare(
+						"UPDATE {$wpdb->posts} SET menu_order = menu_order + 1 WHERE post_type = 'product_variation' AND post_parent = %d AND post_status = 'publish' AND menu_order >= %d AND ID != %d",
+						$post_id,
+						$new_variation_menu_order_value,
+						$new_variation_menu_order_id
+					)
+				);
+			}
 
 			for ( $i = 0; $i <= $max_loop; $i++ ) {
 
@@ -538,8 +569,9 @@ class WC_Meta_Box_Product_Data {
 				do_action( 'woocommerce_admin_process_variation_object', $variation, $i );
 
 				$variation->save();
-
+				/* phpcs:disable WooCommerce.Commenting.CommentHooks.MissingHookComment */
 				do_action( 'woocommerce_save_product_variation', $variation_id, $i );
+				/* phpcs: enable */
 			}
 		}
 		// phpcs:enable WordPress.Security.NonceVerification.Missing

@@ -22,7 +22,7 @@ vc_map(array(
 	'base' => 'vc_wp_links',
 	'icon' => 'fa fa-wordpress',
 	'class' => 'wpb_vc_wp_widget',
-	'weight' => -50,
+	'weight' => -500,
 	'category' => array(
 		esc_html__('WordPress Widgets', 'uncode-core') ,
 	),

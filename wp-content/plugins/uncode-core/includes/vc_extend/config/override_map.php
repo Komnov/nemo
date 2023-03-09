@@ -40,14 +40,18 @@ $button_options                = uncode_core_vc_params_get_button_options( $unco
 $wc_heading_options            = uncode_core_vc_params_get_wc_heading_options( $heading_font, $heading_size, $heading_weight, $heading_height, $heading_space );
 $wc_extra_options              = uncode_core_vc_params_get_wc_extra_options();
 $wc_thumb_size_options         = uncode_core_vc_params_get_wc_thumb_size_options();
-$add_widget_collapse           = uncode_core_vc_params_get_widget_collapse();
+$add_widget_collapse_desktop   = uncode_core_vc_params_get_widget_collapse_desktop();
 $add_widget_collapse_tablet    = uncode_core_vc_params_get_widget_collapse_tablet();
+$add_widget_collapse           = uncode_core_vc_params_get_widget_collapse();
+$add_widget_icon               = uncode_core_vc_params_get_widget_collapse_icon();
 $add_widget_style              = uncode_core_vc_params_get_widget_style();
 $add_widget_style_no_arrows    = uncode_core_vc_params_get_widget_style_no_arrows();
 $add_widget_style_no_separator = uncode_core_vc_params_get_widget_style_no_separator();
 $add_widget_style_title_typo   = uncode_core_vc_params_get_widget_style_title_typography();
 $add_widget_style_no_stars     = uncode_core_vc_params_get_widget_style_no_stars();
 $add_widget_style_no_thumbs    = uncode_core_vc_params_get_widget_style_no_thumbs();
+$all_taxonomies                = uncode_core_get_taxonomies_for_ajax_filter();
+$all_product_atts              = uncode_core_get_product_attributes_for_ajax_filter();
 
 // Overrides
 require_once UNCODE_CORE_PLUGIN_DIR . '/includes/vc_extend/modules/section/section.php';
@@ -113,6 +117,9 @@ require_once UNCODE_CORE_PLUGIN_DIR . '/includes/vc_extend/modules/widget-recomm
 require_once UNCODE_CORE_PLUGIN_DIR . '/includes/vc_extend/modules/vertical-text/vertical-text.php';
 require_once UNCODE_CORE_PLUGIN_DIR . '/includes/vc_extend/modules/module-placeholder/module-placeholder.php';
 require_once UNCODE_CORE_PLUGIN_DIR . '/includes/vc_extend/modules/navigation/navigation.php';
+require_once UNCODE_CORE_PLUGIN_DIR . '/includes/vc_extend/modules/comments/comments.php';
+require_once UNCODE_CORE_PLUGIN_DIR . '/includes/vc_extend/modules/ajax-filter/ajax-filter.php';
+require_once UNCODE_CORE_PLUGIN_DIR . '/includes/vc_extend/modules/ajax-active-filters/ajax-active-filters.php';
 
 // WC modules
 
@@ -126,6 +133,8 @@ require_once UNCODE_CORE_PLUGIN_DIR . '/includes/vc_extend/modules/wc-product-me
 require_once UNCODE_CORE_PLUGIN_DIR . '/includes/vc_extend/modules/wc-product-gallery/wc-product-gallery.php';
 require_once UNCODE_CORE_PLUGIN_DIR . '/includes/vc_extend/modules/wc-product-reviews/wc-product-reviews.php';
 require_once UNCODE_CORE_PLUGIN_DIR . '/includes/vc_extend/modules/wc-wishlist/wc-wishlist.php';
+require_once UNCODE_CORE_PLUGIN_DIR . '/includes/vc_extend/modules/wc-checkout-steps/wc-checkout-steps.php';
+require_once UNCODE_CORE_PLUGIN_DIR . '/includes/vc_extend/modules/wc-attribute-image/wc-attribute-image.php';
 
 
 // WC widgets

@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Create sorting dropdown
  */
-function uncode_woocommerce_print_sorting_dropdown( $sorting_default_text ) {
+function uncode_woocommerce_print_sorting_dropdown( $sorting_default_text, $echo = true ) {
 	$show_default_orderby    = 'menu_order' === apply_filters( 'woocommerce_default_catalog_orderby', get_option( 'woocommerce_default_catalog_orderby', 'menu_order' ) );
 	$catalog_orderby_options = apply_filters(
 		'woocommerce_catalog_orderby',
@@ -54,10 +54,12 @@ function uncode_woocommerce_print_sorting_dropdown( $sorting_default_text ) {
 		$selected_sort = array( $orderby => $catalog_orderby_options[ $orderby ] );
 		unset( $catalog_orderby_options[ $orderby ] );
 	}
+
+	ob_start();
 	?>
 
 	<ul class="menu-smart sm uncode-woocommerce-sorting<?php if ( is_rtl() ) { echo ' sm-rtl'; } ?>">
-		<li class="uncode-woocommerce-sorting__item"><a href="<?php echo esc_url( add_query_arg( 'orderby', key( $selected_sort ) ) ); ?>" data-toggle="dropdown" class="dropdown-toggle mobile-toggle-trigger uncode-woocommerce-sorting__link no-isotope-filter no-grid-filter"><?php echo esc_html( $selected_sort[ key( $selected_sort ) ] ); ?></a>
+		<li class="uncode-woocommerce-sorting__item menu-item"><a href="<?php echo esc_url( add_query_arg( 'orderby', key( $selected_sort ) ) ); ?>" data-toggle="dropdown" class="dropdown-toggle mobile-toggle-trigger uncode-woocommerce-sorting__link no-isotope-filter no-grid-filter"><?php echo esc_html( $selected_sort[ key( $selected_sort ) ] ); ?></a>
 			<ul class="drop-menu sm-nowrap uncode-woocommerce-sorting-dropdown ul-mobile-dropdown">
 				<?php foreach ( $catalog_orderby_options as $id => $name ) : ?>
 					<li class="uncode-woocommerce-sorting-dropdown__item"><a class="uncode-woocommerce-sorting-dropdown__link no-isotope-filter no-grid-filter" href="<?php echo esc_url( add_query_arg( 'orderby', $id ) ); ?>"><?php echo esc_html( $name ); ?></a></li>
@@ -67,17 +69,32 @@ function uncode_woocommerce_print_sorting_dropdown( $sorting_default_text ) {
 	</ul>
 
 	<?php
+
+	$out = ob_get_clean();
+	if ( $echo ) {
+		echo uncode_switch_stock_string( $out );
+	} else {
+		return $out;
+	}
 }
 
 /**
  * Print result count
  */
-function uncode_woocommerce_print_result_count( $total, $per_page, $current_page ) {
+function uncode_woocommerce_print_result_count( $total, $per_page, $current_page, $echo = true ) {
 	$args = array(
 		'total'    => absint( $total ),
 		'per_page' => $per_page,
-		'current'  => $current_page,
+		'current'  => $current_page ? $current_page : 1,
 	);
 
+	ob_start();
 	wc_get_template( 'loop/result-count.php', $args );
+
+	$out = ob_get_clean();
+	if ( $echo ) {
+		echo uncode_switch_stock_string( $out );
+	} else {
+		return $out;
+	}
 }

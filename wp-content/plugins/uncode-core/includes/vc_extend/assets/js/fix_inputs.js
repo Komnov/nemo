@@ -134,7 +134,7 @@
 				$marker.html("Auto");
 			} else if ($input.hasClass("border_width")) {
 				$marker.html("Inherit");
-			} else if ($input.hasClass("gutter_size")) {
+			} else if ($input.is('[class*="gutter_size"]')) {
 				$marker.html("0");
 			} else if ($input.hasClass("empty_h")) {
 				$marker.html('0.25x');
@@ -144,10 +144,10 @@
 				$marker.html('12/12');
 			} else if ($input.hasClass("row_height_percent") || $input.hasClass("row_width")) {
 				$marker.html("Full");
-			} else if ($input.hasClass("gutter_size")) {
+			} else if ($input.is('[class*="gutter_size"]')) {
 				if ($value == 6) $marker.html('4x');
 				else $marker.html("2x");
-			} else if ($input.hasClass("gutter_thumb") || $input.hasClass("gutter_thumb_2")) {
+			} else if ($input.is('[class*="gutter_thumb"]')) {
 				$marker.html('1x');
 			} else if ($input.hasClass("top_padding") || $input.hasClass("bottom_padding") || $input.hasClass("h_padding") || $input.hasClass("zoom_width") || $input.hasClass("zoom_height") || $input.hasClass("off_grid_val")) {
 				$marker.html('6x');
@@ -176,7 +176,7 @@
 						$marker.html('9/12');
 						break;
 				}
-			} else if ($input.hasClass("gutter_thumb") || $input.hasClass("gutter_thumb_2")) {
+			} else if ($input.is('[class*="gutter_thumb"]')) {
 				switch (parseInt($value)) {
 					case 1:
 						$marker.html('1px');
@@ -191,7 +191,7 @@
 						$marker.html('1x');
 						break;
 				}
-			} else if ($input.hasClass("gutter_size")) {
+			} else if ($input.is('[class*="gutter_size"]')) {
 				switch (parseInt($value)) {
 					case 1:
 					case 50:

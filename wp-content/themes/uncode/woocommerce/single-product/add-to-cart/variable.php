@@ -41,11 +41,27 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 				<?php foreach ( $attributes as $attribute_name => $options ) : ?>
 					<tr>
 						<?php // BEGIN UNCODE EDIT ?>
-						<td class="label"><label for="<?php echo sanitize_title( $attribute_name ); ?>"><?php echo wc_attribute_label( $attribute_name ); ?></label><span class="value">
-								<?php
-								wc_dropdown_variation_attribute_options( array( 'options' => $options, 'attribute' => $attribute_name, 'product' => $product ) );
-								echo end( $attribute_keys ) === $attribute_name ? apply_filters( 'woocommerce_reset_variations_link', '<a class="reset_variations" href="#">' . esc_html__( 'Clear', 'woocommerce' ) . '</a>' ) : '';
-								?></span>
+						<?php
+						$swatches = uncode_wc_get_attribute_swatches( $product->get_id(), $attribute_name, $options, $available_variations );
+						$has_swatches = is_array( $swatches ) && count( $swatches ) > 0 ? true : false;
+						?>
+
+						<td class="label <?php echo esc_attr( $has_swatches ? 'label--has-swatches' : '' ); ?>"><label for="<?php echo sanitize_title( $attribute_name ); ?>"><?php echo wc_attribute_label( $attribute_name ); ?></label><span class="value">
+							<?php
+							if ( $has_swatches ) {
+								uncode_wc_print_swatches( $product, $swatches, $attribute_name, $options, $available_variations );
+							}
+
+							$variation_attribute_args = array( 'options' => $options, 'attribute' => $attribute_name, 'product' => $product );
+
+							$default_selected = $product->get_variation_default_attribute( $attribute_name );
+							$selected         = uncode_wc_get_default_selected_attribute( $attribute_name, $default_selected );
+							if ( $selected ) {
+								$variation_attribute_args['selected'] = $selected;
+							}
+							wc_dropdown_variation_attribute_options( $variation_attribute_args );
+							echo end( $attribute_keys ) === $attribute_name ? apply_filters( 'woocommerce_reset_variations_link', '<a class="reset_variations" href="#">' . esc_html__( 'Clear', 'woocommerce' ) . '</a>' ) : '';
+							?></span>
 						</td>
 						<?php // END UNCODE EDIT ?>
 					</tr>

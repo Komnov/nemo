@@ -59,6 +59,7 @@ class Uncode_Install {
 				'_uncode_menu_custom_padding' => 'off',
 				'_uncode_menu_custom_padding_desktop' => '27',
 				'_uncode_menu_custom_padding_mobile' => '27',
+				'_uncode_menu_custom_lateral_padding' => '36',
 				'_uncode_menu_side_to_side' => 'off',
 				'_uncode_menu_focus' => 'off',
 				'_uncode_overlay_menu_bg' => 'off',
@@ -830,12 +831,16 @@ class Uncode_Install {
 				'_uncode_secondary_menu_style' => 'dark',
 				'_uncode_menu_font_size' => '12',
 				'_uncode_submenu_font_size' => '12',
+				'_uncode_secondary_menu_font_size' => '12',
+				'_uncode_secondary_menu_mobile_font_size' => '10',
 				'_uncode_menu_mobile_font_size' => '12',
 				'_uncode_menu_font_family' => 'font-555555',
 				'_uncode_menu_font_weight' => '600',
 				'_uncode_menu_letter_spacing' => '0.05',
 				'_uncode_menu_first_uppercase' => 'off',
 				'_uncode_menu_other_uppercase' => 'off',
+				'_uncode_topbar_font_family' => 'font-555555',
+				'_uncode_topbar_font_weight' => '400',
 				'_uncode_general_style' => 'light',
 				'_uncode_general_bg_color' => '',
 				'_uncode_button_shape' => '',
@@ -1043,6 +1048,9 @@ class Uncode_Install {
 
 			// New Lightbox
 			update_option( 'uncode_core_settings_opt_lightbox_enhance', 'on' );
+
+			// New Top-Bar
+			update_option( 'uncode_core_settings_opt_enhanced_top_bar', 'on' );
 
 		}
 	}

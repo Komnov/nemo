@@ -409,6 +409,12 @@ if (!class_exists('unheader')) {
 								if ( $secondary_media ) {
 									$featured_id = uncode_get_secondary_featured_thumbnail_id(get_the_id());
 								}
+							} elseif ( is_tax() ) {
+								$term_id = get_queried_object_id();
+								$featured_id = apply_filters( 'uncode_featured_image_id', $featured_id, $term_id );
+								if ( $secondary_media ) {
+									$featured_id = uncode_get_term_featured_thumbnail_id($term_id, true);
+								}
 							}
 							$replacement = '[vc_row' . $vc_row_filtered . ' back_image="'.$featured_id.'" featured_image="yes"]';
 							$uncode_block = str_replace($value[0], $replacement, $uncode_block);

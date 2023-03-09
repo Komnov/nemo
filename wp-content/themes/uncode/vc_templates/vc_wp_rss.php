@@ -47,33 +47,50 @@ if ( $atts['use_widget_style'] === 'yes' && $atts['widget_style_no_separator'] =
 	$el_class .= ' widget-no-separator';
 }
 
-if ( $atts['use_widget_style'] === 'yes' && $atts['widget_collapse'] === 'yes' ) {
-	$el_class .= ' widget-mobile-collapse';
+if ( $atts['use_widget_style'] === 'yes' ) {
+	if ( $atts['widget_desktop_collapse'] === 'yes' ) {
+		$el_class .= ' widget-desktop-collapse';
+	} elseif ( $atts['widget_desktop_collapse'] === 'click' ) {
+		$el_class .= ' widget-desktop-collapse  widget-desktop-collapse-open';
+	}
+
+	if ( $atts['widget_collapse'] === 'yes' ) {
+		$el_class .= ' widget-mobile-collapse';
+	} elseif ( $atts['widget_collapse'] === 'click' ) {
+		$el_class .= ' widget-mobile-collapse  widget-mobile-collapse-open';
+	}
 
 	if ( $atts['widget_collapse_tablet'] === 'yes' ) {
 		$el_class .= ' widget-tablet-collapse';
+	} elseif ( $atts['widget_collapse_tablet'] === 'click' ) {
+		$el_class .= ' widget-tablet-collapse  widget-tablet-collapse-open';
 	} else {
 		$el_class .= ' widget-no-tablet-collapse';
 	}
+
+	if ( isset($atts['widget_collapse_icon']) ) {
+		$widget_class .= ' widget-collaps-icon' . $atts['widget_collapse_icon'];
+	} else {
+		$widget_class .= ' widget-collaps-icon';
+	}
 }
+
 
 if ( $atts['use_widget_style'] === 'yes' && $atts['widget_style_title_typography'] ) {
 	$el_class .= ' widget-typography-' . $widget_style_title_typography;
 }
 
-$output = '<div ' . implode( ' ', $wrapper_attributes ) . ' class="vc_wp_rss wpb_content_element' . esc_attr( $el_class ) . '">';
+$widget_unique_id = uncode_get_widget_module_id();
+
+$output = '<div ' . implode( ' ', $wrapper_attributes ) . ' class="vc_wp_rss wpb_content_element' . esc_attr( $el_class ) . '" data-id="' . esc_attr( $widget_unique_id ) . '">';
 $type = 'WP_Widget_RSS';
 $args = array();
 global $wp_widget_factory;
 // to avoid unwanted warnings let's check before using widget
 if ( is_object( $wp_widget_factory ) && isset( $wp_widget_factory->widgets, $wp_widget_factory->widgets[ $type ] ) ) {
 	ob_start();
-	$args = $use_widget_style === 'yes' ? uncode_get_default_widget_args( 'rss' ) : $args;
 	the_widget( $type, $atts, $args );
 	$widget = ob_get_clean();
-	if ( $atts['use_widget_style'] === 'yes' && $atts['widget_collapse'] === 'yes' ) {
-		$widget = uncode_add_default_widget_title( $widget, false, esc_html__( 'RSS', 'uncode' ) );
-	}
 	$output .= $widget;
 
 	$output .= '</div>';

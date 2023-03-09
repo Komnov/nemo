@@ -38,10 +38,14 @@
   margin-left: 18px;
 }
 .widget .star-rating span:before {
-  font-size: 11px;
+  font-size: 9px;
 }
 .woocommerce-session-expired-wrapper .wc-backward {
   margin-left: 18px;
+}
+.t-entry-variations .reset_variations,
+div.product form.cart .variations .reset_variations {
+  font-size: <?php echo sanitize_text_field($small_text_font_size); ?>px;
 }
 #reviews .woocomments .woocomments-title,
 .products.related .related-title,
@@ -114,6 +118,7 @@
   background-color: <?php echo sanitize_text_field($color_primary); ?>;
 }
 .tmb-woocommerce span.price,
+:not(.enhanced-atc).tmb-woocommerce.tmb .t-entry-visual .add-to-cart-overlay a,
 span.price,
 p.price {
   letter-spacing: <?php echo sanitize_text_field($heading_letter_spacing); ?>em;
@@ -175,7 +180,11 @@ p.price {
 .style-dark .woocommerce-MyAccount-content > a.button,
 .style-light .style-dark .woocommerce-MyAccount-content > a.button,
 .style-dark .woocommerce-MyAccount-content p > a.button,
-.style-light .style-dark .woocommerce-MyAccount-content p > a.button {
+.style-light .style-dark .woocommerce-MyAccount-content p > a.button,
+.style-dark .checkout-step-icon,
+.style-light .style-dark .checkout-step-icon,
+.style-dark .checkout-step-text,
+.style-light .style-dark .checkout-step-text {
   color: <?php echo sanitize_text_field($color_heading_inverted); ?>;
 }
 .style-light .shop_attributes th,
@@ -233,12 +242,17 @@ p.price {
 .style-light .woocommerce-MyAccount-content > a.button,
 .style-dark .style-light .woocommerce-MyAccount-content > a.button,
 .style-light .woocommerce-MyAccount-content p > a.button,
-.style-dark .style-light .woocommerce-MyAccount-content p > a.button {
+.style-dark .style-light .woocommerce-MyAccount-content p > a.button,
+.style-light .checkout-step-icon,
+.style-dark .style-light .checkout-step-icon,
+.style-light .checkout-step-text,
+.style-dark .style-light .checkout-step-text {
   color: <?php echo sanitize_text_field($color_heading); ?>;
 }
 .wc-forward,
 .wc-forward a,
 .wc-backward,
+.enhanced-atc.tmb-woocommerce.tmb .t-entry-visual .add-to-cart-overlay a,
 .woocommerce-MyAccount-content > a.button,
 .woocommerce-MyAccount-content p > a.button,
 .wc-backward {
@@ -246,6 +260,11 @@ p.price {
   font-family: <?php echo sanitize_text_field($font_family_btn); ?> !important;
   letter-spacing: <?php echo sanitize_text_field($btn_letter_spacing); ?>;
   text-transform: <?php echo sanitize_text_field($btn_text_transform); ?>;
+}
+.tmb-woocommerce.tmb .t-entry-visual .add-to-cart-overlay a.default-typography {
+  font-weight: 500 !important;
+  font-family: inherit !important;
+  letter-spacing: inherit !important;
 }
 .uncode-cart .badge,
 .uncode-cart .btn {
@@ -261,6 +280,8 @@ p.price {
 .style-light .style-dark .shop_table,
 .style-dark .woocommerce-pagination,
 .style-light .style-dark .woocommerce-pagination,
+.style-dark .tmb .t-entry-attribute-image img,
+.style-light .style-dark .tmb .t-entry-attribute-image img,
 .style-dark .woocommerce .woocommerce-breadcrumb,
 .style-light .style-dark .woocommerce .woocommerce-breadcrumb,
 .style-dark .widget ul.product_list_widget li,
@@ -281,6 +302,8 @@ p.price {
 .style-light .style-dark .payment_methods .about_paypal,
 .style-dark .wootabs .tab-content:not(.vertical),
 .style-light .style-dark .wootabs .tab-content:not(.vertical),
+.style-dark .uncode-wc-attribute-image-module img,
+.style-light .style-dark .uncode-wc-attribute-image-module img,
 .style-dark .woocommerce-checkout-review-order-table,
 .style-light .style-dark .woocommerce-checkout-review-order-table,
 .style-dark .woocommerce-billing-fields__field-wrapper,
@@ -315,6 +338,8 @@ p.price {
 .style-dark .style-light .shop_table,
 .style-light .woocommerce-pagination,
 .style-dark .style-light .woocommerce-pagination,
+.style-light .tmb .t-entry-attribute-image img,
+.style-dark .style-light .tmb .t-entry-attribute-image img,
 .style-light .woocommerce .woocommerce-breadcrumb,
 .style-dark .style-light .woocommerce .woocommerce-breadcrumb,
 .style-light .widget ul.product_list_widget li,
@@ -335,6 +360,8 @@ p.price {
 .style-dark .style-light .payment_methods .about_paypal,
 .style-light .wootabs .tab-content:not(.vertical),
 .style-dark .style-light .wootabs .tab-content:not(.vertical),
+.style-light .uncode-wc-attribute-image-module img,
+.style-dark .style-light .uncode-wc-attribute-image-module img,
 .style-light .woocommerce-checkout-review-order-table,
 .style-dark .style-light .woocommerce-checkout-review-order-table,
 .style-light .woocommerce-billing-fields__field-wrapper,
@@ -386,6 +413,8 @@ span.review-count {
 .style-light .style-dark .widget_price_filter .ui-slider .ui-slider-handle,
 .style-dark .widget_price_filter .price_slider_wrapper .ui-widget-content,
 .style-light .style-dark .widget_price_filter .price_slider_wrapper .ui-widget-content,
+.style-dark div.product .uncode-wrapper.uncode-wrapper-lateral .woocommerce-product-gallery-nav .woocommerce-product-gallery__thumb,
+.style-light .style-dark div.product .uncode-wrapper.uncode-wrapper-lateral .woocommerce-product-gallery-nav .woocommerce-product-gallery__thumb,
 .style-dark .woocommerce-MyAccount-content > a.button,
 .style-light .style-dark .woocommerce-MyAccount-content > a.button,
 .style-dark .woocommerce-MyAccount-content p > a.button,
@@ -398,6 +427,8 @@ span.review-count {
 .style-dark .style-light .widget_price_filter .ui-slider .ui-slider-handle,
 .style-light .widget_price_filter .price_slider_wrapper .ui-widget-content,
 .style-dark .style-light .widget_price_filter .price_slider_wrapper .ui-widget-content,
+.style-light div.product .uncode-wrapper.uncode-wrapper-lateral .woocommerce-product-gallery-nav .woocommerce-product-gallery__thumb,
+.style-dark .style-light div.product .uncode-wrapper.uncode-wrapper-lateral .woocommerce-product-gallery-nav .woocommerce-product-gallery__thumb,
 .style-light .woocommerce-MyAccount-content > a.button,
 .style-dark .style-light .woocommerce-MyAccount-content > a.button,
 .style-light .woocommerce-MyAccount-content p > a.button,
@@ -436,6 +467,16 @@ span.review-count {
 .style-dark .style-light .woocommerce-review-link:focus {
   color: <?php echo sanitize_text_field($color_primary); ?>;
 }
+.style-dark .checkout-step-number,
+.style-light .style-dark .checkout-step-number {
+  color: #191b1e;
+  background-color: #f7f7f7;
+}
+.style-light .checkout-step-number,
+.style-dark .style-light .checkout-step-number {
+  color: #f7f7f7;
+  background-color: #191b1e;
+}
 .wc-forward,
 .wc-forward a,
 .wc-backward,
@@ -444,11 +485,29 @@ span.review-count {
 .wc-backward {
   border-width: <?php echo sanitize_text_field($btn_border_width); ?>px;
 }
-.tmb-light.tmb-woocommerce span.price {
+.tmb-light.tmb-woocommerce span.price,
+.tmb-light.tmb-woocommerce.tmb .t-entry .t-entry-stars .star-rating {
   color: <?php echo sanitize_text_field($color_heading); ?>;
 }
-.tmb-dark.tmb-woocommerce span.price {
+.tmb-dark.tmb-woocommerce span.price,
+.tmb-dark.tmb-woocommerce.tmb .t-entry .t-entry-stars .star-rating {
   color: #ffffff;
+}
+.tmb-light.tmb-woocommerce.tmb .t-entry-visual .add-to-cart-overlay a {
+  background-color: #262729;
+}
+.tmb-dark.tmb-woocommerce.tmb .t-entry-visual .add-to-cart-overlay a {
+  background-color: #ffffff;
+}
+.tmb-light.tmb .icon-badge > div,
+.tmb-light.tmb .icon-badge > a {
+  color: <?php echo sanitize_text_field($color_heading); ?> !important;
+  background-color: rgba(255, 255, 255, 0.75);
+}
+.tmb-dark.tmb .icon-badge > div,
+.tmb-dark.tmb .icon-badge > a {
+  color: #ffffff !important;
+  background-color: rgba(38, 39, 41, 0.75);
 }
 form.uncode-wc-form .style-dark p,
 form.uncode-wc-form .style-light .style-dark p,
@@ -527,4 +586,7 @@ form.uncode-wc-form .style-dark .style-light #payment label {
 .woocommerce-MyAccount-content p > a.button {
   font-size: <?php echo sanitize_text_field($btn_font_size); ?>px;
   padding: <?php echo sanitize_text_field($btn_padding_top_bottom); ?>px <?php echo sanitize_text_field($btn_padding_lateral); ?>px;
+}
+.tmb-woocommerce.tmb .t-entry-variations select {
+  color: <?php echo sanitize_text_field($color_heading); ?> !important;
 }

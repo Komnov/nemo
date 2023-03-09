@@ -16,7 +16,7 @@ vc_map(array(
 	),
 	'description' => esc_html__('Widgets', 'uncode-core') ,
 	'class' => 'wpb_vc_wp_widget',
-	'weight' => - 50,
+	'weight' => - 500,
 	'params' => array(
 		array(
 			'type' => 'textfield',
@@ -30,8 +30,10 @@ vc_map(array(
 			'param_name' => 'content',
 		) ,
 		$add_widget_style,
-		$add_widget_collapse,
+		$add_widget_collapse_desktop,
 		$add_widget_collapse_tablet,
+		$add_widget_collapse,
+		$add_widget_icon,
 		$add_widget_style_no_separator,
 		$add_widget_style_title_typo,
 		array(

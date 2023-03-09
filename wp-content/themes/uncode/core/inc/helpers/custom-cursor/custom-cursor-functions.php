@@ -20,8 +20,10 @@ function uncode_check_for_custom_cursor() {
 
 	$custom_cursor = ot_get_option( '_uncode_custom_cursor' );
 
-	if ( $post && isset($metabox_data['_uncode_specific_custom_cursor'][0]) && $metabox_data['_uncode_specific_custom_cursor'][0] != '' ) {
-		$custom_cursor = $metabox_data['_uncode_specific_custom_cursor'][0];
+	if ( ! is_search() ) {
+		if ( $post && isset($metabox_data['_uncode_specific_custom_cursor'][0]) && $metabox_data['_uncode_specific_custom_cursor'][0] != '' ) {
+			$custom_cursor = $metabox_data['_uncode_specific_custom_cursor'][0];
+		}
 	}
 
 	if ( $custom_cursor === '' || $custom_cursor === 'off' ) {

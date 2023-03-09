@@ -43,7 +43,7 @@ $message_color = ( $message_color !== '') ? ' style-'.$message_color . '-bg' : '
 $css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, 'wpb_content_element' . $class . $el_class, $this->settings['base'], $atts );
 
 if ($css_animation !== '' && uncode_animations_enabled()) {
-	$css_class .= 'animate_when_almost_visible ' . $css_animation;
+	$css_class .= ' animate_when_almost_visible ' . $css_animation;
 	if ($animation_delay !== '') {
 		$div_data['data-delay'] = $animation_delay;
 	}

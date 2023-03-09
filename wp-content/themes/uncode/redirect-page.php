@@ -10,11 +10,12 @@ get_header();
 
 $redirect_page = ot_get_option('_uncode_redirect_page');
 $redirect_page = apply_filters( 'wpml_object_id', $redirect_page, 'post' );
+$post = get_post($redirect_page);
 
 $media = get_post_meta($redirect_page, '_uncode_featured_media', 1);
 $featured_image = get_post_thumbnail_id($redirect_page);
 
-if ( $featured_image === '' || $featured_image == 0 ) {
+if ( apply_filters( 'uncode_use_medias_when_featured_empty', true ) && ( $featured_image === '' || $featured_image == 0 ) ) {
 	$featured_image = $media;
 }
 
@@ -70,8 +71,10 @@ if (isset($metabox_data['_uncode_specific_style'][0]) && $metabox_data['_uncode_
 }
 $bg_color = ($bg_color == '') ? ' style-'.$style.'-bg' : ' style-'.$bg_color.'-bg';
 
-
 $the_content = get_post_field('post_content', $redirect_page);
+if ( $page_header_type === 'first_row' && ( ! function_exists('vc_is_page_editable') || ! vc_is_page_editable() ) ) {
+	$the_content = preg_replace('#\[vc_row(.*?)\/vc_row]#s', '', $the_content, 1);
+}
 if (has_shortcode($the_content, 'vc_row')) {
 	$the_content = '<div class="post-content">' . $the_content . '</div>';
 } else {

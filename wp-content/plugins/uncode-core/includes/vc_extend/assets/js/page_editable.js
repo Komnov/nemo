@@ -1,6 +1,6 @@
 /*!
  * WPBakery Page Builder v6.0.0 (https://wpbakery.com)
- * Copyright 2011-2021 Michael M, WPBakery
+ * Copyright 2011-2022 Michael M, WPBakery
  * License: Commercial. More details: http://go.wpbakery.com/licensing
  */
 
@@ -22,18 +22,18 @@ window.vc_iframe = {
         window.vc_iframe.showNoContent = function(show) {
             var $vc_no_content_helper_el = $("#vc_no-content-helper");
             !1 === show ? $vc_no_content_helper_el.addClass("vc_not-empty") : $vc_no_content_helper_el.removeClass("vc_not-empty")
-        }, window.vc_iframe.scrollTo = function(position_y) {
-            var $el, el_height, window_height = $(window).height(),
+        }, window.vc_iframe.scrollTo = function(id) {
+            var el_height, position, window_height = $(window).height(),
                 window_scroll_top = $(window).scrollTop();
-            if (position_y && ($el = $("[data-model-id=" + position_y + "]"))) {
-                if (!1 === (position_y = !!(el_height = $el.offset()) && el_height.top)) return !1;
-                el_height = $el.height(), (window_scroll_top + window_height < position_y || position_y + el_height < window_scroll_top) && $.scrollTo($el, 500, {
+            if (id && (id = $("[data-model-id=" + id + "]"))) {
+                if (!1 === (position = !!(position = id.offset()) && position.top)) return !1;
+                el_height = id.height(), (window_scroll_top + window_height < position || position + el_height < window_scroll_top) && $.scrollTo(id, 500, {
                     offset: -50
                 })
             }
         }, window.vc_iframe.startSorting = function() {
             $("body").addClass("vc_sorting")
-        }, window.vc_iframe.stopSorting = function(event, ui) {
+        }, window.vc_iframe.stopSorting = function() {
             $("body").removeClass("vc_sorting")
             // START UNCODE EDIT
             if (typeof event !== 'undefined' && typeof ui !== 'undefined') {
@@ -53,14 +53,13 @@ window.vc_iframe = {
             $("body").removeClass("vc_dragging"), $(".vc_container-block").off("mouseover.vcDraggable mouseleave.vcDraggable")
         }, window.vc_iframe.addActivity = function(callback) {
             this.activities_list.push(callback)
-        }, window.vc_iframe.renderPlaceholder = function(event, is_container) {
-            var tag = $(is_container).data("tag"),
-                is_container = parent.vc.map[tag] === Object(parent.vc.map[tag]) && ((!0 === parent.vc.map[tag].is_container || !1 === parent.vc.map[tag].is_container || "[object Boolean]" === toString.call(parent.vc.map[tag].is_container)) && !0 === parent.vc.map[tag].is_container || null != parent.vc.map[tag].as_parent && "[object Array]" === Object.prototype.toString.call(parent.vc.map[tag].as_parent) && 0 != parent.vc.map[tag].as_parent);
-            return $('<div class="vc_helper vc_helper-' + tag + '"><i class="vc_general vc_element-icon' + (parent.vc.map[tag].icon ? " " + parent.vc.map[tag].icon : "") + '"' + (is_container ? ' data-is-container="true"' : "") + "></i> " + parent.vc.map[tag].name + "</div>").prependTo("body")
+        }, window.vc_iframe.renderPlaceholder = function(event, element) {
+            var element = $(element).data("tag"),
+                is_container = parent.vc.map[element] === Object(parent.vc.map[element]) && ((!0 === parent.vc.map[element].is_container || !1 === parent.vc.map[element].is_container || "[object Boolean]" === toString.call(parent.vc.map[element].is_container)) && !0 === parent.vc.map[element].is_container || null != parent.vc.map[element].as_parent && "[object Array]" === Object.prototype.toString.call(parent.vc.map[element].as_parent) && 0 != parent.vc.map[element].as_parent);
+            return $('<div class="vc_helper vc_helper-' + element + '"><i class="vc_general vc_element-icon' + (parent.vc.map[element].icon ? " " + parent.vc.map[element].icon : "") + '"' + (is_container ? ' data-is-container="true"' : "") + "></i> " + parent.vc.map[element].name + "</div>").prependTo("body")
         }, window.vc_iframe.setSortable = function(app) {
-            var setSectionSortable, setRowSortable, setElementsSortable, $rowSortable, $elementsSortable, _this = window.vc_iframe;
-            parent.vc.$page.addClass("vc-main-sortable-container");
-            var $sectionSortables, $main = $(parent.vc.$page);
+            var setSectionSortable, setRowSortable, setElementsSortable, $rowSortable, $elementsSortable, $sectionSortables, _this = window.vc_iframe,
+                $main = (parent.vc.$page.addClass("vc-main-sortable-container"), $(parent.vc.$page));
             $main.sortable({
                 forcePlaceholderSize: !1,
                 connectWith: !1,
@@ -125,11 +124,11 @@ window.vc_iframe = {
                         // END UNCODE EDIT
                         var tag = ui.item.data("tag"),
                             vc_map = window.parent.vc.map || !1,
-                            $sender_column = ui.placeholder.closest("[data-tag]").data("tag"),
-                            allowed_container_element = void 0 === vc_map[$sender_column].allowed_container_element || vc_map[$sender_column].allowed_container_element;
+                            parent_tag = ui.placeholder.closest("[data-tag]").data("tag"),
+                            allowed_container_element = void 0 === vc_map[parent_tag].allowed_container_element || vc_map[parent_tag].allowed_container_element;
                         ui.placeholder.removeClass("vc_hidden-placeholder"), ui.placeholder.css({
                             maxWidth: ui.placeholder.parent().width()
-                        }), tag && vc_map && (window.parent.vc.checkRelevance($sender_column, tag) || ui.placeholder.addClass("vc_hidden-placeholder"), !ui.sender || ($sender_column = ui.sender.closest(".vc_element").removeClass("vc_sorting-over")).find(".vc_element").length < 1 && $sender_column.addClass("vc_empty"), ui.placeholder.closest(".vc_element").addClass("vc_sorting-over"), vc_map[tag] === Object(vc_map[tag]) && ((!0 === vc_map[tag].is_container || !1 === vc_map[tag].is_container || "[object Boolean]" === toString.call(vc_map[tag].is_container)) && !0 === vc_map[tag].is_container || null != vc_map[tag].as_parent && "[object Array]" === Object.prototype.toString.call(vc_map[tag].as_parent) && 0 != vc_map[tag].as_parent) && !0 !== allowed_container_element && allowed_container_element !== tag.replace(/_inner$/, "") && ui.placeholder.addClass("vc_hidden-placeholder"))
+                        }), tag && vc_map && (window.parent.vc.checkRelevance(parent_tag, tag) || ui.placeholder.addClass("vc_hidden-placeholder"), ui.sender && (parent_tag = ui.sender.closest(".vc_element").removeClass("vc_sorting-over")).find(".vc_element").length < 1 && parent_tag.addClass("vc_empty"), ui.placeholder.closest(".vc_element").addClass("vc_sorting-over"), vc_map[tag] === Object(vc_map[tag]) && ((!0 === vc_map[tag].is_container || !1 === vc_map[tag].is_container || "[object Boolean]" === toString.call(vc_map[tag].is_container)) && !0 === vc_map[tag].is_container || null != vc_map[tag].as_parent && "[object Array]" === Object.prototype.toString.call(vc_map[tag].as_parent) && 0 != vc_map[tag].as_parent) && !0 !== allowed_container_element && allowed_container_element !== tag.replace(/_inner$/, "") && ui.placeholder.addClass("vc_hidden-placeholder"))
                     },
                     out: function(event, ui) {
                         ui.placeholder.removeClass("vc_hidden-placeholder"), ui.placeholder.closest(".vc_element").removeClass("vc_sorting-over")
@@ -217,11 +216,11 @@ window.vc_iframe = {
                     over: function(event, ui) {
                         var tag = ui.item.data("tag"),
                             vc_map = window.parent.vc.map || !1,
-                            $sender_column = ui.placeholder.closest("[data-tag]").data("tag"),
-                            allowed_container_element = void 0 === vc_map[$sender_column].allowed_container_element || vc_map[$sender_column].allowed_container_element;
+                            parent_tag = ui.placeholder.closest("[data-tag]").data("tag"),
+                            allowed_container_element = void 0 === vc_map[parent_tag].allowed_container_element || vc_map[parent_tag].allowed_container_element;
                         ui.placeholder.removeClass("vc_hidden-placeholder"), ui.placeholder.css({
                             maxWidth: ui.placeholder.parent().width()
-                        }), tag && vc_map && (window.parent.vc.checkRelevance($sender_column, tag) || ui.placeholder.addClass("vc_hidden-placeholder"), !ui.sender || ($sender_column = ui.sender.closest(".vc_element").removeClass("vc_sorting-over")).find(".vc_element").length < 1 && $sender_column.addClass("vc_empty"), ui.placeholder.closest(".vc_element").addClass("vc_sorting-over"), vc_map[tag] === Object(vc_map[tag]) && ((!0 === vc_map[tag].is_container || !1 === vc_map[tag].is_container || "[object Boolean]" === toString.call(vc_map[tag].is_container)) && !0 === vc_map[tag].is_container || null != vc_map[tag].as_parent && "[object Array]" === Object.prototype.toString.call(vc_map[tag].as_parent) && 0 != vc_map[tag].as_parent) && !0 !== allowed_container_element && allowed_container_element !== tag.replace(/_inner$/, "") && ui.placeholder.addClass("vc_hidden-placeholder"))
+                        }), tag && vc_map && (window.parent.vc.checkRelevance(parent_tag, tag) || ui.placeholder.addClass("vc_hidden-placeholder"), ui.sender && (parent_tag = ui.sender.closest(".vc_element").removeClass("vc_sorting-over")).find(".vc_element").length < 1 && parent_tag.addClass("vc_empty"), ui.placeholder.closest(".vc_element").addClass("vc_sorting-over"), vc_map[tag] === Object(vc_map[tag]) && ((!0 === vc_map[tag].is_container || !1 === vc_map[tag].is_container || "[object Boolean]" === toString.call(vc_map[tag].is_container)) && !0 === vc_map[tag].is_container || null != vc_map[tag].as_parent && "[object Array]" === Object.prototype.toString.call(vc_map[tag].as_parent) && 0 != vc_map[tag].as_parent) && !0 !== allowed_container_element && allowed_container_element !== tag.replace(/_inner$/, "") && ui.placeholder.addClass("vc_hidden-placeholder"))
                     },
                     out: function(event, ui) {
                         ui.placeholder.removeClass("vc_hidden-placeholder"), ui.placeholder.closest(".vc_element").removeClass("vc_sorting-over")
@@ -283,8 +282,8 @@ window.vc_iframe = {
             vc_iframe.scripts_to_wait && vc_iframe.scripts_to_load ? (window.vc_iframe.scripts_to_load.each(function() {
                 var $element = $(this);
                 if (window.vc_iframe.reload_safety_call = !0, $element.is("script")) {
-                    var href = $element.attr("src");
-                    if (href)(href = vc_iframe.allowedLoadScript(href)) ? $.getScript(href, function() {
+                    var src = $element.attr("src");
+                    if (src)(src = vc_iframe.allowedLoadScript(src)) ? $.getScript(src, function() {
                         --window.vc_iframe.scripts_to_wait, vc_iframe.scripts_to_wait < 1 && window.vc_iframe.reload()
                     }) : (--window.vc_iframe.scripts_to_wait, vc_iframe.scripts_to_wait < 1 && window.vc_iframe.reload());
                     else {
@@ -295,8 +294,8 @@ window.vc_iframe = {
                         }--window.vc_iframe.scripts_to_wait, vc_iframe.scripts_to_wait < 1 && vc_iframe.reload()
                     }
                 } else {
-                    href = $element.attr("href");
-                    href && !vc_iframe.loaded_styles[window.parent.vc_globalHashCode(href)] && window.jQuery("body").append($element), --window.vc_iframe.scripts_to_wait, vc_iframe.scripts_to_wait < 1 && window.vc_iframe.reload()
+                    src = $element.attr("href");
+                    src && !vc_iframe.loaded_styles[window.parent.vc_globalHashCode(src)] && window.jQuery("body").append($element), --window.vc_iframe.scripts_to_wait, vc_iframe.scripts_to_wait < 1 && window.vc_iframe.reload()
                 }
             }), window.vc_iframe.scripts_to_load = !1, $(document).ajaxComplete(function(e) {
                 $(e.currentTarget).off("ajaxComplete"), window.vc_iframe.scripts_to_wait || vc_iframe.reload()
@@ -324,9 +323,9 @@ window.vc_iframe = {
                     }
                 }), $(this).find(".vc_element").each(function() {
                     tabs_array.push(this.id)
-                }), $(this).find(".wpb_prev_slide a, .wpb_next_slide a").off("click").on("click", function(length) {
+                }), $(this).find(".wpb_prev_slide a, .wpb_next_slide a").off("click").on("click", function(e) {
                     var index;
-                    length && length.preventDefault && length.preventDefault(), old_version ? (index = $tabs.tabs("option", "selected"), $(this).parent().hasClass("wpb_next_slide") ? index++ : index--, index < 0 ? index = $tabs.tabs("length") - 1 : index >= $tabs.tabs("length") && (index = 0), $tabs.tabs("select", index)) : (index = $tabs.tabs("option", "active"), length = $tabs.find(".wpb_tab").length, index = $(this).parent().hasClass("wpb_next_slide") ? length <= index + 1 ? 0 : index + 1 : index - 1 < 0 ? length - 1 : index - 1, $tabs.tabs("option", "active", index))
+                    e && e.preventDefault && e.preventDefault(), old_version ? (index = $tabs.tabs("option", "selected"), $(this).parent().hasClass("wpb_next_slide") ? index++ : index--, index < 0 ? index = $tabs.tabs("length") - 1 : index >= $tabs.tabs("length") && (index = 0), $tabs.tabs("select", index)) : (index = $tabs.tabs("option", "active"), e = $tabs.find(".wpb_tab").length, index = $(this).parent().hasClass("wpb_next_slide") ? e <= index + 1 ? 0 : index + 1 : index - 1 < 0 ? e - 1 : index - 1, $tabs.tabs("option", "active", index))
                 })
             }), !0
         }, window.vc_iframe.setActiveTab = function($tabs, index) {
@@ -395,9 +394,9 @@ window.vc_iframe = {
                 update: view.stopSorting
             })
         }, window.vc_iframe.vc_imageCarousel = function(model_id) {
-            var $carousel = $("[data-model-id=" + model_id + "]"),
-                $carousel = ($carousel.find("img").length, $carousel.find('[data-ride="vc_carousel"]'));
-            !$carousel.find("img:first").length || $carousel.find("img:first").prop("complete") ? $carousel.carousel($carousel.data()) : window.setTimeout(function() {
+            var $el = $("[data-model-id=" + model_id + "]"),
+                $el = ($el.find("img").length, $el.find('[data-ride="vc_carousel"]'));
+            !$el.find("img:first").length || $el.find("img:first").prop("complete") ? $el.carousel($el.data()) : window.setTimeout(function() {
                 window.vc_iframe.vc_imageCarousel(model_id)
             }, 500)
         }, window.vc_iframe.vc_gallery = function(model_id) {
@@ -405,9 +404,9 @@ window.vc_iframe = {
             $gallery.find("img:first").prop("complete") ? this.gallerySlider($gallery) : window.setTimeout(function() {
                 window.vc_iframe.vc_gallery(model_id)
             }, 500)
-        }, window.vc_iframe.vc_postsSlider = function($gallery) {
-            $gallery = $("[data-model-id=" + $gallery + "]").find(".wpb_gallery_slides");
-            this.gallerySlider($gallery)
+        }, window.vc_iframe.vc_postsSlider = function(model_id) {
+            model_id = $("[data-model-id=" + model_id + "]").find(".wpb_gallery_slides");
+            this.gallerySlider(model_id)
         }, window.vc_iframe.gallerySlider = function($gallery) {
             var sliderTimeout, sliderFx, slideshow, $imagesGrid;
             $gallery.hasClass("wpb_flexslider") ? (sliderTimeout = 1e3 * parseInt($gallery.attr("data-interval"), 10), sliderFx = $gallery.attr("data-flex_fx"), slideshow = !0, $gallery.flexslider({
@@ -441,12 +440,12 @@ window.vc_iframe = {
                 itemSelector: ".isotope-item",
                 layoutMode: "fitRows"
             }))
-        }, window.vc_iframe.vc_toggle = function($el) {
-            $el = $("[data-model-id=" + $el + "]");
-            window.vc_toggleBehaviour($el)
-        }, window.vc_iframe.gridInit = function(vcGrid) {
-            var $grid = $("[data-model-id=" + vcGrid + "] [data-vc-grid-settings]");
-            $grid.find(".vc_grid-loading:visible").length || ((vcGrid = $grid.data("vcGrid")) ? ($grid.empty(), vcGrid.init()) : $grid.vcGrid())
+        }, window.vc_iframe.vc_toggle = function(model_id) {
+            model_id = $("[data-model-id=" + model_id + "]");
+            window.vc_toggleBehaviour(model_id)
+        }, window.vc_iframe.gridInit = function(model_id) {
+            var vcGrid, model_id = $("[data-model-id=" + model_id + "] [data-vc-grid-settings]");
+            model_id.find(".vc_grid-loading:visible").length || ((vcGrid = model_id.data("vcGrid")) ? (model_id.empty(), vcGrid.init()) : model_id.vcGrid())
         }, window.vc_iframe.updateChildGrids = function(model_id) {
             $("[data-model-id=" + model_id + "] [data-vc-grid-settings]").each(function() {
                 var $grid = $(this),

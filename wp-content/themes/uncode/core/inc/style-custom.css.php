@@ -45,6 +45,7 @@ $cs_body_font_family = $uncode_option['_uncode_body_font_family'];
 $cs_body_font_weight = isset( $uncode_option['_uncode_body_font_weight'] ) ? $uncode_option['_uncode_body_font_weight'] : 400;
 $cs_ui_font_family = $uncode_option['_uncode_ui_font_family'];
 $cs_menu_font_family = $uncode_option['_uncode_menu_font_family'];
+$cs_topbar_font_family = isset( $uncode_option['_uncode_topbar_font_family'] ) ? $uncode_option['_uncode_topbar_font_family'] : 'font-555555';
 $cs_heading_font_family = $uncode_option['_uncode_heading_font_family'];
 $cs_buttons_font_family = $uncode_option['_uncode_buttons_font_family'];
 $cs_filter_menu_font_family = isset( $uncode_option['_uncode_menu_filter_font_family'] ) ? $uncode_option['_uncode_menu_filter_font_family'] : '';
@@ -233,6 +234,9 @@ if (isset($uncode_option['_uncode_font_groups'])) {
 			}
 			if ($font_class === $cs_menu_font_family) {
 				$cs_menu_font_family = $font_name;
+			}
+			if ($font_class === $cs_topbar_font_family) {
+				$cs_topbar_font_family = $font_name;
 			}
 			if ($font_class === $cs_heading_font_family) {
 				$cs_heading_font_family = $font_name;
@@ -472,6 +476,7 @@ $color_ui_text_alpha_dark = 'rgba('.$color_ui_text_alpha_dark[0].','.$color_ui_t
 
 $font_family_fallback = $cs_font_fallback != '' ? ', ' . $cs_font_fallback : '';
 $font_family_menu = $cs_menu_font_family . $font_family_fallback;
+$font_family_topbar = $cs_topbar_font_family . $font_family_fallback;
 $font_family_base = $cs_body_font_family . $font_family_fallback;
 $font_family_headings = $cs_heading_font_family . $font_family_fallback;
 $font_family_btn = $cs_buttons_font_family . $font_family_fallback;
@@ -493,7 +498,18 @@ $submenu_font_size = $uncode_option['_uncode_submenu_font_size'];
 if ($submenu_font_size === '') {
 	$submenu_font_size = 12;
 }
-$menu_mobile_font_size = $uncode_option['_uncode_menu_mobile_font_size'];
+if ( isset( $uncode_option['_uncode_secondary_menu_font_size'] ) ) {
+	$secondary_menu_font_size = $uncode_option['_uncode_secondary_menu_font_size'];
+} else {
+	$secondary_menu_font_size = 12;
+}
+if ( isset( $uncode_option['_uncode_secondary_menu_mobile_font_size'] ) ) {
+	$secondary_menu_mobile_font_size = $uncode_option['_uncode_secondary_menu_mobile_font_size'];
+} else {
+	$secondary_menu_mobile_font_size = 10;
+}
+$topbar_font_weight = isset( $uncode_option['_uncode_topbar_font_weight'] ) ? $uncode_option['_uncode_topbar_font_weight'] : 400;
+$menu_mobile_font_size = isset( $uncode_option['_uncode_menu_mobile_font_size'] ) ? $uncode_option['_uncode_menu_mobile_font_size'] : 12;
 if ($menu_mobile_font_size === '') {
 	$menu_mobile_font_size = 12;
 }

@@ -111,10 +111,10 @@
 		// load the vimeo api by replacing the div with an iframe and loading js
 		base.loadVimeoAPI = function() {
 			var source = '//player.vimeo.com/video/' + base.options.video.id + '?background=1&api=1&title=0&byline=0&portrait=0&playbar=0&loop=' + base.options.loop + '&autoplay=' + (base.options.autoplay === 1 ? 1 : 0) + '&player_id=okplayer-' + base.options.id,
-			jIframe = $('<iframe data-src="'+source+'" frameborder="0" id="okplayer-' + base.options.id +'" style="visibility: hidden;" class="vimeo-background" />');
+			jIframe = $('<iframe data-src="'+source+'" frameborder="0" id="okplayer-' + base.options.id +'" style="visibility: hidden;" class="vimeo-background" webkitallowfullscreen mozallowfullscreen allowfullscreen>');
 			$(window).data('okoptions-' + base.options.id).jobject = jIframe;
 			$('#okplayer-' + base.options.id).replaceWith(jIframe[0]);
-			base.insertJS('//f.vimeocdn.com/js/froogaloop2.min.js', function() {
+			base.insertJS('//player.vimeo.com/api/player.js', function() {
 				vimeoPlayerReady(base.options.id);
 			});
 		};

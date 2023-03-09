@@ -62,6 +62,8 @@ function uncode_remove_p_tag( $content, $autop = false ) {
 		$content = wp_filter_content_tags( $content );
 	}
 
+	$content = apply_filters( 'uncode_remove_p_tag_output', $content );
+
 	return $content;
 }
 
@@ -76,11 +78,11 @@ function uncode_wp_insert_post_data( $data, $postarr ) {
 	$content = preg_replace('/<p[^>]*>\[\/vc_icon]\[vc_icon]<\/p>/', '[/vc_icon][vc_icon]', $content);
 	$content = preg_replace('/<p[^>]*>\[\/vc_message]\[vc_message]<\/p>/', '[/vc_message][vc_message]', $content);
 	$content = preg_replace('/<p[^>]*>\[vc_row/', '[vc_row', $content);
-	$content = preg_replace('/\[vc_column_text(.*?)\]<\/p>/', '[vc_column_text$1]', $content);
-	$content = preg_replace('/\[uncode_list(.*?)\]<\/p>/', '[uncode_list$1]', $content);
-	$content = preg_replace('/\[vc_custom_heading(.*?)\]<\/p>/', '[vc_custom_heading$1]', $content);
-	$content = preg_replace('/\[vc_icon(.*?)\]<\/p>/', '[vc_icon$1]', $content);
-	$content = preg_replace('/\[vc_message(.*?)\]<\/p>/', '[vc_message$1]', $content);
+	$content = preg_replace('/\[vc_column_text([^]]+)\]<\/p>/', '[vc_column_text$1]', $content);
+	$content = preg_replace('/\[uncode_list([^]]+)\]<\/p>/', '[uncode_list$1]', $content);
+	$content = preg_replace('/\[vc_custom_heading([^]]+)\]<\/p>/', '[vc_custom_heading$1]', $content);
+	$content = preg_replace('/\[vc_icon([^]]+)\]<\/p>/', '[vc_icon$1]', $content);
+	$content = preg_replace('/\[vc_message([^]]+)\]<\/p>/', '[vc_message$1]', $content);
 	$content = preg_replace('/<p[^>]*>\[vc_row(.*?)\/vc_row]<\/p>/', '[vc_row$1/vc_row]', $content);
 	$data['post_content'] = $content;
 

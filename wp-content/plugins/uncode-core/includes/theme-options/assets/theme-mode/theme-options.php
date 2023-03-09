@@ -504,6 +504,31 @@ function custom_theme_options()
 		'condition' => '_uncode_%section%_custom_title_activate:is(on)',
 	);
 
+	$no_results_subtitle_archive_custom_text = array(
+		'id' => '_uncode_%section%_no_results_custom_subtitle_text',
+		'label' => esc_html__('Custom subtitle No Results', 'uncode-core') ,
+		'type' => 'text',
+		'desc' => esc_html__('Insert your custom main archive page subtitle.', 'uncode-core') ,
+		'std' => '',
+		'section' => 'uncode_%section%_section',
+		'condition' => '_uncode_%section%_custom_title_activate:is(on)',
+	);
+
+	if ( class_exists( 'WooCommerce' ) ) {
+		$no_results_products_subtitle_archive_custom_text = array(
+			'id' => '_uncode_%section%_no_results_products_custom_subtitle_text',
+			'label' => esc_html__('Custom subtitle No Results Shop', 'uncode-core') ,
+			'type' => 'text',
+			'desc' => esc_html__('Insert your custom main archive page subtitle.', 'uncode-core') ,
+			'std' => '',
+			'section' => 'uncode_%section%_section',
+			'condition' => '_uncode_%section%_custom_title_activate:is(on),_uncode_woocommerce_use_search_options:is(on)',
+			'operator' => 'and'
+		);
+	} else {
+		$no_results_products_subtitle_archive_custom_text = array();
+	}
+
 	$header_section_title = array(
 		'id' => '_uncode_%section%_header_block_title',
 		'label' => '<i class="fa fa-columns2"></i> ' . esc_html__('Header', 'uncode-core') ,
@@ -553,6 +578,21 @@ function custom_theme_options()
 		'choices' => array(),
 		'extra_choices' => array(
 			''     => esc_html__('Select…', 'uncode-core'),
+		),
+	);
+
+	$no_results_header_uncode_block = array(
+		'id' => '_uncode_%section%_no_results_header_content_block',
+		'label' => esc_html__('Content Block No Results', 'uncode-core') ,
+		'desc' => esc_html__('Set the Content Block to use. NB. Select "Inherit" to use the default template.', 'uncode-core') ,
+		'type' => 'custom-post-type-select',
+		'condition' => '_uncode_%section%_header:is(header_uncodeblock)',
+		'operator' => 'or',
+		'post_type' => 'uncodeblock',
+		'section' => 'uncode_%section%_section',
+		'choices' => array(),
+		'extra_choices' => array(
+			''     => esc_html__('Inherit', 'uncode-core'),
 		),
 	);
 
@@ -1391,6 +1431,10 @@ function custom_theme_options()
 				'value' => 'stack',
 				'label' => esc_html__('Stack', 'uncode-core') ,
 			) ,
+			array(
+				'value' => 'grid',
+				'label' => esc_html__('Grid', 'uncode-core') ,
+			) ,
 		) ,
 		'section' => 'uncode_%section%_section',
 	);
@@ -1412,41 +1456,7 @@ function custom_theme_options()
 		'std' => 'on',
 		'type' => 'on-off',
 		'section' => 'uncode_%section%_section',
-		'condition' => '_uncode_%section%_image_layout:is(stack)',
-	);
-
-	$enable_ajax_add_to_cart = array();
-
-	if ( get_option('woocommerce_enable_ajax_add_to_cart') == 'yes' ) {
-		$enable_ajax_add_to_cart = array(
-			'id' => '_uncode_%section%_enable_ajax_add_to_cart',
-			'label' => esc_html__('AJAX Add To Cart', 'uncode-core') ,
-			'desc' => esc_html__('Enable AJAX Add To Cart buttons on single product pages. NB. Please note that this option works with regular products, the AJAX Add to Cart is not available in WooCommerce with Variable products.', 'uncode-core') ,
-			'std' => 'off',
-			'type' => 'on-off',
-			'section' => 'uncode_%section%_section',
-			'condition' => '',
-		);
-	}
-
-	$quantity_input_style = array(
-		'id' => '_uncode_%section%_quantity_input_style',
-		'label' => esc_html__('Quantity', 'uncode-core') ,
-		'desc' => esc_html__('Specify the quantity style.', 'uncode-core') ,
-		'std' => '',
-		'type' => 'select',
-		'choices' => array(
-			array(
-				'value' => '',
-				'label' => esc_html__('Default', 'uncode-core') ,
-			) ,
-			array(
-				'value' => 'variation',
-				'label' => esc_html__('Variation', 'uncode-core') ,
-			) ,
-		) ,
-		'section' => 'uncode_%section%_section',
-		'condition' => '',
+		'condition' => '_uncode_%section%_image_layout:not()',
 	);
 
 	$enable_woo_zoom = array(
@@ -1617,6 +1627,39 @@ function custom_theme_options()
 			''     => esc_html__('Select…', 'uncode-core'),
 		),
 	);
+
+	$no_results_uncode_block = array(
+		'id' => '_uncode_%section%_no_results_content_block',
+		'label' => esc_html__('Content Block No Results', 'uncode-core') ,
+		'desc' => esc_html__('Set the Content Block to use. NB. Select "Inherit" to use the default template.', 'uncode-core') ,
+		'type' => 'custom-post-type-select',
+		'operator' => 'or',
+		'post_type' => 'uncodeblock',
+		'section' => 'uncode_%section%_section',
+		'choices' => array(),
+		'extra_choices' => array(
+			''     => esc_html__('Inherit', 'uncode-core'),
+		),
+	);
+
+	if ( class_exists( 'WooCommerce' ) ) {
+		$no_results_products_uncode_block = array(
+			'id' => '_uncode_%section%_no_results_products_content_block',
+			'label' => esc_html__('Content Block No Results Shop', 'uncode-core') ,
+			'desc' => esc_html__('Set the Content Block to use. NB. Select "Inherit" to use the default template.', 'uncode-core') ,
+			'type' => 'custom-post-type-select',
+			'operator' => 'and',
+			'post_type' => 'uncodeblock',
+			'section' => 'uncode_%section%_section',
+			'condition' => '_uncode_woocommerce_use_search_options:is(on)',
+			'choices' => array(),
+			'extra_choices' => array(
+				''     => esc_html__('Inherit', 'uncode-core'),
+			),
+		);
+	} else {
+		$no_results_products_uncode_block = array();
+	}
 
 	$show_comments = array(
 		'id' => '_uncode_%section%_comments',
@@ -2406,6 +2449,325 @@ function custom_theme_options()
 		$uncode_woocommerce_search_type = array();
 	}
 
+	// Top-Bar Core Settings
+	if ( get_option( 'uncode_core_settings_opt_enhanced_top_bar' ) === 'on' ) {
+		$top_bar_padding = array(
+			'id' => '_uncode_secondary_padding',
+			'label' => esc_html__('Top-Bar padding', 'uncode-core') ,
+			'desc' => esc_html__('Activate to increase secondary Menu padding.', 'uncode-core') ,
+			'std' => 'on',
+			'type' => 'on-off',
+			'section' => 'uncode_header_section',
+			'condition' => '_uncode_headers:contains(hmenu)',
+			'operator' => 'and'
+		);
+		$top_bar_border = array(
+			'id' => '_uncode_topbar_border',
+			'label' => esc_html__('Top-Bar border', 'uncode-core') ,
+			'desc' => esc_html__('Activate to show the Top-Bar bottom border.', 'uncode-core') ,
+			'std' => 'off',
+			'type' => 'on-off',
+			'section' => 'uncode_header_section',
+			'condition' => '_uncode_headers:contains(hmenu)',
+			'operator' => 'and'
+		);
+		$top_line_title = array(
+			'id' => '_uncode_top_bar_add_block_title',
+			'label' => '<i class="fa fa-sidebar fa-rotate-90"></i> ' . esc_html__('Top-Bar', 'uncode-core') ,
+			'type' => 'textblock-titled',
+			'class' => 'section-title',
+			'section' => 'uncode_header_section',
+			'condition' => '_uncode_headers:contains(hmenu)',
+			'operator' => 'and'
+		);
+		$top_line_onoff = array(
+			'id' => '_uncode_menu_bloginfo_show',
+			'label' => esc_html__('Top line', 'uncode-core') ,
+			'desc' => esc_html__('Activate to show the top text.', 'uncode-core') ,
+			'type' => 'select',
+			'choices' => array(
+				array(
+					'value' => '',
+					'label' => esc_html__('Hide', 'uncode-core') ,
+					'src' => ''
+				) ,
+				array(
+					'value' => 'left',
+					'label' => esc_html__('Left', 'uncode-core') ,
+					'src' => ''
+				),
+				array(
+					'value' => 'center',
+					'label' => esc_html__('Center', 'uncode-core') ,
+					'src' => ''
+				),
+				array(
+					'value' => 'right',
+					'label' => esc_html__('Right', 'uncode-core') ,
+					'src' => ''
+				),
+			),
+			'section' => 'uncode_header_section',
+			'condition' => '_uncode_headers:contains(hmenu)',
+			'operator' => 'and'
+		);
+		$top_line_onoff_tablet = array(
+			'id' => '_uncode_menu_bloginfo_tablet',
+			'label' => esc_html__('Hide on Tablet', 'uncode-core') ,
+			'desc' => esc_html__('Activate to hide this element on tablet.', 'uncode-core') ,
+			'std' => 'off',
+			'type' => 'on-off',
+			'section' => 'uncode_header_section',
+			'condition' => '_uncode_headers:contains(hmenu),_uncode_menu_bloginfo_show:not()',
+			'operator' => 'and'
+		);
+		$top_line_onoff_mobile = array(
+			'id' => '_uncode_menu_bloginfo_mobile',
+			'label' => esc_html__('Hide on Mobile', 'uncode-core') ,
+			'desc' => esc_html__('Activate to hide this element on mobile device.', 'uncode-core') ,
+			'std' => 'off',
+			'type' => 'on-off',
+			'section' => 'uncode_header_section',
+			'condition' => '_uncode_headers:contains(hmenu),_uncode_menu_bloginfo_show:not()',
+			'operator' => 'and'
+		);
+		$top_line_enhanced = array(
+			'id' => '_uncode_menu_bloginfo',
+			'label' => esc_html__('Top line text', 'uncode-core') ,
+			'desc' => esc_html__('Insert additional text on top of the Menu (it works combined with the Secondary Menu).','uncode-core') ,
+			'type' => 'textarea',
+			'section' => 'uncode_header_section',
+			'condition' => '_uncode_headers:contains(hmenu),_uncode_menu_bloginfo_show:not()',
+			'operator' => 'and'
+		);
+		$top_line_menu = array(
+			'id' => '_uncode_menu_secondary_show',
+			'label' => esc_html__('Secondary Menu', 'uncode-core') ,
+			'desc' => esc_html__('Specify if to activate the Secondary Menu and positioning.', 'uncode-core') ,
+			'type' => 'select',
+			'choices' => array(
+				array(
+					'value' => '',
+					'label' => esc_html__('Hide', 'uncode-core') ,
+					'src' => ''
+				) ,
+				array(
+					'value' => 'left',
+					'label' => esc_html__('Left', 'uncode-core') ,
+					'src' => ''
+				),
+				array(
+					'value' => 'center',
+					'label' => esc_html__('Center', 'uncode-core') ,
+					'src' => ''
+				),
+				array(
+					'value' => 'right',
+					'label' => esc_html__('Right', 'uncode-core') ,
+					'src' => ''
+				),
+			),
+			'section' => 'uncode_header_section',
+			'condition' => '_uncode_headers:contains(hmenu)',
+			'operator' => 'and'
+		);
+		$top_line_menu_tablet = array(
+			'id' => '_uncode_menu_secondary_tablet',
+			'label' => esc_html__('Hide on Tablet', 'uncode-core') ,
+			'desc' => esc_html__('Activate to hide this element on tablet.', 'uncode-core') ,
+			'std' => 'off',
+			'type' => 'on-off',
+			'section' => 'uncode_header_section',
+			'condition' => '_uncode_headers:contains(hmenu),_uncode_menu_secondary_show:not()',
+			'operator' => 'and'
+		);
+		$top_line_menu_mobile = array(
+			'id' => '_uncode_menu_secondary_mobile',
+			'label' => esc_html__('Hide on Mobile', 'uncode-core') ,
+			'desc' => esc_html__('Activate to hide this element on mobile device.', 'uncode-core') ,
+			'std' => 'off',
+			'type' => 'on-off',
+			'section' => 'uncode_header_section',
+			'condition' => '_uncode_headers:contains(hmenu),_uncode_menu_secondary_show:not()',
+			'operator' => 'and'
+		);
+		$top_bar_socials = array(
+			'id' => '_uncode_menu_socials_top_bar',
+			'label' => esc_html__('Social Icons', 'uncode-core') ,
+			'desc' => esc_html__('Specify if to activate the Social Icons and positioning.', 'uncode-core') ,
+			'type' => 'select',
+			'choices' => array(
+				array(
+					'value' => '',
+					'label' => esc_html__('Hide', 'uncode-core') ,
+					'src' => ''
+				) ,
+				array(
+					'value' => 'left',
+					'label' => esc_html__('Left', 'uncode-core') ,
+					'src' => ''
+				),
+				array(
+					'value' => 'center',
+					'label' => esc_html__('Center', 'uncode-core') ,
+					'src' => ''
+				),
+				array(
+					'value' => 'right',
+					'label' => esc_html__('Right', 'uncode-core') ,
+					'src' => ''
+				),
+			),
+			'section' => 'uncode_header_section',
+			'condition' => '_uncode_headers:contains(hmenu)',
+			'operator' => 'and'
+		);
+		$top_bar_socials_tablet = array(
+			'id' => '_uncode_menu_socials_top_bar_tablet_hide',
+			'label' => esc_html__('Hide On Tablet', 'uncode-core') ,
+			'desc' => esc_html__('Activate to hide this element on tablet.', 'uncode-core') ,
+			'std' => 'off',
+			'type' => 'on-off',
+			'section' => 'uncode_header_section',
+			'condition' => '_uncode_headers:contains(hmenu)',
+			'operator' => 'and'
+		);
+		$top_bar_socials_mobile = array(
+			'id' => '_uncode_menu_socials_top_bar_mobile_hide',
+			'label' => esc_html__('Hide On Mobile', 'uncode-core') ,
+			'desc' => esc_html__('Activate to hide this element on mobile device.', 'uncode-core') ,
+			'std' => 'off',
+			'type' => 'on-off',
+			'section' => 'uncode_header_section',
+			'condition' => '_uncode_headers:contains(hmenu)',
+			'operator' => 'and'
+		);
+		$top_bar_responsive = array(
+			'id' => '_uncode_top_bar_responsive',
+			'label' => esc_html__('Top-Bar responsive', 'uncode-core') ,
+			'desc' => esc_html__('Specify if elements that have different positions are stacked on different rows on tablet and mobile device.', 'uncode-core') ,
+			'std' => 'center',
+			'type' => 'select',
+			'section' => 'uncode_header_section',
+			'choices' => array(
+				array(
+					'value' => '',
+					'label' => esc_html__('None', 'uncode-core') ,
+					'src' => ''
+				) ,
+				array(
+					'value' => 'tablet',
+					'label' => esc_html__('Center under tablet', 'uncode-core') ,
+					'src' => ''
+				) ,
+				array(
+					'value' => 'mobile',
+					'label' => esc_html__('Center under mobile', 'uncode-core') ,
+					'src' => ''
+				)
+			),
+			'condition' => '_uncode_headers:contains(hmenu)',
+			'operator' => 'and'
+		);
+		$top_bar_customize_title = array(
+			'id' => '_uncode_top_bar_add_block_title',
+			'label' => '<i class="fa fa-sidebar fa-rotate-90"></i> ' . esc_html__('Top-Bar', 'uncode-core') ,
+			'type' => 'textblock-titled',
+			'class' => 'section-title',
+			'section' => 'uncode_customize_section',
+		);
+		$top_bar_skin = array(
+			'id' => '_uncode_secondary_menu_style',
+			'label' => esc_html__('Top-Bar Skin', 'uncode-core') ,
+			'desc' => esc_html__('Specify the Top-Bar skin.', 'uncode-core') ,
+			'std' => 'dark',
+			'type' => 'select',
+			'section' => 'uncode_customize_section',
+			'condition' => '_uncode_headers:is(hmenu-right),_uncode_headers:is(hmenu-left),_uncode_headers:is(hmenu-justify),_uncode_headers:is(hmenu-center),_uncode_headers:is(hmenu-center-split),_uncode_headers:is(hmenu-center-double)',
+			'operator' => 'or',
+			'choices' => $stylesArrayMenu
+		);
+		$top_bar_font_size = array(
+			'id' => '_uncode_secondary_menu_font_size',
+			'label' => esc_html__('Tob Bar Font Size', 'uncode-core') ,
+			'desc' => esc_html__('Specify the Top-Bar font size.', 'uncode-core') ,
+			'std' => '12',
+			'type' => 'text',
+			'section' => 'uncode_customize_section',
+		);
+		$top_bar_font_size_mobile = array(
+			'id' => '_uncode_secondary_menu_mobile_font_size',
+			'label' => esc_html__('Mobile Top-Bar Font Size', 'uncode-core') ,
+			'desc' => esc_html__('Specify the Top-Bar font size on mobile devices.', 'uncode-core') ,
+			'std' => '10',
+			'type' => 'text',
+			'section' => 'uncode_customize_section',
+		);
+		$top_bar_font_family = array(
+			'id' => '_uncode_topbar_font_family',
+			'class' => 'uncode_font_family_dropdown',
+			'label' => esc_html__('Top-Bar font family', 'uncode-core') ,
+			'desc' => esc_html__('Specify the Menu font family.', 'uncode-core') ,
+			'std' => 'font-555555',
+			'type' => 'select',
+			'section' => 'uncode_customize_section',
+			'operator' => 'or',
+			'choices' => $custom_fonts
+		);
+		$top_bar_font_weight = array(
+			'id' => '_uncode_topbar_font_weight',
+			'label' => esc_html__('Top-Bar font weight', 'uncode-core') ,
+			'desc' => esc_html__('Specify the Menu font weight.', 'uncode-core') ,
+			'std' => '400',
+			'type' => 'select',
+			'section' => 'uncode_customize_section',
+			'operator' => 'or',
+			'choices' => $title_weight
+		);
+		$hide_secondary_menu = $secondary_menu_padding = $top_line_std = $secondary_menu_skin = array();
+	} else {
+		$hide_secondary_menu = array(
+			'id' => '_uncode_menu_no_secondary',
+			'label' => esc_html__('Hide secondary Menu', 'uncode-core') ,
+			'desc' => esc_html__('Activate to hide the Secondary Menu.', 'uncode-core') ,
+			'std' => 'off',
+			'type' => 'on-off',
+			'section' => 'uncode_header_section',
+			'condition' => '_uncode_headers:contains(hmenu)',
+		);
+		$secondary_menu_padding = array(
+			'id' => '_uncode_secondary_padding',
+			'label' => esc_html__('Secondary Menu padding', 'uncode-core') ,
+			'desc' => esc_html__('Activate to increase secondary Menu padding.', 'uncode-core') ,
+			'std' => 'on',
+			'type' => 'on-off',
+			'section' => 'uncode_header_section',
+			'condition' => '_uncode_headers:contains(hmenu),_uncode_menu_no_secondary:is(off)',
+			'operator' => 'and'
+		);
+		$top_line_std = array(
+			'id' => '_uncode_menu_bloginfo',
+			'label' => esc_html__('Top line text', 'uncode-core') ,
+			'desc' => esc_html__('Insert additional text on top of the Menu (it works combined with the Secondary Menu).','uncode-core') ,
+			'type' => 'textarea',
+			'section' => 'uncode_header_section',
+			'condition' => '_uncode_headers:contains(hmenu),_uncode_menu_no_secondary:is(off)',
+			'operator' => 'and'
+		);
+		$secondary_menu_skin = array(
+			'id' => '_uncode_secondary_menu_style',
+			'label' => esc_html__('Secondary Menu Skin', 'uncode-core') ,
+			'desc' => esc_html__('Specify the Secondary Menu Skin.', 'uncode-core') ,
+			'std' => 'dark',
+			'type' => 'select',
+			'section' => 'uncode_customize_section',
+			'condition' => '_uncode_headers:is(hmenu-right),_uncode_headers:is(hmenu-left),_uncode_headers:is(hmenu-justify),_uncode_headers:is(hmenu-center),_uncode_headers:is(hmenu-center-split),_uncode_headers:is(hmenu-center-double)',
+			'operator' => 'or',
+			'choices' => $stylesArrayMenu
+		);
+		$top_line_title = $top_line_onoff = $top_line_onoff_mobile = $top_line_onoff_tablet = $top_line_enhanced = $top_bar_font_size = $top_bar_socials = $top_bar_socials_tablet = $top_bar_socials_mobile = $top_bar_responsive = $top_line_menu = $top_line_menu_tablet = $top_line_menu_mobile = $top_bar_padding = $top_bar_border = $top_bar_customize_title = $top_bar_skin = $top_bar_font_size_mobile = $top_bar_font_family = $top_bar_font_weight = array();
+	}
+
 	$custom_settings_one = array(
 		array(
 			'id' => '_uncode_general_block_title',
@@ -2860,6 +3222,24 @@ function custom_theme_options()
 			'section' => 'uncode_header_section',
 		) ,
 		array(
+			'id' => '_uncode_no_menu_v_borders',
+			'label' => esc_html__('No Vertical Borders', 'uncode-core') ,
+			'desc' => esc_html__('Remove the vertical borders.', 'uncode-core') ,
+			'std' => 'off',
+			'type' => 'on-off',
+			'section' => 'uncode_header_section',
+			'condition' => '_uncode_menu_borders:is(on)',
+			'operator' => 'and',
+		) ,
+		array(
+			'id' => '_uncode_menu_mobile_borders',
+			'label' => esc_html__('Menu borders on mobile', 'uncode-core') ,
+			'desc' => esc_html__('Activate to display the internal open Menu borders on mobile devices.', 'uncode-core') ,
+			'std' => 'off',
+			'type' => 'on-off',
+			'section' => 'uncode_header_section',
+		) ,
+		array(
 			'id' => '_uncode_menu_no_arrows',
 			'label' => esc_html__('Menu Hide dropdown arrows', 'uncode-core') ,
 			'desc' => esc_html__('Activate to hide the dropdow arrows.', 'uncode-core') ,
@@ -2915,6 +3295,17 @@ function custom_theme_options()
 			'min_max_step'=> '0,36,9',
 			'section' => 'uncode_header_section',
 			'condition' => '_uncode_menu_custom_padding:is(on)',
+			'operator' => 'and'
+		) ,
+		array(
+			'id' => '_uncode_menu_custom_lateral_padding',
+			'label' => esc_html__('Padding lateral', 'uncode-core') ,
+			'desc' => esc_html__('Set custom padding lateral on desktop devices.', 'uncode-core') ,
+			'std' => '36',
+			'type' => 'numeric-slider',
+			'min_max_step'=> '36,216,36',
+			'section' => 'uncode_header_section',
+			'condition' => '_uncode_headers:not(vmenu)',
 			'operator' => 'and'
 		) ,
 		array(
@@ -3036,8 +3427,16 @@ function custom_theme_options()
 					'label' => esc_html__('None', 'uncode-core') ,
 				) ,
 				array(
+					'value' => 'simple',
+					'label' => esc_html__('Opacity', 'uncode-core') ,
+				) ,
+				array(
 					'value' => 'scale',
-					'label' => esc_html__('Scale', 'uncode-core') ,
+					'label' => esc_html__('Sequential', 'uncode-core') ,
+				) ,
+				array(
+					'value' => '3d',
+					'label' => esc_html__('3D', 'uncode-core') ,
 				) ,
 			)
 		) ,
@@ -3052,12 +3451,20 @@ function custom_theme_options()
 			'operator' => 'or',
 			'choices' => array(
 				array(
-					'value' => '3d',
-					'label' => esc_html__('3D', 'uncode-core') ,
+					'value' => 'none',
+					'label' => esc_html__('None', 'uncode-core') ,
+				) ,
+				array(
+					'value' => 'simple',
+					'label' => esc_html__('Opacity', 'uncode-core') ,
 				) ,
 				array(
 					'value' => 'sequential',
-					'label' => esc_html__('Flat', 'uncode-core') ,
+					'label' => esc_html__('Sequential', 'uncode-core') ,
+				) ,
+				array(
+					'value' => '3d',
+					'label' => esc_html__('3D', 'uncode-core') ,
 				) ,
 			)
 		) ,
@@ -3068,24 +3475,8 @@ function custom_theme_options()
 			'class' => 'section-title',
 			'section' => 'uncode_header_section',
 		) ,
-		array(
-			'id' => '_uncode_menu_no_secondary',
-			'label' => esc_html__('Hide secondary Menu', 'uncode-core') ,
-			'desc' => esc_html__('Activate to hide the Secondary Menu.', 'uncode-core') ,
-			'std' => 'off',
-			'type' => 'on-off',
-			'section' => 'uncode_header_section',
-		) ,
-		array(
-			'id' => '_uncode_secondary_padding',
-			'label' => esc_html__('Secondary Menu padding', 'uncode-core') ,
-			'desc' => esc_html__('Activate to increase secondary Menu padding.', 'uncode-core') ,
-			'std' => 'on',
-			'type' => 'on-off',
-			'section' => 'uncode_header_section',
-			'condition' => '_uncode_menu_no_secondary:is(off)',
-			'operator' => 'or'
-		) ,
+		$hide_secondary_menu,
+		$secondary_menu_padding,
 		array(
 			'id' => '_uncode_menu_no_cta',
 			'label' => esc_html__('Hide Call To Action Menu', 'uncode-core') ,
@@ -3097,7 +3488,7 @@ function custom_theme_options()
 		array(
 			'id' => '_uncode_menu_socials',
 			'label' => esc_html__('Social icons', 'uncode-core') ,
-			'desc' => esc_html__('Activate to show the social connection icons in the Menu bar.', 'uncode-core') ,
+			'desc' => esc_html__('Activate to show the social connection icons in the Menu bar. NB. Please note that if you have enabled Social Icons in the Top-Bar this option is not taken into account, because there can only be one group of Social Icons.', 'uncode-core') ,
 			'std' => 'off',
 			'type' => 'on-off',
 			'section' => 'uncode_header_section',
@@ -3125,9 +3516,19 @@ function custom_theme_options()
 			'operator' => 'and'
 		) ,
 		array(
+			'id' => '_uncode_drop_down_search',
+			'label' => esc_html__('Search Dropdown', 'uncode-core') ,
+			'desc' => esc_html__('Set the dropdown style for main search.', 'uncode-core') ,
+			'std' => 'off',
+			'type' => 'on-off',
+			'section' => 'uncode_header_section',
+			'condition' => '_uncode_menu_search:is(on),_uncode_headers:contains(hmenu)',
+			'operator' => 'and'
+		) ,
+		array(
 			'id' => '_uncode_menu_search_animation',
-			'label' => esc_html__('Search overlay animation', 'uncode-core') ,
-			'desc' => esc_html__('Specify the Search overlay animation when opening and closing.', 'uncode-core') ,
+			'label' => esc_html__('Search animation', 'uncode-core') ,
+			'desc' => esc_html__('Specify the Search animation when opening and closing.', 'uncode-core') ,
 			'std' => 'sequential',
 			'type' => 'select',
 			'section' => 'uncode_header_section',
@@ -3214,15 +3615,26 @@ function custom_theme_options()
 			'condition' => '_uncode_menu_search:is(on),_uncode_woocommerce_cart:is(on),_uncode_login_account:is(on),_uncode_woocommerce_wishlist:is(on)',
 			'operator' => 'or'
 		) ,
-		array(
-			'id' => '_uncode_menu_bloginfo',
-			'label' => esc_html__('Top line text', 'uncode-core') ,
-			'desc' => esc_html__('Insert additional text on top of the Menu (it works combined with the Secondary Menu).','uncode-core') ,
-			'type' => 'textarea',
-			'section' => 'uncode_header_section',
-			'condition' => '_uncode_headers:is(hmenu-right),_uncode_headers:is(hmenu-left),_uncode_headers:is(hmenu-justify),_uncode_headers:is(hmenu-center),_uncode_headers:is(hmenu-center-split),_uncode_headers:is(hmenu-center-double)',
-			'operator' => 'or'
-		) ,
+		$top_line_std,
+
+		  ////////////////////////
+		 ///     Top-Bar     ///
+		//////////////////////
+		$top_line_title,
+		$top_line_onoff,
+		$top_line_onoff_tablet,
+		$top_line_onoff_mobile,
+		$top_line_enhanced,
+		$top_line_menu,
+		$top_line_menu_tablet,
+		$top_line_menu_mobile,
+		$top_bar_socials,
+		$top_bar_socials_tablet,
+		$top_bar_socials_mobile,
+		$top_bar_responsive,
+		$top_bar_padding,
+		$top_bar_border,
+
 		//////////////////////
 		//  Post Single		///
 		//////////////////////
@@ -3821,6 +4233,7 @@ function custom_theme_options()
 		uncode_core_replace_section_id('search_index', $header_section_title),
 		uncode_core_replace_section_id('search_index', run_array_to($header_type, 'std', 'header_basic')),
 		uncode_core_replace_section_id('search_index', $header_uncode_block),
+		uncode_core_replace_section_id('search_index', $no_results_header_uncode_block),
 		uncode_core_replace_section_id('search_index', $header_revslider),
 		uncode_core_replace_section_id('search_index', $header_layerslider),
 
@@ -3854,11 +4267,14 @@ function custom_theme_options()
 		uncode_core_replace_section_id('search_index', $menu_no_padding),
 		uncode_core_replace_section_id('search_index', $menu_no_padding_mobile),
 		uncode_core_replace_section_id('search_index', $title_archive_custom_activate),
-		uncode_core_replace_section_id('search_index', $title_archive_custom_text),
 		uncode_core_replace_section_id('search_index', $subtitle_archive_custom_text),
+		uncode_core_replace_section_id('search_index', $no_results_subtitle_archive_custom_text),
+		uncode_core_replace_section_id('search_index', $no_results_products_subtitle_archive_custom_text),
 
 		uncode_core_replace_section_id('search_index', $body_section_title),
 		uncode_core_replace_section_id('search_index', $body_uncode_block),
+		uncode_core_replace_section_id('search_index', $no_results_uncode_block),
+		uncode_core_replace_section_id('search_index', $no_results_products_uncode_block),
 		uncode_core_replace_section_id('search_index', $body_layout_width),
 		uncode_core_replace_section_id('search_index', $remove_pagination),
 		uncode_core_replace_section_id('search_index', $sidebar_section_title),
@@ -4262,8 +4678,8 @@ function custom_theme_options()
 		) ,
 		array(
 			'id' => '_uncode_secmenu_bg_color_light',
-			'label' => esc_html__('Secondary Menu background', 'uncode-core') ,
-			'desc' => esc_html__('Specify the Secondary Menu background color.', 'uncode-core') ,
+			'label' => esc_html__('Top-Bar background', 'uncode-core') ,
+			'desc' => esc_html__('Specify the Top-Bar background color.', 'uncode-core') ,
 			'std' => 'color-xsdn',
 			'type' => 'uncode_color',
 			'section' => 'uncode_customize_section',
@@ -4357,8 +4773,8 @@ function custom_theme_options()
 		) ,
 		array(
 			'id' => '_uncode_secmenu_bg_color_dark',
-			'label' => esc_html__('Secondary Menu background', 'uncode-core') ,
-			'desc' => esc_html__('Specify the Secondary Menu background color.', 'uncode-core') ,
+			'label' => esc_html__('Top-Bar background', 'uncode-core') ,
+			'desc' => esc_html__('Specify the Top-Bar background color.', 'uncode-core') ,
 			'std' => 'color-wayh',
 			'type' => 'uncode_color',
 			'section' => 'uncode_customize_section',
@@ -4641,17 +5057,7 @@ function custom_theme_options()
 			'section' => 'uncode_customize_section',
 			'choices' => $stylesArrayMenu
 		) ,
-		array(
-			'id' => '_uncode_secondary_menu_style',
-			'label' => esc_html__('Secondary Menu Skin', 'uncode-core') ,
-			'desc' => esc_html__('Specify the Secondary Menu Skin.', 'uncode-core') ,
-			'std' => 'dark',
-			'type' => 'select',
-			'section' => 'uncode_customize_section',
-			'condition' => '_uncode_headers:is(hmenu-right),_uncode_headers:is(hmenu-left),_uncode_headers:is(hmenu-justify),_uncode_headers:is(hmenu-center),_uncode_headers:is(hmenu-center-split),_uncode_headers:is(hmenu-center-double)',
-			'operator' => 'or',
-			'choices' => $stylesArrayMenu
-		) ,
+		$secondary_menu_skin,
 		array(
 			'id' => '_uncode_menu_font_size',
 			'label' => esc_html__('Menu font size', 'uncode-core') ,
@@ -4721,6 +5127,13 @@ function custom_theme_options()
 			'type' => 'on-off',
 			'section' => 'uncode_customize_section',
 		) ,
+		$top_bar_customize_title,
+		$top_bar_skin,
+		$top_bar_font_family,
+		$top_bar_font_weight,
+		$top_bar_customize_title,
+		$top_bar_font_size,
+		$top_bar_font_size_mobile,
 		array(
 			'id' => '_uncode_custom_content_block_title',
 			'label' => '<i class="fa fa-layout"></i> ' . esc_html__('Content', 'uncode-core') ,
@@ -5221,6 +5634,29 @@ function custom_theme_options()
 		);
 	}
 
+	$products_attributes = array(
+		array(
+			'value' => '',
+			'label' => esc_html__('None', 'uncode-core'),
+		)
+	);
+
+	if ( class_exists( 'WooCommerce' ) ) {
+		$attribute_taxonomies = wc_get_attribute_taxonomies();
+
+		if ( $attribute_taxonomies ) {
+			foreach ( $attribute_taxonomies as $tax ) {
+				$attr_key   = wc_attribute_taxonomy_name( $tax->attribute_name );
+				$attr_label = wc_attribute_label( $attr_key );
+
+				$products_attributes[] = array(
+					'value' => $attr_key,
+					'label' => $attr_label
+				);
+			}
+		}
+	}
+
 	$woocommerce_settings = array(
 		array(
 			'id' => '_uncode_woocommerce_hooks',
@@ -5360,6 +5796,34 @@ function custom_theme_options()
 			),
 		),
 		array(
+			'id' => '_uncode_product_enable_ajax_add_to_cart',
+			'label' => esc_html__('AJAX Add To Cart', 'uncode-core') ,
+			'desc' => get_option('woocommerce_enable_ajax_add_to_cart') == 'yes' ? esc_html__('Enable AJAX Add To Cart buttons on single product pages. NB. Please note that this option works with Simple and Variable products only.', 'uncode-core') : sprintf( wp_kses(__( 'Enable AJAX Add To Cart buttons on single product pages. NB. Please note that this option works with Simple and Variable products only. Please enable <a href="%s" target="_blank">Enable AJAX add to cart buttons on archives</a> in WooCommerce settings.', 'uncode-core' ), array( 'a' => array( 'href' => array(),'target' => array() ) ) ), admin_url( 'admin.php?page=wc-settings&tab=products' ) ),
+			'std' => 'off',
+			'type' => 'on-off',
+			'section' => 'uncode_woocommerce_section',
+			'condition' => '',
+		),
+		array(
+			'id' => '_uncode_product_quantity_input_style',
+			'label' => esc_html__('Quantity', 'uncode-core') ,
+			'desc' => esc_html__('Specify the quantity style.', 'uncode-core') ,
+			'std' => '',
+			'type' => 'select',
+			'choices' => array(
+				array(
+					'value' => '',
+					'label' => esc_html__('Default', 'uncode-core') ,
+				) ,
+				array(
+					'value' => 'variation',
+					'label' => esc_html__('Variation', 'uncode-core') ,
+				) ,
+			) ,
+			'section' => 'uncode_woocommerce_section',
+			'condition' => '',
+		),
+		array(
 			'id' => '_uncode_woocommerce_enhanced_atc',
 			'label' => esc_html__('Add To Cart Button Enhanced', 'uncode-core') ,
 			'desc' => esc_html__('Activate this to enable the enhanced Add To Cart button on loops.', 'uncode-core') ,
@@ -5400,6 +5864,16 @@ function custom_theme_options()
 			'operator' => 'and'
 		),
 		array(
+			'id' => '_uncode_woocommerce_attribute_with_thumbnail',
+			'label' => esc_html__('Swatches with thumbnails', 'uncode-core') ,
+			'desc' => esc_html__('Select the attribute that should use the featured thumbnail of the variation as a swatch.', 'uncode-core') ,
+			'type' => 'select',
+			'section' => 'uncode_woocommerce_section',
+			'choices' => $products_attributes,
+			'condition' => '',
+			'operator' => 'and'
+		),
+		array(
 			'id' => '_uncode_woocommerce_default_product_gallery',
 			'label' => esc_html__('Default Single Product Gallery', 'uncode-core') ,
 			'desc' => esc_html__('For possible extra plugins compatibility purposes, activate this to use the default WooCommerce Product Gallery on the Single Product layout.', 'uncode-core') ,
@@ -5427,6 +5901,26 @@ function custom_theme_options()
 			'type' => 'on-off',
 			'section' => 'uncode_woocommerce_section',
 			'condition' => '_uncode_woocommerce_catalog_mode:is(on)',
+			'operator' => 'and'
+		),
+		array(
+			'id' => '_uncode_woocommerce_catalog_mode_show_variations',
+			'label' => esc_html__('Catalog Mode Show Variations', 'uncode-core') ,
+			'desc' => esc_html__('Activate this to show product variations where "Add to cart" is hidden.', 'uncode-core') ,
+			'std' => 'off',
+			'type' => 'on-off',
+			'section' => 'uncode_woocommerce_section',
+			'condition' => '_uncode_woocommerce_catalog_mode:is(on)',
+			'operator' => 'and'
+		),
+		array(
+			'id' => '_uncode_woocommerce_use_search_options',
+			'label' => esc_html__('Use Search Options', 'uncode-core') ,
+			'desc' => esc_html__('Activate this to use the Search tab settings when the search does not find results.', 'uncode-core') ,
+			'std' => 'off',
+			'type' => 'on-off',
+			'section' => 'uncode_woocommerce_section',
+			'condition' => '',
 			'operator' => 'and'
 		),
 	);
@@ -6111,8 +6605,6 @@ function custom_theme_options()
 			uncode_core_replace_section_id('product', run_array_to($show_breadcrumb, 'condition', '_uncode_product_select_content:is()')),
 			uncode_core_replace_section_id('product', run_array_to($breadcrumb_align, 'condition', '_uncode_product_select_content:is(),_uncode_product_breadcrumb:is(on)')),
 			uncode_core_replace_section_id('product', run_array_to($show_title, 'condition', '_uncode_product_select_content:is()')),
-			uncode_core_replace_section_id('product', $enable_ajax_add_to_cart),
-			uncode_core_replace_section_id('product', $quantity_input_style),
 			uncode_core_replace_section_id('product', run_array_to($show_share, 'condition', '_uncode_product_select_content:is()')),
 			uncode_core_replace_section_id('product', run_array_to($image_layout, 'condition', '_uncode_product_select_content:is()')),
 			uncode_core_replace_section_id('product', run_array_to($media_size, 'condition', '_uncode_product_select_content:is()')),

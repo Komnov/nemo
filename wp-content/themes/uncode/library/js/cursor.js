@@ -32,7 +32,7 @@
 			var $this = $(this),
 				data_cursor = $this.closest('[data-cursor]').attr('data-cursor') || $this.attr('data-cursor'),
 				is_frontend_editor = $this.closest('.vc_controls').length,
-				hasSrcOrClck = $('[src]', $this).length || $this.closest('.tmb-click-row').length,
+				hasSrcOrClck = $('[src]', $this).length || $('.t-background-cover', $this).length || $this.closest('.tmb-click-row').length,
 				$parent_cursor = $this.closest('[class*="custom-cursor"]');
 			if ( is_frontend_editor ) {
 				cursorType = 'auto';

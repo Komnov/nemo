@@ -199,7 +199,7 @@
 					var iframeIDv = iframeID.replace('okplayer-', ''),
 						optionsV = $(window).data('okoptions-' + iframeIDv),
 						vimeo = $iframe[0],
-						playerV = $f(vimeo), // `$f` is froogaloop, assumed is loaded
+						playerV = new Vimeo.Player(vimeo),
 						timeV = 0;
 
 					if (optionsV.time != null) {
@@ -214,11 +214,12 @@
 							}
 						}
 					}
-					playerV.api('seekTo', timeV);
+					playerV.setCurrentTime(timeV);
 					if ( start ) {
-						playerV.api('play');
+						playerV.setVolume(0);
+						playerV.play();
 					} else {
-						playerV.api('pause');
+						playerV.pause();
 					}
 				} else if ( $el.attr('data-provider') === 'youtube' ) {
 					if ( start ) {

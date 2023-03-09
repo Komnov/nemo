@@ -109,6 +109,9 @@
 		}
 	}
 	$(document).ready(function() {
+		if (SiteParameters.disable_oembed_preview) {
+			return false;
+		}
 		$(document).on('DOMNodeInserted', function(e) {
 			try {
 				if ($(e.target).closest('.media-modal').length || $(e.target).closest('.wpb_el_type_media_element').length || $(e.target).closest('.attachments').length) {

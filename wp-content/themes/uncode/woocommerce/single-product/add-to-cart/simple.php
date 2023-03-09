@@ -4,7 +4,7 @@
  *
  * @author 		WooThemes
  * @package 	WooCommerce/Templates
- * @version     3.4.0
+ * @version     7.0.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -71,9 +71,10 @@ $post_type = uncode_get_current_post_type();
 		}
 
 		$link['class'] = isset( $button_class ) ? $button_class : $link['class'] . ' btn-default';
+		$extra_btn_class = uncode_wc_wp_theme_get_element_class_name( 'button' );
 
 	 	// Display the submit button.
-    echo sprintf( '<button type="submit" name="add-to-cart" data-product_id="%s" data-product_sku="%s" data-quantity="1" class="%s single_add_to_cart_button button alt btn product_type_simple ' . uncode_btn_style() . '" value="%s"><span class="add_to_cart_text">%s</span><span class="view-cart added_to_cart"></span></button>', esc_attr( $product->get_id() ), esc_attr( $product->get_sku() ), esc_attr( $link['class'] ), esc_attr( $product->get_id() ), esc_html( $link['label'] ) );
+    echo sprintf( '<button type="submit" name="add-to-cart" data-product_id="%s" data-product_sku="%s" data-quantity="1" class="%s single_add_to_cart_button button alt btn product_type_simple ' . $extra_btn_class . ' ' . uncode_btn_style() . '" value="%s"><span class="add_to_cart_text">%s</span><span class="view-cart added_to_cart"></span></button>', esc_attr( $product->get_id() ), esc_attr( $product->get_sku() ), esc_attr( $link['class'] ), esc_attr( $product->get_id() ), esc_html( $link['label'] ) );
 		do_action( 'woocommerce_after_add_to_cart_button' ); ?>
 
 	</form>

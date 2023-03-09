@@ -17,7 +17,7 @@ $add_text_size = uncode_core_vc_params_get_text_size( 'single_text_lead', false,
 $index_back_color_options = uncode_core_vc_params_get_advanced_color_options( 'index_back_color', esc_html__("Background color", 'uncode-core'), esc_html__("Specify a background color for the module.", 'uncode-core'), esc_html__("Module", 'uncode-core'), $uncode_colors, array( 'dependency' => array( 'element' => 'index_type', 'value' => array( 'isotope', 'carousel', 'css_grid' ) ) ) );
 list( $add_index_back_color_type, $add_index_back_color, $add_index_back_color_solid, $add_index_back_color_gradient ) = $index_back_color_options;
 
-$filter_back_color_options = uncode_core_vc_params_get_advanced_color_options( 'filter_back_color', esc_html__("Filter color", 'uncode-core'), esc_html__("Specify a background color for the filter menu.", 'uncode-core'), esc_html__("Module", 'uncode-core'), $uncode_colors, array( 'dependency' => array( 'element' => 'filtering', 'value' => 'yes' ), 'uncode_wrapper_class' => 'post-dependent-field' ) );
+$filter_back_color_options = uncode_core_vc_params_get_advanced_color_options( 'filter_back_color', esc_html__("Filter color", 'uncode-core'), esc_html__("Specify a background color for the filter menu.", 'uncode-core'), esc_html__("Filters", 'uncode-core'), $uncode_colors, array( 'dependency' => array( 'element' => 'filtering', 'value' => 'yes' ), 'uncode_wrapper_class' => 'post-dependent-field' ) );
 list( $add_filter_back_color_type, $add_filter_back_color, $add_filter_back_color_solid, $add_filter_back_color_gradient ) = $filter_back_color_options;
 
 $infinite_button_color_options = uncode_core_vc_params_get_advanced_color_options( 'infinite_button_color', esc_html__("Load more button color", 'uncode-core'), esc_html__("Specify a background color for the load more button.", 'uncode-core'), esc_html__("Module", 'uncode-core'), $uncode_colors, array( 'dependency' => array( 'element' => 'infinite_button', 'value' => 'yes' ), 'uncode_wrapper_class' => 'pagination-field load-more-field', 'default_label' => true ) );
@@ -39,7 +39,6 @@ $add_parallax_options = uncode_core_vc_params_get_parallax_options( esc_html__("
 $add_parallax_centered_options = uncode_core_vc_params_get_parallax_centered_options( esc_html__("Blocks", 'uncode-core'), 'single_parallax_centered', 'single_parallax_intensity' );
 
 $simplify_single_tab = get_option( 'uncode_core_settings_opt_simplify_single_block_tab' ) === 'on' ? true : false;
-
 $lbox_enhance = get_option( 'uncode_core_settings_opt_lightbox_enhance' ) === 'on';
 
 foreach ($uncode_post_types as $key => $value) {
@@ -50,7 +49,7 @@ foreach ($uncode_post_types as $key => $value) {
 		'param_name' => $value . '_items',
 		'description' => esc_html__('Enable or disable elements and place them in desired order. NB. The Category (when it has a non-relative position) and Icon elements cannot be dragged.', 'uncode-core') ,
 		'value' => 'media|featured|onpost|original,title,text|excerpt,link|default',
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => array(
@@ -69,6 +68,10 @@ foreach ($uncode_post_types as $key => $value) {
 					array(
 						'featured',
 						esc_html__('Featured Image', 'uncode-core')
+					) ,
+					array(
+						'secondary',
+						esc_html__('Secondary Featured Image', 'uncode-core')
 					) ,
 					array(
 						'media',
@@ -381,7 +384,7 @@ foreach ($uncode_post_types as $key => $value) {
 		'param_name' => $value . '_table_items',
 		'description' => esc_html__('Enable or disable elements and place them in desired order.', 'uncode-core') ,
 		'value' => 'col-one|4,title,col-two|3,date,col-three|3,category|nobg|relative|display-icon,col-four|2,link|default|default_size',
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => array(
@@ -396,6 +399,10 @@ foreach ($uncode_post_types as $key => $value) {
 					array(
 						'featured',
 						esc_html__('Featured Image', 'uncode-core')
+					) ,
+					array(
+						'secondary',
+						esc_html__('Secondary Featured Image', 'uncode-core')
 					) ,
 					array(
 						'media',
@@ -1041,7 +1048,7 @@ $uncode_post_list = apply_filters( 'uncode_sorted_list_post_options',
 		'param_name' => 'post_items',
 		'description' => esc_html__('Enable or disable elements and place them in desired order. NB. The Category (when it has a non-relative position) and Icon elements cannot be dragged.', 'uncode-core') ,
 		'value' => 'media|featured|onpost|original,title,category|nobg,date,text|excerpt,link|default,author,sep-one|full,extra',
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'options' => array(
 			array(
 				'media',
@@ -1050,6 +1057,10 @@ $uncode_post_list = apply_filters( 'uncode_sorted_list_post_options',
 					array(
 						'featured',
 						esc_html__('Featured Image', 'uncode-core')
+					) ,
+					array(
+						'secondary',
+						esc_html__('Secondary Featured Image', 'uncode-core')
 					) ,
 					array(
 						'media',
@@ -1364,7 +1375,7 @@ $uncode_post_table_list = apply_filters( 'uncode_sorted_list_post_table_options'
 		'param_name' => 'post_table_items',
 		'description' => esc_html__('Enable or disable elements and place them in desired order.', 'uncode-core') ,
 		'value' => 'col-one|1,media|featured|onpost|poster,col-two|5,title,col-three|2,date,col-four|2,category|inline,col-five|2,link|default|default_size',
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'options' => array(
 			array(
 				'media',
@@ -1373,6 +1384,10 @@ $uncode_post_table_list = apply_filters( 'uncode_sorted_list_post_table_options'
 					array(
 						'featured',
 						esc_html__('Featured Image', 'uncode-core')
+					) ,
+					array(
+						'secondary',
+						esc_html__('Secondary Featured Image', 'uncode-core')
 					) ,
 					array(
 						'media',
@@ -1955,7 +1970,7 @@ $uncode_page_list = apply_filters( 'uncode_sorted_list_page_options',
 		'param_name' => 'page_items',
 		'description' => esc_html__('Enable or disable elements and place them in desired order. NB. The Category (when it has a non-relative position) and Icon elements cannot be dragged.', 'uncode-core') ,
 		'value' => 'media|featured|onpost|original,title,text|excerpt,link|default',
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'options' => array(
 			array(
 				'media',
@@ -1964,6 +1979,10 @@ $uncode_page_list = apply_filters( 'uncode_sorted_list_page_options',
 					array(
 						'featured',
 						esc_html__('Featured Image', 'uncode-core')
+					) ,
+					array(
+						'secondary',
+						esc_html__('Secondary Featured Image', 'uncode-core')
 					) ,
 					array(
 						'media',
@@ -2224,7 +2243,7 @@ $uncode_page_table_list = apply_filters( 'uncode_sorted_list_page_table_options'
 		'param_name' => 'page_table_items',
 		'description' => esc_html__('Enable or disable elements and place them in desired order.', 'uncode-core') ,
 		'value' => 'col-one|4,title,col-two|4,category|inline,col-three|4,link|link|default_size',
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'options' => array(
 			array(
 				'media',
@@ -2233,6 +2252,10 @@ $uncode_page_table_list = apply_filters( 'uncode_sorted_list_page_table_options'
 					array(
 						'featured',
 						esc_html__('Featured Image', 'uncode-core')
+					) ,
+					array(
+						'secondary',
+						esc_html__('Secondary Featured Image', 'uncode-core')
 					) ,
 					array(
 						'media',
@@ -2730,6 +2753,44 @@ $uncode_page_table_list = apply_filters( 'uncode_sorted_list_page_table_options'
 	)
 );
 
+$variations_number = array(
+	array(
+		'all',
+		esc_html__('Show all (single attribute only)', 'uncode-core'),
+	)
+);
+for ( $i=1; $i < 11; $i++ ) {
+	$variations_number[] = array( strval( $i ), strval( $i ) . esc_html__(' (single attribute only)', 'uncode-core'), );
+}
+
+$products_attributes = array();
+$products_attributes_with_image = array();
+
+if ( class_exists( 'WooCommerce' ) && function_exists( 'uncode_wc_get_taxonomy_props' ) ) {
+	$attribute_taxonomies = wc_get_attribute_taxonomies();
+
+	if ( $attribute_taxonomies ) {
+		$products_attributes = array(
+			array(
+				'_all',
+				esc_html__('All attributes', 'uncode-core'),
+			)
+		);
+
+		foreach ( $attribute_taxonomies as $tax ) {
+			$attr_key              = wc_attribute_taxonomy_name( $tax->attribute_name );
+			$attr_label            = wc_attribute_label( $attr_key ) . ' (ID:' . $tax->attribute_id . ')';
+			$products_attributes[] = array( $attr_key, $attr_label );
+
+			$tax_props = uncode_wc_get_taxonomy_props( $tax->attribute_name );
+
+			if ( isset( $tax_props->attribute_type ) && $tax_props->attribute_type === 'image' ) {
+				$products_attributes_with_image[] = array( $attr_key, $attr_label );
+			}
+		}
+	}
+}
+
 $uncode_product_list = apply_filters( 'uncode_sorted_list_product_options',
 	array(
 		'type' => 'sorted_list',
@@ -2737,7 +2798,7 @@ $uncode_product_list = apply_filters( 'uncode_sorted_list_product_options',
 		'param_name' => 'product_items',
 		'description' => esc_html__('Enable or disable elements and place them in desired order. NB. The Category (when it has a non-relative position), Icon, Quick-View and Wishlist elements cannot be dragged.', 'uncode-core') ,
 		'value' => 'media|featured|onpost|original,title,text|excerpt,link|default',
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'options' => array(
 			array(
 				'media',
@@ -2746,6 +2807,10 @@ $uncode_product_list = apply_filters( 'uncode_sorted_list_product_options',
 					array(
 						'featured',
 						esc_html__('Featured Image', 'uncode-core')
+					) ,
+					array(
+						'secondary',
+						esc_html__('Secondary Featured Image', 'uncode-core')
 					) ,
 					array(
 						'media',
@@ -3011,6 +3076,10 @@ $uncode_product_list = apply_filters( 'uncode_sorted_list_product_options',
 						'inline',
 						esc_html__('Inline price', 'uncode-core'),
 					),
+					array(
+						'inline_responsive',
+						esc_html__('Inline price responsive', 'uncode-core'),
+					),
 				),
 			) ,
 			array(
@@ -3111,6 +3180,103 @@ $uncode_product_list = apply_filters( 'uncode_sorted_list_product_options',
 					)
 				)
 			) ,
+			array(
+				'variations',
+				esc_html__('Variations', 'uncode-core') ,
+				array(
+					array(
+						'under',
+						esc_html__('Relative position', 'uncode-core'),
+					) ,
+					array(
+						'over_visible',
+						esc_html__('Over the image (single attribute only)', 'uncode-core'),
+					),
+					array(
+						'over',
+						esc_html__('Over the image on hover (single attribute only)', 'uncode-core'),
+					),
+				),
+				$products_attributes,
+				$variations_number,
+				array(
+					array(
+						'default',
+						esc_html__('Variation change click (single attribute only)', 'uncode-core'),
+					) ,
+					array(
+						'hover',
+						esc_html__('Variation change hover (single attribute only)', 'uncode-core'),
+					),
+				),
+				array(
+					array(
+						'original_title',
+						esc_html__('Title original', 'uncode-core'),
+					) ,
+					array(
+						'dynamic_title',
+						esc_html__('Title with variation name', 'uncode-core'),
+					),
+				),
+				array(
+					array(
+						'size_regular',
+						esc_html__('Regular size', 'uncode-core'),
+					) ,
+					array(
+						'size_small',
+						esc_html__('Small size', 'uncode-core'),
+					) ,
+					array(
+						'size_large',
+						esc_html__('Large size', 'uncode-core'),
+					) ,
+				),
+				array(
+					array(
+						'mobile',
+						esc_html__('Device/Tablet/Desktop', 'uncode-core'),
+					) ,
+					array(
+						'tablet',
+						esc_html__('Tablet/Desktop', 'uncode-core'),
+					) ,
+					array(
+						'desktop',
+						esc_html__('Desktop', 'uncode-core'),
+					) ,
+				),
+			) ,
+			array(
+				'attribute_image',
+				esc_html__('Attribute Image', 'uncode-core') ,
+				$products_attributes_with_image,
+				array(
+					array(
+						'border_yes',
+						esc_html__('With border', 'uncode-core')
+					) ,
+					array(
+						'border_no',
+						esc_html__('No border', 'uncode-core')
+					) ,
+				)
+			) ,
+			array(
+				'stock',
+				esc_html__('Stock', 'uncode-core') ,
+				array(
+					array(
+						'all',
+						esc_html__('Stock availability', 'uncode-core')
+					) ,
+					array(
+						'out_of_stock',
+						esc_html__('Out of stock only', 'uncode-core')
+					) ,
+				)
+			) ,
 		),
 	)
 );
@@ -3122,7 +3288,7 @@ $uncode_product_table_list = apply_filters( 'uncode_sorted_list_product_table_op
 		'param_name' => 'product_table_items',
 		'description' => esc_html__('Enable or disable elements and place them in desired order. NB. The Category (when it has a non-relative position), Icon, Quick-View and Wishlist elements cannot be dragged.', 'uncode-core') ,
 		'value' => 'col-one|1,media|featured|onpost|original|hide-sale|inherit-atc|inherit-w-atc|atc-typo-default|hide-atc,col-two|3,title,col-three|2,category|block,col-four|3,price|default,col-five|2,add_to_cart|link|default_size',
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'options' => array(
 			array(
 				'media',
@@ -3131,6 +3297,10 @@ $uncode_product_table_list = apply_filters( 'uncode_sorted_list_product_table_op
 					array(
 						'featured',
 						esc_html__('Featured Image', 'uncode-core')
+					) ,
+					array(
+						'secondary',
+						esc_html__('Secondary Featured Image', 'uncode-core')
 					) ,
 					array(
 						'media',
@@ -3782,7 +3952,7 @@ $widgetized_content_block_id = uncode_core_vc_params_get_cb_dropdown(
 		'uncode_wrapper_class' => 'post-dependent-field',
 		'param_name' => 'widgetized_content_block_id',
 		'description' => esc_html__('Choose a Content Block.', 'uncode-core'),
-		'group' => esc_html__('Module', 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'value' => array(),
 		'dependency' => array(
 			'element' => 'index_type',
@@ -3794,6 +3964,23 @@ $widgetized_content_block_id = uncode_core_vc_params_get_cb_dropdown(
 		)
 	)
 );
+
+$ajax_filters_content_block_id = uncode_core_vc_params_get_cb_dropdown(
+	array(
+		'type' => 'dropdown',
+		'heading' => esc_html__('Ajax Filters', 'uncode-core') ,
+		'uncode_wrapper_class' => 'post-dependent-field',
+		'param_name' => 'ajax_filters_content_block_id',
+		'description' => esc_html__('Choose a Content Block.', 'uncode-core'),
+		'group' => esc_html__('Filters', 'uncode-core') ,
+		'value' => array(),
+		'dependency' => array(
+			'element' => 'filtering',
+			'value' => 'ajax',
+		) ,
+	)
+);
+$ajax_filters_content_block_id['value'] = array(esc_html__('None', 'uncode-core') => '') + $ajax_filters_content_block_id['value'];
 
 $special_auto_queries = array(
 	esc_html__('Default', 'uncode-core') => '',
@@ -3811,7 +3998,7 @@ $uncode_taxonomy_sorted_list = array(
 	'param_name' => 'uncode_taxonomy_items',
 	'description' => esc_html__('Enable or disable elements and place them in desired order. NB. The Category (when it has a non-relative position) and Icon elements cannot be dragged.', 'uncode-core') ,
 	'value' => 'media,title,count',
-	"group" => esc_html__("Module", 'uncode-core') ,
+	'group' => esc_html__('Module', 'uncode-core') ,
 	'options' => array(
 		array(
 			'media',
@@ -3820,6 +4007,10 @@ $uncode_taxonomy_sorted_list = array(
 				array(
 					'featured',
 					esc_html__('Featured Image', 'uncode-core')
+				) ,
+				array(
+					'secondary',
+					esc_html__('Secondary Featured Image', 'uncode-core')
 				) ,
 			) ,
 			array(
@@ -3885,6 +4076,10 @@ $uncode_taxonomy_sorted_list = array(
 					'relative',
 					esc_html__('Relative position', 'uncode-core'),
 				) ,
+				array(
+					'inline',
+					esc_html__('Next to title', 'uncode-core'),
+				),
 				array(
 					'topleft',
 					esc_html__('Over the image, on top left', 'uncode-core'),
@@ -4056,7 +4251,7 @@ $uncode_taxonomy_sorted_table_list = array(
 	'param_name' => 'uncode_taxonomy_table_items',
 	'description' => esc_html__('Enable or disable elements and place them in desired order.', 'uncode-core') ,
 	'value' => 'col-one|1,media|featured|onpost|original,col-two|6,title,col-three|3,text|120,col-four|2,count|nobg|relative|hide-label,link|default|default_size',
-	"group" => esc_html__("Module", 'uncode-core') ,
+	'group' => esc_html__('Module', 'uncode-core') ,
 	'options' => array(
 		array(
 			'media',
@@ -4065,6 +4260,10 @@ $uncode_taxonomy_sorted_table_list = array(
 				array(
 					'featured',
 					esc_html__('Featured Image', 'uncode-core')
+				) ,
+				array(
+					'secondary',
+					esc_html__('Secondary Featured Image', 'uncode-core')
 				) ,
 			) ,
 			array(
@@ -5039,7 +5238,7 @@ $uncode_index_params_first = array(
 		"step" => 1,
 		"value" => 100,
 		"description" => esc_html__("Sets the height of the elements to Desktop.", 'uncode-core') ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'sticky_thumb_size',
 			'value' => array(
@@ -5056,7 +5255,7 @@ $uncode_index_params_first = array(
 		"step" => 1,
 		"value" => 100,
 		"description" => esc_html__("Sets the height of the elements to Tablet.", 'uncode-core') ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'sticky_thumb_size',
 			'value' => array(
@@ -5073,7 +5272,7 @@ $uncode_index_params_first = array(
 		"step" => 1,
 		"value" => 100,
 		"description" => esc_html__("Sets the height of the elements to Device.", 'uncode-core') ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'sticky_thumb_size',
 			'value' => array(
@@ -5098,15 +5297,74 @@ $uncode_index_params_first = array(
 		) ,
 	) ,
 	array(
-		"type" => 'checkbox',
+		'type' => 'textfield',
+		'heading' => esc_html__('Breakpoint - First step', 'uncode-core') ,
+		'param_name' => 'screen_lg',
+		'value' => 1000,
+		'description' => wp_kses(__('Insert the isotope large layout breakpoint in pixel.<br />NB. This is referring to the width of the isotope container, not to the window width.', 'uncode-core'), array( 'br' => array( ) ) ) ,
+		'group' => esc_html__('Module', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'index_type',
+			'value' => array(
+				'isotope',
+			) ,
+		) ,
+	) ,
+	array(
+		'type' => 'textfield',
+		'heading' => esc_html__('Breakpoint - Second step', 'uncode-core') ,
+		'param_name' => 'screen_md',
+		'value' => 600,
+		'description' => wp_kses(__('Insert the isotope medium layout breakpoint in pixel.<br />NB. This is referring to the width of the isotope container, not to the window width.', 'uncode-core'), array( 'br' => array( ) ) ) ,
+		'group' => esc_html__('Module', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'index_type',
+			'value' => array(
+				'isotope',
+			) ,
+		) ,
+	) ,
+	array(
+		'type' => 'textfield',
+		'heading' => esc_html__('Breakpoint - Third step', 'uncode-core') ,
+		'param_name' => 'screen_sm',
+		'value' => 480,
+		'description' => wp_kses(__('Insert the isotope small layout breakpoint in pixel.<br />NB. This is referring to the width of the isotope container, not to the window width.', 'uncode-core'), array( 'br' => array( ) ) ) ,
+		'group' => esc_html__('Module', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'index_type',
+			'value' => array(
+				'isotope',
+			) ,
+		) ,
+	) ,
+	// array(
+	// 	"type" => 'checkbox',
+	// 	"heading" => esc_html__("Filtering", 'uncode-core') ,
+	// 	'uncode_wrapper_class' => 'post-dependent-field',
+	// 	"param_name" => "filtering",
+	// 	"description" => esc_html__("Activate to enable the filters.", 'uncode-core') ,
+	// 	"value" => Array(
+	// 		esc_html__("Yes, please", 'uncode-core') => 'yes'
+	// 	) ,
+	// 	'group' => esc_html__('Module', 'uncode-core') ,
+	// 	'dependency' => array(
+	// 		'element' => 'index_type',
+	// 		'value' => array( 'isotope', 'css_grid' )
+	// 	) ,
+	// ) ,
+	array(
+		"type" => 'dropdown',
 		"heading" => esc_html__("Filtering", 'uncode-core') ,
 		'uncode_wrapper_class' => 'post-dependent-field',
 		"param_name" => "filtering",
 		"description" => esc_html__("Activate to enable the filters.", 'uncode-core') ,
-		"value" => Array(
-			esc_html__("Yes, please", 'uncode-core') => 'yes'
+		"value" => array(
+			esc_html__('No', 'uncode-core') => '',
+			esc_html__('Standard', 'uncode-core') => 'yes',
+			esc_html__('Ajax', 'uncode-core') => 'ajax',
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => array( 'isotope', 'css_grid' )
@@ -5122,7 +5380,7 @@ $uncode_index_params_first = array(
 			esc_html__('Light', 'uncode-core') => 'light',
 			esc_html__('Dark', 'uncode-core') => 'dark'
 		) ,
-		'group' => esc_html__('Module', 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => array( 'isotope', 'css_grid' )
@@ -5132,24 +5390,176 @@ $uncode_index_params_first = array(
 			'value' => 'yes',
 		) ,
 	) ,
+	$ajax_filters_content_block_id,
 	array(
 		"type" => 'dropdown',
-		"heading" => esc_html__("Filter typography", 'uncode-core') ,
+		"heading" => esc_html__("Layout", 'uncode-core') ,
+		"param_name" => "ajax_filters_layout",
+		"description" => esc_html__("Use this option to set the main layout style.", 'uncode-core') ,
+		"value" => array(
+			esc_html__('Sidebar', 'uncode-core') => '',
+			esc_html__('Horizontal', 'uncode-core') => 'horizontal',
+			esc_html__('Overlay Sidebar', 'uncode-core') => 'overlay',
+		) ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'filtering',
+			'value' => 'ajax',
+		) ,
+	) ,
+	array(
+		"type" => 'dropdown',
+		"heading" => esc_html__("Behavior", 'uncode-core') ,
+		'uncode_wrapper_class' => 'post-dependent-field',
+		"param_name" => "filters_widgets",
+		"description" => esc_html__("Set the main behavior of the module.", 'uncode-core') ,
+		"value" => array(
+			esc_html__('Open On Load', 'uncode-core') => '',
+			esc_html__('Closed On Load', 'uncode-core') => 'closed',
+			esc_html__('Always Open', 'uncode-core') => 'hidden',
+		) ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'filtering',
+			'value' => array('ajax'),
+		) ,
+		'dependency' => array(
+			'element' => 'ajax_filters_layout',
+			'value' => array('', 'horizontal'),
+		) ,
+	) ,
+	array(
+		"type" => 'dropdown',
+		"heading" => esc_html__("Sidebar On Desktop", 'uncode-core') ,
+		"param_name" => "ajax_filters_position",
+		"description" => esc_html__("Set the position of the sidebar on desktop.", 'uncode-core') ,
+		"value" => array(
+			esc_html__('Left', 'uncode-core') => '',
+			esc_html__('Right', 'uncode-core') => 'right',
+		) ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'ajax_filters_layout',
+			'value' => array( '', 'overlay' )
+		) ,
+	) ,
+	array(
+		"type" => 'dropdown',
+		"heading" => esc_html__("Sidebar On Mobile", 'uncode-core') ,
+		"param_name" => "ajax_filters_position_mobile",
+		"description" => esc_html__("Set the position of the sidebar on mobile devices.", 'uncode-core') ,
+		"value" => array(
+			esc_html__('Left', 'uncode-core') => '',
+			esc_html__('Right', 'uncode-core') => 'right',
+		) ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'filtering',
+			'value' => 'ajax',
+		) ,
+	) ,
+	array(
+		"type" => "type_numeric_slider",
+		"heading" => esc_html__("Sidebar Gap", 'uncode-core') ,
+		"param_name" => "gutter_size_ajax_filters",
+		"min" => 0,
+		"max" => 4,
+		"step" => 1,
+		"value" => 3,
+		"description" => esc_html__("Set the gap between the sidebar and the module.", 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'ajax_filters_layout',
+			'value' => array( '' ),
+		) ,
+	) ,
+	array(
+		"type" => "type_numeric_slider",
+		"heading" => esc_html__("Sidebar Width", 'uncode-core') ,
+		"param_name" => "column_size_ajax_filters",
+		"min" => 1,
+		"max" => 11,
+		"step" => 1,
+		"std" => 3,
+		"description" => esc_html__("Set the sidebar width.", 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'ajax_filters_layout',
+			'value' => array( '' ),
+		) ,
+	) ,
+	array(
+		"type" => "textfield",
+		"heading" => esc_html__("Sidebar Min-Width", 'uncode-core') ,
+		"param_name" => "min_w_ajax_filters",
+		"description" => esc_html__("Insert the min width in pixel.", 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'ajax_filters_layout',
+			'value' => array( '' ),
+		) ,
+	) ,
+	array(
+		"type" => "textfield",
+		"heading" => esc_html__("Overlay Max-Width", 'uncode-core') ,
+		"param_name" => "max_w_ajax_filters",
+		"description" => esc_html__("Insert the max width in pixel.", 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'ajax_filters_layout',
+			'value' => array( '', 'overlay' )
+		) ,
+	) ,
+	array(
+		"type" => 'dropdown',
+		"heading" => esc_html__("Menu Position", 'uncode-core') ,
+		'uncode_wrapper_class' => 'post-dependent-field',
+		"param_name" => "filtering_menu",
+		"description" => esc_html__("Specify whether to display the filter menu above both thumbs and sidebar or only above thumbs.", 'uncode-core') ,
+		"value" => array(
+			esc_html__('Above', 'uncode-core') => '',
+			esc_html__('Inside', 'uncode-core') => 'inside',
+		) ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'ajax_filters_layout',
+			'value' => array(''),
+		)
+	) ,
+	array(
+		"type" => 'dropdown',
+		"heading" => esc_html__("Menu Typography", 'uncode-core') ,
 		'uncode_wrapper_class' => 'post-dependent-field',
 		"param_name" => "filter_typography",
-		"description" => esc_html__("Specify the filter typography.", 'uncode-core') ,
+		"description" => esc_html__("Specify the filters typography.", 'uncode-core') ,
 		"value" => array(
 			esc_html__('Default', 'uncode-core') => '',
 			esc_html__('Inherit / Column', 'uncode-core') => 'inherit'
 		) ,
-		'group' => esc_html__('Module', 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => array( 'isotope', 'css_grid' )
 		) ,
 		'dependency' => array(
 			'element' => 'filtering',
-			'value' => 'yes',
+			'value' => array('yes', 'ajax'),
+		) ,
+	) ,
+	array(
+		"type" => 'dropdown',
+		"heading" => esc_html__("Menu Uppercase", 'uncode-core') ,
+		'uncode_wrapper_class' => 'post-dependent-field',
+		"param_name" => "filtering_uppercase",
+		"description" => esc_html__("Activate this to have the filter menu in uppercase.", 'uncode-core') ,
+		"value" => array(
+			esc_html__('No', 'uncode-core') => '',
+			esc_html__('Yes', 'uncode-core') => 'yes'
+		) ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'filtering',
+			'value' => array('yes', 'ajax'),
 		) ,
 	) ,
 	$add_filter_back_color_type,
@@ -5165,14 +5575,54 @@ $uncode_index_params_first = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'filtering',
+			'value' => array('yes'),
+		) ,
+	) ,
+	array(
+		"type" => 'dropdown',
+		"heading" => esc_html__("Toggle Filters", 'uncode-core') ,
+		'uncode_wrapper_class' => 'post-dependent-field',
+		"param_name" => "filtering_toggle_align",
+		"description" => esc_html__("Set the alignment for the filter toggle button.", 'uncode-core') ,
+		"value" => array(
+			esc_html__('Left', 'uncode-core') => '',
+			esc_html__('Right', 'uncode-core') => 'right',
+		) ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => array( 'isotope', 'css_grid' )
 		) ,
 		'dependency' => array(
 			'element' => 'filtering',
-			'value' => 'yes',
+			'value' => array('ajax'),
+		) ,
+	) ,
+	array(
+		"type" => "textfield",
+		"heading" => esc_html__("Toggle 'Hide' Text", 'uncode-core') ,
+		'uncode_wrapper_class' => 'post-dependent-field',
+		"param_name" => "filter_toggle_hide_text",
+		"description" => esc_html__("Specify the button label. NB. The default value is 'Hide Filters'.", 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'filtering',
+			'value' => array('ajax'),
+		) ,
+	) ,
+	array(
+		"type" => "textfield",
+		"heading" => esc_html__("Toggle 'Show' Text", 'uncode-core') ,
+		'uncode_wrapper_class' => 'post-dependent-field',
+		"param_name" => "filter_toggle_show_text",
+		"description" => esc_html__("Specify the button label. NB. The default value is 'Show Filters'.", 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'filtering',
+			'value' => array('ajax'),
 		) ,
 	) ,
 	array(
@@ -5186,34 +5636,11 @@ $uncode_index_params_first = array(
 			esc_html__('Center', 'uncode-core') => 'center',
 			esc_html__('Right', 'uncode-core') => 'right',
 		) ,
-		'group' => esc_html__('Module', 'uncode-core') ,
-		'dependency' => array(
-			'element' => 'index_type',
-			'value' => array( 'isotope', 'css_grid' )
-		) ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'filtering',
-			'value' => 'yes',
+			'value' => array('yes'),
 		)
-	) ,
-	array(
-		"type" => 'checkbox',
-		"heading" => esc_html__("Filter uppercase", 'uncode-core') ,
-		'uncode_wrapper_class' => 'post-dependent-field',
-		"param_name" => "filtering_uppercase",
-		"description" => esc_html__("Activate this to have the filter menu in uppercase.", 'uncode-core') ,
-		"value" => Array(
-			esc_html__("Yes, please", 'uncode-core') => 'yes'
-		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
-		'dependency' => array(
-			'element' => 'index_type',
-			'value' => array( 'isotope', 'css_grid' )
-		) ,
-		'dependency' => array(
-			'element' => 'filtering',
-			'value' => 'yes',
-		) ,
 	) ,
 	array(
 		"type" => 'checkbox',
@@ -5224,14 +5651,10 @@ $uncode_index_params_first = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		'group' => esc_html__('Module', 'uncode-core') ,
-		'dependency' => array(
-			'element' => 'index_type',
-			'value' => array( 'isotope', 'css_grid' )
-		) ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'filtering',
-			'value' => 'yes',
+			'value' => array('yes'),
 		) ,
 	) ,
 	array(
@@ -5245,11 +5668,7 @@ $uncode_index_params_first = array(
 			esc_html__('Left', 'uncode-core') => 'left',
 			esc_html__('Right', 'uncode-core') => 'right'
 		) ,
-		'group' => esc_html__('Module', 'uncode-core') ,
-		'dependency' => array(
-			'element' => 'index_type',
-			'value' => array( 'isotope', 'css_grid' )
-		) ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'filter_mobile',
 			'is_empty' => true,
@@ -5264,11 +5683,7 @@ $uncode_index_params_first = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		'group' => esc_html__('Module', 'uncode-core') ,
-		'dependency' => array(
-			'element' => 'index_type',
-			'value' => array( 'isotope', 'css_grid' )
-		) ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'filter_mobile',
 			'is_empty' => true,
@@ -5280,7 +5695,7 @@ $uncode_index_params_first = array(
 		'uncode_wrapper_class' => 'post-dependent-field',
 		"param_name" => "filter_mobile_wrapper_text",
 		"description" => esc_html__("Activate the filter wrapper text. NB. The default value is 'Filters'.", 'uncode-core') ,
-		'group' => esc_html__('Module', 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'filter_mobile_wrapper',
 			'not_empty' => true,
@@ -5295,11 +5710,7 @@ $uncode_index_params_first = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		'group' => esc_html__('Module', 'uncode-core') ,
-		'dependency' => array(
-			'element' => 'index_type',
-			'value' => array( 'isotope', 'css_grid' )
-		) ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'filter_mobile',
 			'is_empty' => true,
@@ -5311,7 +5722,7 @@ $uncode_index_params_first = array(
 		'uncode_wrapper_class' => 'post-dependent-field',
 		"param_name" => "filter_mobile_dropdown_text",
 		"description" => esc_html__("Activate the filter dropdown text. NB. The default value is 'Categories'.", 'uncode-core') ,
-		'group' => esc_html__('Module', 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'filter_mobile_dropdown',
 			'not_empty' => true,
@@ -5326,7 +5737,7 @@ $uncode_index_params_first = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		'group' => esc_html__('Module', 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => array( 'isotope', 'css_grid' )
@@ -5345,14 +5756,14 @@ $uncode_index_params_first = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		'group' => esc_html__('Module', 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => array( 'isotope', 'css_grid' )
 		) ,
 		'dependency' => array(
 			'element' => 'filtering',
-			'value' => 'yes',
+			'value' => array('yes'),
 		) ,
 	) ,
 	array(
@@ -5364,7 +5775,7 @@ $uncode_index_params_first = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => array( 'isotope', 'css_grid' )
@@ -5391,7 +5802,7 @@ $uncode_index_params_first = array(
 		'uncode_wrapper_class' => 'post-dependent-field',
 		"param_name" => "filter_all_text",
 		"description" => esc_html__("Specify the button label. NB. The default value is 'Show All'.", 'uncode-core') ,
-		'group' => esc_html__('Module', 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'type',
 			'value' => array( 'isotope', 'css_grid' )
@@ -5410,7 +5821,7 @@ $uncode_index_params_first = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => 'isotope',
@@ -5433,7 +5844,7 @@ $uncode_index_params_first = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => 'isotope',
@@ -5452,7 +5863,7 @@ $uncode_index_params_first = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => 'isotope',
@@ -5473,7 +5884,7 @@ $uncode_index_params_first = array(
 		'uncode_wrapper_class' => 'post-dependent-field',
 		'param_name' => 'widgetized_content_block_toggle_text',
 		"description" => esc_html__("Specify the Content Block toggle text. NB. The default value is 'Options'.", 'uncode-core') ,
-		'group' => esc_html__('Module', 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => 'isotope',
@@ -5492,7 +5903,7 @@ $uncode_index_params_first = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => 'isotope',
@@ -5511,7 +5922,7 @@ $uncode_index_params_first = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => 'isotope',
@@ -5534,7 +5945,7 @@ $uncode_index_params_first = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => 'isotope',
@@ -5555,7 +5966,7 @@ $uncode_index_params_first = array(
 		'uncode_wrapper_class' => 'post-dependent-field',
 		"param_name" => "woo_sorting_default_text",
 		"description" => esc_html__("Specify the button label when products have the default sorting. NB. The default value is 'Default sorting'.", 'uncode-core') ,
-		'group' => esc_html__('Module', 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => 'isotope',
@@ -5574,7 +5985,7 @@ $uncode_index_params_first = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => 'isotope',
@@ -5594,7 +6005,7 @@ $uncode_index_params_first = array(
 			esc_html__('Light', 'uncode-core') => 'light',
 			esc_html__('Dark', 'uncode-core') => 'dark'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => 'isotope',
@@ -5613,7 +6024,7 @@ $uncode_index_params_first = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => 'isotope',
@@ -5624,175 +6035,119 @@ $uncode_index_params_first = array(
 		) ,
 	) ,
 	array(
-		"type" => 'checkbox',
-		"heading" => esc_html__("Pagination", 'uncode-core') ,
-		'uncode_wrapper_class' => 'pagination-field',
-		"param_name" => "pagination",
-		"description" => wp_kses(__("Activate this to add the pagination function.<br>NB. This option doesn't work if combined with the 'Random' order, 'Menu Order', or with other Posts modules on the same page. Ajax doesn't work with Pagination and Extra Filters combined.", 'uncode-core'), array( 'br' => array( ) ) ) ,
-		"value" => Array(
-			esc_html__("Yes, please", 'uncode-core') => 'yes'
-		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
-		'dependency' => array(
-			'element' => 'index_type',
-			'value' => array(
-				'isotope',
-				'css_grid',
-			) ,
-		) ,
-	) ,
-	array(
-		"type" => 'checkbox',
-		"heading" => esc_html__("Load More", 'uncode-core') ,
-		'uncode_wrapper_class' => 'pagination-field load-more-field',
-		"param_name" => "infinite",
-		"description" => wp_kses(__("Activate this to load more items with scrolling.<br>NB. This option doesn't work is combination with the 'Random' order and 'Menu Order' or with multiple isotope in the same page.", 'uncode-core'), array( 'br' => array( ) ) ) ,
-		"value" => Array(
-			esc_html__("Yes, please", 'uncode-core') => 'yes'
-		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
-		'dependency' => array(
-			'element' => 'pagination',
-			'is_empty' => true,
-		)
-	) ,
-	array(
-		"type" => 'checkbox',
-		"heading" => esc_html__("Load more button", 'uncode-core') ,
-		'uncode_wrapper_class' => 'pagination-field load-more-field',
-		"param_name" => "infinite_button",
-		"description" => esc_html__("Activate this to load more items by pressing the button.", 'uncode-core') ,
-		"value" => Array(
-			esc_html__("Yes, please", 'uncode-core') => 'yes'
-		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
-		'dependency' => array(
-			'element' => 'infinite',
-			'value' => 'yes',
-		)
-	) ,
-	array(
-		"type" => "dropdown",
-		"heading" => esc_html__("Load more button hover effect", 'uncode-core') ,
-		'uncode_wrapper_class' => 'pagination-field load-more-field',
-		"param_name" => "infinite_hover_fx",
-		"description" => esc_html__("Specify an effect on hover state.", 'uncode-core') ,
+		"type" => 'dropdown',
+		"heading" => esc_html__("Active Filters", 'uncode-core') ,
+		"param_name" => "active_filters",
+		"description" => esc_html__("Specify whether to display and how to align the active filter list.", 'uncode-core') ,
 		"value" => array(
-			'Inherit' => '',
-			'Outlined' => 'outlined',
-			'Flat' => 'full-colored',
+			esc_html__('Hidden', 'uncode-core') => '',
+			esc_html__('Left', 'uncode-core') => 'left',
+			esc_html__('Right', 'uncode-core') => 'right',
 		) ,
-		'group' => esc_html__('Module', 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
-			'element' => 'infinite_button',
-			'value' => 'yes',
+			'element' => 'filtering',
+			'value' => 'ajax',
 		) ,
 	) ,
-	array(
-		"type" => "checkbox",
-		"heading" => esc_html__("Load more button outlined inverse", 'uncode-core') ,
-		'uncode_wrapper_class' => 'pagination-field load-more-field',
-		"param_name" => "infinite_button_outline",
-		"description" => esc_html__("Outlined buttons don't have a full background color. NB: this option is available only with Load More Button Hover Effect > Outlined.", 'uncode-core') ,
-		"value" => Array(
-			esc_html__("Yes, please", 'uncode-core') => 'yes'
-		) ,
-		'group' => esc_html__('Module', 'uncode-core') ,
-		'dependency' => array(
-			'element' => 'infinite_button',
-			'value' => 'yes',
-		) ,
-	) ,
-  array(
-		"type" => "textfield",
-		"heading" => esc_html__("Load more button text", 'uncode-core') ,
-		'uncode_wrapper_class' => 'pagination-field load-more-field',
-		"param_name" => "infinite_button_text",
-		"description" => esc_html__("Specify the button label. NB. The default value is 'Load more'.", 'uncode-core') ,
-		'group' => esc_html__('Module', 'uncode-core') ,
-		'dependency' => array(
-			'element' => 'infinite_button',
-			'value' => 'yes',
-		) ,
-	) ,
-	array(
-		"type" => "dropdown",
-		"heading" => esc_html__("Load more button shape", 'uncode-core') ,
-		'uncode_wrapper_class' => 'pagination-field load-more-field',
-		"param_name" => "infinite_button_shape",
-		"description" => esc_html__("Specify the load more button shape.", 'uncode-core') ,
-		'group' => esc_html__('Module', 'uncode-core') ,
-		"value" => array(
-			esc_html__('Inherit', 'uncode-core') => '',
-			esc_html__('Default', 'uncode-core') => 'btn-default-shape',
-			esc_html__('Round', 'uncode-core') => 'btn-round',
-			esc_html__('Circle', 'uncode-core') => 'btn-circle',
-			esc_html__('Square', 'uncode-core') => 'btn-square'
-		) ,
-		'dependency' => array(
-			'element' => 'infinite_button',
-			'value' => 'yes',
-		) ,
-	) ,
-	$add_infinite_button_color_type,
-	$add_infinite_button_color,
-	$add_infinite_button_color_solid,
-	$add_infinite_button_color_gradient,
 	array(
 		"type" => 'dropdown',
-		"heading" => esc_html__("Pagination-Load More Skin", 'uncode-core') ,
-		'uncode_wrapper_class' => 'pagination-field',
-		"param_name" => "footer_style",
-		"description" => esc_html__("Specify the pagination/load more Skin color.", 'uncode-core') ,
+		"heading" => esc_html__("Clear All", 'uncode-core') ,
+		"param_name" => "clear_all",
+		"description" => esc_html__("Specify where to display the Clear All link.", 'uncode-core') ,
+		"value" => array(
+			esc_html__('Hidden', 'uncode-core') => '',
+			esc_html__('Show', 'uncode-core') => 'show',
+			esc_html__('Hide on Dekstop', 'uncode-core') => 'desktop',
+			esc_html__('Hide on Mobile', 'uncode-core') => 'mobile',
+		) ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'active_filters',
+			'not_empty' => true,
+		) ,
+	) ,
+	array(
+		"type" => 'dropdown',
+		"heading" => esc_html__("Woo sorting", 'uncode-core') ,
+		'uncode_wrapper_class' => 'woo-dependent-field post-dependent-field',
+		"param_name" => "show_woo_sorting_ajax",
+		"description" => esc_html__("Activate this to add the WooCommerce sorting dropdown.", 'uncode-core') ,
+		"value" => array(
+			esc_html__('Hidden', 'uncode-core') => '',
+			esc_html__('Left', 'uncode-core') => 'left',
+			esc_html__('Right', 'uncode-core') => 'right',
+		) ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'filtering',
+			'value' => 'ajax',
+		) ,
+	) ,
+	array(
+		"type" => 'dropdown',
+		"heading" => esc_html__("Woo sorting count", 'uncode-core') ,
+		'uncode_wrapper_class' => 'woo-dependent-field post-dependent-field',
+		"param_name" => "show_woo_result_count_ajax",
+		"description" => esc_html__("Activate this to show the WooCommerce result count.", 'uncode-core') ,
+		"value" => array(
+			esc_html__('Hidden', 'uncode-core') => '',
+			esc_html__('Default', 'uncode-core') => 'yes',
+			esc_html__('Shortened', 'uncode-core') => 'short',
+		) ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'show_woo_sorting_ajax',
+			'not_empty' => true,
+		) ,
+		// 'dependency' => array(
+		// 	'element' => 'filter_hide_cats',
+		// 	'is_empty' => true,
+		// ),
+	) ,
+
+	array(
+		"type" => "textfield",
+		"heading" => esc_html__("Woo 'Default sorting' text", 'uncode-core') ,
+		'uncode_wrapper_class' => 'woo-dependent-field post-dependent-field',
+		"param_name" => "woo_sorting_default_text_ajax",
+		"description" => esc_html__("Specify the button label when products have the default sorting. NB. The default value is 'Default sorting'.", 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'show_woo_sorting_ajax',
+			'not_empty' => true,
+		) ,
+	) ,
+	array(
+		"type" => 'dropdown',
+		"heading" => esc_html__("Woo sorting Skin", 'uncode-core') ,
+		'uncode_wrapper_class' => 'woo-dependent-field post-dependent-field',
+		"param_name" => "woo_sorting_skin_ajax",
+		"description" => esc_html__("Specify the sorting dropdown Skin color.", 'uncode-core') ,
 		"value" => array(
 			esc_html__('Light', 'uncode-core') => 'light',
 			esc_html__('Dark', 'uncode-core') => 'dark'
 		) ,
-		'group' => esc_html__('Module', 'uncode-core') ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
 		'dependency' => array(
-			'element' => 'index_type',
-			'value' => array(
-				'isotope',
-				'css_grid',
-			) ,
-		) ,
-	) ,
-	$add_footer_back_color_type,
-	$add_footer_back_color,
-	$add_footer_back_color_solid,
-	$add_footer_back_color_gradient,
-	array(
-		"type" => 'checkbox',
-		"heading" => esc_html__("Pagination-Load More full", 'uncode-core') ,
-		'uncode_wrapper_class' => 'pagination-field',
-		"param_name" => "footer_full_width",
-		"description" => esc_html__("Activate this to force the full width of the pagination/load more.", 'uncode-core') ,
-		"value" => Array(
-			esc_html__("Yes, please", 'uncode-core') => 'yes'
-		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
-		'dependency' => array(
-			'element' => 'index_type',
-			'value' => array(
-				'isotope',
-				'css_grid',
-			) ,
-		) ,
-	) ,
-	array(
-		"type" => 'checkbox',
-		"heading" => esc_html__("Pagination History Disabled", 'uncode-core') ,
-		'uncode_wrapper_class' => 'pagination-field',
-		"param_name" => "pagination_disable_history",
-		"description" => esc_html__("Activate this to remove the History Hash fragment when you use multiple Posts module in the same page.", 'uncode-core') ,
-		"value" => Array(
-			esc_html__("Yes, please", 'uncode-core') => 'yes'
-		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
-		'dependency' => array(
-			'element' => 'pagination',
+			'element' => 'show_woo_sorting_ajax',
 			'not_empty' => true,
-		)
+		) ,
+	) ,
+	array(
+		"type" => 'checkbox',
+		"heading" => esc_html__("Woo sorting shadow", 'uncode-core') ,
+		'uncode_wrapper_class' => 'woo-dependent-field post-dependent-field',
+		"param_name" => "woo_sorting_shadow_ajax",
+		"description" => esc_html__("Activate the sorting dropdown shadow.", 'uncode-core') ,
+		"value" => Array(
+			esc_html__("Yes, please", 'uncode-core') => 'yes'
+		) ,
+		'group' => esc_html__('Filters', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'show_woo_sorting_ajax',
+			'not_empty' => true,
+		) ,
 	) ,
 	array(
 		'type' => 'dropdown',
@@ -5803,7 +6158,7 @@ $uncode_index_params_first = array(
 			esc_html__('Block', 'uncode-core') => 'block',
 			esc_html__('Inline', 'uncode-core') => 'inline',
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => 'titles',
@@ -5818,7 +6173,7 @@ $uncode_index_params_first = array(
 		"step" => 1,
 		"value" => 3,
 		"description" => esc_html__("Set the items gap.", 'uncode-core') ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => array(
@@ -5889,7 +6244,7 @@ $uncode_index_params_first = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => array(
@@ -5902,7 +6257,7 @@ $uncode_index_params_first = array(
 		"heading" => esc_html__("Items Hover Effect", 'uncode-core') ,
 		"param_name" => "table_hover",
 		"description" => esc_html__("Specify the hover effect of the Rows.", 'uncode-core') ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		"value" => array(
 			esc_html__('None', 'uncode-core') => '',
 			esc_html__('Opacity', 'uncode-core') => 'opacity',
@@ -5918,7 +6273,7 @@ $uncode_index_params_first = array(
 		"heading" => esc_html__("Item space", 'uncode-core') ,
 		"param_name" => "drop_h_space",
 		"description" => esc_html__("Specify the horizontal space between Items.", 'uncode-core') ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		"value" => array(
 			esc_html__('Default', 'uncode-core') => '',
 			esc_html__('Small', 'uncode-core') => 'sm',
@@ -5937,7 +6292,7 @@ $uncode_index_params_first = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => array(
@@ -5945,6 +6300,20 @@ $uncode_index_params_first = array(
 				'carousel',
 				'css_grid',
 			) ,
+		) ,
+	) ,
+	array(
+		"type" => 'checkbox',
+		"heading" => esc_html__("Equal height", 'uncode-core') ,
+		"param_name" => "css_grid_equal_height",
+		"description" => esc_html__("With the 'Content Under Image' Block Layout, activate this to create equal height thumbnails. NB. The equal height is applied to the container element so, for example, it is visible if you have the Border or Shadow options.", 'uncode-core') ,
+		"value" => Array(
+			esc_html__("Yes, please", 'uncode-core') => 'yes'
+		) ,
+		'group' => esc_html__('Module', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'index_type',
+			'value' => 'css_grid',
 		) ,
 	) ,
 	$uncode_post_list,
@@ -6066,7 +6435,7 @@ $uncode_index_params_third = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => 'carousel',
@@ -6080,7 +6449,7 @@ $uncode_index_params_third = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => 'carousel',
@@ -6094,7 +6463,7 @@ $uncode_index_params_third = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'carousel_overflow',
 			'is_empty' => true,
@@ -6108,7 +6477,7 @@ $uncode_index_params_third = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'carousel_overflow',
 			'is_empty' => true,
@@ -6123,7 +6492,7 @@ $uncode_index_params_third = array(
 			esc_html__('Light', 'uncode-core') => 'light',
 			esc_html__('Dark', 'uncode-core') => 'dark'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'carousel_overflow',
 			'is_empty' => true,
@@ -6137,7 +6506,7 @@ $uncode_index_params_third = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => 'carousel',
@@ -6152,7 +6521,7 @@ $uncode_index_params_third = array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
 		'std' => '',
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'carousel_dots',
 			'value' => 'yes',
@@ -6166,7 +6535,7 @@ $uncode_index_params_third = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => 'carousel',
@@ -6180,7 +6549,7 @@ $uncode_index_params_third = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => 'carousel',
@@ -6195,7 +6564,7 @@ $uncode_index_params_third = array(
 			esc_html__('Left', 'uncode-core') => 'left',
 			esc_html__('Right', 'uncode-core') => 'right',
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'description' => esc_html__('Specify the position of dots.', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
@@ -6210,7 +6579,7 @@ $uncode_index_params_third = array(
 			esc_html__('Full Width', 'uncode-core') => '',
 			esc_html__('Limit Width', 'uncode-core') => 'limit',
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'description' => esc_html__('Specify the width of the dots container.', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'carousel_dots',
@@ -6226,7 +6595,7 @@ $uncode_index_params_third = array(
 		"value" => array(
 			'' => 'yes'
 		),
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'carousel_dot_position',
 			'value' => array('left', 'right'),
@@ -6240,7 +6609,7 @@ $uncode_index_params_third = array(
 		"max" => 100,
 		"step" => 1,
 		"value" => 100,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		"description" => esc_html__("Set the container width with a percent value.", 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'column_width_use_pixel',
@@ -6250,7 +6619,7 @@ $uncode_index_params_third = array(
 	array(
 		'type' => 'textfield',
 		'heading' => esc_html__("Dots container width", 'uncode-core'),
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'param_name' => 'carousel_width_pixel',
 		'description' => esc_html__("Insert the container width in pixel.", 'uncode-core') ,
 		'dependency' => array(
@@ -6267,7 +6636,7 @@ $uncode_index_params_third = array(
 		"max" => 5,
 		"step" => 1,
 		"value" => 2,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'carousel_dots_inside',
 			'value' => 'yes',
@@ -6281,7 +6650,7 @@ $uncode_index_params_third = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'thumb_size',
 			'value' => array(
@@ -6380,46 +6749,193 @@ $uncode_index_params_third = array(
 		) ,
 	) ,
 	array(
-		'type' => 'textfield',
-		'heading' => esc_html__('Breakpoint - First step', 'uncode-core') ,
-		'param_name' => 'screen_lg',
-		'value' => 1000,
-		'description' => wp_kses(__('Insert the isotope large layout breakpoint in pixel.<br />NB. This is referring to the width of the isotope container, not to the window width.', 'uncode-core'), array( 'br' => array( ) ) ) ,
+		"type" => 'checkbox',
+		"heading" => esc_html__("Pagination", 'uncode-core') ,
+		'uncode_wrapper_class' => 'pagination-field',
+		"param_name" => "pagination",
+		"description" => wp_kses(__("Activate this to add the pagination function.<br>NB. This option doesn't work if combined with the 'Random' order, 'Menu Order', or with other Posts modules on the same page. Ajax doesn't work with Pagination and Extra Filters combined.", 'uncode-core'), array( 'br' => array( ) ) ) ,
+		"value" => Array(
+			esc_html__("Yes, please", 'uncode-core') => 'yes'
+		) ,
 		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => array(
 				'isotope',
+				'css_grid',
 			) ,
 		) ,
 	) ,
 	array(
-		'type' => 'textfield',
-		'heading' => esc_html__('Breakpoint - Second step', 'uncode-core') ,
-		'param_name' => 'screen_md',
-		'value' => 600,
-		'description' => wp_kses(__('Insert the isotope medium layout breakpoint in pixel.<br />NB. This is referring to the width of the isotope container, not to the window width.', 'uncode-core'), array( 'br' => array( ) ) ) ,
+		"type" => 'checkbox',
+		"heading" => esc_html__("Load More", 'uncode-core') ,
+		'uncode_wrapper_class' => 'pagination-field load-more-field',
+		"param_name" => "infinite",
+		"description" => wp_kses(__("Activate this to load more items with scrolling.<br>NB. This option doesn't work is combination with the 'Random' order and 'Menu Order' or with multiple isotope in the same page.", 'uncode-core'), array( 'br' => array( ) ) ) ,
+		"value" => Array(
+			esc_html__("Yes, please", 'uncode-core') => 'yes'
+		) ,
+		'group' => esc_html__('Module', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'pagination',
+			'is_empty' => true,
+		)
+	) ,
+	array(
+		"type" => 'dropdown',
+		"heading" => esc_html__("Load more style", 'uncode-core') ,
+		'uncode_wrapper_class' => 'pagination-field load-more-field',
+		"param_name" => "infinite_button",
+		'value' => array(
+			esc_html__('Default', 'uncode-core') => '',
+			esc_html__('Preloader', 'uncode-core') => 'icon',
+			esc_html__('Button', 'uncode-core') => 'yes',
+		) ,
+		"description" => esc_html__("Choose the load more style.", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'infinite',
+			'value' => 'yes',
+		)
+	) ,
+	array(
+		"type" => "dropdown",
+		"heading" => esc_html__("Load more button hover effect", 'uncode-core') ,
+		'uncode_wrapper_class' => 'pagination-field load-more-field',
+		"param_name" => "infinite_hover_fx",
+		"description" => esc_html__("Specify an effect on hover state.", 'uncode-core') ,
+		"value" => array(
+			'Inherit' => '',
+			'Outlined' => 'outlined',
+			'Flat' => 'full-colored',
+		) ,
+		'group' => esc_html__('Module', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'infinite_button',
+			'value' => 'yes',
+		) ,
+	) ,
+	array(
+		"type" => "checkbox",
+		"heading" => esc_html__("Load more button outlined inverse", 'uncode-core') ,
+		'uncode_wrapper_class' => 'pagination-field load-more-field',
+		"param_name" => "infinite_button_outline",
+		"description" => esc_html__("Outlined buttons don't have a full background color. NB: this option is available only with Load More Button Hover Effect > Outlined.", 'uncode-core') ,
+		"value" => Array(
+			esc_html__("Yes, please", 'uncode-core') => 'yes'
+		) ,
+		'group' => esc_html__('Module', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'infinite_button',
+			'value' => 'yes',
+		) ,
+	) ,
+  array(
+		"type" => "textfield",
+		"heading" => esc_html__("Load more button text", 'uncode-core') ,
+		'uncode_wrapper_class' => 'pagination-field load-more-field',
+		"param_name" => "infinite_button_text",
+		"description" => esc_html__("Specify the button label. NB. The default value is 'Load more'.", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'infinite_button',
+			'value' => 'yes',
+		) ,
+	) ,
+	array(
+		"type" => "dropdown",
+		"heading" => esc_html__("Load more button shape", 'uncode-core') ,
+		'uncode_wrapper_class' => 'pagination-field load-more-field',
+		"param_name" => "infinite_button_shape",
+		"description" => esc_html__("Specify the load more button shape.", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
+		"value" => array(
+			esc_html__('Inherit', 'uncode-core') => '',
+			esc_html__('Default', 'uncode-core') => 'btn-default-shape',
+			esc_html__('Round', 'uncode-core') => 'btn-round',
+			esc_html__('Circle', 'uncode-core') => 'btn-circle',
+			esc_html__('Square', 'uncode-core') => 'btn-square'
+		) ,
+		'dependency' => array(
+			'element' => 'infinite_button',
+			'value' => 'yes',
+		) ,
+	) ,
+	$add_infinite_button_color_type,
+	$add_infinite_button_color,
+	$add_infinite_button_color_solid,
+	$add_infinite_button_color_gradient,
+	array(
+		"type" => 'dropdown',
+		"heading" => esc_html__("Pagination-Load More Skin", 'uncode-core') ,
+		'uncode_wrapper_class' => 'pagination-field',
+		"param_name" => "footer_style",
+		"description" => esc_html__("Specify the pagination/load more Skin color.", 'uncode-core') ,
+		"value" => array(
+			esc_html__('Light', 'uncode-core') => 'light',
+			esc_html__('Dark', 'uncode-core') => 'dark'
+		) ,
 		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => array(
 				'isotope',
+				'css_grid',
+			) ,
+		) ,
+	) ,
+	$add_footer_back_color_type,
+	$add_footer_back_color,
+	$add_footer_back_color_solid,
+	$add_footer_back_color_gradient,
+	array(
+		"type" => 'checkbox',
+		"heading" => esc_html__("Pagination-Load More full", 'uncode-core') ,
+		'uncode_wrapper_class' => 'pagination-field',
+		"param_name" => "footer_full_width",
+		"description" => esc_html__("Activate this to force the full width of the pagination/load more.", 'uncode-core') ,
+		"value" => Array(
+			esc_html__("Yes, please", 'uncode-core') => 'yes'
+		) ,
+		'group' => esc_html__('Module', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'index_type',
+			'value' => array(
+				'isotope',
+				'css_grid',
 			) ,
 		) ,
 	) ,
 	array(
-		'type' => 'textfield',
-		'heading' => esc_html__('Breakpoint - Third step', 'uncode-core') ,
-		'param_name' => 'screen_sm',
-		'value' => 480,
-		'description' => wp_kses(__('Insert the isotope small layout breakpoint in pixel.<br />NB. This is referring to the width of the isotope container, not to the window width.', 'uncode-core'), array( 'br' => array( ) ) ) ,
+		"type" => 'checkbox',
+		"heading" => esc_html__("Pagination History Disabled", 'uncode-core') ,
+		'uncode_wrapper_class' => 'pagination-field',
+		"param_name" => "pagination_disable_history",
+		"description" => esc_html__("Activate this to remove the History Hash fragment when you use multiple Posts module in the same page.", 'uncode-core') ,
+		"value" => Array(
+			esc_html__("Yes, please", 'uncode-core') => 'yes'
+		) ,
 		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
-			'element' => 'index_type',
-			'value' => array(
-				'isotope',
-			) ,
+			'element' => 'pagination',
+			'not_empty' => true,
+		)
+	) ,
+	array(
+		"type" => 'dropdown',
+		"heading" => esc_html__("Pagination Typography", 'uncode-core') ,
+		'uncode_wrapper_class' => 'pagination-field',
+		"param_name" => "pagination_typography",
+		"description" => esc_html__("Specify the pagination typography.", 'uncode-core') ,
+		"value" => array(
+			esc_html__('Default', 'uncode-core') => '',
+			esc_html__('Inherit / Column', 'uncode-core') => 'inherit'
 		) ,
+		'group' => esc_html__('Module', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'pagination',
+			'not_empty' => true,
+		)
 	) ,
 	array(
 		"type" => 'checkbox',
@@ -6430,7 +6946,7 @@ $uncode_index_params_third = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => 'carousel',
@@ -6449,7 +6965,7 @@ $uncode_index_params_third = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => 'carousel',
@@ -6468,7 +6984,7 @@ $uncode_index_params_third = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => 'carousel',
@@ -6487,7 +7003,7 @@ $uncode_index_params_third = array(
 		"max" => 75,
 		"step" => 5,
 		"value" => 0,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => 'carousel' ,
@@ -6520,7 +7036,7 @@ $uncode_index_params_third = array(
 		"heading" => esc_html__("Item Separator", 'uncode-core') ,
 		"param_name" => "drop_image_separator",
 		"description" => esc_html__("Specify a separator.", 'uncode-core') ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'std' => '',
 		"value" => array(
 			esc_html__('None', 'uncode-core') => '',
@@ -6542,7 +7058,7 @@ $uncode_index_params_third = array(
 		"heading" => esc_html__("Item Separator Custom", 'uncode-core') ,
 		"param_name" => "drop_image_custom_separator",
 		"description" => esc_html__("Specify a separator.", 'uncode-core') ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'std' => '',
 		'dependency' => array(
 			'element' => 'drop_image_separator',
@@ -6560,7 +7076,7 @@ $uncode_index_params_third = array(
 			esc_html__('Background Column', 'uncode-core') => 'column',
 			esc_html__('Hide Media', 'uncode-core') => 'hide'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => 'titles',
@@ -6573,7 +7089,7 @@ $uncode_index_params_third = array(
 		"description" => esc_html__("Specify the thumbnail width.", 'uncode-core') ,
 		"value" => $units,
 		"std" => "4",
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'drop_image_position',
 			'is_empty' => true,
@@ -6601,7 +7117,7 @@ $uncode_index_params_third = array(
 			'3:10' => 'three-ten',
 			'9:16' => 'nine-sixteen',
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'drop_image_position',
 			'is_empty' => true,
@@ -6623,7 +7139,7 @@ $uncode_index_params_third = array(
 			esc_html__('Bottom Center', 'uncode-core') => 'bottom-center',
 			esc_html__('Bottom Right', 'uncode-core') => 'bottom-right',
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'drop_image_position',
 			'is_empty' => true,
@@ -6647,7 +7163,7 @@ $uncode_index_params_third = array(
 			'element' => 'drop_image_position',
 			'not_empty' => true
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 	),
 	array(
 		'type' => 'dropdown',
@@ -6664,7 +7180,7 @@ $uncode_index_params_third = array(
 			'element' => 'drop_image_position',
 			'not_empty' => true
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 	),
 	array(
 		'type' => 'dropdown',
@@ -6687,7 +7203,7 @@ $uncode_index_params_third = array(
 			'element' => 'drop_image_position',
 			'not_empty' => true
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 	),
 	array(
 		'type' => 'textfield',
@@ -6698,7 +7214,7 @@ $uncode_index_params_third = array(
 			'element' => 'drop_image_position',
 			'not_empty' => true
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 	),
 	array(
 		"type" => 'checkbox',
@@ -6708,7 +7224,7 @@ $uncode_index_params_third = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'drop_image_position',
 			'not_empty' => true
@@ -6722,7 +7238,7 @@ $uncode_index_params_third = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'drop_image_default',
 			'not_empty' => true
@@ -6738,7 +7254,7 @@ $uncode_index_params_third = array(
 		"step" => 50,
 		"value" => 250,
 		"std" => 250,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => 'titles',
@@ -6749,7 +7265,7 @@ $uncode_index_params_third = array(
 		"heading" => esc_html__("Media arrangement", 'uncode-core') ,
 		"param_name" => "drop_image_arrange",
 		"description" => esc_html__("Specify the Media z-index.", 'uncode-core') ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'std' => '',
 		"value" => array(
 			esc_html__('Behind Item ', 'uncode-core') => '',
@@ -6766,7 +7282,7 @@ $uncode_index_params_third = array(
 		"heading" => esc_html__("Media border radius", 'uncode-core') ,
 		"param_name" => "drop_radius",
 		"description" => esc_html__("Specify the border radius effect.", 'uncode-core') ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		"value" => array(
 			esc_html__('None', 'uncode-core') => '',
 			esc_html__('Extra Small', 'uncode-core') => 'xs',
@@ -6789,7 +7305,7 @@ $uncode_index_params_third = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'drop_image_position',
 			'is_empty' => true,
@@ -6800,7 +7316,7 @@ $uncode_index_params_third = array(
 		"heading" => esc_html__("Media shadow type", 'uncode-core') ,
 		"param_name" => "drop_shadow_weight",
 		"description" => esc_html__("Specify the shadow option preset.", 'uncode-core') ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		"value" => array(
 			esc_html__('Extra Small', 'uncode-core') => '',
 			esc_html__('Small', 'uncode-core') => 'sm',
@@ -6821,7 +7337,7 @@ $uncode_index_params_third = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'drop_shadow',
 			'not_empty' => true
@@ -6832,7 +7348,7 @@ $uncode_index_params_third = array(
 		"heading" => esc_html__("Hover effect", 'uncode-core') ,
 		"param_name" => "drop_image_hover",
 		"description" => esc_html__("Specify the hover effect.", 'uncode-core') ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'std' => '',
 		"value" => array(
 			esc_html__('None', 'uncode-core') => '',
@@ -6853,7 +7369,7 @@ $uncode_index_params_third = array(
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode') => 'yes'
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'index_type',
 			'value' => 'titles',
@@ -6864,7 +7380,7 @@ $uncode_index_params_third = array(
 		"heading" => esc_html__("Meta type", 'uncode-core') ,
 		"param_name" => "drop_image_extra_type",
 		"description" => esc_html__("Set the additional Meta type.", 'uncode-core') ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		"value" => array(
 			esc_html__('Counter', 'uncode-core') => '',
 			esc_html__('Categories', 'uncode-core') => 'category',
@@ -6885,7 +7401,7 @@ $uncode_index_params_third = array(
 		"heading" => esc_html__("Meta size", 'uncode-core') ,
 		"param_name" => "drop_image_extra_size",
 		"description" => esc_html__("Set the additional Meta size.", 'uncode-core') ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		"value" => array(
 			esc_html__('15%', 'uncode-core') => '15',
 			esc_html__('25%', 'uncode-core') => '25',
@@ -6904,7 +7420,7 @@ $uncode_index_params_third = array(
 		"heading" => esc_html__("Meta weight", 'uncode-core') ,
 		"param_name" => "drop_image_extra_weight",
 		"description" => esc_html__("Set the additional Meta weight.", 'uncode-core') ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		"value" => array(
 			esc_html__('Inherit', 'uncode-core') => '',
 			esc_html__('Normal', 'uncode-core') => 'normal',
@@ -6920,7 +7436,7 @@ $uncode_index_params_third = array(
 		"heading" => esc_html__("Meta position", 'uncode-core') ,
 		"param_name" => "drop_image_extra_position",
 		"description" => esc_html__("Set the additional Meta position.", 'uncode-core') ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		"value" => array(
 			esc_html__('Before - Top', 'uncode-core') => 'before-top',
 			esc_html__('Left - Top', 'uncode-core') => 'left-top',
@@ -7271,6 +7787,16 @@ $uncode_index_params_third = array(
 			esc_html__('Difference', 'uncode-core') => 'difference',
 			esc_html__('Exclusion', 'uncode-core') => 'exclusion',
 		) ,
+		'dependency' => array(
+			'element' => 'index_type',
+			'value' => array(
+				'isotope',
+				'carousel',
+				'css_grid',
+				'custom_grid',
+				'sticky-scroll',
+			)
+		),
 	) ,
 	array(
 		"type" => "type_numeric_slider",
@@ -7627,7 +8153,7 @@ $uncode_index_params_third = array(
 		"type" => 'checkbox',
 		"heading" => esc_html__("Multiple click areas", 'uncode-core') ,
 		"param_name" => "single_elements_click",
-		"description" => esc_html__("Activate this to make every single elements clickable instead of the whole block (when availabe).", 'uncode-core') ,
+		"description" => esc_html__("Activate this to make every single elements clickable instead of the whole block (when availabe). NB. If the Content Layout is set to \"Content Overlay\", activating this will disable the Secondary Image.", 'uncode-core') ,
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
@@ -7635,6 +8161,20 @@ $uncode_index_params_third = array(
 		'dependency' => array(
 			'element' => 'single_text',
 			'value' => 'overlay',
+		) ,
+	) ,
+	array(
+		"type" => 'checkbox',
+		"heading" => esc_html__("Hover Block", 'uncode-core') ,
+		"param_name" => "single_thumb_hover",
+		"description" => esc_html__("This option extends the hover area over the whole thumbnail (e.g. useful on WooCommerce products).", 'uncode-core') ,
+		"value" => Array(
+			esc_html__("Yes, please", 'uncode-core') => 'yes'
+		) ,
+		"group" => esc_html__("Blocks", 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'single_text',
+			'value' => 'under',
 		) ,
 	) ,
 	array(
@@ -7700,6 +8240,21 @@ $uncode_index_params_third = array(
 		"description" => esc_html__("Specify the title letter spacing.", 'uncode-core') ,
 		"value" => $heading_space,
 		"group" => esc_html__("Blocks", 'uncode-core') ,
+	) ,
+	array(
+		"type" => 'dropdown',
+		'heading' => esc_html__('Title scale mobile', 'uncode-core') ,
+		'param_name' => 'single_title_scale_mobile',
+		'description' => esc_html__('Activate this to slightly reduce title size on mobile.', 'uncode-core') ,
+		"value" => array(
+			esc_html__('Yes', 'uncode-core') => '',
+			esc_html__('No', 'uncode-core') => 'no',
+		) ,
+		"group" => esc_html__("Blocks", 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'single_text',
+			'value' => 'overlay' ,
+		) ,
 	) ,
 	array(
 		'type' => 'checkbox',

@@ -261,6 +261,76 @@ if ( ! function_exists( 'uncode_get_taxonomies_for_posts_module' ) ) :
 endif;
 
 /**
+ * Get all registered and public taxonomies
+ */
+if ( ! function_exists( 'uncode_core_get_all_registered_taxonomies' ) ) :
+	function uncode_core_get_all_registered_taxonomies() {
+		$taxonomies = array();
+
+		$args = array(
+			'public' => true,
+		);
+
+		$all_taxonomies = get_taxonomies( $args, 'objects' );
+
+		foreach ( $all_taxonomies as $taxonomy_key => $taxonomy_object ) {
+			if ( $taxonomy_object->show_ui ) {
+				$taxonomy_label = ucwords( $taxonomy_object->label );
+
+				if ( isset( $taxonomy_object->object_type[0] ) ) {
+					$taxonomy_label .= ' (' . ucfirst( $taxonomy_object->object_type[0] . ')' );
+				}
+
+				$taxonomies[ $taxonomy_key ] = $taxonomy_label;
+			}
+		}
+
+		$taxonomies = apply_filters( 'uncode_get_registered_taxonomies', $taxonomies );
+
+		return $taxonomies;
+	}
+endif;
+
+/**
+ * Create a dropdown for the ajax filter with all the registered categories
+ */
+if ( ! function_exists( 'uncode_core_get_taxonomies_for_ajax_filter' ) ) :
+	function uncode_core_get_taxonomies_for_ajax_filter() {
+		$all_taxonomies = array();
+		$registered_taxonomies = uncode_core_get_all_registered_taxonomies();
+
+		foreach ( $registered_taxonomies as $taxonomy_key => $taxonomy_value ) {
+			$all_taxonomies[$taxonomy_value] = $taxonomy_key;
+		}
+
+		return $all_taxonomies;
+	}
+endif;
+
+/**
+ * Create a dropdown for the ajax filter with all the product attributes
+ */
+if ( ! function_exists( 'uncode_core_get_product_attributes_for_ajax_filter' ) ) :
+	function uncode_core_get_product_attributes_for_ajax_filter() {
+		$all_products_attributes = array();
+
+		if ( class_exists( 'WooCommerce' ) ) {
+			$attribute_taxonomies = wc_get_attribute_taxonomies();
+
+			if ( $attribute_taxonomies ) {
+				foreach ( $attribute_taxonomies as $tax ) {
+					$attr_key   = wc_attribute_taxonomy_name( $tax->attribute_name );
+					$attr_label = wc_attribute_label( $attr_key ) . ' (ID:' . $tax->attribute_id . ')';
+					$all_products_attributes[$attr_label] = $attr_key;
+				}
+			}
+		}
+
+		return $all_products_attributes;
+	}
+endif;
+
+/**
  * Wrapper for remove_filter
  */
 function uncode_core_unhook( $tag, $hook, $priority = 10, $args = 1 ) {

@@ -12,7 +12,7 @@
  *
  * @see     https://docs.woocommerce.com/document/template-structure/
  * @package WooCommerce/Templates
- * @version 3.6.0
+ * @version 7.0.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -61,7 +61,7 @@ $form_button_classes = implode( ' ', $form_classes[ 'button' ] );
 
 	<p class="woocommerce-form-row form-row">
 		<?php wp_nonce_field( 'woocommerce-register', 'woocommerce-register-nonce' ); ?>
-		<button type="submit" class="woocommerce-Button woocommerce-button button woocommerce-form-register__submit btn <?php echo esc_attr( $form_button_classes ); ?>" name="register" value="<?php esc_attr_e( 'Register', 'woocommerce' ); ?>" style="<?php echo esc_attr( $button_adjust_value ? 'margin-top:' . $button_adjust_value . 'px' : '' ); ?>"><?php esc_html_e( 'Register', 'woocommerce' ); ?></button>
+		<button type="submit" class="woocommerce-Button woocommerce-button button woocommerce-form-register__submit btn <?php echo esc_attr( $form_button_classes ); ?><?php echo esc_attr( uncode_wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . uncode_wc_wp_theme_get_element_class_name( 'button' ) : '' ); ?>" name="register" value="<?php esc_attr_e( 'Register', 'woocommerce' ); ?>" style="<?php echo esc_attr( $button_adjust_value ? 'margin-top:' . $button_adjust_value . 'px' : '' ); ?>"><?php esc_html_e( 'Register', 'woocommerce' ); ?></button>
 	</p>
 
 	<?php do_action( 'woocommerce_register_form_end' ); ?>

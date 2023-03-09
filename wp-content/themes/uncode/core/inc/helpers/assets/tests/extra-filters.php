@@ -9,7 +9,7 @@ function uncode_page_require_asset_extra_filters( $content_array ) {
 	}
 
 	foreach ( $content_array as $content ) {
-		if ( strpos( $content, 'show_extra_filters="yes"' ) !== false ) {
+		if ( strpos( $content, 'show_extra_filters="yes"' ) !== false || strpos( $content, 'filter_mobile_wrapper="yes"' ) !== false || strpos( $content, 'filter_mobile_dropdown="yes"' ) !== false ) {
 			return true;
 		}
 	}

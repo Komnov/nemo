@@ -39,7 +39,11 @@ class uncode_index extends WPBakeryShortCode
 		$categories_link = array();
 		$args = array('orderby' => 'taxonomy', 'order' => 'DESC', 'fields' => 'all');
 		$post_categories = wp_get_object_terms( $post_id, $this->getTaxonomies(), $args);
+		$not_allowed_taxonomies = apply_filters( 'uncode_core_not_allowed_post_taxonomies', array() );
 		foreach ( $post_categories as $cat ) {
+			if ( in_array( $cat->taxonomy, $not_allowed_taxonomies ) ) {
+				continue;
+			}
 			if (is_taxonomy_hierarchical($cat->taxonomy) && substr( $cat->taxonomy, 0, 3 ) !== 'pa_') {
 				$categories_link[] = array('link' => '<a href="'.get_term_link($cat->term_id, $cat->taxonomy).'">'.$cat->name.'</a>', 'tax' => $cat->taxonomy, 'cat_id' => $cat->term_id);
 			} else if ($cat->taxonomy === 'post_tag') {
@@ -57,7 +61,13 @@ class uncode_index extends WPBakeryShortCode
 		$taxonomy_type = array();
 		$args = array('orderby' => 'taxonomy', 'order' => 'DESC', 'fields' => 'all');
 		$post_categories = wp_get_object_terms($post_id, $this->getTaxonomies(), $args);
+		$not_allowed_taxonomies = apply_filters( 'uncode_core_not_allowed_post_taxonomies', array() );
 		foreach ($post_categories as $cat) {
+			if ( in_array( $cat->taxonomy, $not_allowed_taxonomies ) ) {
+				continue;
+			}
+			$_taxonomy_type = $cat->taxonomy;
+			if ($cat->taxonomy)
 			if (is_taxonomy_hierarchical($cat->taxonomy) && substr( $cat->taxonomy, 0, 3 ) !== 'pa_') {
 				if (!in_array($cat->term_id, $this->filter_categories)) {
 					$this->filter_categories[] = $cat->term_id;
@@ -168,6 +178,8 @@ class uncode_index extends WPBakeryShortCode
 			} else {
 				$this->auto_query_type = 'default';
 			}
+		} else {
+			$this->auto_query = false;
 		}
 
 		$this->is_tax_query = $this->is_tax_query( $loop );
@@ -226,7 +238,7 @@ class UncodeLoopQueryBuilder extends VcLoopQueryBuilder
 		$number = 10;
 
 		if ( isset( $args['taxonomy_count'] ) ) {
-			$number = $args['taxonomy_count'] === 'All' ? -1 : absint( $args['taxonomy_count'] );
+			$number = $args['taxonomy_count'] === 'All' ? 0 : absint( $args['taxonomy_count'] );
 		}
 
 		$tax_args = array(
@@ -421,7 +433,21 @@ class UncodeLoopQueryBuilder extends VcLoopQueryBuilder
 				break;
 
 			case 'cross_sells':
-				$this->args['post__in'] = WC()->cart->get_cross_sells();
+				if ( ! is_null( WC() ) && ! is_null( WC()->cart ) ) {
+					$cross_sells_ids = WC()->cart->get_cross_sells();
+
+					if ( ( is_array( $cross_sells_ids ) && count( $cross_sells_ids ) > 0 ) || apply_filters( 'uncode_index_fill_cross_sells', false ) ) {
+						$this->args['post__in'] = $cross_sells_ids;
+					} else {
+						$this->args['post__in'] = array(0);
+					}
+
+				} else {
+					$this->args['post__in'] = array(0);
+				}
+
+				$this->args = apply_filters( 'uncode_get_uncode_index_cross_sells_args', $this->args );
+
 				break;
 		}
 	}
@@ -431,7 +457,7 @@ class UncodeLoopQueryBuilder extends VcLoopQueryBuilder
 	 */
 	public function build($offset = false) {
 		if ( $this->is_tax_query ) {
-			$query = new WP_Term_Query( $this->tax_query_args );
+			$query = new WP_Term_Query( apply_filters( 'uncode_get_uncode_index_tax_query_args', $this->tax_query_args ) );
 			$result = array( $this->tax_query_args, $query );
 		} else {
 			$post_types = isset( $this->args[ 'post_type' ] ) ? $this->args[ 'post_type' ] : array();
@@ -439,6 +465,13 @@ class UncodeLoopQueryBuilder extends VcLoopQueryBuilder
 			if ( isset( $this->args['category__in']) ) {
 				$this->args['cat'] = $this->args['category__in'];
 				unset($this->args['category__in']);
+			}
+
+			// Search parameters
+			if ( is_array( $this->query_options ) ) {
+				if ( isset( $this->query_options['s'] ) ) {
+					$this->args['s'] = $this->query_options['s'];
+				}
 			}
 
 			// Special auto query
@@ -474,7 +507,9 @@ class UncodeLoopQueryBuilder extends VcLoopQueryBuilder
 					}
 
 					if ( isset( $_GET['max_price'] ) || isset( $_GET['min_price'] ) ) {
-						$has_special_clause = true;
+						if ( ! ( is_array( $this->query_options ) && isset( $this->query_options['no_filters'] ) ) ) {
+							$has_special_clause = true;
+						}
 					}
 
 					if ( $has_special_clause && is_null( $this->wc_query ) ) {
@@ -486,25 +521,42 @@ class UncodeLoopQueryBuilder extends VcLoopQueryBuilder
 					// Remove hidden products only when there are products in the query
 					$terms_to_exclude = ( 'yes' === get_option( 'woocommerce_hide_out_of_stock_items' ) ) ? array( 'exclude-from-catalog', 'outofstock' ) : array( 'exclude-from-catalog' );
 
-					$this->args[ 'tax_query' ][] = array(
-						'taxonomy' => 'product_visibility',
-						'field'    => 'name',
-						'terms'    => $terms_to_exclude,
-						'operator' => 'NOT IN'
-					);
+					$product_visibility_terms  = wc_get_product_visibility_term_ids();
+					$product_visibility_not_in = array( is_search() && is_main_query() ? $product_visibility_terms['exclude-from-search'] : $product_visibility_terms['exclude-from-catalog'] );
+
+					if ( 'yes' === get_option( 'woocommerce_hide_out_of_stock_items' ) ) {
+						$product_visibility_not_in[] = $product_visibility_terms['outofstock'];
+					}
+
+					if ( ! empty( $product_visibility_not_in ) ) {
+						$this->args[ 'tax_query' ][] = array(
+							'taxonomy' => 'product_visibility',
+							'field'    => 'term_taxonomy_id',
+							'terms'    => $product_visibility_not_in,
+							'operator' => 'NOT IN'
+						);
+					}
 
 					$this->args[ 'tax_query' ]['relation'] = 'AND';
-				}
 
-				if ( class_exists( 'WooCommerce' ) && is_main_query() && ( is_shop() || is_product_category() || is_product_tag() ) ) {
-					foreach ( WC_Query::get_layered_nav_chosen_attributes() as $taxonomy => $data ) {
-						$this->args[ 'tax_query' ][] = array(
-							'taxonomy'         => $taxonomy,
-							'field'            => 'slug',
-							'terms'            => $data['terms'],
-							'operator'         => 'and' === $data['query_type'] ? 'AND' : 'IN',
-							'include_children' => false,
-						);
+					if ( apply_filters( 'uncode_use_woocommerce_nav_attributes_query', true ) || ! isset( $_GET[UNCODE_FILTER_PREFIX] ) ) {
+						$chosen_attributes = WC_Query::get_layered_nav_chosen_attributes();
+
+						if ( get_option( 'woocommerce_attribute_lookup_enabled' ) === 'yes' ) {
+							if ( is_array( $chosen_attributes ) && count( $chosen_attributes ) > 0 ) {
+								add_filter( 'posts_clauses', array( $this, 'add_filtering_args' ), 10, 2 );
+							}
+						} else {
+							foreach ( WC_Query::get_layered_nav_chosen_attributes() as $taxonomy => $data ) {
+								$this->args[ 'tax_query' ][] = array(
+									'taxonomy'         => $taxonomy,
+									'field'            => 'slug',
+									'terms'            => $data['terms'],
+									'operator'         => 'and' === $data['query_type'] ? 'AND' : 'IN',
+									'include_children' => false,
+								);
+							}
+						}
 					}
 				}
 
@@ -517,10 +569,11 @@ class UncodeLoopQueryBuilder extends VcLoopQueryBuilder
 						$this->add_ordering_args();
 					}
 
-					$limit_posts = new WP_Query( apply_filters( 'uncode_get_uncode_index_args', $offset_args ) );
+					$limit_posts = new WP_Query( apply_filters( 'uncode_get_uncode_index_offset_args', $offset_args, $this->query_options ) );
 
 					if ( class_exists( 'WooCommerce' ) ) {
 						$this->remove_ordering_args();
+						$this->remove_filtering_args();
 					}
 
 					$this->add_cat_tax_order();
@@ -539,10 +592,14 @@ class UncodeLoopQueryBuilder extends VcLoopQueryBuilder
 				}
 			}
 
-			$query = new WP_Query( apply_filters( 'uncode_get_uncode_index_args', $this->args ) );
+			$uncode_index_args = apply_filters( 'uncode_get_uncode_index_args', $this->args );
+			$uncode_index_args = apply_filters( 'uncode_get_uncode_index_args_for_filters', $uncode_index_args, $this->query_options );
+
+			$query = new WP_Query( $uncode_index_args );
 
 			if ( class_exists( 'WooCommerce' ) ) {
 				$this->remove_ordering_args();
+				$this->remove_filtering_args();
 			}
 
 			$this->add_cat_tax_order();
@@ -551,6 +608,97 @@ class UncodeLoopQueryBuilder extends VcLoopQueryBuilder
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Add filtering queries.
+	 */
+	public function add_filtering_args( $clauses, $query ) {
+		$clauses = $this->get_filtering_clauses( $clauses );
+
+		return $clauses;
+	}
+
+	/**
+	 * Get filtering clauses.
+	 *
+	 * Copy of Automattic\WooCommerce\Internal\ProductAttributesLookup\Filterer\filter_by_attribute_post_clauses()
+	 */
+	public function get_filtering_clauses( $args ) {
+		global $wpdb;
+
+		if ( 'yes' !== get_option( 'woocommerce_attribute_lookup_enabled' ) ) {
+			return $args;
+		}
+
+		// The extra derived table ("SELECT product_or_parent_id FROM") is needed for performance
+		// (causes the filtering subquery to be executed only once).
+		$clause_root = " {$wpdb->posts}.ID IN ( SELECT product_or_parent_id FROM (";
+		if ( 'yes' === get_option( 'woocommerce_hide_out_of_stock_items' ) ) {
+			$in_stock_clause = ' AND in_stock = 1';
+		} else {
+			$in_stock_clause = '';
+		}
+
+		$attribute_ids_for_and_filtering = array();
+
+		$attributes_to_filter_by = WC_Query::get_layered_nav_chosen_attributes();
+		$lookup_table_name = $wpdb->prefix . 'wc_product_attributes_lookup';
+
+		foreach ( $attributes_to_filter_by as $taxonomy => $data ) {
+			$all_terms                  = get_terms( $taxonomy, array( 'hide_empty' => false ) );
+			$term_ids_by_slug           = wp_list_pluck( $all_terms, 'term_id', 'slug' );
+			$term_ids_to_filter_by      = array_values( array_intersect_key( $term_ids_by_slug, array_flip( $data['terms'] ) ) );
+			$term_ids_to_filter_by      = array_map( 'absint', $term_ids_to_filter_by );
+			$term_ids_to_filter_by_list = '(' . join( ',', $term_ids_to_filter_by ) . ')';
+			$is_and_query               = 'and' === $data['query_type'];
+
+			$count = count( $term_ids_to_filter_by );
+
+			if ( 0 !== $count ) {
+				if ( $is_and_query && $count > 1 ) {
+					$attribute_ids_for_and_filtering = array_merge( $attribute_ids_for_and_filtering, $term_ids_to_filter_by );
+				} else {
+					$clauses[] = "
+							{$clause_root}
+							SELECT product_or_parent_id
+							FROM {$lookup_table_name} lt
+							WHERE term_id in {$term_ids_to_filter_by_list}
+							{$in_stock_clause}
+						)";
+				}
+			}
+		}
+
+		if ( ! empty( $attribute_ids_for_and_filtering ) ) {
+			$count                      = count( $attribute_ids_for_and_filtering );
+			$term_ids_to_filter_by_list = '(' . join( ',', $attribute_ids_for_and_filtering ) . ')';
+			$clauses[]                  = "
+				{$clause_root}
+				SELECT product_or_parent_id
+				FROM {$lookup_table_name} lt
+				WHERE is_variation_attribute=0
+				{$in_stock_clause}
+				AND term_id in {$term_ids_to_filter_by_list}
+				GROUP BY product_id
+				HAVING COUNT(product_id)={$count}
+				UNION
+				SELECT product_or_parent_id
+				FROM {$lookup_table_name} lt
+				WHERE is_variation_attribute=1
+				{$in_stock_clause}
+				AND term_id in {$term_ids_to_filter_by_list}
+			)";
+		}
+
+		if ( ! empty( $clauses ) ) {
+			// "temp" is needed because the extra derived tables require an alias.
+			$args['where'] .= ' AND (' . join( ' temp ) AND ', $clauses ) . ' temp ))';
+		} elseif ( ! empty( $attributes_to_filter_by ) ) {
+			$args['where'] .= ' AND 1=0';
+		}
+
+		return $args;
 	}
 
 	/**
@@ -571,8 +719,17 @@ class UncodeLoopQueryBuilder extends VcLoopQueryBuilder
 		}
 
 		if ( isset( $_GET['max_price'] ) || isset( $_GET['min_price'] ) ) {
-			add_filter( 'posts_clauses', array( $this, 'price_filter_post_clauses' ), 10, 2 );
+			if ( ! ( is_array( $this->query_options ) && isset( $this->query_options['no_filters'] ) ) ) {
+				add_filter( 'posts_clauses', array( $this, 'price_filter_post_clauses' ), 10, 2 );
+			}
 		}
+	}
+
+	/**
+	 * Remove filtering queries.
+	 */
+	public function remove_filtering_args() {
+		remove_filter( 'posts_clauses', array( $this, 'add_filtering_args' ), 10, 2 );
 	}
 
 	/**
@@ -688,6 +845,8 @@ class UncodeLoopQueryBuilder extends VcLoopQueryBuilder
 			}
 
 			$args['post_type'] = $post_type;
+
+			$args = apply_filters( 'uncode_related_posts_query_final_args', $args );
 		}
 
 		return $args;
@@ -916,9 +1075,9 @@ class UncodeLoopQueryBuilder extends VcLoopQueryBuilder
 
 		$args['join']   = $this->append_product_sorting_table_join( $args['join'] );
 		$args['where'] .= $wpdb->prepare(
-			' AND wc_product_meta_lookup.min_price >= %f AND wc_product_meta_lookup.max_price <= %f ',
-			$current_min_price,
-			$current_max_price
+			' AND NOT (%f<wc_product_meta_lookup.min_price OR %f>wc_product_meta_lookup.max_price ) ',
+			$current_max_price,
+			$current_min_price
 		);
 		return $args;
 	}

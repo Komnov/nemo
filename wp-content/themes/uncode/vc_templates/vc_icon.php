@@ -75,6 +75,7 @@ $wrapper_class = array();
 $automatic_class = array();
 $classes = array();
 $div_data = array();
+$div_data_attributes = array();
 
 if ($icon_color === '') {
 	$icon_color = 'default';
@@ -303,13 +304,6 @@ if ($media_lightbox !== '') {
 
 		$lightbox_data .= ' data-album=\'[' . $album_item_dimensions . ']\'';
 
-
-		if ($lbox_connected === 'yes' && isset($lightbox_id) && $lightbox_id !== '' ) {
-			$lbox_id = $lightbox_id;
-		} else {
-			$lbox_id = uncode_big_rand();
-		}
-
 		$div_data_attributes = array_map(function ($v, $k) { return $k . '="' . $v . '"'; }, $lightbox_classes, array_keys($lightbox_classes));
 
 	} else {
@@ -432,6 +426,7 @@ if ($media_lightbox !== '') {
 	}
 
 	$lightbox_data .= ' ' . implode(' ', $div_data_attributes);
+
 	$lightbox_data = ' data-lbox="ilightbox_single-' . uncode_big_rand() . '"' . $lightbox_data;
 	$lightbox_data_title = ' data-lbox="ilightbox_single-' . uncode_big_rand() . '"' . $lightbox_data;
 }
@@ -453,6 +448,10 @@ if ($title !== '') {
 
 $content_stripped = strip_tags($content, '<p>');
 
+$text_classes = ( $text_reduced === 'yes' ) ? 'text-top-reduced ' : '';
+$text_classes .= ( $text_lead === 'yes' ) ? 'text-lead ' : '';
+$text_classes .= ( $text_lead === 'small' ) ? 'text-small ' : '';
+
 if ( $content_stripped === $content ) {
 	if ( trim( $content ) !== '' && $content_stripped === $content ) {
 		$content = trim( nl2br( $content ) );
@@ -461,10 +460,6 @@ if ( $content_stripped === $content ) {
 		} else {
 			$add_margin = '';
 		}
-
-		$text_classes = ( $text_reduced === 'yes' ) ? 'text-top-reduced ' : '';
-		$text_classes .= ( $text_lead === 'yes' ) ? 'text-lead ' : '';
-		$text_classes .= ( $text_lead === 'small' ) ? 'text-small ' : '';
 
 		if (strpos($content,'<p') !== false) {
 			if ($text_classes !== '') {
@@ -483,7 +478,22 @@ if ( $content_stripped === $content ) {
 	}
 
 } else {
-	$output_text .= uncode_remove_p_tag($content, true);
+	if (strpos($content,'<p') !== false) {
+		if ($text_classes !== '') {
+			$content = preg_replace('/<p/', '<p class="' . esc_attr( trim($text_classes) ) . '"', $content, 1);
+		}
+	} else {
+		if ($text_classes !== '') {
+			$content = uncode_remove_p_tag($content, true);
+			$content = preg_replace('/<p/', '<p class="' . esc_attr( trim($text_classes) ) . '"', $content, 1);
+		}
+	}
+
+	if ( $text_classes !== '' && apply_filters( 'uncode_vc_icon_format_with_html', false ) ) {
+		$output_text .= '<div class="' . esc_attr( trim($text_classes) ) . '">' . uncode_remove_p_tag($content, true) . '</div>';
+	} else {
+		$output_text .= uncode_remove_p_tag($content, true);
+	}
 }
 
 if ($link_text !== '' && $a_href !== '') {
@@ -504,7 +514,16 @@ $icon_container_style = ( $media_size !== '' && floatval( $media_size ) != 0 && 
 $icon_container_style .= ( $content === '' && $title === '' ) ? 'margin-bottom: 0px;' : '';
 $icon_container_style = $icon_container_style !== '' ? ' style="' . $icon_container_style . '"' : '';
 
-$tag_start = ($a_href !== '') ? 'a href="'. $a_href .'"'.$a_title.$a_target.$a_rel.$lightbox_data : 'span';
+$href_att = ' href="'. $a_href . '"';
+if ( $lbox_enhance ) {
+	if ( $media_lightbox && isset($media_attributes) ) {
+		if ( $media_attributes->post_mime_type === 'video/mp4' ) {
+			$href_att = '';
+		}
+	}
+}
+
+$tag_start = ($a_href !== '') ? 'a'. $href_att . $a_title . $a_target . $a_rel . $lightbox_data : 'span';
 $tag_end = ($a_href !== '') ? 'a' : 'span';
 $output_icon = '';
 $output_icon = '<div class="'.esc_attr(trim(implode(' ', $icon_container_class))).'"' . $icon_container_style . $el_id . '>';

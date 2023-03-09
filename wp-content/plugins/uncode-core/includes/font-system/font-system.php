@@ -277,7 +277,7 @@ class UncodeFont {
 		$selectors = array();
 		$google_page_font_families = array();
 
-		if ( ot_get_option( '_uncode_google_fonts_ondemand' ) === 'on' && function_exists( 'uncode_get_page_google_font_families' ) ) {
+		if ( function_exists( 'ot_get_option' ) && ot_get_option( '_uncode_google_fonts_ondemand' ) === 'on' && function_exists( 'uncode_get_page_google_font_families' ) ) {
 			$google_page_font_families = uncode_get_page_google_font_families();
 		}
 
@@ -287,7 +287,7 @@ class UncodeFont {
 					switch ($font['source']) {
 						case 'Google Web Fonts':
 							$family = urlencode($font['family']);
-							if ( ot_get_option( '_uncode_google_fonts_ondemand' ) === 'on' ) {
+							if ( function_exists( 'ot_get_option' ) && ot_get_option( '_uncode_google_fonts_ondemand' ) === 'on' ) {
 								if ( ! is_array( $google_page_font_families ) ) {
 									continue 2;
 								}
@@ -361,7 +361,7 @@ class UncodeFont {
 				$url .= $google_subsets;
 			}
 			$url = str_replace('|', '%7C', $url);
-			if ( ot_get_option( '_uncode_google_fonts_display_swap' ) === 'on' ) {
+			if ( function_exists( 'ot_get_option' ) && ot_get_option( '_uncode_google_fonts_display_swap' ) === 'on' ) {
 				$url .= '&display=swap';
 			}
 			wp_enqueue_style('uncodefont-google', $url, array(), UncodeCore_Plugin::VERSION);

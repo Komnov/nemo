@@ -8,9 +8,19 @@
 .nav > li > a {
   display: block;
 }
+.tab-scrolling .vc_tta-tabs-container {
+  margin-top: -0.5em !important;
+  overflow: hidden;
+}
 .nav-tabs {
   border-bottom: 1px solid;
-  padding: 0 !important;
+}
+.tab-scrolling .nav-tabs {
+  margin-bottom: -30px !important;
+  padding: 0.5em 0 30px !important;
+  white-space: nowrap;
+  overflow: auto;
+  overflow-y: hidden;
 }
 .nav-tabs:not(.limit-width) {
   margin: 0;
@@ -18,7 +28,7 @@
 .nav-tabs > li {
   display: inline-block;
   margin-top: 0px;
-  margin-bottom: -1px;
+  position: relative;
 }
 .nav-tabs > li > a {
   line-height: normal;
@@ -61,6 +71,10 @@ body.rtl .nav-tabs > li > a i.fa.icon-position-right {
     border-bottom-style: solid;
   }
 }
+.tab-scrolling .nav-tabs > li.active > a {
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+}
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover {
   cursor: default;
@@ -68,13 +82,15 @@ body.rtl .nav-tabs > li > a i.fa.icon-position-right {
 .nav-tabs > li.active > a span.review-count {
   border-bottom-width: 0;
 }
-.nav-tabs.width-100 {
-  display: table;
-  table-layout: fixed;
-  width: 100%;
-}
-.nav-tabs.width-100 > li {
-  display: table-cell;
+@media (min-width: 570px) {
+  .nav-tabs.width-100 {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+  }
+  .nav-tabs.width-100 > li {
+    display: table-cell;
+  }
 }
 .tab-content > .tab-pane {
   display: none;
@@ -225,7 +241,7 @@ body.rtl .nav-tabs > li > a i.fa.icon-position-right {
 .tabs-left > li.active > a {
   padding: 9px 23px 9px 0px;
   border-bottom-width: 0px !important;
-  border-right-width: 2px!important;
+  border-right-width: 2px !important;
   border-right-style: solid;
 }
 .tabs-left > li > a {

@@ -1096,15 +1096,18 @@ vc_map(array(
 			) ,
 			"group" => esc_html__("Lightbox", 'uncode-core') ,
 		) ,
+	
 		array(
-			"type" => 'checkbox',
-			"heading" => esc_html__("No thumbnails", 'uncode-core') ,
-			"param_name" => "lbox_no_tmb",
-			"description" => esc_html__("Activate this for not showing the thumbnails.", 'uncode-core') ,
-			"value" => Array(
-				esc_html__("Yes, please", 'uncode-core') => 'yes'
-			) ,
+			'type' => 'textfield',
+			"heading" => esc_html__("Deeplinking ID", 'uncode-core') ,
+			"param_name" => "lbox_deep_id",
+			'value' => '',
+			"description" => esc_html__("[...]", 'uncode-core') ,
 			"group" => esc_html__("Lightbox", 'uncode-core') ,
+			'dependency' => array(
+				'element' => 'lbox_deep',
+				'value' => $lbox_enhance ? 'yes' : 'nothing' ,
+			) ,
 		) ,
 		array(
 			"type" => 'checkbox',
@@ -1190,7 +1193,7 @@ vc_map(array(
 		) ,
 		array(
 			"type" => 'checkbox',
-			"heading" => esc_html__("Connect to other media in page", 'uncode-core') ,
+			"heading" => esc_html__("Connect to other media", 'uncode-core') ,
 			"param_name" => "lbox_connected",
 			"description" => esc_html__("Activate this to connect the lightbox with other media in the same page with this option active.", 'uncode-core') ,
 			"value" => Array(

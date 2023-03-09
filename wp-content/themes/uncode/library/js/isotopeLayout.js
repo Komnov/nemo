@@ -242,7 +242,7 @@
 						$(isotopeContainersArray[i]).infinitescroll({
 								navSelector: '#' + isotopeId + ' .loadmore-button', // selector for the pagination container
 								nextSelector: '#' + isotopeId + ' .loadmore-button a', // selector for the NEXT link (to page 2)
-								itemSelector: '#' + isotopeId + ' .isotope-layout .tmb, #' + isotopeId + ' .isotope-filters li', // selector for all items you'll retrieve
+								itemSelector: '#' + isotopeId + ' .isotope-layout .tmb, #' + isotopeId + ' .isotope-filters li.filter-cat', // selector for all items you'll retrieve
 								animate: false,
 								behavior: 'local',
 								debug: false,
@@ -449,6 +449,13 @@
                     calc_scroll = container.closest('.row-parent').offset().top;
                 calc_scroll -= UNCODE.get_scroll_offset();
 
+                var menu_container = $('.menu-sticky');
+				var menu = menu_container.find('.menu-container');
+
+				if (menu_container.length > 0 && menu.length > 0) {
+					calc_scroll = calc_scroll - menu.outerHeight();
+				}
+
 				var bodyTop = document.documentElement['scrollTop'] || document.body['scrollTop'],
 					delta = bodyTop - calc_scroll,
 					scrollSpeed = (SiteParameters.constant_scroll == 'on') ? Math.abs(delta) / parseFloat(SiteParameters.scroll_speed) : SiteParameters.scroll_speed;
@@ -470,7 +477,7 @@
 					}
 				}
 
-				loadIsotope($(this));
+				loadIsotope($(this), true);
 				evt.preventDefault();
 			});
 		}
@@ -625,25 +632,35 @@
 			}
 			evt.preventDefault();
 		});
-		$(window).on("popstate", function(e) {
-			if (e.originalEvent.state === null) return;
-			var params = {};
-			if (location.search) {
-				var parts = location.search.substring(1).split('&');
-				for (var i = 0; i < parts.length; i++) {
-					var nv = parts[i].split('=');
-					if (!nv[0]) continue;
-					params[nv[0]] = nv[1] || true;
-				}
+
+		$(window).off('popstate.isotopegrid').on("popstate.isotopegrid", function(e) {
+			var params = UNCODE.getURLParams(window.location);
+			var old_params = UNCODE.getURLParams(UNCODE.lastURL, true);
+
+			UNCODE.lastURL = window.location.href;
+
+			if (UNCODE.hasEqualURLParams(params, old_params) || ($.isEmptyObject(params) && $.isEmptyObject(old_params))) {
+				return;
 			}
+
 			if (params.id === undefined) {
 				$.each($('.isotope-system'), function(index, val) {
 					loadIsotope($(val));
 				});
-			} else loadIsotope($('#' + params.id));
+			} else {
+				if (!params.hasOwnProperty(SiteParameters.ajax_filter_key_unfilter)) {
+					loadIsotope($('#' + params.id));
+				}
+			}
 		});
 
-		var loadIsotope = function($href) {
+		var loadIsotope = function($href, $paginating) {
+			var is_paginating = false;
+
+			if (undefined !== $paginating && $paginating) {
+				var is_paginating = $paginating;
+			}
+
 			var href = ($href.is("a") ? $href.attr('href') : location),
 				isotopeSystem = ($href.is("a") ? $href.closest($('.isotope-system')) : $href),
 				isotopeWrapper = isotopeSystem.find($('.isotope-wrapper')),
@@ -652,20 +669,25 @@
 				isotopeContainer = isotopeSystem.find($('.isotope-layout')),
 				isotopeId = isotopeSystem.attr('id');
 			if ( $href.is("a") && ! isotopeSystem.hasClass('un-no-history') ) {
+				UNCODE.lastURL = href;
 				history.pushState({
 					myIsotope: true
 				}, document.title, href);
+			}
+			if (is_paginating) {
+				isotopeWrapper.addClass('grid-filtering');
 			}
 			$.ajax({
 				url: href
 			}).done(function(data) {
 				var $resultItems = $(data).find('#' + isotopeId + ' .isotope-layout').html(),
-					$resultPagination = $(data).find('#' + isotopeId + ' .pagination'),
-					$resultCount = $(data).find('#' + isotopeId + ' .woocommerce-result-count');
+					$resultPagination = $(data).find('#' + isotopeId + ' .pagination')[0],
+					$resultCount = $(data).find('#' + isotopeId + ' .woocommerce-result-count')[0];
 				isotopeWrapper.addClass('isotope-reloaded');
 				requestTimeout(function() {
 					isotopeWrapper.removeClass('grid-loading');
 					isotopeWrapper.removeClass('isotope-reloaded');
+					isotopeWrapper.removeClass('grid-filtering');
 				}, 500);
 				$.each($('> .tmb > .t-inside', isotopeContainer), function(index, val) {
 					var parent = $(val).parent(),

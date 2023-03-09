@@ -67,6 +67,14 @@
 			}
 		}, 1000);
 
+		if ($('.sticky-element').length) {
+			$(window).on('uncode_wc_variation_gallery_loaded', function (event) {
+				requestTimeout(function() {
+					$(document.body).trigger("sticky_kit:recalc");
+				}, 100);
+			});
+		}
+
 		var $panels = $('.panel-collapse');
 		if ( $panels.length ) {
 			$panels.each(function(){

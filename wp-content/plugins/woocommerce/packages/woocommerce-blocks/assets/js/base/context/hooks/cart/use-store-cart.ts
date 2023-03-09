@@ -5,7 +5,19 @@
  */
 import { isEqual } from 'lodash';
 import { useRef } from '@wordpress/element';
-import { CART_STORE_KEY as storeKey } from '@woocommerce/block-data';
+import {
+	CART_STORE_KEY as storeKey,
+	EMPTY_CART_COUPONS,
+	EMPTY_CART_ITEMS,
+	EMPTY_CART_CROSS_SELLS,
+	EMPTY_CART_FEES,
+	EMPTY_CART_ITEM_ERRORS,
+	EMPTY_CART_ERRORS,
+	EMPTY_SHIPPING_RATES,
+	EMPTY_TAX_LINES,
+	EMPTY_PAYMENT_REQUIREMENTS,
+	EMPTY_EXTENSIONS,
+} from '@woocommerce/block-data';
 import { useSelect } from '@wordpress/data';
 import { decodeEntities } from '@wordpress/html-entities';
 import type {
@@ -14,16 +26,16 @@ import type {
 	CartResponseFeeItem,
 	CartResponseBillingAddress,
 	CartResponseShippingAddress,
+	CartResponseCouponItem,
+	CartResponseCoupons,
 } from '@woocommerce/types';
-import {
-	emptyHiddenAddressFields,
-	fromEntriesPolyfill,
-} from '@woocommerce/base-utils';
+import { emptyHiddenAddressFields } from '@woocommerce/base-utils';
 
 /**
  * Internal dependencies
  */
 import { useEditorContext } from '../../providers/editor-context';
+import { useStoreCartEventListeners } from './use-store-cart-event-listeners';
 
 declare module '@wordpress/html-entities' {
 	// eslint-disable-next-line @typescript-eslint/no-shadow
@@ -39,12 +51,12 @@ const defaultShippingAddress: CartResponseShippingAddress = {
 	state: '',
 	postcode: '',
 	country: '',
+	phone: '',
 };
 
 const defaultBillingAddress: CartResponseBillingAddress = {
 	...defaultShippingAddress,
 	email: '',
-	phone: '',
 };
 
 const defaultCartTotals: CartResponseTotals = {
@@ -58,7 +70,7 @@ const defaultCartTotals: CartResponseTotals = {
 	total_shipping_tax: '',
 	total_price: '',
 	total_tax: '',
-	tax_lines: [],
+	tax_lines: EMPTY_TAX_LINES,
 	currency_code: '',
 	currency_symbol: '',
 	currency_minor_unit: 2,
@@ -71,7 +83,7 @@ const defaultCartTotals: CartResponseTotals = {
 const decodeValues = (
 	object: Record< string, unknown >
 ): Record< string, unknown > =>
-	fromEntriesPolyfill(
+	Object.fromEntries(
 		Object.entries( object ).map( ( [ key, value ] ) => [
 			key,
 			decodeEntities( value ),
@@ -83,46 +95,52 @@ const decodeValues = (
  * @type  {StoreCart} Object containing cart data.
  */
 export const defaultCartData: StoreCart = {
-	cartCoupons: [],
-	cartItems: [],
-	cartFees: [],
+	cartCoupons: EMPTY_CART_COUPONS,
+	cartItems: EMPTY_CART_ITEMS,
+	cartFees: EMPTY_CART_FEES,
 	cartItemsCount: 0,
 	cartItemsWeight: 0,
+	crossSellsProducts: EMPTY_CART_CROSS_SELLS,
 	cartNeedsPayment: true,
 	cartNeedsShipping: true,
-	cartItemErrors: [],
+	cartItemErrors: EMPTY_CART_ITEM_ERRORS,
 	cartTotals: defaultCartTotals,
 	cartIsLoading: true,
-	cartErrors: [],
+	cartErrors: EMPTY_CART_ERRORS,
 	billingAddress: defaultBillingAddress,
 	shippingAddress: defaultShippingAddress,
-	shippingRates: [],
-	shippingRatesLoading: false,
+	shippingRates: EMPTY_SHIPPING_RATES,
+	isLoadingRates: false,
 	cartHasCalculatedShipping: false,
-	paymentRequirements: [],
+	paymentRequirements: EMPTY_PAYMENT_REQUIREMENTS,
 	receiveCart: () => undefined,
-	extensions: {},
+	extensions: EMPTY_EXTENSIONS,
 };
 
 /**
  * This is a custom hook that is wired up to the `wc/store/cart` data
  * store.
  *
- * @param {Object} options                An object declaring the various
- *                                        collection arguments.
- * @param {boolean} options.shouldSelect  If false, the previous results will be
- *                                        returned and internal selects will not
- *                                        fire.
+ * @param {Object}  options              An object declaring the various
+ *                                       collection arguments.
+ * @param {boolean} options.shouldSelect If false, the previous results will be
+ *                                       returned and internal selects will not
+ *                                       fire.
  *
  * @return {StoreCart} Object containing cart data.
  */
+
 export const useStoreCart = (
 	options: { shouldSelect: boolean } = { shouldSelect: true }
 ): StoreCart => {
 	const { isEditor, previewData } = useEditorContext();
-	const previewCart = previewData?.previewCart || {};
+	const previewCart = previewData?.previewCart;
 	const { shouldSelect } = options;
 	const currentResults = useRef();
+
+	// This will keep track of jQuery and DOM events triggered by other blocks
+	// or components and will invalidate the store resolution accordingly.
+	useStoreCartEventListeners();
 
 	const results: StoreCart = useSelect(
 		( select, { dispatch } ) => {
@@ -134,20 +152,22 @@ export const useStoreCart = (
 				return {
 					cartCoupons: previewCart.coupons,
 					cartItems: previewCart.items,
+					crossSellsProducts: previewCart.cross_sells,
 					cartFees: previewCart.fees,
 					cartItemsCount: previewCart.items_count,
 					cartItemsWeight: previewCart.items_weight,
 					cartNeedsPayment: previewCart.needs_payment,
 					cartNeedsShipping: previewCart.needs_shipping,
-					cartItemErrors: [],
+					cartItemErrors: EMPTY_CART_ITEM_ERRORS,
 					cartTotals: previewCart.totals,
 					cartIsLoading: false,
-					cartErrors: [],
+					cartErrors: EMPTY_CART_ERRORS,
+					billingData: defaultBillingAddress,
 					billingAddress: defaultBillingAddress,
 					shippingAddress: defaultShippingAddress,
-					extensions: {},
+					extensions: EMPTY_EXTENSIONS,
 					shippingRates: previewCart.shipping_rates,
-					shippingRatesLoading: false,
+					isLoadingRates: false,
 					cartHasCalculatedShipping:
 						previewCart.has_calculated_shipping,
 					paymentRequirements: previewCart.paymentRequirements,
@@ -162,38 +182,56 @@ export const useStoreCart = (
 			const cartData = store.getCartData();
 			const cartErrors = store.getCartErrors();
 			const cartTotals = store.getCartTotals();
-			const cartIsLoading = ! store.hasFinishedResolution(
-				'getCartData'
-			);
-			const shippingRatesLoading = store.isCustomerDataUpdating();
+			const cartIsLoading =
+				! store.hasFinishedResolution( 'getCartData' );
+
+			const isLoadingRates = store.isCustomerDataUpdating();
 			const { receiveCart } = dispatch( storeKey );
 			const billingAddress = decodeValues( cartData.billingAddress );
 			const shippingAddress = cartData.needsShipping
 				? decodeValues( cartData.shippingAddress )
 				: billingAddress;
-			const cartFees = cartData.fees.map( ( fee: CartResponseFeeItem ) =>
-				decodeValues( fee )
-			);
+			const cartFees =
+				cartData.fees.length > 0
+					? cartData.fees.map( ( fee: CartResponseFeeItem ) =>
+							decodeValues( fee )
+					  )
+					: EMPTY_CART_FEES;
+
+			// Add a text property to the coupon to allow extensions to modify
+			// the text used to display the coupon, without affecting the
+			// functionality when it comes to removing the coupon.
+			const cartCoupons: CartResponseCoupons =
+				cartData.coupons.length > 0
+					? cartData.coupons.map(
+							( coupon: CartResponseCouponItem ) => ( {
+								...coupon,
+								label: coupon.code,
+							} )
+					  )
+					: EMPTY_CART_COUPONS;
 
 			return {
-				cartCoupons: cartData.coupons,
-				cartItems: cartData.items || [],
+				cartCoupons,
+				cartItems: cartData.items,
+				crossSellsProducts: cartData.crossSells,
 				cartFees,
 				cartItemsCount: cartData.itemsCount,
 				cartItemsWeight: cartData.itemsWeight,
 				cartNeedsPayment: cartData.needsPayment,
 				cartNeedsShipping: cartData.needsShipping,
-				cartItemErrors: cartData.errors || [],
+				cartItemErrors: cartData.errors,
 				cartTotals,
 				cartIsLoading,
 				cartErrors,
+				billingData: emptyHiddenAddressFields( billingAddress ),
 				billingAddress: emptyHiddenAddressFields( billingAddress ),
 				shippingAddress: emptyHiddenAddressFields( shippingAddress ),
-				extensions: cartData.extensions || {},
-				shippingRates: cartData.shippingRates || [],
-				shippingRatesLoading,
+				extensions: cartData.extensions,
+				shippingRates: cartData.shippingRates,
+				isLoadingRates,
 				cartHasCalculatedShipping: cartData.hasCalculatedShipping,
-				paymentRequirements: cartData.paymentRequirements || [],
+				paymentRequirements: cartData.paymentRequirements,
 				receiveCart,
 			};
 		},

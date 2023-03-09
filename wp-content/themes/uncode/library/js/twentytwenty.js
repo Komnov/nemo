@@ -755,10 +755,17 @@
 
 
   $(window).on("load", function(e) {
-    $('.twentytwenty-container').twentytwenty();
-    $('.twentytwenty-container img').on('async-done', function(){
-    	$(this).closest('.twentytwenty-container').twentytwenty();
-    });
+  	$('.twentytwenty-container').each(function(){
+  		var $container = $(this);
+  		if ( ! $('.twentytwenty-wrapper', $container).length ) {
+  			$container.twentytwenty();
+  		}
+  		$('img', $container).on('async-done', function(){
+	  		if ( ! $('.twentytwenty-wrapper', $container).length ) {
+	  			$container.twentytwenty();
+	  		}
+	    });
+  	});
   });
 }
 

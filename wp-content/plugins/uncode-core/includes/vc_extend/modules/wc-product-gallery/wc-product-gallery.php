@@ -14,17 +14,35 @@ $uncode_single_product_gallery_params = array(
 		'param_name' => 'layout',
 		'value' => array(
 			esc_html__('Standard', 'uncode-core') => '',
+			esc_html__('Standard Vertical Nav', 'uncode-core') => 'std-lateral',
 			esc_html__('Stack', 'uncode-core') => 'stack',
+			esc_html__('Stack Vertical Nav', 'uncode-core') => 'stack-lateral',
+			esc_html__('Grid', 'uncode-core') => 'grid',
 		) ,
 		'admin_label' => true,
 		'description' => esc_html__('Specify the module layout mode. NB. This option is disabled while working with the Frontend Editor, only the Stack preview is available.', 'uncode-core') ,
 		'group' => esc_html__('General', 'uncode-core')
 	) ,
 	array(
+		"type" => "type_numeric_slider",
+		"heading" => esc_html__("Gutter thumb", 'uncode-core') ,
+		"param_name" => "gutter_thumb_grid",
+		"min" => 0,
+		"max" => 4,
+		"step" => 1,
+		"value" => 3,
+		"description" => esc_html__("Set the space between thumbs.", 'uncode-core') ,
+		'group' => esc_html__('General', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'layout',
+			'value' => 'grid' ,
+		) ,
+	) ,
+	array(
 		"type" => 'checkbox',
 		"heading" => esc_html__("Disable lightbox", 'uncode-core') ,
 		"param_name" => "lightbox",
-		"description" => esc_html__("Activate to enable disable lightbox on product images.", 'uncode-core') ,
+		"description" => esc_html__("Activate to disable lightbox on product images.", 'uncode-core') ,
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
@@ -63,7 +81,7 @@ $uncode_single_product_gallery_params = array(
 		"step" => 1,
 		'dependency' => array(
 			'element' => 'layout',
-			'is_empty' => true ,
+			'is_empty' => true
 		) ,
 		"value" => 3,
 		"description" => esc_html__("Specify how many columns to display for your product Gallery thumbs.", 'uncode-core') ,
@@ -77,7 +95,7 @@ $uncode_single_product_gallery_params = array(
 		'group' => esc_html__('General', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'layout',
-			'is_empty' => true ,
+			'is_empty' => true
 		) ,
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
@@ -132,9 +150,9 @@ $uncode_single_product_gallery_params = array(
 	) ,
 	array(
 		'type' => 'dropdown',
-		'heading' => esc_html__('Aspect ratio', 'uncode-core') ,
+		'heading' => esc_html__('Thumbs Ratio', 'uncode-core') ,
 		'param_name' => 'images_size',
-		'description' => esc_html__('Specify the aspect ratio for the media.', 'uncode-core') ,
+		'description' => esc_html__('Specify the aspect ratio for the thumbnails.', 'uncode-core') ,
 		"value" => array(
 			esc_html__('Regular', 'uncode-core') => '',
 			'1:1' => 'one-one',
@@ -142,7 +160,7 @@ $uncode_single_product_gallery_params = array(
 		'group' => esc_html__('General', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'layout',
-			'is_empty' => true ,
+			'value' => array( '', 'std-lateral', 'stack-lateral' ),
 		) ,
 	) ,
 	array(
@@ -161,7 +179,7 @@ $uncode_single_product_gallery_params = array(
 	) ,
 	array(
 		"type" => "type_numeric_slider",
-		"heading" => esc_html__("Vertical space", 'uncode-core') ,
+		"heading" => esc_html__("Vertical Space", 'uncode-core') ,
 		"param_name" => "gutter_size",
 		"min" => 0,
 		"max" => 6,
@@ -171,12 +189,12 @@ $uncode_single_product_gallery_params = array(
 		'group' => esc_html__('General', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'layout',
-			'value' => 'stack' ,
+			'value' => array( 'stack', 'stack-lateral' ),
 		) ,
 	) ,
 	array(
 		"type" => 'checkbox',
-		"heading" => esc_html__("Dots inside", 'uncode-core') ,
+		"heading" => esc_html__("Dots Inside", 'uncode-core') ,
 		"param_name" => "dots_inside",
 		"description" => esc_html__("Activate to have the dots inside the carousel.", 'uncode-core') ,
 		'group' => esc_html__('General', 'uncode-core') ,
@@ -190,14 +208,28 @@ $uncode_single_product_gallery_params = array(
 	) ,
 	array(
 		"type" => 'checkbox',
-		"heading" => esc_html__("Display badges", 'uncode-core') ,
+		"heading" => esc_html__("Display Badges", 'uncode-core') ,
 		"param_name" => "product_badges",
-		"description" => esc_html__("Activate the WooCommerce special badges", 'uncode-core') ,
+		"description" => esc_html__("Activate the WooCommerce special badges.", 'uncode-core') ,
 		"value" => Array(
 			esc_html__("Yes, please", 'uncode-core') => 'yes'
 		) ,
 		"std" => 'yes',
 		'group' => esc_html__('General', 'uncode-core') ,
+	) ,
+	array(
+		"type" => 'checkbox',
+		"heading" => esc_html__("Preserve Grid on Mobile", 'uncode-core') ,
+		"param_name" => "mobile_grid",
+		"description" => esc_html__("Activate to preserve the grid layout on mobile.", 'uncode-core') ,
+		"value" => Array(
+			esc_html__("Yes, please", 'uncode-core') => 'yes'
+		) ,
+		'group' => esc_html__('General', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'layout',
+			'value' => 'grid',
+		) ,
 	) ,
 	$add_css_animation,
 	$add_animation_speed,
@@ -227,6 +259,7 @@ if ( ot_get_option( '_uncode_woocommerce_default_product_gallery' ) === 'on' ) {
 		'zoom',
 		'columns',
 		'product_badges',
+		'mobile_grid',
 		'css_animation',
 		'animation_speed',
 		'animation_delay',
@@ -239,7 +272,7 @@ if ( ot_get_option( '_uncode_woocommerce_default_product_gallery' ) === 'on' ) {
 			if ( $param_value['param_name'] === 'zoom' ) {
 				$param_value['dependency'] = array(
 					'element'  => 'layout',
-					'is_empty' => true ,
+					'value' => array( '', 'std-lateral' ),
 				);
 			} else if ( $param_value['param_name'] === 'product_badges' ) {
 				$thumbs_gap = array(

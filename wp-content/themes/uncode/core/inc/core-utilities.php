@@ -603,3 +603,18 @@ if ( ! function_exists( 'uncode_get_scripts_production_conf' ) ) {
 		);
 	}
 }
+
+/**
+ * Get current page URL
+ */
+if ( ! function_exists( 'uncode_get_current_url' ) ) {
+	function uncode_get_current_url() {
+		global $wp;
+
+		$current_url  = home_url( $wp->request );
+		$position     = strpos( $current_url , '/page' );
+		$nopaging_url = ( $position ) ? substr( $current_url, 0, $position ) : $current_url;
+
+		return trailingslashit( $nopaging_url );
+	}
+}

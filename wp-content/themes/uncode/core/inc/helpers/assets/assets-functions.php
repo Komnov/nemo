@@ -26,6 +26,7 @@ require_once get_template_directory() . '/core/inc/helpers/assets/tests/bootstra
 require_once get_template_directory() . '/core/inc/helpers/assets/tests/jquery-fullpage.php';
 require_once get_template_directory() . '/core/inc/helpers/assets/tests/onepage.php';
 require_once get_template_directory() . '/core/inc/helpers/assets/tests/collapse.php';
+require_once get_template_directory() . '/core/inc/helpers/assets/tests/accordion.php';
 require_once get_template_directory() . '/core/inc/helpers/assets/tests/tab.php';
 require_once get_template_directory() . '/core/inc/helpers/assets/tests/tooltip.php';
 require_once get_template_directory() . '/core/inc/helpers/assets/tests/rellax.php';
@@ -62,6 +63,8 @@ require_once get_template_directory() . '/core/inc/helpers/assets/tests/custom-f
 require_once get_template_directory() . '/core/inc/helpers/assets/tests/video-shortcode.php';
 require_once get_template_directory() . '/core/inc/helpers/assets/tests/sticky-scroll.php';
 require_once get_template_directory() . '/core/inc/helpers/assets/tests/vc_navigation.php';
+require_once get_template_directory() . '/core/inc/helpers/assets/tests/ajax-filters.php';
+require_once get_template_directory() . '/core/inc/helpers/assets/tests/swatches.php';
 
 /**
  * Check if we can split the CSS
@@ -176,6 +179,8 @@ function uncode_enqueue_script( $conf, $version = null ) {
 				if ( $conf['handle'] === 'uncode-ofi' ) {
 					wp_script_add_data( 'uncode-ofi', 'conditional', 'lt IE 11' );
 					wp_add_inline_script( 'uncode-ofi', 'objectFitImages();' );
+				} else if ( $conf['handle'] === 'woocommerce-uncode' && class_exists( 'WooCommerce' ) ) {
+					uncode_wc_localize_scripts();
 				}
 			}
 		}

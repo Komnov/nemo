@@ -723,6 +723,17 @@ function uncode_get_page_assets() {
 		);
 	}
 
+	// Accordion
+	if ( uncode_page_require_asset_accordion( $content_array ) ) {
+		$assets['uncode-checkScrollForTabs'] = array(
+			'handle'    => 'uncode-checkScrollForTabs',
+			'path'      => get_template_directory_uri() . '/library/js/checkScrollForTabs' . $suffix . '.js',
+			'deps'      => array( 'jquery' ),
+			'type'      => 'js',
+			'in_footer' => true,
+		);
+	}
+
 	// Tabs
 	if ( uncode_page_require_asset_tab( $content_array ) ) {
 		$assets['tab'] = array(
@@ -1182,6 +1193,23 @@ function uncode_get_page_assets() {
 		}
 	}
 
+	// Ajax Filters
+	if ( uncode_page_require_asset_ajax_filters( $content_array ) ) {
+		$assets['uncode-style-ajax-filters'] = array(
+			'handle'    => 'uncode-style-ajax-filters',
+			'path'      => get_template_directory_uri() . '/library/js/ajax-filters' . $suffix . '.js',
+			'deps'      => array( 'jquery' ),
+			'type'      => 'js',
+			'in_footer' => true,
+		);
+
+		$assets['uncode-style-filters'] = array(
+			'handle'    => 'uncode-style-filters',
+			'path'      => get_template_directory_uri() . '/library/css/style-filters.css',
+			'type'      => 'css',
+		);
+	}
+
 	// Gallery Utils
 	if ( $requires_isotope['isotope'] || ( is_array( $uncode_check_asset ) && isset( $uncode_check_asset['gallery_utils'] ) ) ) {
 		$assets['uncode-style-gallery-utils'] = array(
@@ -1308,6 +1336,15 @@ function uncode_get_page_assets() {
 		);
 
 		$uncode_check_asset['woocommerce'] = true;
+	}
+
+	// Swatches
+	if ( uncode_page_require_asset_swatches( $content_array ) || ( isset( $uncode_check_asset['woocommerce'] ) && $uncode_check_asset['woocommerce'] === true ) ) {
+		$assets['uncode-swacthes'] = array(
+			'handle'    => 'uncode-swatches',
+			'path'      => get_template_directory_uri() . '/library/css/style-swatches.css',
+			'type'      => 'css',
+		);
 	}
 
 	// Wishlist

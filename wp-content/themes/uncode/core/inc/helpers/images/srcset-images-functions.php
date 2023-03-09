@@ -259,12 +259,20 @@ function uncode_get_picture_html( $post_id, $id, $src, $alt, $width, $height, $c
 	$srcset_webp            = isset( $async_data[ 'srcset_webp' ] ) ? $async_data[ 'srcset_webp' ] : '';
 	$srcset_placeholder_img = isset( $async_data[ 'srcset_placeholder' ] ) ? $async_data[ 'srcset_placeholder' ] : '';
 	$loading_attr           = isset( $async_data[ 'loading' ] ) ? $async_data[ 'loading' ] : '';
+
+	if ( isset( $async_data['product_variations'] ) ) {
+		$variations_json = wp_json_encode( $async_data['product_variations'] );
+		$variations_attr = function_exists( 'wc_esc_json' ) ? wc_esc_json( $variations_json ) : _wp_specialchars( $variations_json, ENT_QUOTES, 'UTF-8', true );
+		$async_data_string .= ' data-product_variations="' . $variations_attr . '"';
+	}
 	?>
 	<picture class="<?php echo esc_attr( $class ); ?> uncode-picture-element" <?php echo uncode_switch_stock_string( $async_data_string ); ?>>
 		<?php do_action( 'uncode_picture_before_source', $id, array( $width, $height ), $post_id ); ?>
 
 		<?php if ( $srcset ) : ?>
 			<source class="uncode-picture-source" data-srcset="<?php echo esc_attr( $srcset ); ?>" srcset="<?php echo esc_attr( $srcset_placeholder_img ); ?>" <?php echo uncode_switch_stock_string( $srcset_webp ) ? 'data-srcset-webp="' . esc_attr( $srcset_webp ) . '"' : ''; ?>>
+		<?php else : ?>
+			<source class="uncode-picture-source" data-srcset="" srcset="" data-srcset-webp="">
 		<?php endif; ?>
 
 		<?php do_action( 'uncode_picture_after_source', $id, array( $width, $height ), $post_id ); ?>

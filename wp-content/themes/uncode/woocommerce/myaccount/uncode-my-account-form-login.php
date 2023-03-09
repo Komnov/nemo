@@ -12,7 +12,7 @@
  *
  * @see     https://docs.woocommerce.com/document/template-structure/
  * @package WooCommerce/Templates
- * @version 3.6.0
+ * @version 7.0.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -47,7 +47,7 @@ $form_button_classes = implode( ' ', $form_classes[ 'button' ] );
 			<input class="woocommerce-form__input woocommerce-form__input-checkbox" name="rememberme" type="checkbox" id="rememberme" value="forever" /> <span><?php esc_html_e( 'Remember me', 'woocommerce' ); ?></span>
 		</label>
 		<?php wp_nonce_field( 'woocommerce-login', 'woocommerce-login-nonce' ); ?>
-		<button type="submit" class="woocommerce-button button woocommerce-form-login__submit btn <?php echo esc_attr( $form_button_classes ); ?>" name="login" value="<?php esc_attr_e( 'Log in', 'woocommerce' ); ?>" style="<?php echo esc_attr( $button_adjust_value ? 'margin-top:' . $button_adjust_value . 'px' : '' ); ?>"><?php esc_html_e( 'Log in', 'woocommerce' ); ?></button>
+		<button type="submit" class="woocommerce-button button woocommerce-form-login__submit btn <?php echo esc_attr( $form_button_classes ); ?><?php echo esc_attr( uncode_wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . uncode_wc_wp_theme_get_element_class_name( 'button' ) : '' ); ?>" name="login" value="<?php esc_attr_e( 'Log in', 'woocommerce' ); ?>" style="<?php echo esc_attr( $button_adjust_value ? 'margin-top:' . $button_adjust_value . 'px' : '' ); ?>"><?php esc_html_e( 'Log in', 'woocommerce' ); ?></button>
 	</p>
 	<p class="woocommerce-LostPassword lost_password">
 		<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php esc_html_e( 'Lost your password?', 'woocommerce' ); ?></a>

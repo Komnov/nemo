@@ -100,3 +100,13 @@ require_once get_template_directory() . '/core/inc/helpers/grids/css-grid-functi
  * Navigation functions
  */
 require_once get_template_directory() . '/core/inc/helpers/navigation/navigation-functions.php';
+
+/**
+ * Ajax Filters functions
+ */
+require_once get_template_directory() . '/core/inc/helpers/widgets/widgets-functions.php';
+
+/**
+ * Ajax Filters functions
+ */
+require_once get_template_directory() . '/core/inc/helpers/ajax-filters/load.php';

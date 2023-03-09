@@ -12,7 +12,7 @@ vc_map(array(
 	'base' => 'vc_wp_posts',
 	'icon' => 'fa fa-wordpress',
 	'class' => 'wpb_vc_wp_widget',
-	'weight' => - 50,
+	'weight' => - 500,
 	'category' => array(
 		esc_html__('WordPress Widgets', 'uncode-core') ,
 	),
@@ -48,8 +48,10 @@ vc_map(array(
 			)
 		) ,
 		$add_widget_style,
-		$add_widget_collapse,
+		$add_widget_collapse_desktop,
 		$add_widget_collapse_tablet,
+		$add_widget_collapse,
+		$add_widget_icon,
 		$add_widget_style_no_separator,
 		$add_widget_style_title_typo,
 		array(

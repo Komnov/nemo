@@ -14,7 +14,7 @@ vc_map(array(
 	'base' => 'uncode_portfolio_details',
 	'php_class_name' => 'uncode_generic_admin',
 	'icon' => 'fa fa-tag',
-	'weight' => -200,
+	'weight' => 8239,
 	'category' => array(
 		esc_html__('Dynamic', 'uncode-core') ,
 	),

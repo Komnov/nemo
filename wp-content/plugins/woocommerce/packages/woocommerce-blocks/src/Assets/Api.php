@@ -61,24 +61,30 @@ class Api {
 	}
 
 	/**
-	 * Registers a script according to `wp_register_script`, additionally
-	 * loading the translations for the file.
+	 * Get the path to a block's metadata
 	 *
-	 * @since 2.5.0
+	 * @param string $block_name The block to get metadata for.
+	 * @param string $path Optional. The path to the metadata file inside the 'build' folder.
 	 *
-	 * @param string $handle        Name of the script. Should be unique.
-	 * @param string $relative_src  Relative url for the script to the path
-	 *                              from plugin root.
-	 * @param array  $dependencies  Optional. An array of registered script
-	 *                              handles this script depends on. Default
-	 *                              empty array.
-	 * @param bool   $has_i18n      Optional. Whether to add a script
-	 *                              translation call to this file. Default:
-	 *                              true.
-	 *
-	 * @throws Exception If the registered script has a dependency on itself.
+	 * @return string|boolean False if metadata file is not found for the block.
 	 */
-	public function register_script( $handle, $relative_src, $dependencies = [], $has_i18n = true ) {
+	public function get_block_metadata_path( $block_name, $path = '' ) {
+		$path_to_metadata_from_plugin_root = $this->package->get_path( 'build/' . $path . $block_name . '/block.json' );
+		if ( ! file_exists( $path_to_metadata_from_plugin_root ) ) {
+			return false;
+		}
+		return $path_to_metadata_from_plugin_root;
+	}
+
+	/**
+	 * Get src, version and dependencies given a script relative src.
+	 *
+	 * @param string $relative_src Relative src to the script.
+	 * @param array  $dependencies Optional. An array of registered script handles this script depends on. Default empty array.
+	 *
+	 * @return array src, version and dependencies of the script.
+	 */
+	public function get_script_data( $relative_src, $dependencies = [] ) {
 		$src     = '';
 		$version = '1';
 
@@ -97,9 +103,36 @@ class Api {
 			}
 		}
 
-		if ( in_array( $handle, $dependencies, true ) ) {
+		return array(
+			'src'          => $src,
+			'version'      => $version,
+			'dependencies' => $dependencies,
+		);
+	}
+
+	/**
+	 * Registers a script according to `wp_register_script`, adding the correct prefix, and additionally loading translations.
+	 *
+	 * When creating script assets, the following rules should be followed:
+	 *   1. All asset handles should have a `wc-` prefix.
+	 *   2. If the asset handle is for a Block (in editor context) use the `-block` suffix.
+	 *   3. If the asset handle is for a Block (in frontend context) use the `-block-frontend` suffix.
+	 *   4. If the asset is for any other script being consumed or enqueued by the blocks plugin, use the `wc-blocks-` prefix.
+	 *
+	 * @since 2.5.0
+	 * @throws Exception If the registered script has a dependency on itself.
+	 *
+	 * @param string $handle        Unique name of the script.
+	 * @param string $relative_src  Relative url for the script to the path from plugin root.
+	 * @param array  $dependencies  Optional. An array of registered script handles this script depends on. Default empty array.
+	 * @param bool   $has_i18n      Optional. Whether to add a script translation call to this file. Default: true.
+	 */
+	public function register_script( $handle, $relative_src, $dependencies = [], $has_i18n = true ) {
+		$script_data = $this->get_script_data( $relative_src, $dependencies );
+
+		if ( in_array( $handle, $script_data['dependencies'], true ) ) {
 			if ( $this->package->feature()->is_development_environment() ) {
-				$dependencies = array_diff( $dependencies, [ $handle ] );
+				$dependencies = array_diff( $script_data['dependencies'], [ $handle ] );
 					add_action(
 						'admin_notices',
 						function() use ( $handle ) {
@@ -114,7 +147,16 @@ class Api {
 			}
 		}
 
-		wp_register_script( $handle, $src, apply_filters( 'woocommerce_blocks_register_script_dependencies', $dependencies, $handle ), $version, true );
+		/**
+		 * Filters the list of script dependencies.
+		 *
+		 * @param array $dependencies The list of script dependencies.
+		 * @param string $handle The script's handle.
+		 * @return array
+		 */
+		$script_dependencies = apply_filters( 'woocommerce_blocks_register_script_dependencies', $script_data['dependencies'], $handle );
+
+		wp_register_script( $handle, $script_data['src'], $script_dependencies, $script_data['version'], true );
 
 		if ( $has_i18n && function_exists( 'wp_set_script_translations' ) ) {
 			wp_set_script_translations( $handle, 'woocommerce', $this->package->get_path( 'languages' ) );
@@ -141,20 +183,14 @@ class Api {
 	}
 
 	/**
-	 * Returns the appropriate asset path for loading either legacy builds or
-	 * current builds.
+	 * Returns the appropriate asset path for current builds.
 	 *
 	 * @param   string $filename  Filename for asset path (without extension).
 	 * @param   string $type      File type (.css or .js).
-	 *
 	 * @return  string             The generated path.
 	 */
 	public function get_block_asset_build_path( $filename, $type = 'js' ) {
-		global $wp_version;
-		$suffix = version_compare( $wp_version, '5.3', '>=' )
-			? ''
-			: '-legacy';
-		return "build/$filename$suffix.$type";
+		return "build/$filename.$type";
 	}
 
 	/**

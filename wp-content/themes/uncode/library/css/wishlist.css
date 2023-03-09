@@ -262,11 +262,26 @@ ul.wishlist_table {
 .uncode-wishlist-module.text-uppercase .single_add_to_wishlist {
   text-transform: uppercase !important;
 }
+.uncode-wishlist-module {
+  min-height: 22px;
+}
+.uncode-wishlist-module.module-text-small {
+  min-height: 19px;
+}
+.uncode-wishlist-module.module-text-lead {
+  min-height: 26px;
+}
 /* Wishlist Button */
 .yith-wcwl-add-button .add_to_wishlist:before {
   font-family: uncodeicon;
   content: '\f08a';
   margin-right: 5px;
+}
+.yith-wcwl-add-to-wishlist .blockUI {
+  display: none !important;
+}
+.uncode-wishlist-module .yith-wcwl-add-to-wishlist {
+  opacity: 1 !important;
 }
 .add-to-wishlist-overlay {
   height: 27px;

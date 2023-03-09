@@ -3,7 +3,7 @@
 Plugin Name: Uncode Core
 Plugin URI: http://www.undsgn.com
 Description: Uncode Core Plugin for Undsgn Themes.
-Version: 2.6.2
+Version: 2.7.8
 Author: Undsgn
 Author URI: http://www.undsgn.com
 Text Domain: uncode-core
@@ -14,6 +14,9 @@ define( 'UNCODE_CORE_FILE', __FILE__ );
 define( 'UNCODE_CORE_PLUGIN_DIR', dirname(__FILE__) );
 define( 'UNCODE_CORE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'UNCODE_CORE_ADVANCED', true );
+if ( ! defined( 'UNCODE_FILTER_PREFIX' ) ) {
+	define( 'UNCODE_FILTER_PREFIX', 'unfilter' );
+}
 
 // Blocking direct access
 if( ! function_exists( 'uncode_block_direct_access' ) ) {
@@ -27,7 +30,7 @@ if( ! function_exists( 'uncode_block_direct_access' ) ) {
 if( ! class_exists( 'UncodeCore_Plugin' ) ) {
 	class UncodeCore_Plugin {
 
-		const VERSION = '2.6.2';
+		const VERSION = '2.7.8';
 		protected static $instance = null;
 
 		private function __construct() {

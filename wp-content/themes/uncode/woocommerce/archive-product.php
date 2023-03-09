@@ -23,9 +23,11 @@ get_header( 'shop' );
 /** Init variables **/
 $limit_width = $limit_content_width = $the_content = $main_content = $layout = $sidebar_style = $sidebar_bg_color = $sidebar = $sidebar_size = $sidebar_sticky = $sidebar_padding = $sidebar_inner_padding = $sidebar_content = $title_content = $navigation_content = $page_custom_width = $row_classes = $main_classes = $footer_classes = $generic_body_content_block = '';
 $index_has_navigation = false;
+$uncode_add_container = true;
 
 global $wp_query;
-$post_type = 'product_index';
+$uncode_wp_query_has_posts = $wp_query->have_posts();
+$post_type = ot_get_option('_uncode_woocommerce_use_search_options') === 'on' && is_search() && ! $uncode_wp_query_has_posts ? 'search_index' : 'product_index';
 $single_post_width = ot_get_option('_uncode_' . $post_type . '_single_width');
 set_query_var( 'single_post_width', $single_post_width );
 
@@ -109,10 +111,14 @@ if ($activate_sidebar !== 'off' && is_active_sidebar( $sidebar_name )) {
 }
 
 /** Get breadcrumb info **/
-$generic_breadcrumb = ot_get_option('_uncode_' . $post_type . '_breadcrumb');
-$show_breadcrumb = ($generic_breadcrumb === 'off') ? false : true;
-if ($show_breadcrumb) {
-	$breadcrumb_align = ot_get_option('_uncode_' . $post_type . '_breadcrumb_align');
+if ( $post_type === 'product_index' ) {
+	$generic_breadcrumb = ot_get_option('_uncode_' . $post_type . '_breadcrumb');
+	$show_breadcrumb = ($generic_breadcrumb === 'off') ? false : true;
+	if ($show_breadcrumb) {
+		$breadcrumb_align = ot_get_option('_uncode_' . $post_type . '_breadcrumb_align');
+	}
+} else {
+	$show_breadcrumb = false;
 }
 
 /** Get title info **/
@@ -135,11 +141,23 @@ do_action( 'woocommerce_before_main_content' );
 
 /** Build header **/
 if ($page_header_type !== '' && $page_header_type !== 'none') {
-	$get_title = woocommerce_page_title(false);
-	$get_subtitle = isset(get_queried_object()->description) ? get_queried_object()->description : '';
+	if ( $post_type === 'product_index' ) {
+		$get_title = woocommerce_page_title(false);
+		$get_subtitle = isset(get_queried_object()->description) ? get_queried_object()->description : '';
+
+	} else {
+		$get_title = ot_get_option('_uncode_'.$post_type.'_header_title_text');
+		if ($get_title === '') {
+			$get_title = esc_html__('Results for:','uncode');
+		}
+		$get_title = apply_filters( 'uncode_archive_title', $get_title ) . ' ' . ucfirst(esc_html( get_search_query( false )));
+		$get_subtitle = '';
+	}
 
 	if ( ot_get_option('_uncode_' . $post_type . '_custom_title_activate') === 'on' && !is_tax() ) {
-		$get_title = ot_get_option('_uncode_' . $post_type . '_custom_title_text');
+		if ( ! is_search() ) {
+			$get_title = ot_get_option('_uncode_' . $post_type . '_custom_title_text');
+		}
 		$get_subtitle = ot_get_option('_uncode_' . $post_type . '_custom_subtitle_text');
 	}
 
@@ -173,7 +191,7 @@ if ($show_breadcrumb) {
 /** Build title **/
 
 if ($show_title) {
-	if ( ot_get_option('_uncode_' . $post_type . '_custom_title_activate') === 'on' && !is_tax() ) {
+	if ( ot_get_option('_uncode_' . $post_type . '_custom_title_activate') === 'on' && !is_tax() && !is_search() ) {
 		$get_title = ot_get_option('_uncode_' . $post_type . '_custom_title_text');
 	} else {
 		$get_title = woocommerce_page_title(false);
@@ -190,7 +208,7 @@ if ($show_title) {
  */
 do_action( 'woocommerce_archive_description' );
 
-if ( ( function_exists('woocommerce_product_loop') && woocommerce_product_loop() ) || have_posts() ):
+if ( ( function_exists('woocommerce_product_loop') && woocommerce_product_loop() ) || have_posts() || uncode_is_filtering() ):
 
 	ob_start();
 	if ( woocommerce_product_subcategories() ) {
@@ -363,10 +381,28 @@ if ( ( function_exists('woocommerce_product_loop') && woocommerce_product_loop()
 
 	else :
 
-		ob_start();
-		do_action( 'woocommerce_no_products_found' );
-		get_template_part('content', 'none');
-		$the_content .= ob_get_clean();
+		$no_results_content_block = ot_get_option( '_uncode_search_index_no_results_content_block' );
+
+		if ( ot_get_option('_uncode_woocommerce_use_search_options') === 'on' ) {
+			$no_results_products_content_block = ot_get_option( '_uncode_search_index_no_results_products_content_block' );
+
+			if ( $no_results_products_content_block ) {
+				$no_results_content_block = $no_results_products_content_block;
+			}
+		}
+
+		if ( $no_results_content_block !== '' ) {
+			$no_results_content_block = apply_filters( 'wpml_object_id', $no_results_content_block, 'post' );
+			$no_results_content_block = get_post_field( 'post_content', $no_results_content_block );
+			$uncode_add_container = false;
+
+			$the_content .= $no_results_content_block;
+		} else {
+			ob_start();
+			do_action( 'woocommerce_no_products_found' );
+			get_template_part('content', 'none');
+			$the_content .= ob_get_clean();
+		}
 
 	endif;
 
@@ -457,7 +493,7 @@ if ( ( function_exists('woocommerce_product_loop') && woocommerce_product_loop()
 	} else {
 
 		/** Create html without sidebar **/
-		if ($generic_body_content_block === '') {
+		if ($generic_body_content_block === '' && $uncode_add_container) {
 			$the_content = '<div class="post-content un-no-sidebar-layout"' . $page_custom_width . '>' . uncode_get_row_template($the_content, $limit_width, $limit_content_width, $style, '', 'double', true, 'double') . '</div>';
 		} else {
 			$the_content = '<div class="post-content un-no-sidebar-layout"' . $page_custom_width . '>' . $the_content . '</div>';
@@ -465,12 +501,19 @@ if ( ( function_exists('woocommerce_product_loop') && woocommerce_product_loop()
 
 	}
 
+	$content_output = do_shortcode($the_content);
+
+	$has_custom_query = false;
+	if ( strpos( $the_content, '[uncode_index' ) !== false ) {
+		$has_custom_query = true;
+	}
+
 	/** Build and display navigation html **/
 	$remove_pagination = ot_get_option('_uncode_' . $post_type . '_remove_pagination');
 	if ( !$index_has_navigation && $remove_pagination !== 'on' ) {
 		$navigation_option = ot_get_option('_uncode_' . $post_type . '_navigation_activate');
 		if ($navigation_option !== 'off') {
-			$navigation = uncode_posts_navigation();
+			$navigation = uncode_posts_navigation( $has_custom_query );
 			if (!empty($navigation) && $navigation !== '') {
 				$navigation_content = uncode_get_row_template($navigation, '', $limit_content_width, $style, ' row-navigation row-navigation-' . $style, true, true, true);
 			}
@@ -480,7 +523,7 @@ if ( ( function_exists('woocommerce_product_loop') && woocommerce_product_loop()
 	/** Display post html **/
 	echo '<div class="page-body' . $bg_color . '">
           <div class="post-wrapper">
-          	<div class="post-body">' . do_shortcode($the_content) . '</div>' .
+          	<div class="post-body">' . $content_output . '</div>' .
           	$navigation_content . '
           </div>
         </div>';

@@ -135,7 +135,17 @@ get_header( 'shop' );
 
 			$header_html = $page_header->html;
 			if ($header_html !== '') {
-				echo '<div id="page-header" class="product">';
+				$page_header_classes = array(
+					'product'
+				);
+
+				$product = wc_get_product( $post->ID );
+
+				if ( $product && $product->get_type() ) {
+					$page_header_classes[] = 'product-type-' . $product->get_type();
+				}
+
+				echo '<div id="page-header" class="' . esc_attr( implode( ' ', apply_filters( 'uncode_page_header_product_class', $page_header_classes, $post->ID, $product ) ) ) . '">';
 				echo uncode_remove_p_tag( $page_header->html );
 				echo '</div>';
 			}
@@ -333,9 +343,9 @@ get_header( 'shop' );
 
 					if ( absint( $navigation_index ) === absint( $generic_navigation_index ) ) {
 						$navigation_index = $generic_navigation_index;
-					} else {
-						$generic_index = false;
 					}
+
+					$generic_index = false;
 				} else {
 					$navigation_index = ot_get_option('_uncode_' . $post_type . '_navigation_index');
 				}

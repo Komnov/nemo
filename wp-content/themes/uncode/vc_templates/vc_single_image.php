@@ -1,6 +1,6 @@
 <?php
 
-$title = $media = $col_width = $mobile_width = $medium_width = $media_width_use_pixel = $media_width_percent = $media_width_pixel = $media_ratio = $media_lightbox = $media_poster = $media_link = $advanced = $media_items = $media_text = $media_style = $media_back_color = $media_overlay_color = $media_overlay_coloration = $media_overlay_color_blend = $media_overlay_opacity = $media_text_visible = $media_text_anim = $media_text_anim_type = $media_overlay_visible = $media_overlay_anim = $media_image_coloration = $media_image_color_anim = $media_image_anim = $media_image_magnetic = $media_h_align = $media_v_position = $media_reduced = $media_h_position = $media_padding = $media_text_reduced = $media_title_custom = $media_caption_custom = $media_title_transform = $media_title_dimension = $media_title_family = $media_title_weight = $media_title_height = $media_title_space = $media_subtitle_custom = $media_icon = $media_elements_click = $lbox_skin = $lbox_transparency = $lbox_dir = $lbox_title = $lbox_caption = $lbox_social = $lbox_deep = $lbox_no_tmb = $lbox_no_arrows = $lbox_gallery_arrows = $lbox_gallery_arrows_bg = $lbox_zoom_origin = $lbox_connected = $lbox_actual_size = $lbox_full = $lbox_download = $lbox_counter = $lbox_transition = $link = $alignment = $el_id = $el_class = $css_animation = $animation_delay = $animation_speed = $skew = $rotating = $shape = $radius = $caption = $custom_title_semantic = $custom_title_size = $custom_title_height = $custom_title_space = $custom_title_font = $custom_title_weight = $custom_title_transform = $custom_title_italic = $border = $shadow = $shadow_weight = $shadow_darker = $output = $single_width = $single_height = $single_fixed = $style_preset = $css = $div_data = $lightbox_classes = $dummy_oembed = $carousel_textual = $media_code = $text_lead = $dynamic = $dynamic_source = $custom_cursor = '';
+$title = $media = $col_width = $mobile_width = $medium_width = $media_width_use_pixel = $media_width_percent = $media_width_pixel = $media_ratio = $media_lightbox = $media_poster = $media_link = $advanced = $media_items = $media_text = $media_style = $media_back_color = $media_overlay_color = $media_overlay_coloration = $media_overlay_color_blend = $media_overlay_opacity = $media_text_visible = $media_text_anim = $media_text_anim_type = $media_overlay_visible = $media_overlay_anim = $media_image_coloration = $media_image_color_anim = $media_image_anim = $media_image_magnetic = $media_h_align = $media_v_position = $media_reduced = $media_h_position = $media_padding = $media_text_reduced = $media_title_custom = $media_caption_custom = $media_title_transform = $media_title_dimension = $media_title_family = $media_title_weight = $media_title_height = $media_title_space = $media_subtitle_custom = $media_icon = $media_elements_click = $lbox_skin = $lbox_transparency = $lbox_dir = $lbox_title = $lbox_caption = $lbox_social = $lbox_deep = $lbox_deep_id = $lbox_no_tmb = $lbox_no_arrows = $lbox_gallery_arrows = $lbox_gallery_arrows_bg = $lbox_zoom_origin = $lbox_connected = $lbox_actual_size = $lbox_full = $lbox_download = $lbox_counter = $lbox_transition = $link = $alignment = $el_id = $el_class = $css_animation = $animation_delay = $animation_speed = $skew = $rotating = $shape = $radius = $caption = $custom_title_semantic = $custom_title_size = $custom_title_height = $custom_title_space = $custom_title_font = $custom_title_weight = $custom_title_transform = $custom_title_italic = $border = $shadow = $shadow_weight = $shadow_darker = $output = $single_width = $single_height = $single_fixed = $style_preset = $css = $div_data = $lightbox_classes = $dummy_oembed = $carousel_textual = $media_code = $text_lead = $dynamic = $dynamic_source = $custom_cursor = '';
 
 extract(shortcode_atts(array(
 	'uncode_shortcode_id' => '',
@@ -65,6 +65,7 @@ extract(shortcode_atts(array(
 	'lbox_caption' => '',
 	'lbox_social' => '',
 	'lbox_deep' => '',
+	'lbox_deep_id' => '',
 	'lbox_no_tmb' => '',
 	'lbox_no_arrows' => '',
 	'lbox_gallery_arrows' => '',
@@ -149,10 +150,23 @@ if ($image !== '' && $media == '') {
 
 if ( $dynamic !== '' ) {
 	$post_id = get_the_ID();
-	$media = apply_filters( 'uncode_featured_image_id', get_post_thumbnail_id(), $post_id );
+	if ( is_tax() ) {
+		$termi_id = get_queried_object_id();
+		$media = uncode_get_term_featured_thumbnail_id( $termi_id, 'featured' );
+	} elseif ( class_exists( 'WooCommerce' ) && is_shop() ) {
+		$shop_id = wc_get_page_id( 'shop' );
+		$media = get_post_thumbnail_id($shop_id);
+	} else {
+		$media = get_post_thumbnail_id();
+	}
+	$media = apply_filters( 'uncode_featured_image_id', $media, $post_id );
 
 	if ( $dynamic_source === 'secondary' ) {
-		$secondary_id = uncode_get_secondary_featured_thumbnail_id( $post_id );
+		if ( is_tax() ) {
+			$secondary_id = uncode_get_term_featured_thumbnail_id( $termi_id, true );
+		} else {
+			$secondary_id = uncode_get_secondary_featured_thumbnail_id( $post_id );
+		}
 
 		if ( $secondary_id ) {
 			$media = $secondary_id;
@@ -414,6 +428,12 @@ if ( $custom_cursor !== '' ) {
 	$div_data .= ' data-cursor="icon-' . esc_attr( $custom_cursor ) . '"';
 }
 
+if ( $lbox_enhance && $lbox_deep === 'yes' && $lbox_deep_id !== '') {
+	$lightbox_id_rand = esc_attr($lbox_deep_id);
+} else {
+	$lightbox_id_rand = uncode_big_rand();
+}
+
 if ($media_lightbox === 'yes') {
 	$lightbox_classes = array();
 	if ($lbox_skin !== '') {
@@ -475,12 +495,12 @@ if ($media_lightbox === 'yes') {
 	}
 	if ($lbox_connected === 'yes') {
 		if (!isset($lightbox_id) || $lightbox_id === '') {
-			$lightbox_id = uncode_big_rand();
+			$lightbox_id = $lightbox_id_rand;
 		}
 		$lbox_id = $lightbox_id;
 	} else {
 		if ( $lbox_enhance ) {
-			$lbox_id = uncode_big_rand();
+			$lbox_id = $lightbox_id_rand;
 		} else {
 			$lbox_id = $media;
 		}

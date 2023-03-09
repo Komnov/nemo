@@ -787,6 +787,18 @@ msgstr ""
 msgid "Content Menu Tabs"
 msgstr ""
 
+#: ../includes/wireframes/contents/Content-Portfolio-Colours-Sample.php:21
+msgid "Content Portfolio Colours Sample"
+msgstr ""
+
+#: ../includes/wireframes/contents/Content-Portfolio-Details.php:21
+msgid "Content Portfolio Details"
+msgstr ""
+
+#: ../includes/wireframes/contents/Content-Portfolio-With-Link.php:21
+msgid "Content Portfolio With Link"
+msgstr ""
+
 #: ../includes/wireframes/contents/Content-Shape-Dividers-Curve.php:21
 msgid "Content Shape Dividers Curve"
 msgstr ""
@@ -1029,6 +1041,10 @@ msgstr ""
 
 #: ../includes/wireframes/footers/Footer-Portfolio-Studio.php:21
 msgid "Footer Portfolio Studio"
+msgstr ""
+
+#: ../includes/wireframes/footers/Footer-Shop-Ajax.php:21
+msgid "Footer Shop Ajax"
 msgstr ""
 
 #: ../includes/wireframes/footers/Footer-Shop-Beauty.php:21
@@ -2071,6 +2087,22 @@ msgstr ""
 msgid "Pricing Table Tabs"
 msgstr ""
 
+#: ../includes/wireframes/products/Product-Accordion-Variation.php:21
+msgid "Product Accordion Variation"
+msgstr ""
+
+#: ../includes/wireframes/products/Product-Accordion.php:21
+msgid "Product Accordion"
+msgstr ""
+
+#: ../includes/wireframes/products/Product-Carousel-Standard.php:21
+msgid "Product Carousel Standard"
+msgstr ""
+
+#: ../includes/wireframes/products/Product-Carousel-Vertical-Nav.php:21
+msgid "Product Carousel Vertical Nav"
+msgstr ""
+
 #: ../includes/wireframes/products/Product-Carousel.php:21
 msgid "Product Carousel"
 msgstr ""
@@ -2095,6 +2127,14 @@ msgstr ""
 msgid "Product Gallery"
 msgstr ""
 
+#: ../includes/wireframes/products/Product-Grid-Standard.php:21
+msgid "Product Grid Standard"
+msgstr ""
+
+#: ../includes/wireframes/products/Product-Grid-Wide.php:21
+msgid "Product Grid Wide"
+msgstr ""
+
 #: ../includes/wireframes/products/Product-Grid.php:21
 msgid "Product Grid"
 msgstr ""
@@ -2113,6 +2153,22 @@ msgstr ""
 
 #: ../includes/wireframes/products/Product-Split.php:21
 msgid "Product Split"
+msgstr ""
+
+#: ../includes/wireframes/products/Product-Stack-Wide-Inverted.php:21
+msgid "Product Stack Wide Inverted"
+msgstr ""
+
+#: ../includes/wireframes/products/Product-Stack-Wide-Vertical-Nav.php:21
+msgid "Product Stack Wide Vertical Nav"
+msgstr ""
+
+#: ../includes/wireframes/products/Product-Stack-Wide.php:21
+msgid "Product Stack Wide"
+msgstr ""
+
+#: ../includes/wireframes/products/Product-Stack.php:21
+msgid "Product Stack"
 msgstr ""
 
 #: ../includes/wireframes/products/Product-Stacked.php:21
@@ -2171,6 +2227,22 @@ msgstr ""
 msgid "Quote Split Fullwidth"
 msgstr ""
 
+#: ../includes/wireframes/shop/Shop-Ajax-Filters-Classic.php:21
+msgid "Shop Ajax Filters Classic"
+msgstr ""
+
+#: ../includes/wireframes/shop/Shop-Ajax-Filters-Horizontal.php:21
+msgid "Shop Ajax Filters Horizontal"
+msgstr ""
+
+#: ../includes/wireframes/shop/Shop-Ajax-Filters-Overlay.php:21
+msgid "Shop Ajax Filters Overlay"
+msgstr ""
+
+#: ../includes/wireframes/shop/Shop-Ajax-Filters.php:21
+msgid "Shop Ajax Filters"
+msgstr ""
+
 #: ../includes/wireframes/shop/Shop-Alternate.php:21
 msgid "Shop Alternate"
 msgstr ""
@@ -2181,6 +2253,10 @@ msgstr ""
 
 #: ../includes/wireframes/shop/Shop-Boutique-Carousel.php:21
 msgid "Shop Boutique Carousel"
+msgstr ""
+
+#: ../includes/wireframes/shop/Shop-By-Categories.php:21
+msgid "Shop By Categories"
 msgstr ""
 
 #: ../includes/wireframes/shop/Shop-Carousel-Alt-Fullwidth.php:21
@@ -2365,6 +2441,18 @@ msgstr ""
 
 #: ../includes/wireframes/shop-utilities/Tracking-Form.php:21
 msgid "Tracking Form"
+msgstr ""
+
+#: ../includes/wireframes/specials/Ajax-Filters-Horizontal.php:21
+msgid "Ajax Filters Horizontal"
+msgstr ""
+
+#: ../includes/wireframes/specials/Ajax-Filters-Overlay.php:21
+msgid "Ajax Filters Overlay"
+msgstr ""
+
+#: ../includes/wireframes/specials/Ajax-Filters-Sidebar.php:21
+msgid "Ajax Filters Sidebar"
 msgstr ""
 
 #: ../includes/wireframes/specials/Special-404.php:21

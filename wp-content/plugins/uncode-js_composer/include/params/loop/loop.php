@@ -925,6 +925,15 @@ class VcLoopSuggestions {
 		if ( ! empty( $this->exclude ) ) {
 			$args['exclude'] = $this->exclude;
 		}
+
+		// BEGIN UNCODE EDIT
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX && defined( 'POLYLANG_VERSION' ) ) {
+			if ( apply_filters( 'uncode_js_composer_suppress_polylang_term_args', true ) ) {
+				$args['lang'] = '';
+			}
+		}
+		// END UNCODE EDIT
+
 		$tags = get_terms( VcLoopSettings::getTaxonomies(), $args );
 		foreach ( $tags as $tag ) {
 			$this->content[] = array(

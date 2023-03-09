@@ -8,14 +8,16 @@
 /**
  * Get default widget args.
  */
-function uncode_get_default_widget_args( $id ) {
+function uncode_get_default_widget_args( $id, $_args = array() ) {
+	$tag = apply_filters( 'uncode_widget_title_tag', 'h3' );
 	$args = array(
 		'before_widget' => '<aside class="widget widget-style widget_' . esc_attr( $id ) . ' widget-container collapse-init sidebar-widgets">',
 		'after_widget'  => '</aside>',
-		'before_title'  => '<h3 class="widget-title">',
-		'after_title'   => '</h3>',
+		'before_title'  => '<' . $tag . ' class="widget-title">',
+		'after_title'   => '</' . $tag . '>',
 	);
-
+	$_args = is_array( $_args ) ? $_args : array();
+	$args = array_merge($args, $_args);
 	return $args;
 }
 
@@ -59,7 +61,8 @@ function uncode_add_default_widget_title_element( $widget, $is_vc_module = false
 		}
 
 		$pattern     = '/<aside\b[^>]*>/i';
-		$replacement = '$0<h3 class="widget-title widget-title--hide-desktop">' . $default_title . '</h3>';
+		$title_tag   = apply_filters( 'uncode_widget_title_tag', 'h3' );
+		$replacement = '$0<' . $title_tag . ' class="widget-title widget-title--hide-desktop">' . $default_title . '</' . $title_tag . '><div class="widget-collapse-content">';
 		$widget      = preg_replace( $pattern, $replacement, $widget );
 	}
 

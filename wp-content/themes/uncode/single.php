@@ -88,7 +88,7 @@ if ($media_display === '') {
 
 $media = get_post_meta($post->ID, '_uncode_featured_media', 1);
 $featured_image = get_post_thumbnail_id($post->ID);
-if ( $featured_image === '' || $featured_image == 0 ) {
+if ( apply_filters( 'uncode_use_medias_when_featured_empty', true ) && ( $featured_image === '' || $featured_image == 0 ) ) {
 	$featured_image = $media;
 }
 
@@ -360,11 +360,28 @@ while (have_posts()):
 		$with_builder = true;
 	}
 
-	if ( !$with_builder && $the_content !== '' ) {
-		$the_content = apply_filters('the_content', $the_content);
-		$the_content = $title_content . $the_content;
-		if ($media_content !== '') {
-			$the_content = $media_content . $the_content;
+	if ( !$with_builder ) {
+		if ( apply_filters( 'uncode_apply_the_content', false ) || $post_type !== 'post' ) {
+			if ( $the_content !== '' ) {
+				$the_content = apply_filters('the_content', $the_content);
+				$the_content = $title_content . $the_content;
+
+				if ( $media_content !== '' ) {
+					$the_content = $media_content . $the_content;
+				}
+			} else {
+				$the_content = apply_filters('the_content', '');
+				$the_content = uncode_get_row_template($the_content, $limit_width, $limit_content_width, $style, '', false, true, 'double', $page_custom_width);
+			}
+		} else {
+			if ( $the_content !== '' ) {
+				$the_content = apply_filters('the_content', $the_content);
+				$the_content = $title_content . $the_content;
+			}
+
+			if ( $media_content !== '' ) {
+				$the_content = $media_content . $the_content;
+			}
 		}
 	} else {
 		$get_content_appended = apply_filters('the_content', '');
@@ -395,17 +412,17 @@ while (have_posts()):
 
 	/** Build tags **/
 
-	$page_show_tags = (isset($metabox_data['_uncode_specific_tags'][0])) ? $metabox_data['_uncode_specific_tags'][0] : '';
+	$page_show_tags = (isset($metabox_data['_uncode_specific_tags'][0]) && $post_type === 'post') ? $metabox_data['_uncode_specific_tags'][0] : '';
 	$show_tags_align = 'left';
 	if ( !$check_cb ) {
-		if ($page_show_tags === '') {
+		if ($page_show_tags === '' && $post_type === 'post') {
 			$generic_show_tags = ot_get_option('_uncode_' . $post_type . '_tags');
 			$show_tags = ($generic_show_tags === 'off') ? false : true;
 			if ($show_tags) {
 				$show_tags_align = ot_get_option('_uncode_' . $post_type . '_tags_align');
 			}
 		} else {
-			$show_tags = ($page_show_tags === 'off') ? false : true;
+			$show_tags = ($page_show_tags === 'off' || $post_type !== 'post') ? false : true;
 			if ($show_tags) {
 				$show_tags_align = (isset($metabox_data['_uncode_specific_tags_align'][0])) ? $metabox_data['_uncode_specific_tags_align'][0] : '';
 			}
@@ -755,9 +772,9 @@ while (have_posts()):
 
 			if ( absint( $navigation_index ) === absint( $generic_navigation_index ) ) {
 				$navigation_index = $generic_navigation_index;
-			} else {
-				$generic_index = false;
 			}
+
+			$generic_index = false;
 		} else {
 			$navigation_index = ot_get_option('_uncode_' . $post_type . '_navigation_index');
 		}
@@ -778,10 +795,13 @@ while (have_posts()):
 		}
 	}
 
+	$the_content = uncode_remove_p_tag( $the_content );
+	$the_content = apply_filters( 'uncode_single_content_final_output', $the_content );
+
 	/** Display post html **/
 	echo 	'<article id="post-'. get_the_ID().'" class="'.implode(' ', get_post_class('page-body' . $bg_color)) .'">
           <div class="post-wrapper">
-          	<div class="post-body">' . uncode_remove_p_tag( $the_content ) . '</div>' .
+          	<div class="post-body">' . $the_content . '</div>' .
           	$navigation_content . '
           </div>
         </article>';

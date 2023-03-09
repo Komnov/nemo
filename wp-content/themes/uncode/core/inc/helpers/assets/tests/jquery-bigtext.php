@@ -39,7 +39,7 @@ function uncode_page_require_asset_jquery_bigtext( $content_array ) {
 				}
 			}
 		}
-	} else if ( uncode_post_data_is_archive() ) {
+	} else if ( uncode_post_data_is_archive() || uncode_post_data_is_post_type_archive() ) {
 		// Archives
 		if ( isset( $uncode_post_data['post_type'] ) && $uncode_post_data['post_type'] ) {
 			$index       = $uncode_post_data['post_type'];

@@ -796,15 +796,16 @@ $media_gallery_params = array(
 		)
 	) ,
 	array(
-		"type" => 'checkbox',
-		"heading" => esc_html__("Load more button", 'uncode-core') ,
-		// 'uncode_wrapper_class' => 'pagination-field load-more-field',
+		"type" => 'dropdown',
+		"heading" => esc_html__("Load more style", 'uncode-core') ,
 		"param_name" => "infinite_button",
-		"description" => esc_html__("Activate this to load more items by pressing the button.", 'uncode-core') ,
-		"value" => Array(
-			esc_html__("Yes, please", 'uncode-core') => 'yes'
+		'value' => array(
+			esc_html__('Default', 'uncode-core') => '',
+			esc_html__('Preloader', 'uncode-core') => 'icon',
+			esc_html__('Button', 'uncode-core') => 'yes',
 		) ,
-		"group" => esc_html__("Module", 'uncode-core') ,
+		"description" => esc_html__("Choose the load more style.", 'uncode-core') ,
+		'group' => esc_html__('Module', 'uncode-core') ,
 		'dependency' => array(
 			'element' => 'infinite',
 			'value' => 'yes',
@@ -949,6 +950,20 @@ $media_gallery_params = array(
 				'carousel',
 				'css_grid',
 			) ,
+		) ,
+	) ,
+	array(
+		"type" => 'checkbox',
+		"heading" => esc_html__("Equal height", 'uncode-core') ,
+		"param_name" => "css_grid_equal_height",
+		"description" => esc_html__("With the 'Content Under Image' Block Layout, activate this to create equal height thumbnails. NB. The equal height is applied to the container element so, for example, it is visible if you have the Border or Shadow options.", 'uncode-core') ,
+		"value" => Array(
+			esc_html__("Yes, please", 'uncode-core') => 'yes'
+		) ,
+		'group' => esc_html__('Module', 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'type',
+			'value' => 'css_grid',
 		) ,
 	) ,
 	array(
@@ -2138,6 +2153,21 @@ $media_gallery_params = array(
 		"description" => esc_html__("Specify the title letter spacing.", 'uncode-core') ,
 		"value" => $heading_space,
 		"group" => esc_html__("Blocks", 'uncode-core') ,
+	) ,
+	array(
+		"type" => 'dropdown',
+		'heading' => esc_html__('Title scale mobile', 'uncode-core') ,
+		'param_name' => 'single_title_scale_mobile',
+		'description' => esc_html__('Activate this to slightly reduce title size on mobile.', 'uncode-core') ,
+		"value" => array(
+			esc_html__('Yes', 'uncode-core') => '',
+			esc_html__('No', 'uncode-core') => 'no',
+		) ,
+		"group" => esc_html__("Blocks", 'uncode-core') ,
+		'dependency' => array(
+			'element' => 'single_text',
+			'value' => 'overlay' ,
+		) ,
 	) ,
 	$add_text_size,
 	array(

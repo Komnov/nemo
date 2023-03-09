@@ -77,14 +77,24 @@ function uncode_index_get_query() {
 			$post_list = explode( ',', vc_post_param( 'order_ids' ) );
 
 			if ( $is_tax_query ) {
+				$terms_copy = $my_query->terms;
+
 				foreach( $post_list as $key ) {
-					foreach( $my_query->terms as $skey => $spost ) {
+					foreach( $terms_copy as $skey => $spost ) {
 						if ( $key == $spost->term_id ) {
 							$ordered[] = $spost;
+							unset($terms_copy[$skey]);
 							break;
 						}
 					}
 				}
+
+				if ( count( $terms_copy ) > 0 ) {
+					foreach( $terms_copy as $skey => $spost ) {
+						$ordered[] = $spost;
+					}
+				}
+
 				$my_query->terms = $ordered;
 			} else {
 				foreach( $post_list as $key ) {
@@ -177,7 +187,8 @@ function uncode_index_get_query() {
 		}
 
 		foreach ( $posts as $post_key => $post_object ) {
-			$html.= '<li class="list-list-item ' . $list_item_class . '" data-id="' . esc_attr( $post_object->id ) . '">
+			if ( $template_single !== 'false' ) {
+				$html.= '<li class="list-list-item ' . $list_item_class . '" data-id="' . esc_attr( $post_object->id ) . '">
 						<div class="option-tree-setting">
 							<div class="open"><span class="post-title">' . esc_html( $post_object->title ) . '</span> <span class="grey">' . ( $post_object->type ? esc_html( $post_object->type ) : '' ) . '</span><span class="grey size">width: <span class="single_width_factor"></span>, height: <span class="single_height_factor"></span></span></div>
 							<div class="button-section">
@@ -191,6 +202,14 @@ function uncode_index_get_query() {
 							<div class="option-tree-setting-body">' . $template_single . $post_object->template_cat . '</div>
 						</div>
 					</li>';
+			} else {
+				$html.= '<li class="list-list-item ' . $list_item_class . '" data-id="' . esc_attr( $post_object->id ) . '">
+					<div class="option-tree-setting">
+						<div class="open"><span class="post-title">' . esc_html( $post_object->title ) . '</span> <span class="grey">' . ( $post_object->type ? esc_html( $post_object->type ) : '' ) . '</span></div>
+						<div class="option-tree-setting-body"></div>
+					</div>
+				</li>';
+			}
 		}
 	}
 

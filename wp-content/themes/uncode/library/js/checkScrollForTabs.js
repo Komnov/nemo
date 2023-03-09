@@ -29,13 +29,15 @@
 	var scrollBody = function(index) {
 
 		var getSection = $('a[href="' + index + '"][data-tab-history]'),
-			scrollTo;
+			scrollTo,
+			safeGap = 27;
 
 		if ( ! getSection.length ) {
 			getSection = $('div[data-parent="' + index + '"]');
 
 			if ( getSection.attr('data-target') == 'row' ) {
 				getSection = getSection.closest('.vc_row');
+				safeGap = 0;
 			}
 		}
 
@@ -49,7 +51,7 @@
 		getOffset = UNCODE.get_scroll_offset();
 		if ( typeof getSection.offset() === 'undefined' )
 			return;
-		scrollTo = getSection.offset().top - 27;
+		scrollTo = getSection.offset().top - safeGap;
 		scrollTo -= getOffset;
 
 		var scrollSpeed = (SiteParameters.constant_scroll == 'on') ? Math.abs(delta) / parseFloat(SiteParameters.scroll_speed) : SiteParameters.scroll_speed;

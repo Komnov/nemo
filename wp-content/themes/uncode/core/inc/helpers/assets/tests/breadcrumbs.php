@@ -23,7 +23,7 @@ function uncode_page_require_asset_breadcrumbs( $content_array ) {
 		if ( $show_breadcrumb ) {
 			return true;
 		}
-	} else if ( uncode_post_data_is_archive() ) {
+	} else if ( uncode_post_data_is_archive() || uncode_post_data_is_post_type_archive() ) {
 		if ( isset( $uncode_post_data['post_type'] ) ) {
 			$generic_breadcrumb = ot_get_option('_uncode_' . $uncode_post_data['post_type'] . '_breadcrumb');
 			$show_breadcrumb    = $generic_breadcrumb === 'off' ? false : true;

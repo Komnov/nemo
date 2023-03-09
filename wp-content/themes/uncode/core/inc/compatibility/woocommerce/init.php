@@ -81,3 +81,15 @@ require_once get_template_directory() . '/core/inc/compatibility/woocommerce/cat
  * Product Gallery functions.
  */
 require_once get_template_directory() . '/core/inc/compatibility/woocommerce/product-gallery.php';
+
+/**
+ * Variations.
+ */
+require_once get_template_directory() . '/core/inc/compatibility/woocommerce/variations/variations-functions.php';
+require_once get_template_directory() . '/core/inc/compatibility/woocommerce/variations/variations-galleries.php';
+
+/**
+ * Swatches.
+ */
+require_once get_template_directory() . '/core/inc/compatibility/woocommerce/swatches/swatches-functions.php';
+require_once get_template_directory() . '/core/inc/compatibility/woocommerce/swatches/class-uncode-wc-term-settings.php';

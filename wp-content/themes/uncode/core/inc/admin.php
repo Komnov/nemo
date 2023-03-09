@@ -121,6 +121,7 @@ function uncode_load_admin_script($hook) {
 		'uncode_colors_flat_array' => $uncode_colors_flat_array,
 		'has_valid_purchase_code'  => uncode_check_valid_purchase_code() ? true : false,
 		'lbox_enhanced' => apply_filters( 'uncode_lightgallery', get_option( 'uncode_core_settings_opt_lightbox_enhance' ) === 'on' ),
+		'disable_oembed_preview' => apply_filters( 'uncode_disable_oembed_preview', false)
 	);
 	wp_localize_script( 'admin_uncode_js', 'SiteParameters', $site_parameters );
 
@@ -658,6 +659,7 @@ add_action( 'wp_ajax_add-media-term', 'uncode_add_media_term', 0, 1 );
 
 function uncode_taxonomy_add_meta_field( $taxonomy ) {
 	$is_new_tax = in_array( $taxonomy, uncode_get_legacy_taxonomies() ) ? false : true;
+	$is_product_attribute = in_array( $taxonomy, uncode_get_all_product_attributes_with_archive() );
 
 	if ( ! $is_new_tax ) {
 		/* create localized JS array */
@@ -686,6 +688,7 @@ function uncode_taxonomy_add_meta_field( $taxonomy ) {
 			<p class="description" style="padding-top: 22px;"><?php esc_html_e( 'Select a media assigned to the category.','uncode' ); ?></p>
 		</div>
 	<?php endif; ?>
+	<?php if ( ! $is_product_attribute ) : ?>
 	<div class="form-field">
 		<label for="term_meta[term_color]"><?php esc_html_e( 'Color', 'uncode' ); ?></label>
 		<select name="term_meta[term_color]" id="term_meta[term_color]" class="term_color">
@@ -697,8 +700,10 @@ function uncode_taxonomy_add_meta_field( $taxonomy ) {
 		</select>
 		<p class="description" style="padding-top: 22px;"><?php esc_html_e( 'Select a color assigned to the category.','uncode' ); ?></p>
 	</div>
+	<?php endif; ?>
 	<script type="text/javascript">
 		jQuery( document ).ready(function( $ ) {
+			<?php if ( ! $is_product_attribute ) : ?>
 			$('select.term_color').each(function(index) {
 				var $select = $(this);
 				if ($(this).is('[class*="_color"]') && window.navigator.userAgent.indexOf("Windows NT 10.0") == -1) {
@@ -707,6 +712,7 @@ function uncode_taxonomy_add_meta_field( $taxonomy ) {
 					});
 				}
 			});
+			<?php endif; ?>
 			<?php if ( ! $is_new_tax ) : ?>
 			$.fn.uncode_init_upload();
 			<?php endif; ?>
@@ -722,7 +728,8 @@ add_action( 'portfolio_category_add_form_fields', 'uncode_taxonomy_add_meta_fiel
 
 // Edit term page
 function uncode_taxonomy_edit_meta_field($term, $taxonomy) {
-	$is_new_tax = in_array( $taxonomy, uncode_get_legacy_taxonomies() ) ? false : true;
+	$is_new_tax           = in_array( $taxonomy, uncode_get_legacy_taxonomies() ) ? false : true;
+	$is_product_attribute = in_array( $taxonomy, uncode_get_all_product_attributes_with_archive() );
 
 	if ( ! $is_new_tax ) {
 		/* create localized JS array */
@@ -783,6 +790,7 @@ function uncode_taxonomy_edit_meta_field($term, $taxonomy) {
 		</td>
 	</tr>
 	<?php endif; ?>
+	<?php if ( ! $is_product_attribute ) : ?>
 	<tr class="form-field">
 		<th scope="row" valign="top"><label for="term_meta[term_color]"><?php esc_html_e( 'Color', 'uncode' ); ?></label></th>
 		<td>
@@ -795,23 +803,26 @@ function uncode_taxonomy_edit_meta_field($term, $taxonomy) {
 			?>
 			</select>
 			<p class="description" style="padding-top: 22px;"><?php esc_html_e( 'Select a color assigned to the category.','uncode' ); ?></p>
-			<script type="text/javascript">
-				jQuery( document ).ready(function( $ ) {
-					$('select.term_color').each(function(index) {
-						var $select = $(this);
-						if ($(this).is('[class*="_color"]') && window.navigator.userAgent.indexOf("Windows NT 10.0") == -1) {
-							$(this).easyDropDown({
-								cutOff: 10,
-							});
-						}
-					});
-					<?php if ( ! $is_new_tax ) : ?>
-					$.fn.uncode_init_upload();
-					<?php endif; ?>
-				});
-			</script>
 		</td>
 	</tr>
+	<?php endif; ?>
+	<script type="text/javascript">
+		jQuery( document ).ready(function( $ ) {
+			<?php if ( ! $is_product_attribute ) : ?>
+			$('select.term_color').each(function(index) {
+				var $select = $(this);
+				if ($(this).is('[class*="_color"]') && window.navigator.userAgent.indexOf("Windows NT 10.0") == -1) {
+					$(this).easyDropDown({
+						cutOff: 10,
+					});
+				}
+			});
+			<?php endif; ?>
+			<?php if ( ! $is_new_tax ) : ?>
+			$.fn.uncode_init_upload();
+			<?php endif; ?>
+		});
+	</script>
 <?php
 }
 add_action( 'category_edit_form_fields', 'uncode_taxonomy_edit_meta_field', 10, 2 );
@@ -819,6 +830,20 @@ add_action( 'post_tag_edit_form_fields', 'uncode_taxonomy_edit_meta_field', 10, 
 add_action( 'product_cat_edit_form_fields', 'uncode_taxonomy_edit_meta_field', 10, 2 );
 add_action( 'product_tag_edit_form_fields', 'uncode_taxonomy_edit_meta_field', 10, 2 );
 add_action( 'portfolio_category_edit_form_fields', 'uncode_taxonomy_edit_meta_field', 10, 2 );
+
+/**
+* Add legacy form fields to product attributes.
+*/
+function uncode_add_taxonomy_fields_to_product_attributes() {
+	$attributes_with_archive = uncode_get_all_product_attributes_with_archive();
+	foreach ( $attributes_with_archive as $attribute_with_archive ) {
+		add_action( $attribute_with_archive . '_add_form_fields', 'uncode_taxonomy_add_meta_field', 10, 2 );
+		add_action( $attribute_with_archive . '_edit_form_fields', 'uncode_taxonomy_edit_meta_field', 10, 2 );
+		add_action( 'edited_' . $attribute_with_archive, 'uncode_save_taxonomy_custom_meta', 10, 2 );
+		add_action( 'create_' . $attribute_with_archive, 'uncode_save_taxonomy_custom_meta', 10, 2 );
+	}
+}
+add_action( 'wp_loaded', 'uncode_add_taxonomy_fields_to_product_attributes' );
 
 // Save extra taxonomy fields callback function.
 function uncode_save_taxonomy_custom_meta( $term_id ) {
@@ -1104,6 +1129,9 @@ function uncode_list_images() {
 	foreach ( $query_images->posts as $image) {
 		$image_id = $image->ID;
 		$filename = get_attached_file( $image_id );
+		if ( apply_filters( 'uncode_force_delete_uia_meta_data', false ) ) {
+			uncode_delete_uia_meta_data( $image_id );
+		}
 		if ($filename != '') {
 			$extension_pos = strrpos($filename, '.');
 			$filename_wildcard = substr($filename, 0, $extension_pos) . '*' . substr($filename, $extension_pos);
@@ -1113,7 +1141,10 @@ function uncode_list_images() {
 					if (strpos($image_block[$key],'-uai-') !== false) {
 						if ($erase) {
 							unlink($image_block[$key]);
-							uncode_delete_uia_meta_data( $image_id );
+							if ( ! apply_filters( 'uncode_force_delete_uia_meta_data', false ) ) {
+								uncode_delete_uia_meta_data( $image_id );
+							}
+							do_action( 'uncode_delete_crop_image', $image_id, $image_block[$key] );
 						} else {
 							$files[] = $image_block[$key];
 						}
@@ -1177,7 +1208,7 @@ function uncode_delete_uia_meta_data( $image_id ) {
 	$media_data_sizes     = isset( $media_data[ 'sizes' ] ) ? $media_data[ 'sizes' ] : array();
 	$new_media_data_sizes = array();
 
-	// Skip uai images
+	// Remove uai images
 	foreach ( $media_data_sizes as $size => $size_data ) {
 		if ( strpos( $size, 'uai') === false ) {
 			$new_media_data_sizes[ $size ] = $size_data;
@@ -1299,6 +1330,9 @@ if ( ! function_exists( 'uncode_get_current_post_type' ) ) :
 function uncode_get_current_post_type() {
   global $post, $typenow, $current_screen, $pagenow;
   if($post && $post->post_type) {
+  	if ( isset( $_GET['uncodeblock'] ) ) {
+		return 'uncodeblock';
+	}
     return $post->post_type;
   } elseif($typenow) {
     return $typenow;

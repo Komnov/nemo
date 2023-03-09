@@ -11,16 +11,27 @@ import { allSettings } from './settings-init';
 /**
  * Retrieves a setting value from the setting state.
  *
- * If a setting with key `name` does not exist, the `fallback` will be returned instead. An optional `filter` callback
- * can be passed to format the returned value.
+ * If a setting with key `name` does not exist or is undefined,
+ * the `fallback` will be returned instead. An optional `filter`
+ * callback can be passed to format the returned value.
  */
-export const getSetting = (
+export const getSetting = < T >(
 	name: string,
 	fallback: unknown = false,
-	filter = ( val: unknown, fb: unknown ) => val || fb
-): unknown => {
+	filter = ( val: unknown, fb: unknown ) =>
+		typeof val !== 'undefined' ? val : fb
+): T => {
 	const value = name in allSettings ? allSettings[ name ] : fallback;
-	return filter( value, fallback );
+	return filter( value, fallback ) as T;
+};
+
+export const getSettingWithCoercion = < T >(
+	name: string,
+	fallback: T,
+	typeguard: ( val: unknown, fb: unknown ) => val is T
+): T => {
+	const value = name in allSettings ? allSettings[ name ] : fallback;
+	return typeguard( value, fallback ) ? value : fallback;
 };
 
 /**
@@ -34,8 +45,8 @@ export const getSetting = (
  * For the purpose of these comparisons all pre-release versions are normalized
  * to `rc`.
  *
- * @param {string} setting Setting name (e.g. wpVersion or wcVersion).
- * @param {string} version Version to compare.
+ * @param {string}                          setting  Setting name (e.g. wpVersion or wcVersion).
+ * @param {string}                          version  Version to compare.
  * @param {compareVersions.CompareOperator} operator Comparison operator.
  */
 const compareVersionSettingIgnorePrerelease = (

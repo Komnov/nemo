@@ -100,7 +100,7 @@ add_filter( 'vc_frontend_template_the_content', 'uncode_frontend_editor_content_
 
 function uncode_js_composer_toString_tags_array( $tags ) {
 
-		$tags_array = array( 'vc_accordion', 'vc_raw_html', 'vc_raw_js', 'vc_flickr', 'vc_section', 'uncode_twentytwenty', 'vc_gutenberg', 'product', 'add_to_cart', 'add_to_cart_url', 'product_page', 'rev_slider', 'uncode_do_action', 'vc_widget_sidebar', 'uncode_portfolio_details', 'uncode_woocommerce_widget_layered_nav_filters', 'uncode_woocommerce_wishlist' );
+		$tags_array = array( 'vc_accordion', 'vc_raw_html', 'vc_raw_js', 'vc_flickr', 'vc_section', 'contact-form-7', 'uncode_twentytwenty', 'vc_gutenberg', 'product', 'add_to_cart', 'add_to_cart_url', 'product_page', 'rev_slider', 'uncode_do_action', 'vc_widget_sidebar', 'uncode_portfolio_details', 'uncode_woocommerce_widget_layered_nav_filters', 'uncode_woocommerce_wishlist', 'uncode_ajax_filter', 'uncode_ajax_active_filters', 'uncode_woocommerce_attribute_image' );
 		$tags = array_merge($tags, $tags_array);
 		return $tags;
 
@@ -109,7 +109,7 @@ add_filter( 'uncode_js_composer_toString_tags_array', 'uncode_js_composer_toStri
 
 function uncode_js_composer_renderShortcodes_tags_array( $tags ) {
 
-		$tags_array = array( 'vc_accordion', 'vc_raw_html', 'vc_raw_js', 'vc_flickr', 'vc_section', 'contact-form-7', 'uncode_twentytwenty', 'vc_gutenberg', 'product', 'add_to_cart', 'add_to_cart_url', 'product_page', 'rev_slider', 'uncode_do_action', 'vc_widget_sidebar', 'uncode_portfolio_details', 'uncode_woocommerce_widget_layered_nav_filters', 'uncode_woocommerce_wishlist' );
+		$tags_array = array( 'vc_accordion', 'vc_raw_html', 'vc_raw_js', 'vc_flickr', 'vc_section', 'contact-form-7', 'uncode_twentytwenty', 'vc_gutenberg', 'product', 'add_to_cart', 'add_to_cart_url', 'product_page', 'rev_slider', 'uncode_do_action', 'vc_widget_sidebar', 'uncode_portfolio_details', 'uncode_woocommerce_widget_layered_nav_filters', 'uncode_woocommerce_wishlist', 'uncode_ajax_filter', 'uncode_ajax_active_filters', 'uncode_woocommerce_attribute_image' );
 		$tags = array_merge($tags, $tags_array);
 		return $tags;
 
@@ -235,7 +235,7 @@ function uncode_core_vc_add_edit_link_button( $output, $param, $value, $settings
 
 			}
 		} else if ( $settings[ 'base' ] === 'uncode_index' ) {
-			if ( isset( $param[ 'type' ] ) && $param[ 'type' ] === 'dropdown' && isset( $param[ 'param_name' ] ) && ( $param[ 'param_name' ] === 'widgetized_content_block_id' || $param[ 'param_name' ] === 'custom_grid_content_block_id' ) ) {
+			if ( isset( $param[ 'type' ] ) && $param[ 'type' ] === 'dropdown' && isset( $param[ 'param_name' ] ) && ( $param[ 'param_name' ] === 'widgetized_content_block_id' || $param[ 'param_name' ] === 'ajax_filters_content_block_id' || $param[ 'param_name' ] === 'custom_grid_content_block_id' ) ) {
 				$value  = absint( $value );
 				if ( $value > 0 ) {
 					$url    = get_edit_post_link( $value );
@@ -465,6 +465,8 @@ function uncode_core_reorder_cpt_build_query( $post_types ) {
 
 	$new_post_types = array();
 
+	$product_cpt = false;
+
 	foreach ( $post_types as $post_type ) {
 		if ( $post_type === 'product' ) {
 			$product_cpt = $post_type;
@@ -474,7 +476,7 @@ function uncode_core_reorder_cpt_build_query( $post_types ) {
 
 		$new_post_types[] = $post_type;
 
-		if ( $post_type === 'portfolio' ) {
+		if ( $product_cpt && $post_type === 'portfolio' ) {
 			$new_post_types[] = $product_cpt;
 		}
 	}
